@@ -109,11 +109,11 @@
                 <!-- Left Side: Text -->
                 <div class="lg:col-span-7 space-y-6 text-left">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#34d399]">Donate Used Computers &amp;</span><br />
-                        <span class="text-[#34d399]">Electronics</span>
+                        <span class="text-[#34d399]">Donate Used Computers</span><br />
+                        <span class="text-[#34d399]">&amp; Electronics</span>
                         <span class="text-gray-900 ml-2">in Denver, CO</span>
                     </h2>
-                    <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed max-w-2xl">
+                    <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-2xl">
                         Donate used computers and electronics in Denver to Support schools, nonprofits, and low-income families by responsibly donating laptops, PCs, phones, and more. Make a difference in our community.
                     </p>
                 </div>
@@ -151,15 +151,11 @@
                 <!-- Title -->
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
                     <span class="text-gray-900">Used Computer Donation</span> 
-                    <span class="text-[#34d399] ml-2">Services</span>
-                    <br />
-                    <span class="text-[#34d399]">in</span>
-                    <br />
-                    <span class="text-[#34d399]">Denver</span>
+                    <span class="text-[#34d399] ml-2">Services in Denver</span>
                 </h2>
 
                 <!-- Paragraph -->
-                <p class="text-gray-700 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-4xl mx-auto">
+                <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-4xl mx-auto">
                     We specialize in computer donation in Denver, accepting donations of used computers, laptops, monitors, printers and other electronics from individuals and businesses. These donated computers and electronics are redistributed to schools, nonprofits, students or sold for parts, keeping e-waste out of landfills. If you have older models, broken devices with salvageable parts or a surplus of computers and electronics you no longer need, our Denver computer donation program welcomes your tax-deductible equipment and parts donations.
                 </p>
 
@@ -262,7 +258,7 @@
                         <h3 class="text-3xl sm:text-4xl font-extrabold text-white pt-2">
                             Computer Donation Services
                         </h3>
-                        <p class="text-emerald-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-lg">
+                        <p class="text-emerald-100 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-lg">
                             We make it simple for Denver businesses and individuals to donate working computers, laptops, and servers to local non-profits, schools, and families in need. All data is sanitized to DoD/NIST standards.
                         </p>
                     </div>
@@ -279,7 +275,7 @@
                         <h3 class="text-3xl sm:text-4xl font-extrabold text-white pt-2">
                             Electronics Recycling for Charity
                         </h3>
-                        <p class="text-emerald-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-lg">
+                        <p class="text-emerald-100 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-lg">
                             We accept networking gear, monitors, printers, gaming consoles, and mobile devices. Non-working components are recycled with zero-landfill guarantee to fund local community programs.
                         </p>
                     </div>
@@ -414,112 +410,122 @@
             </div>
         </section>
 
-        <!-- Section 5: Our Happy Clients -->
+        <!-- Section 5: Our Happy Clients Section (Matching Home Page) -->
         <section 
             id="testimonials" 
-            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100"
-            x-data="{ activeSlide: 0 }"
+            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 overflow-hidden relative"
+            x-data="{
+                activeSlide: 0,
+                maxSlide: 4,
+                reviews: [
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/1.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/2.webp') }}'
+                    },
+                    {
+                        name: 'Mark Richardson',
+                        rating: 5,
+                        text: `Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics.`,
+                        image: '{{ asset('images/home/reviews/3.webp') }}'
+                    },
+                    {
+                        name: 'Michael Brown',
+                        rating: 4,
+                        text: `Every business and resident in Denver should know about their electronics recycling services. They make the whole process fast, easy and secure.`,
+                        image: '{{ asset('images/home/reviews/4.webp') }}'
+                    },
+                    {
+                        name: 'Shams W.Pawel',
+                        rating: 3,
+                        text: `With affordable and efficient Computer recycling in Denver they exceeded my expectations. They offer reasonable rates, making recycling accessible to all on a budget.`,
+                        image: '{{ asset('images/home/reviews/5.webp') }}'
+                    },
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/6.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/7.webp') }}'
+                    }
+                ]
+            }"
         >
-            <div class="w-full max-w-7xl mx-auto space-y-12">
+            <div class="w-full max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 space-y-12">
                 
-                <!-- Section Title -->
-                <div class="text-center">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal flex items-center justify-center gap-2">
-                        <span class="text-gray-900">Our</span> 
+                <!-- Section Title: Our Happy Clients 🕴️ -->
+                <div class="flex items-center justify-center gap-3">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                        <span class="text-[#222222]">Our</span> 
                         <span class="text-[#34d399] ml-2">Happy Clients</span>
-                        <span class="text-gray-800 text-3xl sm:text-4xl">🏋️</span>
                     </h2>
+                    <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
 
-                <!-- 3 Testimonial Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-                    
-                    <!-- Card 1: David Jones -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-400/80 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★<span class="text-amber-300">☆</span>
+                <!-- Testimonials Slider Container -->
+                <div class="relative w-full overflow-hidden py-2">
+                    <div 
+                        class="flex transition-transform duration-500 ease-out"
+                        :style="`transform: translateX(-${activeSlide * (100 / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1))}%)`"
+                    >
+                        <template x-for="(review, index) in reviews" :key="index">
+                            <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
+                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                    
+                                    <!-- Stars Rating -->
+                                    <div class="space-y-4 pt-2">
+                                        <div class="flex items-center justify-center gap-1 text-amber-400 text-lg sm:text-xl">
+                                            <template x-for="star in 5" :key="star">
+                                                <span x-text="star <= review.rating ? '★' : '☆'" :class="star <= review.rating ? 'text-amber-400' : 'text-amber-300/60'"></span>
+                                            </template>
+                                        </div>
+
+                                        <!-- Review Body Text -->
+                                        <p class="text-gray-600 text-base sm:text-lg leading-relaxed font-medium py-2" x-text="review.text"></p>
+                                    </div>
+
+                                    <!-- Card Footer Profile & Quotation Icon -->
+                                    <div class="flex items-center justify-between pt-6 mt-6 border-t border-gray-100/80 relative">
+                                        <div class="flex items-center gap-4 shrink-0 text-left">
+                                            <img 
+                                                :src="review.image" 
+                                                :alt="review.name" 
+                                                class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border-2 border-white ring-2 ring-gray-100 shrink-0"
+                                            />
+                                            <div class="font-extrabold text-gray-900 text-lg sm:text-xl" x-text="review.name"></div>
+                                        </div>
+                                        
+                                        <!-- Quotation Icon -->
+                                        <div class="text-[#a5f3fc] font-serif text-5xl sm:text-6xl leading-none select-none opacity-80 pl-2">”</div>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-gray-700 text-xs sm:text-sm leading-relaxed text-center font-normal">
-                                "I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them"
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Jones" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Jones</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/80 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
+                        </template>
                     </div>
-
-                    <!-- Card 2: David Martinelli -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-400/80 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★<span class="text-amber-300">☆☆</span>
-                            </div>
-                            <p class="text-gray-700 text-xs sm:text-sm leading-relaxed text-center font-normal">
-                                "I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!"
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Martinelli" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Martinelli</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/80 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Mark Richardson -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-400/80 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★★
-                            </div>
-                            <p class="text-gray-700 text-xs sm:text-sm leading-relaxed text-center font-normal">
-                                "Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics."
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" 
-                                alt="Mark Richardson" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">Mark Richardson</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/80 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Carousel Dots Indicator -->
-                <div class="flex flex-col items-center space-y-4 pt-4">
-                    <div class="flex items-center space-x-2">
-                        <button class="w-3.5 h-3.5 rounded-full bg-[#3b82f6] shadow-sm"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                    </div>
+                <!-- Pagination Dots Controls -->
+                <div class="flex items-center justify-center gap-2.5 mt-8">
+                    <template x-for="dot in 5" :key="dot">
+                        <button 
+                            @click="activeSlide = dot - 1" 
+                            class="h-3 rounded-full transition-all duration-300 focus:outline-none"
+                            :class="activeSlide === (dot - 1) ? 'bg-[#2563eb] w-3 shadow-md' : 'bg-gray-300 w-3 hover:bg-gray-400'"
+                            :aria-label="`Go to review slide ${dot}`"
+                        ></button>
+                    </template>
                 </div>
 
             </div>
@@ -544,7 +550,7 @@
                     <span class="text-gray-900">Donate Used Computers</span> 
                     <span class="text-[#34d399] ml-2">in Denver</span>
                 </h2>
-                <p class="text-gray-700 text-base sm:text-lg max-w-4xl mx-auto font-medium leading-relaxed">
+                <p class="text-gray-700 text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto font-medium leading-relaxed">
                     We make electronics donations easy. Our team handles all the packaging and transportation logistics at absolutely no cost to you. Call now or schedule a pickup to get started today and coordinate with our electronics donation pickup specialists. We look forward to putting your used equipment to good use!
                 </p>
             </div>
@@ -571,7 +577,7 @@
                     <h2 class="text-3xl sm:text-5xl font-black text-white tracking-normal">
                         Talk with an Expert
                     </h2>
-                    <p class="text-emerald-100 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+                    <p class="text-emerald-100 text-lg sm:text-xl md:text-2xl max-w-xl font-normal leading-relaxed">
                         Everyone Can Help Create a Full Circle. Let's Recycle Together. Call or email us to talk with an expert.
                     </p>
                     <div class="flex items-center gap-4 flex-wrap pt-2">

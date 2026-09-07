@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Residential Pickup | Denver's Top Computer &amp; Electronics Recycling | IT Investment Recoveries</title>
+        <title>Commercial/Business Pickup | Denver's Top Computer &amp; Electronics Recycling | IT Investment Recoveries</title>
         <meta name="description" content="Free E-Waste Recycling & Drop-Off Services in Denver CO. Residential & Business pickup, secure data destruction, and certified electronics recycling by IT Investment Recoveries.">
 
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
@@ -71,13 +71,13 @@
         <!-- Section 1: Hero Section (Using public/images/ewaste/fLATIRONS.webp) -->
         <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
             <!-- Top Transparent Header Overlay -->
-            <x-header active="ewaste" />
+            <x-header active="business" />
 
             <!-- Background Image with Ken Burns Subtle Scale Effect -->
             <div class="absolute inset-0 z-0 overflow-hidden w-full h-full">
                 <img 
                     src="{{ asset('images/ewaste/ewaste.webp') }}" 
-                    alt="Community & Business Events Available - E-Waste Recycling Denver" 
+                    alt="Commercial &amp; Business Pickup - E-Waste Recycling Denver" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
                 <!-- Dark Gradient Overlay for High Contrast Text -->
@@ -88,9 +88,9 @@
             <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-28 sm:pt-40 md:pt-48 pb-16 w-full">
                 <div class="w-full max-w-7xl mx-auto space-y-6 sm:space-y-8">
                     
-                    <!-- Main Title: Residential Pickup -->
+                    <!-- Main Title: Commercial & Business Pickup -->
                     <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
-                        Residential Pickup
+                        Commercial / Business Pickup
                     </h1>
 
                     <!-- Green CTA Button -->

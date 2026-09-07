@@ -102,9 +102,9 @@
         <!-- Section 2: Complete IT Asset Management Services Overview -->
         <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-gray-900 py-16 sm:py-20 px-4 sm:px-8 lg:px-16 w-full relative overflow-hidden border-b border-gray-100">
             <!-- Background Ambient Glow Accent -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-400/10 blur-[140px] pointer-events-none rounded-full"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-emerald-400/10 blur-[140px] pointer-events-none rounded-full"></div>
 
-            <div class="w-full max-w-5xl mx-auto text-center space-y-8 relative z-10">
+            <div class="w-full max-w-7xl mx-auto text-center space-y-8 relative z-10">
                 
                 <!-- Title -->
                 <div class="space-y-3">
@@ -112,18 +112,18 @@
                         <span>📊</span> Complete Lifecycle Solution
                     </div>
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#10b981] sm:text-[#34d399]">Complete IT Asset</span> 
+                        <span class="text-[#34d399]">Complete IT Asset</span> 
                         <span class="text-gray-900 ml-2">Management Services</span>
                     </h2>
                 </div>
 
-                <!-- Executive Highlight Glass Card for Paragraphs -->
-                <div class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-gray-200/90 shadow-xl space-y-4 max-w-4xl mx-auto text-left relative overflow-hidden">
-                    <div class="absolute top-0 left-0 bottom-0 w-2 bg-gradient-to-b from-[#005a36] via-[#10b981] to-[#34d399]"></div>
-                    <p class="text-gray-800 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
+                <!-- Executive Highlight Glass Card for Paragraphs (Width Increased to max-w-7xl) -->
+                <div class="bg-white/90 backdrop-blur-md rounded-3xl p-8 sm:p-12 lg:p-14 border border-gray-200/90 shadow-xl space-y-6 max-w-7xl mx-auto text-left relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bottom-0 w-2.5 bg-gradient-to-b from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                    <p class="text-gray-700 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
                         Our Complete IT Asset Management Services are designed for businesses that don't have the time or resources to inventory their IT equipment before e-waste recycling. We can inventory and document your IT Assets before they are processed for data destruction &amp; recycling.
                     </p>
-                    <p class="text-gray-700 text-base sm:text-lg font-semibold leading-relaxed pt-2 border-t border-gray-100 text-[#005a36]">
+                    <p class="text-gray-900 text-base sm:text-lg lg:text-xl font-bold leading-relaxed pt-4 border-t border-gray-100/80">
                         You will receive detailed documentation of the equipment processed, including a Certificate of Data Destruction and E-Waste Recycling.
                     </p>
                 </div>
@@ -433,139 +433,122 @@
             </div>
         </section>
 
-        <!-- Section 5: Our Satisfied Clients -->
+        <!-- Section 5: Our Satisfied Clients Section (Matching Home Page) -->
         <section 
             id="testimonials" 
-            class="bg-slate-50/50 text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 relative"
-            x-data="{ activeSlide: 0 }"
+            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 overflow-hidden relative"
+            x-data="{
+                activeSlide: 0,
+                maxSlide: 4,
+                reviews: [
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/1.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/2.webp') }}'
+                    },
+                    {
+                        name: 'Mark Richardson',
+                        rating: 5,
+                        text: `Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics.`,
+                        image: '{{ asset('images/home/reviews/3.webp') }}'
+                    },
+                    {
+                        name: 'Michael Brown',
+                        rating: 4,
+                        text: `Every business and resident in Denver should know about their electronics recycling services. They make the whole process fast, easy and secure.`,
+                        image: '{{ asset('images/home/reviews/4.webp') }}'
+                    },
+                    {
+                        name: 'Shams W.Pawel',
+                        rating: 3,
+                        text: `With affordable and efficient Computer recycling in Denver they exceeded my expectations. They offer reasonable rates, making recycling accessible to all on a budget.`,
+                        image: '{{ asset('images/home/reviews/5.webp') }}'
+                    },
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/6.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/7.webp') }}'
+                    }
+                ]
+            }"
         >
-            <div class="w-full max-w-7xl mx-auto space-y-12 sm:space-y-16">
+            <div class="w-full max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 space-y-12">
                 
-                <!-- Section Title -->
-                <div class="text-center">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-gray-900">Our</span> 
-                        <span class="text-[#10b981] sm:text-[#34d399] ml-2">Satisfied Clients</span>
+                <!-- Section Title: Our Happy Clients 🕴️ -->
+                <div class="flex items-center justify-center gap-3">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                        <span class="text-[#222222]">Our</span> 
+                        <span class="text-[#34d399] ml-2">Happy Clients</span>
                     </h2>
+                    <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
 
-                <!-- 3 Testimonial Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-                    
-                    <!-- Card 1: David Jones -->
-                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
-                        <!-- Top Accent Stripe -->
-                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                <!-- Testimonials Slider Container -->
+                <div class="relative w-full overflow-hidden py-2">
+                    <div 
+                        class="flex transition-transform duration-500 ease-out"
+                        :style="`transform: translateX(-${activeSlide * (100 / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1))}%)`"
+                    >
+                        <template x-for="(review, index) in reviews" :key="index">
+                            <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
+                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                    
+                                    <!-- Stars Rating -->
+                                    <div class="space-y-4 pt-2">
+                                        <div class="flex items-center justify-center gap-1 text-amber-400 text-lg sm:text-xl">
+                                            <template x-for="star in 5" :key="star">
+                                                <span x-text="star <= review.rating ? '★' : '☆'" :class="star <= review.rating ? 'text-amber-400' : 'text-amber-300/60'"></span>
+                                            </template>
+                                        </div>
 
-                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
-                            <div class="space-y-4">
-                                <!-- Star Rating (5 Stars out of 5) -->
-                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
-                                    ★★★★★
+                                        <!-- Review Body Text -->
+                                        <p class="text-gray-600 text-base sm:text-lg leading-relaxed font-medium py-2" x-text="review.text"></p>
+                                    </div>
+
+                                    <!-- Card Footer Profile & Quotation Icon -->
+                                    <div class="flex items-center justify-between pt-6 mt-6 border-t border-gray-100/80 relative">
+                                        <div class="flex items-center gap-4 shrink-0 text-left">
+                                            <img 
+                                                :src="review.image" 
+                                                :alt="review.name" 
+                                                class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border-2 border-white ring-2 ring-gray-100 shrink-0"
+                                            />
+                                            <div class="font-extrabold text-gray-900 text-lg sm:text-xl" x-text="review.name"></div>
+                                        </div>
+                                        
+                                        <!-- Quotation Icon -->
+                                        <div class="text-[#a5f3fc] font-serif text-5xl sm:text-6xl leading-none select-none opacity-80 pl-2">”</div>
+                                    </div>
                                 </div>
-                                <!-- Quote Text -->
-                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
-                                    "I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them"
-                                </p>
                             </div>
-
-                            <!-- User Profile Info -->
-                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" 
-                                    alt="David Jones" 
-                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
-                                    style="width: 52px; height: 52px;"
-                                />
-                                <div>
-                                    <div class="font-extrabold text-gray-900 text-base">David Jones</div>
-                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quote Background Watermark Accent -->
-                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
+                        </template>
                     </div>
+                </div>
 
-                    <!-- Card 2: David Martinelli -->
-                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
-                        <!-- Top Accent Stripe -->
-                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
-
-                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
-                            <div class="space-y-4">
-                                <!-- Star Rating (5 Stars out of 5) -->
-                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
-                                    ★★★★★
-                                </div>
-                                <!-- Quote Text -->
-                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
-                                    "I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!"
-                                </p>
-                            </div>
-
-                            <!-- User Profile Info -->
-                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" 
-                                    alt="David Martinelli" 
-                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
-                                    style="width: 52px; height: 52px;"
-                                />
-                                <div>
-                                    <div class="font-extrabold text-gray-900 text-base">David Martinelli</div>
-                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quote Background Watermark Accent -->
-                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Mark Richardson -->
-                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
-                        <!-- Top Accent Stripe -->
-                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
-
-                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
-                            <div class="space-y-4">
-                                <!-- Star Rating (5 Stars out of 5) -->
-                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
-                                    ★★★★★
-                                </div>
-                                <!-- Quote Text -->
-                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
-                                    "Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics."
-                                </p>
-                            </div>
-
-                            <!-- User Profile Info -->
-                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" 
-                                    alt="Mark Richardson" 
-                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
-                                    style="width: 52px; height: 52px;"
-                                />
-                                <div>
-                                    <div class="font-extrabold text-gray-900 text-base">Mark Richardson</div>
-                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quote Background Watermark Accent -->
-                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
+                <!-- Pagination Dots Controls -->
+                <div class="flex items-center justify-center gap-2.5 mt-8">
+                    <template x-for="dot in 5" :key="dot">
+                        <button 
+                            @click="activeSlide = dot - 1" 
+                            class="h-3 rounded-full transition-all duration-300 focus:outline-none"
+                            :class="activeSlide === (dot - 1) ? 'bg-[#2563eb] w-3 shadow-md' : 'bg-gray-300 w-3 hover:bg-gray-400'"
+                            :aria-label="`Go to review slide ${dot}`"
+                        ></button>
+                    </template>
                 </div>
 
             </div>

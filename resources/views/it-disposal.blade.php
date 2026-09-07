@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>E-Waste &amp; IT Disposal in Denver | Computer &amp; Electronics Recycling</title>
+        <title>E Waste Recycling – IT Investment Recoveries</title>
         <meta name="description" content="E-Waste &amp; IT Disposal services in Denver. Secure computer recycling, electronics disposal, hard drive shredding, and asset recovery for businesses and residents.">
 
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
@@ -272,7 +272,7 @@
             </div>
         </div>
 
-        <!-- Section 5: Why Choose Us (4 Column Feature Cards) -->
+        <!-- Section 5: Why Choose Us (4 Column Feature Cards with Increased Font Size) -->
         <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100">
             <div class="w-full max-w-7xl mx-auto space-y-12">
                 
@@ -285,65 +285,65 @@
                 </div>
 
                 <!-- 4 Columns Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
                     
                     <!-- Column 1 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="w-12 h-12 text-gray-800 mx-auto flex items-center justify-center">
+                    <div class="text-center space-y-4 px-3">
+                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-bold text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
                             Guaranteed Secure Destruction
                         </h3>
-                        <p class="text-gray-600 text-xs sm:text-sm font-normal leading-relaxed">
+                        <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
                             Our team shreds hardware and wipes data fully to rigorous standards, with certificates of destruction.
                         </p>
                     </div>
 
                     <!-- Column 2 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="w-12 h-12 text-gray-800 mx-auto flex items-center justify-center">
+                    <div class="text-center space-y-4 px-3">
+                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M11.5 13.5L9.75 11.75C9.36 11.36 8.73 11.36 8.34 11.75C7.95 12.14 7.95 12.77 8.34 13.16L10.8 15.62C11.19 16.01 11.82 16.01 12.21 15.62L16.66 11.17C17.05 10.78 17.05 10.15 16.66 9.76C16.27 9.37 15.64 9.37 15.25 9.76L11.5 13.5Z"/>
                                 <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19Z"/>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-bold text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
                             Hassle-Free Process
                         </h3>
-                        <p class="text-gray-600 text-xs sm:text-sm font-normal leading-relaxed">
+                        <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
                             We handle scheduling, logistics, transportation and processing - making electronics recycling smooth and simple for clients.
                         </p>
                     </div>
 
                     <!-- Column 3 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="w-12 h-12 text-gray-800 mx-auto flex items-center justify-center">
+                    <div class="text-center space-y-4 px-3">
+                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2zM6 14h6v2H6z"/>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-bold text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
                             Maximum Financial Returns
                         </h3>
-                        <p class="text-gray-600 text-xs sm:text-sm font-normal leading-relaxed">
+                        <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
                             From asset recovery re-sales to qualified tax deductions, we maximize savings and value recovery from old equipment.
                         </p>
                     </div>
 
                     <!-- Column 4 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="w-12 h-12 text-gray-800 mx-auto flex items-center justify-center">
+                    <div class="text-center space-y-4 px-3">
+                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M10 21h4v-3h3l-5-7h3l-5-7-5 7h3l-5 7h3z"/>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-bold text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
                             Eco-Friendly Practices
                         </h3>
-                        <p class="text-gray-600 text-xs sm:text-sm font-normal leading-relaxed">
+                        <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
                             We adhere to strict zero landfill policies while recovering tonnes of electronics every year - positively impacting our environment.
                         </p>
                     </div>
@@ -353,121 +353,122 @@
             </div>
         </section>
 
-        <!-- Section 6: Our Satisfied Clients (Dark Green Section with Background Image) -->
+        <!-- Section 6: Our Happy Clients Section (Matching Home Page) -->
         <section 
             id="testimonials" 
-            class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full shadow-2xl overflow-hidden"
-            x-data="{ activeSlide: 0 }"
+            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 overflow-hidden relative"
+            x-data="{
+                activeSlide: 0,
+                maxSlide: 4,
+                reviews: [
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/1.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/2.webp') }}'
+                    },
+                    {
+                        name: 'Mark Richardson',
+                        rating: 5,
+                        text: `Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics.`,
+                        image: '{{ asset('images/home/reviews/3.webp') }}'
+                    },
+                    {
+                        name: 'Michael Brown',
+                        rating: 4,
+                        text: `Every business and resident in Denver should know about their electronics recycling services. They make the whole process fast, easy and secure.`,
+                        image: '{{ asset('images/home/reviews/4.webp') }}'
+                    },
+                    {
+                        name: 'Shams W.Pawel',
+                        rating: 3,
+                        text: `With affordable and efficient Computer recycling in Denver they exceeded my expectations. They offer reasonable rates, making recycling accessible to all on a budget.`,
+                        image: '{{ asset('images/home/reviews/5.webp') }}'
+                    },
+                    {
+                        name: 'David Jones',
+                        rating: 4,
+                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
+                        image: '{{ asset('images/home/reviews/6.webp') }}'
+                    },
+                    {
+                        name: 'David Martinelli',
+                        rating: 3,
+                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
+                        image: '{{ asset('images/home/reviews/7.webp') }}'
+                    }
+                ]
+            }"
         >
-            <!-- Background Image Overlay -->
-            <div class="absolute inset-0 z-0 pointer-events-none">
-                <img 
-                    src="{{ asset('images/home-banner.webp') }}" 
-                    alt="Denver Background" 
-                    class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
-                />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
-            </div>
-
-            <div class="relative z-10 w-full max-w-7xl mx-auto space-y-12">
+            <div class="w-full max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 space-y-12">
                 
-                <!-- Section Title -->
-                <div class="text-center">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal text-white">
-                        <span class="text-[#34d399]">Our</span> 
-                        <span class="text-white ml-2">Satisfied Clients</span>
+                <!-- Section Title: Our Happy Clients 🕴️ -->
+                <div class="flex items-center justify-center gap-3">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                        <span class="text-[#222222]">Our</span> 
+                        <span class="text-[#34d399] ml-2">Happy Clients</span>
                     </h2>
+                    <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
 
-                <!-- 3 Testimonial Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-                    
-                    <!-- Card 1 -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★<span class="text-amber-300">☆</span>
+                <!-- Testimonials Slider Container -->
+                <div class="relative w-full overflow-hidden py-2">
+                    <div 
+                        class="flex transition-transform duration-500 ease-out"
+                        :style="`transform: translateX(-${activeSlide * (100 / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1))}%)`"
+                    >
+                        <template x-for="(review, index) in reviews" :key="index">
+                            <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
+                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                    
+                                    <!-- Stars Rating -->
+                                    <div class="space-y-4 pt-2">
+                                        <div class="flex items-center justify-center gap-1 text-amber-400 text-lg sm:text-xl">
+                                            <template x-for="star in 5" :key="star">
+                                                <span x-text="star <= review.rating ? '★' : '☆'" :class="star <= review.rating ? 'text-amber-400' : 'text-amber-300/60'"></span>
+                                            </template>
+                                        </div>
+
+                                        <!-- Review Body Text -->
+                                        <p class="text-gray-600 text-base sm:text-lg leading-relaxed font-medium py-2" x-text="review.text"></p>
+                                    </div>
+
+                                    <!-- Card Footer Profile & Quotation Icon -->
+                                    <div class="flex items-center justify-between pt-6 mt-6 border-t border-gray-100/80 relative">
+                                        <div class="flex items-center gap-4 shrink-0 text-left">
+                                            <img 
+                                                :src="review.image" 
+                                                :alt="review.name" 
+                                                class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border-2 border-white ring-2 ring-gray-100 shrink-0"
+                                            />
+                                            <div class="font-extrabold text-gray-900 text-lg sm:text-xl" x-text="review.name"></div>
+                                        </div>
+                                        
+                                        <!-- Quotation Icon -->
+                                        <div class="text-[#a5f3fc] font-serif text-5xl sm:text-6xl leading-none select-none opacity-80 pl-2">”</div>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them."
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Jones" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Jones</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
+                        </template>
                     </div>
-
-                    <!-- Card 2 -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★<span class="text-amber-300">☆☆</span>
-                            </div>
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!"
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Martinelli" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Martinelli</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="bg-white text-gray-900 rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★★
-                            </div>
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics."
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" 
-                                alt="Mark Richardson" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">Mark Richardson</span>
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
-                            ”
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Carousel Dots Indicator -->
-                <div class="flex flex-col items-center space-y-4 pt-4">
-                    <div class="flex items-center space-x-2">
-                        <button class="w-3.5 h-3.5 rounded-full bg-[#3b82f6] shadow-sm"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-emerald-800 hover:bg-emerald-700 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-emerald-800 hover:bg-emerald-700 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-emerald-800 hover:bg-emerald-700 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-emerald-800 hover:bg-emerald-700 transition"></button>
-                    </div>
+                <!-- Pagination Dots Controls -->
+                <div class="flex items-center justify-center gap-2.5 mt-8">
+                    <template x-for="dot in 5" :key="dot">
+                        <button 
+                            @click="activeSlide = dot - 1" 
+                            class="h-3 rounded-full transition-all duration-300 focus:outline-none"
+                            :class="activeSlide === (dot - 1) ? 'bg-[#2563eb] w-3 shadow-md' : 'bg-gray-300 w-3 hover:bg-gray-400'"
+                            :aria-label="`Go to review slide ${dot}`"
+                        ></button>
+                    </template>
                 </div>
 
             </div>

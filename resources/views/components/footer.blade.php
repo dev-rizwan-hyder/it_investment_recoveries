@@ -66,8 +66,8 @@
             <div>
                 Copyright &copy; {{ date('Y') }} IT Investment Recoveries
             </div>
-            <div class="pr-10 sm:pr-0">
-                Developed By <a href="https://biztechsolutions.com" target="_blank" class="text-[#34d399] hover:underline font-bold">BizTechSolutions</a>
+            <div class="pr-12 sm:pr-14">
+                Developed By <a href="https://thebiztechsolutions.com" target="_blank" rel="noopener noreferrer" class="text-[#34d399] hover:underline font-bold">TheBizTechSolutions</a>
             </div>
 
             <!-- Scroll To Top Button (Anchored Bottom Right) -->

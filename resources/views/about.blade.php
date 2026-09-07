@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>About Us | Denver's Top Computer &amp; Electronics Recycling Company | IT Investment Recoveries</title>
+        <title>About – IT Investment Recoveries</title>
         <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
@@ -153,23 +153,20 @@
             </div>
         </section>
 
-        <!-- Section 3: Recovery Specialists Parallax Section (Reduced Height Fixed Background) -->
+        <!-- Section 3: Recovery Specialists Banner Section -->
         <section 
-            class="relative w-full py-10 sm:py-14 lg:py-16 px-4 sm:px-8 lg:px-16 flex items-center justify-end overflow-hidden bg-center bg-cover bg-no-repeat"
-            style="background-image: url('{{ asset('images/about/download.webp') }}'); background-attachment: fixed;"
+            class="relative w-full py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-16 flex items-center justify-end overflow-hidden bg-center bg-cover bg-no-repeat"
+            style="background-image: url('{{ asset('images/about/download.webp') }}');"
         >
-            <!-- Background Subtle Contrast Dark Overlay -->
-            <div class="absolute inset-0 bg-black/35 pointer-events-none"></div>
-
-            <!-- Content Container (Right Aligned Light Gray Rounded Card) -->
-            <div class="relative z-10 w-full max-w-7xl mx-auto flex justify-end">
-                <div class="w-full max-w-lg bg-[#d5d8de]/95 backdrop-blur-md p-6 sm:p-8 md:p-9 shadow-2xl border border-white/50 text-left space-y-3 rounded-[24px]">
-                    <h2 class="text-3xl sm:text-4xl md:text-[40px] font-bold text-[#044b2d] leading-[1.12] tracking-tight">
+            <!-- Content Container (Right Aligned Light Gray Card Overlay) -->
+            <div class="relative z-10 w-full max-w-7xl mx-auto flex justify-end pr-0 sm:pr-8 lg:pr-16">
+                <div class="w-full max-w-lg bg-[#d9d9d9]/95 backdrop-blur-sm p-8 sm:p-12 md:p-14 shadow-2xl border border-white/60 text-left rounded-none sm:rounded-sm">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-black text-[#005a36] leading-[1.12] tracking-tight mb-6 font-['Plus_Jakarta_Sans',sans-serif]">
                         We Are<br />
                         Recovery<br />
                         Specialists
                     </h2>
-                    <p class="text-[#1e293b] font-medium text-sm sm:text-base leading-relaxed">
+                    <p class="text-gray-900 font-extrabold text-xs sm:text-sm md:text-base leading-relaxed max-w-sm">
                         We provide specialized solutions to maximize the value of your IT assets, ensuring efficiency and sustainability.
                     </p>
                 </div>

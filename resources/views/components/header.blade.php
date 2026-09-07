@@ -77,7 +77,7 @@
                         <a href="{{ url('/data-destruction') }}" class="block px-6 py-3.5 {{ request()->is('data-destruction*') ? 'text-[#005a36] bg-emerald-50/90' : 'text-[#1f2937] hover:text-[#005a36] hover:bg-emerald-50/90' }} font-bold text-base sm:text-lg transition-colors duration-150 border-b border-gray-50 last:border-b-0">
                             Data Destruction
                         </a>
-                        <a href="{{ url('/it-disposal') }}" class="block px-6 py-3.5 {{ request()->is('it-disposal*') ? 'text-[#005a36] bg-emerald-50/90' : 'text-[#1f2937] hover:text-[#005a36] hover:bg-emerald-50/90' }} font-bold text-base sm:text-lg transition-colors duration-150 border-b border-gray-50 last:border-b-0">
+                        <a href="{{ url('/e-waste-recycling') }}" class="block px-6 py-3.5 {{ request()->is('e-waste-recycling*') || request()->is('it-disposal*') ? 'text-[#005a36] bg-emerald-50/90' : 'text-[#1f2937] hover:text-[#005a36] hover:bg-emerald-50/90' }} font-bold text-base sm:text-lg transition-colors duration-150 border-b border-gray-50 last:border-b-0">
                             E Waste/ IT Disposal
                         </a>
                         <a href="{{ url('/computer-liquidator-reseller') }}" class="block px-6 py-3.5 {{ request()->is('computer-liquidator*') ? 'text-[#005a36] bg-emerald-50/90' : 'text-[#1f2937] hover:text-[#005a36] hover:bg-emerald-50/90' }} font-bold text-base sm:text-lg transition-colors duration-150 border-b border-gray-50 last:border-b-0">
@@ -92,12 +92,23 @@
                     </div>
                 </div>
 
-                <!-- Free E-Waste Recycling -->
+                <!-- Residential Pickup -->
                 <div class="relative py-2 px-3 sm:px-4">
-                    <a href="{{ url('/free-e-waste-recycling') }}" class="{{ $active === 'ewaste' ? 'text-[#10b981]' : 'text-white hover:text-emerald-300' }} font-bold text-lg lg:text-xl tracking-normal focus:outline-none transition-colors duration-200 drop-shadow">
-                        Free E-Waste Recycling
+                    <a href="{{ url('/residential-pickup') }}" class="{{ $active === 'ewaste' ? 'text-[#10b981]' : 'text-white hover:text-emerald-300' }} font-bold text-lg lg:text-xl tracking-normal focus:outline-none transition-colors duration-200 drop-shadow">
+                        Residential Pickup
                     </a>
                     @if($active === 'ewaste')
+                        <!-- Active underline bar -->
+                        <div class="absolute bottom-0 left-3 right-3 h-[3px] bg-white rounded-full"></div>
+                    @endif
+                </div>
+
+                <!-- Commercial/Business Pickup -->
+                <div class="relative py-2 px-3 sm:px-4">
+                    <a href="{{ url('/commercial-business-pickup') }}" class="{{ $active === 'business' ? 'text-[#10b981]' : 'text-white hover:text-emerald-300' }} font-bold text-lg lg:text-xl tracking-normal focus:outline-none transition-colors duration-200 drop-shadow">
+                        Commercial/Business Pickup
+                    </a>
+                    @if($active === 'business')
                         <!-- Active underline bar -->
                         <div class="absolute bottom-0 left-3 right-3 h-[3px] bg-white rounded-full"></div>
                     @endif
@@ -181,14 +192,15 @@
                     >
                         <a href="{{ url('/it-asset-management') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">IT Assets Management</a>
                         <a href="{{ url('/data-destruction') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">Data Destruction</a>
-                        <a href="{{ url('/it-disposal') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">E Waste/ IT Disposal</a>
+                        <a href="{{ url('/e-waste-recycling') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">E Waste/ IT Disposal</a>
                         <a href="{{ url('/computer-liquidator-reseller') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">Computer Liquidator and Reseller</a>
                         <a href="{{ url('/charity-donation') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">Charity Donation</a>
                         <a href="{{ url('/community-partners') }}" class="block px-3 py-2.5 text-gray-100 hover:text-emerald-300 font-bold text-base">Community/ Business Partners</a>
                     </div>
                 </div>
 
-                <a href="{{ url('/free-e-waste-recycling') }}" class="block px-4 py-3 {{ $active === 'ewaste' ? 'text-[#10b981] bg-[#003d24] border border-emerald-600/40' : 'text-white hover:text-emerald-300' }} font-extrabold text-xl rounded-xl transition duration-200">Free E-Waste Recycling</a>
+                <a href="{{ url('/residential-pickup') }}" class="block px-4 py-3 {{ $active === 'ewaste' ? 'text-[#10b981] bg-[#003d24] border border-emerald-600/40' : 'text-white hover:text-emerald-300' }} font-extrabold text-xl rounded-xl transition duration-200">Residential Pickup</a>
+                <a href="{{ url('/commercial-business-pickup') }}" class="block px-4 py-3 {{ $active === 'business' ? 'text-[#10b981] bg-[#003d24] border border-emerald-600/40' : 'text-white hover:text-emerald-300' }} font-extrabold text-xl rounded-xl transition duration-200">Commercial/Business Pickup</a>
                 <a href="{{ url('/contact-us') }}" class="block px-4 py-3 {{ $active === 'contact' ? 'text-[#10b981] bg-[#003d24] border border-emerald-600/40' : 'text-white hover:text-emerald-300' }} font-extrabold text-xl rounded-xl transition duration-200">Contact Us</a>
             </div>
 

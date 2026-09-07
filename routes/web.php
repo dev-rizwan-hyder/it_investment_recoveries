@@ -14,9 +14,25 @@ Route::get('/about', function () {
     return redirect()->route('about');
 });
 
-Route::get('/free-e-waste-recycling', function () {
+Route::get('/residential-pickup', function () {
     return view('ewaste');
 })->name('ewaste');
+
+Route::get('/commercial-business-pickup', function () {
+    return view('business');
+})->name('business');
+
+Route::get('/business-pickup', function () {
+    return redirect()->route('business');
+});
+
+Route::get('/commercial-pickup', function () {
+    return redirect()->route('business');
+});
+
+Route::get('/free-e-waste-recycling', function () {
+    return redirect()->route('ewaste');
+});
 
 Route::get('/free-e-waste', function () {
     return redirect()->route('ewaste');
@@ -58,12 +74,16 @@ Route::get('/data-destruction-denver', function () {
     return redirect()->route('data-destruction');
 });
 
-Route::get('/it-disposal', function () {
+Route::get('/e-waste-recycling', function () {
     return view('it-disposal');
+})->name('e-waste-recycling');
+
+Route::get('/it-disposal', function () {
+    return redirect()->route('e-waste-recycling');
 })->name('it-disposal');
 
 Route::get('/e-waste-it-disposal', function () {
-    return redirect()->route('it-disposal');
+    return redirect()->route('e-waste-recycling');
 });
 
 Route::get('/computer-liquidator-reseller', function () {
