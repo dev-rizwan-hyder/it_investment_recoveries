@@ -52,7 +52,10 @@
             .animate-partner-marquee {
                 display: flex;
                 width: max-content;
-                animation: marqueeLeft 18s linear infinite;
+                animation: marqueeLeft 28s linear infinite;
+            }
+            .animate-partner-marquee:hover {
+                animation-play-state: paused;
             }
         </style>
 
@@ -63,16 +66,7 @@
     <body class="bg-[#002d1b] text-white font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
-        <div class="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40">
-            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-black/90 border-2 border-dashed border-emerald-400 p-1.5 sm:p-2 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
-                <div class="w-full h-full rounded-full border border-emerald-500/30 flex flex-col items-center justify-center p-1.5 sm:p-2">
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">COMMUNITY</span>
-                    <span class="text-[8px] sm:text-[10px] font-semibold text-emerald-400 uppercase tracking-wide leading-tight my-0.5">&amp; BUSINESS</span>
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">EVENTS</span>
-                    <span class="text-[10px] sm:text-xs font-extrabold text-white uppercase tracking-widest leading-tight mt-0.5 border-t border-emerald-500/40 pt-0.5 w-4/5">AVAILABLE</span>
-                </div>
-            </div>
-        </div>
+        <x-events-badge />
 
         <!-- Section 1: Hero Section (Using public/images/about.webp as Hero Background) -->
         <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
@@ -103,10 +97,10 @@
             </div>
         </section>
 
-        <!-- Section 2: Below Hero Section (Circular Image & Company Description) -->
+        <!-- Section 2: Below Hero Section (Executive Clean Overview) -->
         <section 
             id="about-overview" 
-            class="bg-white text-[#004d2e] py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full overflow-hidden"
+            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full overflow-hidden border-b border-gray-100 relative"
             x-data="{ visible: false }"
             x-init="
                 const observer = new IntersectionObserver(([entry]) => {
@@ -122,33 +116,38 @@
                 <!-- Left Column: Circular Image (Hands holding soil & plant) -->
                 <div 
                     class="lg:col-span-5 flex justify-center lg:justify-start transform transition-all duration-700 ease-out"
-                    :class="visible ? 'translate-x-0 opacity-100' : '-translate-x-16 opacity-0'"
+                    :class="visible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'"
                 >
-                    <div class="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] rounded-full overflow-hidden shadow-2xl border-4 border-white/60">
+                    <div class="relative w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] lg:w-[440px] lg:h-[440px] rounded-full overflow-hidden shadow-2xl border-4 border-emerald-500/20 ring-8 ring-emerald-50/60 group">
                         <img 
                             src="{{ asset('images/about/aaaaaaaaaaaaaaaaaaaaaaa.webp') }}" 
                             alt="IT Investment Recoveries Environmental Responsibility" 
-                            class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                         />
                     </div>
                 </div>
 
-                <!-- Right Column: Centered Green Text Content -->
+                <!-- Right Column: Clean & Uncluttered Text Content -->
                 <div 
-                    class="lg:col-span-7 flex flex-col items-center justify-center text-center space-y-6 sm:space-y-8 px-2 sm:px-6 transform transition-all duration-700 delay-200 ease-out"
-                    :class="visible ? 'translate-x-0 opacity-100' : 'translate-x-16 opacity-0'"
+                    class="lg:col-span-7 flex flex-col justify-center text-left space-y-6 sm:space-y-7 px-2 sm:px-4 transform transition-all duration-700 delay-200 ease-out"
+                    :class="visible ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'"
                 >
-                    <p class="text-[#004d2e] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.8] font-normal tracking-wide">
-                        At <strong class="font-bold">IT Investment Recoveries</strong> , we help businesses, schools, government organizations, nonprofits, and other organizations responsibly manage their unwanted and end-of-life IT equipment.
+                    <!-- Paragraph 1 -->
+                    <p class="text-[#004d2e] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.75] font-medium tracking-normal">
+                        At <strong class="font-extrabold text-[#005a36]">IT Investment Recoveries</strong>, we help businesses, schools, government organizations, nonprofits, and other organizations responsibly manage their unwanted and end-of-life IT equipment.
                     </p>
 
-                    <p class="text-[#004d2e] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.8] font-normal tracking-wide">
+                    <!-- Paragraph 2 -->
+                    <p class="text-gray-700 text-base sm:text-lg lg:text-xl leading-relaxed sm:leading-[1.75] font-normal">
                         We understand that retiring IT equipment can be a time-consuming process. From inventory and asset tracking to data destruction, reuse, refurbishment, and recycling, there are many steps involved in properly managing technology at the end of its useful life.
                     </p>
 
-                    <p class="text-[#004d2e] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.8] font-normal tracking-wide">
-                        Our goal is simple: to make IT asset disposition easier, more secure, and more environmentally responsible for our customers.
-                    </p>
+                    <!-- Paragraph 3 with Emerald Left Stripe -->
+                    <div class="border-l-4 border-[#005a36] bg-emerald-50/50 p-5 rounded-r-2xl shadow-sm border-y border-r border-emerald-100/60">
+                        <p class="text-gray-900 text-base sm:text-lg lg:text-xl leading-relaxed sm:leading-[1.75] font-semibold">
+                            Our goal is simple: to make IT asset disposition easier, more secure, and more environmentally responsible for our customers.
+                        </p>
+                    </div>
                 </div>
 
             </div>
@@ -192,26 +191,26 @@
 
                 <!-- Sliding Logos Marquee Slider -->
                 <div class="relative w-full overflow-hidden py-6">
-                    <div class="animate-partner-marquee flex items-center space-x-16 sm:space-x-24 md:space-x-32 pr-16 sm:pr-24">
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                    <div class="animate-partner-marquee flex items-center space-x-8 sm:space-x-12 md:space-x-16 pr-8 sm:pr-12">
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
-                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
                     </div>
                 </div>

@@ -52,16 +52,7 @@
     <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
-        <div class="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40">
-            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-black/90 border-2 border-dashed border-emerald-400 p-1.5 sm:p-2 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
-                <div class="w-full h-full rounded-full border border-emerald-500/30 flex flex-col items-center justify-center p-1.5 sm:p-2">
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">COMMUNITY</span>
-                    <span class="text-[8px] sm:text-[10px] font-semibold text-emerald-400 uppercase tracking-wide leading-tight my-0.5">&amp; BUSINESS</span>
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">EVENTS</span>
-                    <span class="text-[10px] sm:text-xs font-extrabold text-white uppercase tracking-widest leading-tight mt-0.5 border-t border-emerald-500/40 pt-0.5 w-4/5">AVAILABLE</span>
-                </div>
-            </div>
-        </div>
+        <x-events-badge />
 
         <!-- Section 1: Hero Section (Circuit Boards with Hard Drives Background) -->
         <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
@@ -109,21 +100,30 @@
         </section>
 
         <!-- Section 2: Complete IT Asset Management Services Overview -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full">
-            <div class="w-full max-w-5xl mx-auto text-center space-y-6">
+        <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50 text-gray-900 py-16 sm:py-20 px-4 sm:px-8 lg:px-16 w-full relative overflow-hidden border-b border-gray-100">
+            <!-- Background Ambient Glow Accent -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-400/10 blur-[140px] pointer-events-none rounded-full"></div>
+
+            <div class="w-full max-w-5xl mx-auto text-center space-y-8 relative z-10">
                 
                 <!-- Title -->
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Complete IT Asset</span> 
-                    <span class="text-[#222222] ml-2">Management Services</span>
-                </h2>
+                <div class="space-y-3">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300/60 text-[#005a36] text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+                        <span>📊</span> Complete Lifecycle Solution
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                        <span class="text-[#10b981] sm:text-[#34d399]">Complete IT Asset</span> 
+                        <span class="text-gray-900 ml-2">Management Services</span>
+                    </h2>
+                </div>
 
-                <!-- Description Paragraph -->
-                <div class="text-gray-600 text-base sm:text-lg lg:text-xl font-medium leading-relaxed max-w-4xl mx-auto space-y-3">
-                    <p>
+                <!-- Executive Highlight Glass Card for Paragraphs -->
+                <div class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-gray-200/90 shadow-xl space-y-4 max-w-4xl mx-auto text-left relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bottom-0 w-2 bg-gradient-to-b from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                    <p class="text-gray-800 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
                         Our Complete IT Asset Management Services are designed for businesses that don't have the time or resources to inventory their IT equipment before e-waste recycling. We can inventory and document your IT Assets before they are processed for data destruction &amp; recycling.
                     </p>
-                    <p>
+                    <p class="text-gray-700 text-base sm:text-lg font-semibold leading-relaxed pt-2 border-t border-gray-100 text-[#005a36]">
                         You will receive detailed documentation of the equipment processed, including a Certificate of Data Destruction and E-Waste Recycling.
                     </p>
                 </div>
@@ -132,138 +132,185 @@
         </section>
 
         <!-- Section 3: How It Works? (4 Step Process Cards) -->
-        <section class="bg-white text-gray-900 py-12 sm:py-20 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100">
-            <div class="w-full max-w-7xl mx-auto space-y-12">
+        <section class="bg-slate-50/50 text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 relative">
+            <div class="w-full max-w-7xl mx-auto space-y-12 sm:space-y-16">
                 
                 <!-- Section Title: How It Works? -->
-                <div class="text-center">
+                <div class="text-center space-y-3">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">How</span> 
-                        <span class="text-[#222222] ml-2">It Works?</span>
+                        <span class="text-[#10b981] sm:text-[#34d399]">How</span> 
+                        <span class="text-gray-900 ml-2">It Works?</span>
                     </h2>
+                    <p class="text-gray-600 text-base sm:text-lg font-medium max-w-2xl mx-auto">
+                        Simple, transparent 4-step process for secure IT asset disposition
+                    </p>
                 </div>
 
                 <!-- 4 Step Cards Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                     
                     <!-- Card 1: STEP 01 -->
-                    <div class="rounded-[24px] border-2 border-emerald-500/40 p-6 bg-white shadow-lg hover:shadow-2xl transition duration-300 flex flex-col justify-between space-y-6 text-center group">
-                        <div class="space-y-4">
-                            <!-- Step Tag -->
-                            <div>
-                                <span class="px-5 py-1.5 rounded-full border border-emerald-500/60 text-[#005a36] font-extrabold text-xs tracking-wider uppercase inline-block bg-emerald-50">
-                                    STEP 01
-                                </span>
+                    <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        
+                        <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <!-- Step Tag & Icon Row -->
+                                <div class="flex items-center justify-between">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                        STEP 01
+                                    </span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                    Schedule or Drop Off
+                                </h3>
+                                <!-- Description -->
+                                <p class="text-gray-600 text-sm leading-relaxed font-normal">
+                                    Contact us to schedule a convenient pickup or bring your IT Assets directly to our facility.
+                                </p>
                             </div>
-                            <!-- Title -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900">
-                                Schedule or Drop Off
-                            </h3>
-                            <!-- Description -->
-                            <p class="text-gray-600 text-sm leading-relaxed font-normal">
-                                Contact us to schedule a convenient pickup or bring your IT Assets directly to our facility.
-                            </p>
-                        </div>
-                        <!-- Bottom Fee Badge -->
-                        <div class="bg-[#f0f9f5] rounded-xl p-3.5 border border-emerald-100 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800">
-                            <span class="text-gray-600">Drop-Off Fee</span>
-                            <span class="text-[#10b981] font-black">FREE</span>
+
+                            <!-- Bottom Fee Table -->
+                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800">
+                                <span class="text-gray-600">Drop-Off Fee</span>
+                                <span class="text-[#10b981] font-black text-sm px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">FREE</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Card 2: STEP 02 -->
-                    <div class="rounded-[24px] border-2 border-emerald-500/40 p-6 bg-white shadow-lg hover:shadow-2xl transition duration-300 flex flex-col justify-between space-y-6 text-center group">
-                        <div class="space-y-4">
-                            <!-- Step Tag -->
-                            <div>
-                                <span class="px-5 py-1.5 rounded-full border border-emerald-500/60 text-[#005a36] font-extrabold text-xs tracking-wider uppercase inline-block bg-emerald-50">
-                                    STEP 02
-                                </span>
+                    <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        
+                        <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <!-- Step Tag & Icon Row -->
+                                <div class="flex items-center justify-between">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                        STEP 02
+                                    </span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm0 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                    Pickup &amp; Recycling
+                                </h3>
+                                <!-- Description -->
+                                <p class="text-gray-600 text-sm leading-relaxed font-normal">
+                                    We charge a flat-rate pickup fee, with no additional recycling charges for general e-waste.
+                                </p>
                             </div>
-                            <!-- Title -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900">
-                                Pickup &amp; Recycling
-                            </h3>
-                            <!-- Description -->
-                            <p class="text-gray-600 text-sm leading-relaxed font-normal">
-                                We charge a flat-rate pickup fee, with no additional recycling charges for general e-waste.
-                            </p>
-                        </div>
-                        <!-- Bottom Fee Badge -->
-                        <div class="bg-[#f0f9f5] rounded-xl p-3 border border-emerald-100 space-y-1.5 text-xs font-bold text-gray-800">
-                            <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Flat Pickup Fee</span>
-                                <span class="text-[#005a36] font-black">$150.00</span>
-                            </div>
-                            <div class="flex items-center justify-between border-t border-emerald-200/60 pt-1.5">
-                                <span class="text-gray-600">E-Waste Recycling</span>
-                                <span class="text-[#10b981] font-black">FREE</span>
+
+                            <!-- Bottom Fee Table -->
+                            <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 space-y-2 text-xs font-bold text-gray-800">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600 font-semibold">Flat Pickup Fee</span>
+                                    <span class="text-[#005a36] font-black">$150.00</span>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-slate-200/80 pt-2">
+                                    <span class="text-gray-600 font-semibold">E-Waste Recycling</span>
+                                    <span class="text-[#10b981] font-black px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200">FREE</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Card 3: STEP 03 -->
-                    <div class="rounded-[24px] border-2 border-emerald-500/40 p-6 bg-white shadow-lg hover:shadow-2xl transition duration-300 flex flex-col justify-between space-y-6 text-center group">
-                        <div class="space-y-4">
-                            <!-- Step Tag -->
-                            <div>
-                                <span class="px-5 py-1.5 rounded-full border border-emerald-500/60 text-[#005a36] font-extrabold text-xs tracking-wider uppercase inline-block bg-emerald-50">
-                                    STEP 03
-                                </span>
+                    <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        
+                        <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <!-- Step Tag & Icon Row -->
+                                <div class="flex items-center justify-between">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                        STEP 03
+                                    </span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                    Asset Management
+                                </h3>
+                                <!-- Description -->
+                                <p class="text-gray-600 text-sm leading-relaxed font-normal">
+                                    Don't have time to inventory? We document manufacturer, model, serial number, asset tag, and status.
+                                </p>
                             </div>
-                            <!-- Title -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900">
-                                Asset Management
-                            </h3>
-                            <!-- Description -->
-                            <p class="text-gray-600 text-sm leading-relaxed font-normal">
-                                Don't have time to inventory? We document manufacturer, model, serial number, asset tag, and status.
-                            </p>
-                        </div>
-                        <!-- Bottom Fee Badge -->
-                        <div class="bg-[#f0f9f5] rounded-xl p-3 border border-emerald-100 space-y-1.5 text-xs font-bold text-gray-800">
-                            <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Off-Site Asset Mgmt</span>
-                                <span class="text-[#005a36] font-black text-right leading-tight">$5.00 /<br /><span class="text-xs">item</span></span>
-                            </div>
-                            <div class="flex items-center justify-between border-t border-emerald-200/60 pt-1.5">
-                                <span class="text-gray-600">On-Site Asset Mgmt</span>
-                                <span class="text-[#005a36] font-black text-right leading-tight">$10.00 /<br /><span class="text-xs">item</span></span>
+
+                            <!-- Bottom Fee Table -->
+                            <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 space-y-2 text-xs font-bold text-gray-800">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600 font-semibold">Off-Site Asset Mgmt</span>
+                                    <span class="text-[#005a36] font-black text-right">$5.00 / item</span>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-slate-200/80 pt-2">
+                                    <span class="text-gray-600 font-semibold">On-Site Asset Mgmt</span>
+                                    <span class="text-[#005a36] font-black text-right">$10.00 / item</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Card 4: STEP 04 -->
-                    <div class="rounded-[24px] border-2 border-emerald-500/40 p-6 bg-white shadow-lg hover:shadow-2xl transition duration-300 flex flex-col justify-between space-y-6 text-center group">
-                        <div class="space-y-4">
-                            <!-- Step Tag -->
-                            <div>
-                                <span class="px-5 py-1.5 rounded-full border border-emerald-500/60 text-[#005a36] font-extrabold text-xs tracking-wider uppercase inline-block bg-emerald-50">
-                                    STEP 04
-                                </span>
+                    <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        
+                        <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <!-- Step Tag & Icon Row -->
+                                <div class="flex items-center justify-between">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                        STEP 04
+                                    </span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                    NIST Data Destruction
+                                </h3>
+                                <!-- Description -->
+                                <p class="text-gray-600 text-sm leading-relaxed font-normal">
+                                    For data-bearing devices, complete detailed reporting compliant with NIST SP 800-88 guidelines.
+                                </p>
                             </div>
-                            <!-- Title -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900">
-                                NIST Data Destruction
-                            </h3>
-                            <!-- Description -->
-                            <p class="text-gray-600 text-sm leading-relaxed font-normal">
-                                For data-bearing devices, complete detailed reporting compliant with NIST SP 800-88 guidelines.
-                            </p>
-                        </div>
-                        <!-- Bottom Fee Badge -->
-                        <div class="bg-[#f0f9f5] rounded-xl p-2.5 border border-emerald-100 space-y-1 text-xs font-bold text-gray-800">
-                            <div class="flex items-center justify-between">
-                                <span class="text-gray-600">Off-Site NIST</span>
-                                <span class="text-[#005a36] font-black text-right leading-tight">$5.00 /<br /><span class="text-xs">drive</span></span>
-                            </div>
-                            <div class="flex items-center justify-between border-t border-emerald-200/60 pt-1">
-                                <span class="text-gray-600">On-Site NIST</span>
-                                <span class="text-[#005a36] font-black text-right leading-tight">$10.00 /<br /><span class="text-xs">drive</span></span>
-                            </div>
-                            <div class="flex items-center justify-between border-t border-emerald-200/60 pt-1">
-                                <span class="text-gray-600">Off-Site Non-NIST</span>
-                                <span class="text-[#10b981] font-black">$0.00</span>
+
+                            <!-- Bottom Fee Table -->
+                            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80 space-y-1.5 text-xs font-bold text-gray-800">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600 font-semibold">Off-Site NIST</span>
+                                    <span class="text-[#005a36] font-black text-right">$5.00 / drive</span>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-slate-200/80 pt-1.5">
+                                    <span class="text-gray-600 font-semibold">On-Site NIST</span>
+                                    <span class="text-[#005a36] font-black text-right">$10.00 / drive</span>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-slate-200/80 pt-1.5">
+                                    <span class="text-gray-600 font-semibold">Off-Site Non-NIST</span>
+                                    <span class="text-[#10b981] font-black px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200">$0.00</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -389,125 +436,136 @@
         <!-- Section 5: Our Satisfied Clients -->
         <section 
             id="testimonials" 
-            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100"
+            class="bg-slate-50/50 text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 relative"
             x-data="{ activeSlide: 0 }"
         >
-            <div class="w-full max-w-7xl mx-auto space-y-12">
+            <div class="w-full max-w-7xl mx-auto space-y-12 sm:space-y-16">
                 
                 <!-- Section Title -->
                 <div class="text-center">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Satisfied Clients</span>
+                        <span class="text-gray-900">Our</span> 
+                        <span class="text-[#10b981] sm:text-[#34d399] ml-2">Satisfied Clients</span>
                     </h2>
                 </div>
 
                 <!-- 3 Testimonial Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
                     
-                    <!-- Card 1 -->
-                    <div class="bg-white rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <!-- Star Rating (4 Stars out of 5) -->
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★<span class="text-amber-300">☆</span>
+                    <!-- Card 1: David Jones -->
+                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+
+                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
+                            <div class="space-y-4">
+                                <!-- Star Rating (5 Stars out of 5) -->
+                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
+                                    ★★★★★
+                                </div>
+                                <!-- Quote Text -->
+                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
+                                    "I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them"
+                                </p>
                             </div>
-                            <!-- Quote Text -->
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them"
-                            </p>
+
+                            <!-- User Profile Info -->
+                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" 
+                                    alt="David Jones" 
+                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
+                                    style="width: 52px; height: 52px;"
+                                />
+                                <div>
+                                    <div class="font-extrabold text-gray-900 text-base">David Jones</div>
+                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- User Profile Info -->
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Jones" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Jones</span>
-                        </div>
-
-                        <!-- Quote Background Accent -->
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
+                        <!-- Quote Background Watermark Accent -->
+                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
                             ”
                         </div>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="bg-white rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <!-- Star Rating (3 Stars out of 5) -->
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★<span class="text-amber-300">☆☆</span>
+                    <!-- Card 2: David Martinelli -->
+                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+
+                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
+                            <div class="space-y-4">
+                                <!-- Star Rating (5 Stars out of 5) -->
+                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
+                                    ★★★★★
+                                </div>
+                                <!-- Quote Text -->
+                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
+                                    "I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!"
+                                </p>
                             </div>
-                            <!-- Quote Text -->
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!"
-                            </p>
+
+                            <!-- User Profile Info -->
+                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" 
+                                    alt="David Martinelli" 
+                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
+                                    style="width: 52px; height: 52px;"
+                                />
+                                <div>
+                                    <div class="font-extrabold text-gray-900 text-base">David Martinelli</div>
+                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- User Profile Info -->
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" 
-                                alt="David Martinelli" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">David Martinelli</span>
-                        </div>
-
-                        <!-- Quote Background Accent -->
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
+                        <!-- Quote Background Watermark Accent -->
+                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
                             ”
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="bg-white rounded-[22px] border border-emerald-500/40 p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
-                        <div class="space-y-4 relative z-10">
-                            <!-- Star Rating (5 Stars out of 5) -->
-                            <div class="flex items-center space-x-1 text-amber-400 text-lg justify-center">
-                                ★★★★★
+                    <!-- Card 3: Mark Richardson -->
+                    <div class="bg-white rounded-3xl border border-gray-200/90 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between relative group overflow-hidden">
+                        <!-- Top Accent Stripe -->
+                        <div class="h-1.5 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+
+                        <div class="p-7 sm:p-8 space-y-6 flex-grow flex flex-col justify-between relative z-10">
+                            <div class="space-y-4">
+                                <!-- Star Rating (5 Stars out of 5) -->
+                                <div class="flex items-center space-x-1 text-amber-400 text-lg">
+                                    ★★★★★
+                                </div>
+                                <!-- Quote Text -->
+                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed font-normal italic">
+                                    "Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics."
+                                </p>
                             </div>
-                            <!-- Quote Text -->
-                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed text-center font-normal">
-                                "Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics."
-                            </p>
+
+                            <!-- User Profile Info -->
+                            <div class="flex items-center space-x-4 pt-5 border-t border-gray-100">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" 
+                                    alt="Mark Richardson" 
+                                    class="w-13 h-13 rounded-full object-cover shadow-md border-2 border-emerald-100 shrink-0"
+                                    style="width: 52px; height: 52px;"
+                                />
+                                <div>
+                                    <div class="font-extrabold text-gray-900 text-base">Mark Richardson</div>
+                                    <div class="text-xs text-emerald-600 font-semibold">Verified Client</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- User Profile Info -->
-                        <div class="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 mt-6 relative z-10">
-                            <img 
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" 
-                                alt="Mark Richardson" 
-                                class="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-200"
-                            />
-                            <span class="font-bold text-gray-900 text-base">Mark Richardson</span>
-                        </div>
-
-                        <!-- Quote Background Accent -->
-                        <div class="absolute bottom-4 right-4 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
+                        <!-- Quote Background Watermark Accent -->
+                        <div class="absolute bottom-4 right-5 text-emerald-100/60 font-serif text-7xl font-black select-none pointer-events-none">
                             ”
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Carousel Dots Indicator + Small Recycling Icon -->
-                <div class="flex flex-col items-center space-y-4 pt-4">
-                    <div class="flex items-center space-x-2">
-                        <button class="w-3.5 h-3.5 rounded-full bg-[#3b82f6] shadow-sm"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                        <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition"></button>
-                    </div>
-                    <div class="text-emerald-500 pt-2">
-                        <svg class="w-5 h-5 fill-current mx-auto" viewBox="0 0 24 24">
-                            <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
-                        </svg>
-                    </div>
                 </div>
 
             </div>

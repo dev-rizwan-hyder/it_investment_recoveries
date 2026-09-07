@@ -8,13 +8,13 @@
     class="w-full fixed top-0 left-0 right-0 z-50 text-white transition-all duration-300 ease-in-out font-['Plus_Jakarta_Sans',sans-serif]"
 >
     <div class="w-full px-4 sm:px-8 lg:px-12">
-        <div class="flex items-center justify-between h-24 sm:h-28 lg:h-32">
+        <div class="flex items-center justify-between h-16 sm:h-18 md:h-28 lg:h-32">
             <!-- Brand / Logo (Far Left) -->
             <a href="{{ url('/') }}" class="flex items-center group focus:outline-none rounded-md py-1">
                 <img 
                     src="{{ asset('images/logo.png') }}" 
                     alt="IT Investment Recoveries" 
-                    class="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain drop-shadow-xl transition-transform duration-200 hover:scale-105"
+                    class="h-10 sm:h-12 md:h-24 lg:h-28 xl:h-32 max-h-full w-auto object-contain drop-shadow-xl transition-transform duration-200 hover:scale-105"
                 />
             </a>
 
@@ -141,7 +141,7 @@
                 <img 
                     src="{{ asset('images/logo.png') }}" 
                     alt="IT Investment Recoveries" 
-                    class="h-16 sm:h-18 w-auto object-contain"
+                    class="h-20 sm:h-22 w-auto object-contain"
                 />
                 <button 
                     id="mobile-sidebar-close-btn"

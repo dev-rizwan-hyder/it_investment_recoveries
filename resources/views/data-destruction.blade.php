@@ -54,7 +54,10 @@
             .animate-partner-marquee {
                 display: flex;
                 width: max-content;
-                animation: marqueeLeft 18s linear infinite;
+                animation: marqueeLeft 28s linear infinite;
+            }
+            .animate-partner-marquee:hover {
+                animation-play-state: paused;
             }
         </style>
 
@@ -65,16 +68,7 @@
     <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge -->
-        <div class="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40">
-            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-black/90 border-2 border-dashed border-emerald-400 p-1.5 sm:p-2 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
-                <div class="w-full h-full rounded-full border border-emerald-500/30 flex flex-col items-center justify-center p-1.5 sm:p-2">
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">COMMUNITY</span>
-                    <span class="text-[8px] sm:text-[10px] font-semibold text-emerald-400 uppercase tracking-wide leading-tight my-0.5">&amp; BUSINESS</span>
-                    <span class="text-[9px] sm:text-xs font-bold text-gray-200 uppercase tracking-wider leading-tight">EVENTS</span>
-                    <span class="text-[10px] sm:text-xs font-extrabold text-white uppercase tracking-widest leading-tight mt-0.5 border-t border-emerald-500/40 pt-0.5 w-4/5">AVAILABLE</span>
-                </div>
-            </div>
-        </div>
+        <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
         <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
