@@ -144,7 +144,7 @@
                     <!-- Residential or Business Van Load Pick Up Fee -->
                     <div class="space-y-2">
                         <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-snug">
-                            Residential or Business Van Load Pick Up Fee
+                            Business Van Load Pick Up Fee
                         </p>
                         <p class="text-4xl sm:text-5xl md:text-6xl font-black text-[#005a36] tracking-tight">
                             $100.00
@@ -154,7 +154,7 @@
                     <!-- Residential or Business Truck Load Pick Up Fee -->
                     <div class="space-y-2 pt-2">
                         <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-snug">
-                            Residential or Business Truck Load Pick Up Fee
+                            Business Truck Load Pick Up Fee
                         </p>
                         <p class="text-4xl sm:text-5xl md:text-6xl font-black text-[#005a36] tracking-tight">
                             $150.00
