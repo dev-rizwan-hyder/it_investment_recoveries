@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -49,13 +49,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Hero Section (Circuit Boards with Hard Drives Background) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="services" />
 
@@ -66,8 +66,7 @@
                     alt="IT Asset Management to the Next Level" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <!-- Dark Gradient Overlay for Contrast -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/50 to-black/80"></div>
+                
             </div>
 
             <!-- Main Hero Center Content -->
@@ -75,7 +74,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-5 sm:space-y-7">
                     
                     <!-- Main Title: IT Asset Management to the Next Level -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-[1.1] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
                         IT Asset Management to the Next Level
                     </h1>
 
@@ -88,7 +87,7 @@
                     <div class="pt-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-base sm:text-lg tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-base sm:text-lg tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
                         >
                             <span>Arrange A Pickup</span>
                             <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -108,18 +107,18 @@
                 
                 <!-- Title -->
                 <div class="space-y-3">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300/60 text-[#005a36] text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300/60 text-[#035c43] text-xs sm:text-sm font-extrabold uppercase tracking-wider">
                         <span>📊</span> Complete Lifecycle Solution
                     </div>
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#34d399]">Complete IT Asset</span> 
+                        <span class="text-[#035c43]">Complete IT Asset</span> 
                         <span class="text-gray-900 ml-2">Management Services</span>
                     </h2>
                 </div>
 
                 <!-- Executive Highlight Glass Card for Paragraphs (Width Increased to max-w-7xl) -->
                 <div class="bg-white/90 backdrop-blur-md rounded-3xl p-8 sm:p-12 lg:p-14 border border-gray-200/90 shadow-xl space-y-6 max-w-7xl mx-auto text-left relative overflow-hidden">
-                    <div class="absolute top-0 left-0 bottom-0 w-2.5 bg-gradient-to-b from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                    <div class="absolute top-0 left-0 bottom-0 w-2.5 bg-gradient-to-b from-[#035c43] via-[#035c43] to-[#035c43]"></div>
                     <p class="text-gray-700 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
                         Our Complete IT Asset Management Services are designed for businesses that don't have the time or resources to inventory their IT equipment before e-waste recycling. We can inventory and document your IT Assets before they are processed for data destruction &amp; recycling.
                     </p>
@@ -138,7 +137,7 @@
                 <!-- Section Title: How It Works? -->
                 <div class="text-center space-y-3">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#10b981] sm:text-[#34d399]">How</span> 
+                        <span class="text-[#035c43] sm:text-[#035c43]">How</span> 
                         <span class="text-gray-900 ml-2">It Works?</span>
                     </h2>
                     <p class="text-gray-600 text-base sm:text-lg font-medium max-w-2xl mx-auto">
@@ -152,23 +151,23 @@
                     <!-- Card 1: STEP 01 -->
                     <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
                         <!-- Top Accent Stripe -->
-                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        <div class="h-2 w-full bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43]"></div>
                         
                         <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
                             <div class="space-y-4">
                                 <!-- Step Tag & Icon Row -->
                                 <div class="flex items-center justify-between">
-                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#035c43] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
                                         STEP 01
                                     </span>
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#035c43] shrink-0">
                                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                             <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
                                         </svg>
                                     </div>
                                 </div>
                                 <!-- Title -->
-                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#035c43] transition-colors">
                                     Schedule or Drop Off
                                 </h3>
                                 <!-- Description -->
@@ -180,7 +179,7 @@
                             <!-- Bottom Fee Table -->
                             <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800">
                                 <span class="text-gray-600">Drop-Off Fee</span>
-                                <span class="text-[#10b981] font-black text-sm px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">FREE</span>
+                                <span class="text-[#035c43] font-black text-sm px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">FREE</span>
                             </div>
                         </div>
                     </div>
@@ -188,23 +187,23 @@
                     <!-- Card 2: STEP 02 -->
                     <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
                         <!-- Top Accent Stripe -->
-                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        <div class="h-2 w-full bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43]"></div>
                         
                         <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
                             <div class="space-y-4">
                                 <!-- Step Tag & Icon Row -->
                                 <div class="flex items-center justify-between">
-                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#035c43] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
                                         STEP 02
                                     </span>
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#035c43] shrink-0">
                                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                             <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm0 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                                         </svg>
                                     </div>
                                 </div>
                                 <!-- Title -->
-                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#035c43] transition-colors">
                                     Pickup &amp; Recycling
                                 </h3>
                                 <!-- Description -->
@@ -217,11 +216,11 @@
                             <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 space-y-2 text-xs font-bold text-gray-800">
                                 <div class="flex items-center justify-between">
                                     <span class="text-gray-600 font-semibold">Flat Pickup Fee</span>
-                                    <span class="text-[#005a36] font-black">$150.00</span>
+                                    <span class="text-[#035c43] font-black">$150.00</span>
                                 </div>
                                 <div class="flex items-center justify-between border-t border-slate-200/80 pt-2">
                                     <span class="text-gray-600 font-semibold">E-Waste Recycling</span>
-                                    <span class="text-[#10b981] font-black px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200">FREE</span>
+                                    <span class="text-[#035c43] font-black px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200">FREE</span>
                                 </div>
                             </div>
                         </div>
@@ -230,23 +229,23 @@
                     <!-- Card 3: STEP 03 -->
                     <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
                         <!-- Top Accent Stripe -->
-                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        <div class="h-2 w-full bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43]"></div>
                         
                         <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
                             <div class="space-y-4">
                                 <!-- Step Tag & Icon Row -->
                                 <div class="flex items-center justify-between">
-                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#035c43] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
                                         STEP 03
                                     </span>
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#035c43] shrink-0">
                                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                             <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                                         </svg>
                                     </div>
                                 </div>
                                 <!-- Title -->
-                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#035c43] transition-colors">
                                     Asset Management
                                 </h3>
                                 <!-- Description -->
@@ -259,11 +258,11 @@
                             <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 space-y-2 text-xs font-bold text-gray-800">
                                 <div class="flex items-center justify-between">
                                     <span class="text-gray-600 font-semibold">Off-Site Asset Mgmt</span>
-                                    <span class="text-[#005a36] font-black text-right">$5.00 / item</span>
+                                    <span class="text-[#035c43] font-black text-right">$5.00 / item</span>
                                 </div>
                                 <div class="flex items-center justify-between border-t border-slate-200/80 pt-2">
                                     <span class="text-gray-600 font-semibold">On-Site Asset Mgmt</span>
-                                    <span class="text-[#005a36] font-black text-right">$10.00 / item</span>
+                                    <span class="text-[#035c43] font-black text-right">$10.00 / item</span>
                                 </div>
                             </div>
                         </div>
@@ -272,23 +271,23 @@
                     <!-- Card 4: STEP 04 -->
                     <div class="rounded-3xl border border-gray-200/90 bg-white shadow-xl hover:shadow-2xl hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between text-left group overflow-hidden">
                         <!-- Top Accent Stripe -->
-                        <div class="h-2 w-full bg-gradient-to-r from-[#005a36] via-[#10b981] to-[#34d399]"></div>
+                        <div class="h-2 w-full bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43]"></div>
                         
                         <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
                             <div class="space-y-4">
                                 <!-- Step Tag & Icon Row -->
                                 <div class="flex items-center justify-between">
-                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#005a36] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
+                                    <span class="px-4 py-1.5 rounded-full border border-emerald-500/30 text-[#035c43] font-extrabold text-xs tracking-wider uppercase bg-emerald-50/80">
                                         STEP 04
                                     </span>
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#005a36] shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#035c43] shrink-0">
                                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
                                         </svg>
                                     </div>
                                 </div>
                                 <!-- Title -->
-                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#005a36] transition-colors">
+                                <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-[#035c43] transition-colors">
                                     NIST Data Destruction
                                 </h3>
                                 <!-- Description -->
@@ -301,15 +300,15 @@
                             <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80 space-y-1.5 text-xs font-bold text-gray-800">
                                 <div class="flex items-center justify-between">
                                     <span class="text-gray-600 font-semibold">Off-Site NIST</span>
-                                    <span class="text-[#005a36] font-black text-right">$5.00 / drive</span>
+                                    <span class="text-[#035c43] font-black text-right">$5.00 / drive</span>
                                 </div>
                                 <div class="flex items-center justify-between border-t border-slate-200/80 pt-1.5">
                                     <span class="text-gray-600 font-semibold">On-Site NIST</span>
-                                    <span class="text-[#005a36] font-black text-right">$10.00 / drive</span>
+                                    <span class="text-[#035c43] font-black text-right">$10.00 / drive</span>
                                 </div>
                                 <div class="flex items-center justify-between border-t border-slate-200/80 pt-1.5">
                                     <span class="text-gray-600 font-semibold">Off-Site Non-NIST</span>
-                                    <span class="text-[#10b981] font-black px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200">$0.00</span>
+                                    <span class="text-[#035c43] font-black px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200">$0.00</span>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +326,7 @@
                 <!-- Section Title & Subtitle -->
                 <div class="text-center space-y-3">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">What You</span> 
+                        <span class="text-[#035c43]">What You</span> 
                         <span class="text-[#222222] ml-2">Recieve</span>
                     </h2>
                     <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto font-normal">
@@ -345,20 +344,20 @@
                                 <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-extrabold text-[#005a36]">
+                        <h3 class="text-2xl font-extrabold text-[#035c43]">
                             Asset Tracking
                         </h3>
                         <ul class="space-y-3 text-sm sm:text-base font-semibold text-gray-700">
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Detailed IT Asset Inventory Report</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Asset Identification &amp; Tracking</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Serial Numbers &amp; Asset Tags Captured</span>
                             </li>
                         </ul>
@@ -371,16 +370,16 @@
                                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-extrabold text-[#005a36]">
+                        <h3 class="text-2xl font-extrabold text-[#035c43]">
                             Data Compliance
                         </h3>
                         <ul class="space-y-3 text-sm sm:text-base font-semibold text-gray-700">
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>NIST SP 800-88 Data Destruction Reports</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Official Certificate of Data Destruction</span>
                             </li>
                         </ul>
@@ -393,16 +392,16 @@
                                 <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-extrabold text-[#005a36]">
+                        <h3 class="text-2xl font-extrabold text-[#035c43]">
                             Recycling &amp; Final Reports
                         </h3>
                         <ul class="space-y-3 text-sm sm:text-base font-semibold text-gray-700">
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Official Certificate of E-Waste Recycling</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <span class="text-[#10b981] font-bold text-lg">✔</span>
+                                <span class="text-[#035c43] font-bold text-lg">✔</span>
                                 <span>Complete Final Processing Report</span>
                             </li>
                         </ul>
@@ -411,19 +410,19 @@
                 </div>
 
                 <!-- Callout Banner Box: No Cash Rebates — No Recycling Fees -->
-                <div class="bg-[#004d2e] text-white p-8 sm:p-10 rounded-[28px] shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="bg-[#035c43] text-white p-8 sm:p-10 rounded-[28px] shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                     <div class="space-y-2 text-left">
                         <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
                             No Cash Rebates — No Recycling Fees
                         </h3>
-                        <p class="text-[#34d399] font-medium text-sm sm:text-base max-w-3xl leading-relaxed">
+                        <p class="text-[#035c43] font-medium text-sm sm:text-base max-w-3xl leading-relaxed">
                             We do not offer cash-back payments for equipment. Instead, our focus is on providing convenient, secure, and properly documented IT Asset Management, data destruction, and e-waste recycling services.
                         </p>
                     </div>
                     <div class="shrink-0">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-block border-2 border-emerald-400 bg-emerald-800/80 hover:bg-white hover:text-[#004d2e] text-white font-extrabold text-sm sm:text-base px-8 py-3.5 rounded-full shadow-lg transition duration-300 whitespace-nowrap"
+                            class="inline-block border-2 border-emerald-400 bg-emerald-800/80 hover:bg-white hover:text-[#035c43] text-white font-extrabold text-sm sm:text-base px-8 py-3.5 rounded-full shadow-lg transition duration-300 whitespace-nowrap"
                         >
                             Transparent Service
                         </a>
@@ -490,9 +489,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -505,7 +504,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -555,7 +554,7 @@
         </section>
 
         <!-- Section 6: Talk with an Expert Ratings Banner with Background Image Overlay -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
             
             <!-- Subtle Background Cityscape Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -564,7 +563,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -581,13 +580,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
                         >
                             Contact Us
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>

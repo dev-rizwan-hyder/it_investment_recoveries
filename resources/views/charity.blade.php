@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         },
                         animation: {
                             'partner-marquee': 'marquee 30s linear infinite',
@@ -58,13 +58,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge -->
         <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
-        <section class="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[88vh] w-full flex flex-col justify-between overflow-hidden bg-[#1b5e3a]">
+        <section class="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[88vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Header Overlay -->
             <x-header active="services" />
 
@@ -75,7 +75,7 @@
                     alt="Donate Used Computers &amp; Electronics in Denver, CO" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/45 to-black/70"></div>
+                
             </div>
 
             <!-- Hero Center Content -->
@@ -83,7 +83,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-6">
                     
                     <!-- Title -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-bold text-white tracking-tight leading-[1.15] font-['Amaranth',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] max-w-4xl mx-auto">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-bold text-white tracking-tight leading-[1.15] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] max-w-4xl mx-auto">
                         Charity / Donation
                     </h1>
 
@@ -91,7 +91,7 @@
                     <div class="pt-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center gap-2.5 px-10 py-3.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-base sm:text-lg shadow-2xl transition duration-300 transform hover:scale-105"
+                            class="inline-flex items-center gap-2.5 px-10 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-base sm:text-lg shadow-2xl transition duration-300 transform hover:scale-105"
                         >
                             <span>Schedule A Donation Pickup</span>
                             <span class="text-xl">→</span>
@@ -109,8 +109,8 @@
                 <!-- Left Side: Text -->
                 <div class="lg:col-span-7 space-y-6 text-left">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#34d399]">Donate Used Computers</span><br />
-                        <span class="text-[#34d399]">&amp; Electronics</span>
+                        <span class="text-[#035c43]">Donate Used Computers</span><br />
+                        <span class="text-[#035c43]">&amp; Electronics</span>
                         <span class="text-gray-900 ml-2">in Denver, CO</span>
                     </h2>
                     <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-2xl">
@@ -131,7 +131,7 @@
         </section>
 
         <!-- Slanted Full-Width Dark Green Band -->
-        <div class="bg-[#004d2e] transform -skew-y-1 py-5 w-full shadow-md overflow-hidden"></div>
+        <div class="bg-[#035c43] transform -skew-y-1 py-5 w-full shadow-md overflow-hidden"></div>
 
         <!-- 5 Charity Logos Row (On White Background) -->
         <section class="bg-white py-8 px-4 w-full border-b border-gray-100">
@@ -151,7 +151,7 @@
                 <!-- Title -->
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
                     <span class="text-gray-900">Used Computer Donation</span> 
-                    <span class="text-[#34d399] ml-2">Services in Denver</span>
+                    <span class="text-[#035c43] ml-2">Services in Denver</span>
                 </h2>
 
                 <!-- Paragraph -->
@@ -243,7 +243,7 @@
 
         <!-- Section 4: 2 Slanted Service Cards (Dark Green Full-Width Banner) -->
         <section class="bg-white text-gray-900 py-6 sm:py-10 w-full overflow-hidden">
-            <div class="bg-[#004d2e] text-white transform -skew-y-2 py-16 sm:py-24 w-full overflow-hidden shadow-2xl">
+            <div class="bg-[#035c43] text-white transform -skew-y-2 py-16 sm:py-24 w-full overflow-hidden shadow-2xl">
                 <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
                     
                     <!-- Card 1: Computer Donation Services -->
@@ -291,7 +291,7 @@
                 <!-- Title -->
                 <div class="text-center">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#34d399]">Donation of Equipment</span> 
+                        <span class="text-[#035c43]">Donation of Equipment</span> 
                         <span class="text-gray-900 ml-2">We Accept</span>
                     </h2>
                 </div>
@@ -310,7 +310,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Used desktop and laptop computers
                             </h3>
                         </div>
@@ -324,7 +324,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 LED/LCD monitors and displays
                             </h3>
                         </div>
@@ -338,7 +338,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Networking equipments like routers and switches
                             </h3>
                         </div>
@@ -352,7 +352,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Printers, scanners, fax machines
                             </h3>
                         </div>
@@ -371,7 +371,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Gaming consoles and controllers
                             </h3>
                         </div>
@@ -385,7 +385,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Mobile devices
                             </h3>
                         </div>
@@ -399,7 +399,7 @@
                                     class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#005a36] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
                                 Other electronics, functioning or broken
                             </h3>
                         </div>
@@ -467,9 +467,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -482,7 +482,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -535,7 +535,7 @@
         <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
             <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
                 <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#10b981]">
+                <div class="absolute bg-white px-4 text-[#035c43]">
                     <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
                         <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
                     </svg>
@@ -548,7 +548,7 @@
             <div class="w-full max-w-5xl mx-auto text-center space-y-5">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
                     <span class="text-gray-900">Donate Used Computers</span> 
-                    <span class="text-[#34d399] ml-2">in Denver</span>
+                    <span class="text-[#035c43] ml-2">in Denver</span>
                 </h2>
                 <p class="text-gray-700 text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto font-medium leading-relaxed">
                     We make electronics donations easy. Our team handles all the packaging and transportation logistics at absolutely no cost to you. Call now or schedule a pickup to get started today and coordinate with our electronics donation pickup specialists. We look forward to putting your used equipment to good use!
@@ -557,7 +557,7 @@
         </section>
 
         <!-- Section 8: Talk with an Expert Ratings Banner -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden border-t border-emerald-800">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden border-t border-emerald-800">
             
             <!-- Background Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -566,7 +566,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -583,13 +583,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
                         >
                             Make An Impact
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>

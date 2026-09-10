@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,16 +20,16 @@
                     extend: {
                         colors: {
                             emerald: {
-                                900: '#004d2e',
-                                800: '#005a36',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                900: '#035c43',
+                                800: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -63,13 +63,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-[#002d1b] text-white font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-[#035c43] text-white font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Hero Section (Using public/images/about.webp as Hero Background) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="about" />
 
@@ -80,8 +80,7 @@
                     alt="About Our Company - IT Investment Recoveries Team" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <!-- Gradient Dark Overlay for Crisp Contrast -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/45 to-black/75"></div>
+                
             </div>
 
             <!-- Main Hero Center Text Content -->
@@ -89,7 +88,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-4 sm:space-y-6">
                     
                     <!-- Main Title: About Our Company -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
                         About Our Company
                     </h1>
 
@@ -133,8 +132,8 @@
                     :class="visible ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'"
                 >
                     <!-- Paragraph 1 -->
-                    <p class="text-[#004d2e] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.75] font-medium tracking-normal">
-                        At <strong class="font-extrabold text-[#005a36]">IT Investment Recoveries</strong>, we help businesses, schools, government organizations, nonprofits, and other organizations responsibly manage their unwanted and end-of-life IT equipment.
+                    <p class="text-[#035c43] text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-[1.75] font-medium tracking-normal">
+                        At <strong class="font-extrabold text-[#035c43]">IT Investment Recoveries</strong>, we help businesses, schools, government organizations, nonprofits, and other organizations responsibly manage their unwanted and end-of-life IT equipment.
                     </p>
 
                     <!-- Paragraph 2 -->
@@ -143,7 +142,7 @@
                     </p>
 
                     <!-- Paragraph 3 with Emerald Left Stripe -->
-                    <div class="border-l-4 border-[#005a36] bg-emerald-50/50 p-5 rounded-r-2xl shadow-sm border-y border-r border-emerald-100/60">
+                    <div class="border-l-4 border-[#035c43] bg-emerald-50/50 p-5 rounded-r-2xl shadow-sm border-y border-r border-emerald-100/60">
                         <p class="text-gray-900 text-base sm:text-lg lg:text-xl leading-relaxed sm:leading-[1.75] font-semibold">
                             Our goal is simple: to make IT asset disposition easier, more secure, and more environmentally responsible for our customers.
                         </p>
@@ -161,7 +160,7 @@
             <!-- Content Container (Right Aligned Light Gray Card Overlay) -->
             <div class="relative z-10 w-full max-w-7xl mx-auto flex justify-end pr-0 sm:pr-8 lg:pr-16">
                 <div class="w-full max-w-lg bg-[#d9d9d9]/95 backdrop-blur-sm p-8 sm:p-12 md:p-14 shadow-2xl border border-white/60 text-left rounded-none sm:rounded-sm">
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-black text-[#005a36] leading-[1.12] tracking-tight mb-6 font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-black text-[#035c43] leading-[1.12] tracking-tight mb-6 font-['Albert_Sans',sans-serif]">
                         We Are<br />
                         Recovery<br />
                         Specialists
@@ -178,7 +177,7 @@
             <div class="w-full max-w-7xl mx-auto text-center">
                 <!-- Title matching screenshot exactly -->
                 <div class="max-w-5xl mx-auto mb-10 sm:mb-14 space-y-2">
-                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#10b981] sm:text-[#34d399] tracking-normal">
+                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#035c43] sm:text-[#035c43] tracking-normal">
                         We Support &amp; Do Business With
                     </h3>
                     <h2 class="text-4xl sm:text-5xl lg:text-[54px] font-black text-[#222222] tracking-tight">
@@ -189,24 +188,24 @@
                 <!-- Sliding Logos Marquee Slider -->
                 <div class="relative w-full overflow-hidden py-6">
                     <div class="animate-partner-marquee flex items-center space-x-8 sm:space-x-12 md:space-x-16 pr-8 sm:pr-12">
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
-                        <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-gray-100 border border-gray-200/80 shadow-md hover:shadow-xl hover:bg-white transition-all duration-300 transform hover:scale-105 group">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 transform hover:scale-105 group">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
                         </div>
                     </div>

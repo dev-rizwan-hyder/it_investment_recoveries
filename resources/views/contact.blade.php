@@ -11,7 +11,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -21,18 +21,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -50,13 +50,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Hero Section (DENVER / TORONTO Split Image) -->
-        <section class="relative min-h-[45vh] sm:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[45vh] sm:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="contact" />
 
@@ -67,8 +67,7 @@
                     alt="Denver and Toronto Electronics Recycling Headquarters" 
                     class="w-full h-full object-cover object-center transform scale-100 transition-transform duration-700"
                 />
-                <!-- Gradient Dark Overlay for Crisp Contrast at Top Header -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-transparent to-black/30 pointer-events-none"></div>
+                
             </div>
 
             <!-- Spacer for flex-grow balance -->
@@ -91,7 +90,7 @@
                         </h2>
 
                         <!-- Dark Green Outer Container Card Frame -->
-                        <div class="w-full bg-[#004d2e] p-3 sm:p-4 rounded-[28px] shadow-2xl">
+                        <div class="w-full bg-[#035c43] p-3 sm:p-4 rounded-[28px] shadow-2xl">
                             <!-- Inner Light Gray Card Body -->
                             <div class="w-full bg-[#f4f5f7] rounded-[20px] p-6 sm:p-8 space-y-5">
                                 <form action="{{ route('contact.submit') }}#general-inquiry" method="POST" class="space-y-5">
@@ -105,7 +104,7 @@
                                             name="name" 
                                             placeholder="Enter your name" 
                                             required 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm sm:text-base font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm sm:text-base font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -116,7 +115,7 @@
                                             name="email" 
                                             placeholder="Enter your email" 
                                             required 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm sm:text-base font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm sm:text-base font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -126,7 +125,7 @@
                                             type="tel" 
                                             name="phone" 
                                             placeholder="Enter your phone number" 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm sm:text-base font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm sm:text-base font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -137,7 +136,7 @@
                                             rows="5" 
                                             placeholder="Type your message here" 
                                             required 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm sm:text-base font-medium shadow-sm resize-y"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3.5 sm:py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm sm:text-base font-medium shadow-sm resize-y"
                                         ></textarea>
                                     </div>
 
@@ -145,7 +144,7 @@
                                     <div class="pt-2">
                                         <button 
                                             type="submit" 
-                                            class="bg-[#004d2e] hover:bg-[#005a36] active:bg-[#003d24] text-white font-bold text-base sm:text-lg px-8 py-3 rounded-full shadow-lg transition duration-200 transform hover:scale-[1.02] focus:outline-none"
+                                            class="bg-[#035c43] hover:bg-[#024734] active:bg-[#035c43] text-white font-bold text-base sm:text-lg px-8 py-3 rounded-full shadow-lg transition duration-200 transform hover:scale-[1.02] focus:outline-none"
                                         >
                                             Send Inquiry
                                         </button>
@@ -177,7 +176,7 @@
                     <div id="pickup-inquiry" class="lg:col-span-5 flex flex-col items-center scroll-mt-24">
                         
                         <!-- Dark Green Outer Container Card Frame -->
-                        <div class="w-full bg-[#004d2e] p-3 sm:p-4 rounded-[28px] shadow-2xl">
+                        <div class="w-full bg-[#035c43] p-3 sm:p-4 rounded-[28px] shadow-2xl">
                             
                             <!-- Header Title inside Card Header Banner -->
                             <div class="py-3 px-4 text-center">
@@ -200,7 +199,7 @@
                                             name="name" 
                                             placeholder="Enter your name" 
                                             required 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -212,7 +211,7 @@
                                             name="email" 
                                             placeholder="Enter your email" 
                                             required 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -223,7 +222,7 @@
                                             type="tel" 
                                             name="phone" 
                                             placeholder="Enter your phone number" 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -234,7 +233,7 @@
                                             type="text" 
                                             name="business_name" 
                                             placeholder="Enter your Business name" 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm font-medium shadow-sm"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm font-medium shadow-sm"
                                         />
                                     </div>
 
@@ -259,11 +258,11 @@
                                         </label>
                                         <div class="flex items-center gap-6 pt-1 text-xs sm:text-sm font-medium text-gray-800">
                                             <label class="inline-flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="onsite_destruction" value="Yes" class="w-4 h-4 text-[#004d2e] focus:ring-[#004d2e]">
+                                                <input type="radio" name="onsite_destruction" value="Yes" class="w-4 h-4 text-[#035c43] focus:ring-[#035c43]">
                                                 <span>Yes</span>
                                             </label>
                                             <label class="inline-flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="onsite_destruction" value="No" checked class="w-4 h-4 text-[#004d2e] focus:ring-[#004d2e]">
+                                                <input type="radio" name="onsite_destruction" value="No" checked class="w-4 h-4 text-[#035c43] focus:ring-[#035c43]">
                                                 <span>No</span>
                                             </label>
                                         </div>
@@ -276,11 +275,11 @@
                                         </label>
                                         <div class="space-y-1.5 pt-1 text-xs sm:text-sm font-medium text-gray-800">
                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="destruction_type" value="Certified Destruction" class="w-4 h-4 text-[#004d2e] focus:ring-[#004d2e]">
+                                                <input type="radio" name="destruction_type" value="Certified Destruction" class="w-4 h-4 text-[#035c43] focus:ring-[#035c43]">
                                                 <span>Certified Destruction</span>
                                             </label>
                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="destruction_type" value="Uncertified Destruction" class="w-4 h-4 text-[#004d2e] focus:ring-[#004d2e]">
+                                                <input type="radio" name="destruction_type" value="Uncertified Destruction" class="w-4 h-4 text-[#035c43] focus:ring-[#035c43]">
                                                 <span>Uncertified Destruction</span>
                                             </label>
                                         </div>
@@ -294,7 +293,7 @@
                                         <textarea 
                                             name="description" 
                                             rows="4" 
-                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#004d2e]/30 focus:border-[#004d2e] transition text-sm font-medium shadow-sm resize-y"
+                                            class="w-full bg-white text-gray-800 placeholder-gray-400 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#035c43]/30 focus:border-[#035c43] transition text-sm font-medium shadow-sm resize-y"
                                         ></textarea>
                                     </div>
 
@@ -302,7 +301,7 @@
                                     <div class="pt-2">
                                         <button 
                                             type="submit" 
-                                            class="bg-[#004d2e] hover:bg-[#005a36] active:bg-[#003d24] text-white font-bold text-base sm:text-lg px-8 py-3 rounded-full shadow-lg transition duration-200 transform hover:scale-[1.02] focus:outline-none"
+                                            class="bg-[#035c43] hover:bg-[#024734] active:bg-[#035c43] text-white font-bold text-base sm:text-lg px-8 py-3 rounded-full shadow-lg transition duration-200 transform hover:scale-[1.02] focus:outline-none"
                                         >
                                             Send Inquiry
                                         </button>
@@ -331,7 +330,7 @@
         <!-- Section 3: Get In Touch & Worldwide Headquarters (Slanted Deep Green Section) -->
         <div class="relative w-full bg-white overflow-hidden pt-6 pb-12 sm:pb-20">
             <!-- Slanted Outer Deep Green Container -->
-            <section class="bg-[#004d2e] py-16 sm:py-24 transform -skew-y-2 origin-top-left shadow-2xl w-full">
+            <section class="bg-[#035c43] py-16 sm:py-24 transform -skew-y-2 origin-top-left shadow-2xl w-full">
                 <!-- Inner Content Container -->
                 <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
@@ -340,7 +339,7 @@
                         
                         <!-- Heading: Get In Touch -->
                         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal leading-tight">
-                            <span class="text-[#34d399]">Get In</span> 
+                            <span class="text-white">Get In</span> 
                             <span class="text-white ml-2">Touch</span>
                         </h2>
 
@@ -353,9 +352,9 @@
                         <div class="pt-2">
                             <a 
                                 href="tel:+13034724701" 
-                                class="inline-flex items-center gap-3 bg-white text-[#004d2e] hover:bg-emerald-50 px-6 py-3 rounded-full shadow-xl font-extrabold text-sm sm:text-base border border-emerald-200 transition duration-300 transform hover:scale-105"
+                                class="inline-flex items-center gap-3 bg-white text-[#035c43] hover:bg-emerald-50 px-6 py-3 rounded-full shadow-xl font-extrabold text-sm sm:text-base border border-emerald-200 transition duration-300 transform hover:scale-105"
                             >
-                                <svg class="w-5 h-5 text-[#004d2e] fill-current" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#035c43] fill-current" viewBox="0 0 24 24">
                                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                                 </svg>
                                 <span>+1-303-472-4701</span>
@@ -369,7 +368,7 @@
                         
                         <!-- Heading: Worldwide Headquarters -->
                         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal leading-tight">
-                            <span class="text-[#34d399]">Worldwide</span> 
+                            <span class="text-white">Worldwide</span> 
                             <span class="text-white ml-2">Headquarters</span>
                         </h2>
 

@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -49,13 +49,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge -->
         <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
-        <section class="relative min-h-[65vh] sm:min-h-[75vh] lg:min-h-[85vh] w-full flex flex-col justify-between overflow-hidden bg-[#1b5e3a]">
+        <section class="relative min-h-[65vh] sm:min-h-[75vh] lg:min-h-[85vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Header Overlay -->
             <x-header active="services" />
 
@@ -66,7 +66,7 @@
                     alt="E-Waste / IT Disposal" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <div class="absolute inset-0 z-10 bg-black/25"></div>
+                
             </div>
 
             <!-- Hero Center Content -->
@@ -74,7 +74,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-4">
                     
                     <!-- Title -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)]">
                         E-Waste / IT Disposal
                     </h1>
 
@@ -89,7 +89,7 @@
                 <!-- Left Side: Text & Button -->
                 <div class="lg:col-span-7 space-y-6 text-left">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#34d399]">E Waste</span> 
+                        <span class="text-[#035c43]">E Waste</span> 
                         <span class="text-gray-900 ml-2">Recycling</span><br />
                         <span class="text-gray-900">in Denver</span>
                     </h2>
@@ -99,7 +99,7 @@
                     <div class="pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#005a36] hover:bg-[#10b981] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
+                            class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
                         >
                             <span>Schedule A Pickup</span>
                             <span class="text-xl">→</span>
@@ -125,7 +125,7 @@
         <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
             <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
                 <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#10b981]">
+                <div class="absolute bg-white px-4 text-[#035c43]">
                     <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
                         <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
                     </svg>
@@ -138,7 +138,7 @@
             <div class="w-full max-w-5xl mx-auto text-center space-y-6">
                 
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Denver E-Waste</span> 
+                    <span class="text-[#035c43]">Denver E-Waste</span> 
                     <span class="text-gray-900 ml-2">Recycling Experts</span>
                 </h2>
 
@@ -156,7 +156,7 @@
                 <!-- Section Title -->
                 <div class="text-center px-4">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">Our</span> 
+                        <span class="text-[#035c43]">Our</span> 
                         <span class="text-gray-900 ml-2">Services</span>
                     </h2>
                 </div>
@@ -165,7 +165,7 @@
                 <div class="space-y-16">
                     
                     <!-- Banner 1: Secure Data Destruction (Dark Green Slanted) -->
-                    <div class="bg-[#004d2e] text-white transform -skew-y-2 py-16 sm:py-20 w-full overflow-hidden shadow-2xl">
+                    <div class="bg-[#035c43] text-white transform -skew-y-2 py-16 sm:py-20 w-full overflow-hidden shadow-2xl">
                         <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col md:flex-row items-center justify-between gap-10">
                             <div class="space-y-6 text-left max-w-2xl">
                                 <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white">
@@ -176,15 +176,15 @@
                                 </p>
                                 <ul class="space-y-3 text-lg sm:text-xl font-bold text-gray-100 pl-2">
                                     <li class="flex items-center gap-3">
-                                        <span class="text-[#34d399] font-black text-2xl">•</span>
+                                        <span class="text-[#035c43] font-black text-2xl">•</span>
                                         <span>Onsite drive shredding</span>
                                     </li>
                                     <li class="flex items-center gap-3">
-                                        <span class="text-[#34d399] font-black text-2xl">•</span>
+                                        <span class="text-[#035c43] font-black text-2xl">•</span>
                                         <span>Full documentation provided</span>
                                     </li>
                                     <li class="flex items-center gap-3">
-                                        <span class="text-[#34d399] font-black text-2xl">•</span>
+                                        <span class="text-[#035c43] font-black text-2xl">•</span>
                                         <span>Compliance reporting</span>
                                     </li>
                                 </ul>
@@ -230,7 +230,7 @@
                     </div>
 
                     <!-- Banner 3: Asset Recovery & Resales (Dark Green Banner) -->
-                    <div class="bg-[#004d2e] text-white transform -skew-y-2 py-14 sm:py-20 w-full overflow-hidden shadow-2xl">
+                    <div class="bg-[#035c43] text-white transform -skew-y-2 py-14 sm:py-20 w-full overflow-hidden shadow-2xl">
                         <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col md:flex-row items-center justify-between gap-10">
                             <div class="space-y-5 text-left max-w-2xl">
                                 <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white">
@@ -264,7 +264,7 @@
         <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
             <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
                 <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#10b981]">
+                <div class="absolute bg-white px-4 text-[#035c43]">
                     <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
                         <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
                     </svg>
@@ -279,7 +279,7 @@
                 <!-- Title -->
                 <div class="text-center">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">Why</span> 
+                        <span class="text-[#035c43]">Why</span> 
                         <span class="text-gray-900 ml-2">Choose Us</span>
                     </h2>
                 </div>
@@ -289,12 +289,12 @@
                     
                     <!-- Column 1 -->
                     <div class="text-center space-y-4 px-3">
-                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
+                        <div class="w-16 h-16 text-[#035c43] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#035c43]">
                             Guaranteed Secure Destruction
                         </h3>
                         <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
@@ -304,13 +304,13 @@
 
                     <!-- Column 2 -->
                     <div class="text-center space-y-4 px-3">
-                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
+                        <div class="w-16 h-16 text-[#035c43] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M11.5 13.5L9.75 11.75C9.36 11.36 8.73 11.36 8.34 11.75C7.95 12.14 7.95 12.77 8.34 13.16L10.8 15.62C11.19 16.01 11.82 16.01 12.21 15.62L16.66 11.17C17.05 10.78 17.05 10.15 16.66 9.76C16.27 9.37 15.64 9.37 15.25 9.76L11.5 13.5Z"/>
                                 <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19Z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#035c43]">
                             Hassle-Free Process
                         </h3>
                         <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
@@ -320,12 +320,12 @@
 
                     <!-- Column 3 -->
                     <div class="text-center space-y-4 px-3">
-                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
+                        <div class="w-16 h-16 text-[#035c43] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2zM6 14h6v2H6z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#035c43]">
                             Maximum Financial Returns
                         </h3>
                         <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
@@ -335,12 +335,12 @@
 
                     <!-- Column 4 -->
                     <div class="text-center space-y-4 px-3">
-                        <div class="w-16 h-16 text-[#005a36] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
+                        <div class="w-16 h-16 text-[#035c43] bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center shadow-sm">
                             <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24">
                                 <path d="M10 21h4v-3h3l-5-7h3l-5-7-5 7h3l-5 7h3z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#005a36]">
+                        <h3 class="text-xl sm:text-2xl font-black text-[#035c43]">
                             Eco-Friendly Practices
                         </h3>
                         <p class="text-gray-700 text-base sm:text-lg font-medium leading-relaxed">
@@ -410,9 +410,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -425,7 +425,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -478,7 +478,7 @@
         <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
             <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
                 <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#10b981]">
+                <div class="absolute bg-white px-4 text-[#035c43]">
                     <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
                         <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
                     </svg>
@@ -490,7 +490,7 @@
         <section class="bg-white py-12 sm:py-16 px-4 sm:px-8 w-full">
             <div class="w-full max-w-5xl mx-auto text-center space-y-5">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Get a Free</span> 
+                    <span class="text-[#035c43]">Get a Free</span> 
                     <span class="text-gray-900 ml-2">Denver E-Waste Recycling Quote</span>
                 </h2>
                 <p class="text-gray-700 text-base sm:text-lg max-w-3xl mx-auto font-medium leading-relaxed">
@@ -499,7 +499,7 @@
                 <div class="pt-3">
                     <a 
                         href="{{ url('/contact-us') }}" 
-                        class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
+                        class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
                     >
                         <span>Book A Pickup</span>
                         <span class="text-xl">→</span>
@@ -509,7 +509,7 @@
         </section>
 
         <!-- Section 8: Talk with an Expert Ratings Banner -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
             
             <!-- Background Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -518,7 +518,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -535,13 +535,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
                         >
                             Contact Us
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>

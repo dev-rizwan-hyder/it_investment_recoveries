@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -65,13 +65,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge -->
         <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Header Overlay -->
             <x-header active="services" />
 
@@ -82,7 +82,7 @@
                     alt="Data Destruction in Denver" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/50 to-black/80"></div>
+                
             </div>
 
             <!-- Hero Center Content -->
@@ -90,7 +90,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-5 sm:space-y-7">
                     
                     <!-- Title -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-[1.1] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
                         Data Destruction in Denver
                     </h1>
 
@@ -103,7 +103,7 @@
                     <div class="pt-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center justify-center gap-2.5 px-9 py-4 sm:px-11 sm:py-4.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-lg sm:text-xl tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
+                            class="inline-flex items-center justify-center gap-2.5 px-9 py-4 sm:px-11 sm:py-4.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg sm:text-xl tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
                         >
                             <span>Arrange A Pickup</span>
                             <span class="text-2xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -121,24 +121,24 @@
                 <!-- Sliding Logos Marquee Slider (Same as Home Slider) -->
                 <div class="relative w-full overflow-hidden py-4 border-b border-gray-100 mb-8">
                     <div class="animate-partner-marquee flex items-center space-x-12 sm:space-x-20 md:space-x-28">
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-20 sm:h-28 w-48 sm:w-64 shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
                     </div>
@@ -146,7 +146,7 @@
 
                 <!-- Title -->
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Certified Data Destruction</span> 
+                    <span class="text-[#035c43]">Certified Data Destruction</span> 
                     <span class="text-gray-900 block sm:inline ml-2">Professionals in Denver</span>
                 </h2>
 
@@ -157,7 +157,7 @@
 
                 <!-- Sub-Heading & Paragraph -->
                 <div class="pt-6 space-y-5">
-                    <h3 class="text-3xl sm:text-4xl font-black text-[#34d399]">
+                    <h3 class="text-3xl sm:text-4xl font-black text-[#035c43]">
                         Contact for Hassle Free <span class="text-gray-900">Data Destruction</span>
                     </h3>
                     <p class="text-gray-800 text-lg sm:text-xl md:text-2xl max-w-5xl mx-auto leading-relaxed font-medium">
@@ -166,7 +166,7 @@
                     <div class="pt-3">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#005a36] hover:bg-[#10b981] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
+                            class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
                         >
                             <span>Book Consultation</span>
                             <span class="text-xl">→</span>
@@ -184,7 +184,7 @@
                 <!-- Section Heading -->
                 <div class="text-center">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">What</span> 
+                        <span class="text-[#035c43]">What</span> 
                         <span class="text-gray-900 ml-2">We Do?</span>
                     </h2>
                 </div>
@@ -201,7 +201,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Hard Drive Shredding
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -218,7 +218,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Degaussing Services
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -235,7 +235,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Disk Wiping &amp; Sanitization
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -252,7 +252,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Tape Destruction Services
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -269,7 +269,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Electronics Destruction
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -286,7 +286,7 @@
                                 class="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-[#005a36] pt-2">
+                        <h3 class="text-2xl sm:text-3xl font-black text-[#035c43] pt-2">
                             Onsite Data Destruction
                         </h3>
                         <p class="text-gray-800 text-base sm:text-lg font-normal leading-relaxed max-w-md">
@@ -356,9 +356,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -371,7 +371,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -421,7 +421,7 @@
         </section>
 
         <!-- Section 5: Talk with an Expert Ratings Banner -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
             
             <!-- Background Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -430,7 +430,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -447,13 +447,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
                         >
                             Contact Us
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>

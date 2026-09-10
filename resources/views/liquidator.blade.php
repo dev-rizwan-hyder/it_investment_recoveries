@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -49,13 +49,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge -->
         <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
-        <section class="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[88vh] w-full flex flex-col justify-between overflow-hidden bg-[#1b5e3a]">
+        <section class="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[88vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Header Overlay -->
             <x-header active="services" />
 
@@ -66,7 +66,7 @@
                     alt="Computer Liquidator and Reseller in Denver" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/45 to-black/70"></div>
+                
             </div>
 
             <!-- Hero Center Content -->
@@ -74,7 +74,7 @@
                 <div class="w-full max-w-5xl mx-auto space-y-6">
                     
                     <!-- Title -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-bold text-white tracking-tight leading-[1.15] font-['Amaranth',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] max-w-4xl mx-auto">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-bold text-white tracking-tight leading-[1.15] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] max-w-4xl mx-auto">
                         Computer Liquidator and<br />
                         Reseller in Denver
                     </h1>
@@ -88,7 +88,7 @@
                     <div class="pt-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center gap-2.5 px-10 py-3.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-base sm:text-lg shadow-2xl transition duration-300 transform hover:scale-105"
+                            class="inline-flex items-center gap-2.5 px-10 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-base sm:text-lg shadow-2xl transition duration-300 transform hover:scale-105"
                         >
                             <span>Request Pickup</span>
                             <span class="text-xl">→</span>
@@ -104,7 +104,7 @@
             <div class="w-full max-w-5xl mx-auto text-center space-y-6">
                 
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Computer Liquidation</span> 
+                    <span class="text-[#035c43]">Computer Liquidation</span> 
                     <span class="text-gray-900 ml-2">Services in Denver</span>
                 </h2>
 
@@ -116,22 +116,22 @@
         </section>
 
         <!-- Solid Dark Green Full-Width Band Divider -->
-        <div class="bg-[#004d2e] h-8 sm:h-12 w-full"></div>
+        <div class="bg-[#035c43] h-8 sm:h-12 w-full"></div>
 
         <!-- Section 3: We Offer Heading -->
         <section class="bg-white text-gray-900 py-10 sm:py-14 px-4 w-full">
             <div class="w-full max-w-4xl mx-auto text-center">
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal flex items-center justify-center gap-3">
                     <span class="text-gray-900">We</span> 
-                    <span class="text-[#34d399]">Offer</span>
-                    <span class="text-[#34d399] text-2xl sm:text-3xl font-bold">▼</span>
+                    <span class="text-[#035c43]">Offer</span>
+                    <span class="text-[#035c43] text-2xl sm:text-3xl font-bold">▼</span>
                 </h2>
             </div>
         </section>
 
         <!-- Section 4: 2 Slanted Service Cards (Dark Green Full-Width Banner) -->
         <section class="bg-white text-gray-900 py-4 sm:py-8 w-full overflow-hidden">
-            <div class="bg-[#004d2e] text-white transform -skew-y-2 py-16 sm:py-24 w-full overflow-hidden shadow-2xl">
+            <div class="bg-[#035c43] text-white transform -skew-y-2 py-16 sm:py-24 w-full overflow-hidden shadow-2xl">
                 <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
                     
                     <!-- Card 1: Asset Removal Services -->
@@ -229,9 +229,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -244,7 +244,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -300,7 +300,7 @@
                 <!-- Title -->
                 <div class="text-center">
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight max-w-4xl mx-auto leading-tight">
-                        <span class="text-[#34d399]">Why Choose Us for Computer</span> 
+                        <span class="text-[#035c43]">Why Choose Us for Computer</span> 
                         <span class="text-gray-900 ml-2">Liquidation in</span><br />
                         <span class="text-gray-900">Denver?</span>
                     </h2>
@@ -314,7 +314,7 @@
                         <div class="text-amber-400 text-4xl font-bold mx-auto">
                             ⭐
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#005a36] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
                             Premium Used Computers and Electronic
                         </h3>
                     </div>
@@ -324,7 +324,7 @@
                         <div class="text-amber-400 text-4xl font-bold mx-auto">
                             ⭐
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#005a36] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
                             Trust Over 18 Years of Experience
                         </h3>
                     </div>
@@ -334,7 +334,7 @@
                         <div class="text-amber-400 text-4xl font-bold mx-auto">
                             ⭐
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#005a36] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
                             Hassle Free Office Liquidation
                         </h3>
                     </div>
@@ -344,7 +344,7 @@
                         <div class="text-amber-400 text-4xl font-bold mx-auto">
                             ⭐
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#005a36] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
                             Transparent Pricing and Operations
                         </h3>
                     </div>
@@ -358,7 +358,7 @@
         <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 w-full border-t border-gray-100">
             <div class="w-full max-w-4xl mx-auto text-center space-y-6">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                    <span class="text-[#34d399]">Liquidate Your Electronic</span> 
+                    <span class="text-[#035c43]">Liquidate Your Electronic</span> 
                     <span class="text-gray-900 ml-2">Quickly and Responsibly</span>
                 </h2>
                 <p class="text-gray-700 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-4xl mx-auto">
@@ -367,13 +367,13 @@
                 <div class="flex items-center justify-center gap-4 flex-wrap pt-4">
                     <a 
                         href="{{ url('/contact-us') }}" 
-                        class="px-8 py-3.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
+                        class="px-8 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
                     >
                         Request Pickup
                     </a>
                     <a 
                         href="{{ url('/contact-us') }}" 
-                        class="px-8 py-3.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
+                        class="px-8 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
                     >
                         Book Consultation
                     </a>
@@ -382,7 +382,7 @@
         </section>
 
         <!-- Section 8: Talk with an Expert Ratings Banner -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
             
             <!-- Background Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -391,7 +391,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -408,13 +408,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300"
                         >
                             Contact Us
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/30 px-7 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>

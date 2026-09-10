@@ -11,7 +11,7 @@
         <!-- Google Fonts: Amaranth, Plus Jakarta Sans & Outfit -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -21,20 +21,20 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002013',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#047857',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
-                                300: '#6ee7b7',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
+                                300: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
-                            outfit: ['"Outfit"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
+                            outfit: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -85,13 +85,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Main Hero Section (Full Height with Video Background & Transparent Header Overlay) -->
-        <section class="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header />
 
@@ -111,9 +111,8 @@
                     Your browser does not support the video tag.
                 </video>
 
-                <!-- Multi-layer Gradient Overlay for Depth & Text Readability -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-[#002d1b]/95"></div>
-                <div class="absolute inset-0 z-10 bg-radial from-transparent via-black/30 to-black/80"></div>
+                <!-- Subtle Light Dark Shade Overlay -->
+                <div class="absolute inset-0 z-10 bg-black/25"></div>
             </div>
 
             <!-- Main Hero Center Text Content -->
@@ -121,7 +120,7 @@
                 <div class="w-full max-w-6xl mx-auto space-y-6 sm:space-y-8">
                     
                     <!-- Hero Main Heading with Exact Amaranth Font -->
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold text-white tracking-normal leading-[1.12] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold text-white tracking-normal leading-[1.12] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
                         Denver's Top Computer &amp;<br /> Electronics Recycling Company
                     </h1>
 
@@ -129,7 +128,7 @@
                     <div class="pt-2 flex flex-col items-center gap-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:px-10 sm:py-4 rounded-tl-[22px] rounded-bl-[22px] rounded-tr-[22px] rounded-br-none bg-gradient-to-r from-[#0e8a55] via-[#10b981] to-[#10b981] hover:bg-none hover:bg-white text-white hover:text-[#005a36] border-2 border-[#10b981] font-bold text-base sm:text-xl tracking-wide shadow-2xl transition-all duration-300 group whitespace-nowrap max-w-full transform hover:scale-105"
+                            class="inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:px-10 sm:py-4 rounded-tl-[22px] rounded-bl-[22px] rounded-tr-[22px] rounded-br-none bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43] hover:bg-none hover:bg-white text-white hover:text-[#035c43] border-2 border-[#035c43] font-bold text-base sm:text-xl tracking-wide shadow-2xl transition-all duration-300 group whitespace-nowrap max-w-full transform hover:scale-105"
                         >
                             <span class="font-extrabold tracking-wide">Schedule A Consultation</span>
                             <span class="text-xl sm:text-2xl transition-transform duration-300 group-hover:translate-x-2">→</span>
@@ -145,7 +144,7 @@
                     <button 
                         @click="prevSlide = activeSlide; activeSlide = {{ $idx }}" 
                         class="h-2 rounded-full transition-all duration-300"
-                        :class="activeSlide === {{ $idx }} ? 'w-8 bg-[#34d399] shadow-[0_0_10px_#34d399]' : 'w-2 bg-white/40 hover:bg-white/70'"
+                        :class="activeSlide === {{ $idx }} ? 'w-8 bg-[#035c43] shadow-[0_0_10px_#035c43]' : 'w-2 bg-white/40 hover:bg-white/70'"
                         aria-label="Go to slide {{ $idx + 1 }}"
                     ></button>
                 @endforeach
@@ -205,8 +204,8 @@
                     class="transform transition-all duration-700 ease-out text-center mb-2"
                     :class="visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'"
                 >
-                    <h2 class="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight uppercase leading-tight font-['Plus_Jakarta_Sans',sans-serif]">
-                        <span class="text-[#10b981]">IT INVESTMENT</span> 
+                    <h2 class="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight uppercase leading-tight font-['Albert_Sans',sans-serif]">
+                        <span class="text-[#035c43]">IT INVESTMENT</span> 
                         <span class="text-[#111827] ml-2 sm:ml-3">RECOVERIES</span>
                     </h2>
                 </div>
@@ -216,7 +215,7 @@
                     class="transform transition-all duration-700 delay-150 ease-out text-center mb-10 sm:mb-14"
                     :class="visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'"
                 >
-                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#005a36] tracking-tight">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#035c43] tracking-tight">
                         Computer &amp; Electronics Recycling in Denver
                     </h3>
                 </div>
@@ -238,7 +237,7 @@
                 >
                     <a 
                         href="#services" 
-                        class="inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-bold text-base sm:text-lg tracking-wide shadow-xl transition-all duration-300 group whitespace-nowrap transform hover:scale-105"
+                        class="inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-bold text-base sm:text-lg tracking-wide shadow-xl transition-all duration-300 group whitespace-nowrap transform hover:scale-105"
                     >
                         <span class="font-extrabold">Data Security</span>
                         <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -281,7 +280,7 @@
             <div class="relative z-10 w-full max-w-7xl mx-auto text-center space-y-10 sm:space-y-12">
                 <!-- Title -->
                 <div class="max-w-5xl mx-auto space-y-2">
-                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#10b981] sm:text-[#34d399] tracking-normal">
+                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#035c43] sm:text-[#035c43] tracking-normal">
                         We Support &amp; Do Business With
                     </h3>
                     <h2 class="text-4xl sm:text-5xl lg:text-[54px] font-black text-[#222222] tracking-tight">
@@ -294,26 +293,26 @@
 
                     <div class="animate-partner-marquee flex items-center space-x-16 sm:space-x-24 md:space-x-32 pr-16 sm:pr-24">
                         <!-- Department of Defense -->
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
                         <!-- NIST -->
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
                         <!-- EPA -->
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-32 sm:h-44 md:h-52 w-64 sm:w-80 md:w-[360px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 border border-gray-100 bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
                     </div>
@@ -327,14 +326,14 @@
                 
                 <!-- Left Side: Heading Text -->
                 <div class="lg:col-span-6 space-y-6 text-left">
-                    <h2 class="text-3xl sm:text-4xl md:text-[42px] font-bold text-[#005a36] leading-relaxed sm:leading-[1.55] tracking-normal">
+                    <h2 class="text-3xl sm:text-4xl md:text-[42px] font-bold text-[#035c43] leading-relaxed sm:leading-[1.55] tracking-normal">
                         From data destruction to certified recycling, We provide data security to the highest standards, in compliance with NIST, DoD, and NSA guidelines.
                     </h2>
                 </div>
 
                 <!-- Right Side: Auto-Looping Video Frame -->
                 <div class="lg:col-span-6 w-full">
-                    <div class="relative w-full rounded-[24px] sm:rounded-[30px] border-2 sm:border-[3px] border-[#005a36] overflow-hidden shadow-2xl bg-black aspect-video group">
+                    <div class="relative w-full rounded-[24px] sm:rounded-[30px] border-2 sm:border-[3px] border-[#035c43] overflow-hidden shadow-2xl bg-black aspect-video group">
                         
                         <!-- Top-Left Brand Logo Overlay -->
                         <div class="absolute top-4 left-4 z-20 pointer-events-none bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-md flex items-center gap-2">
@@ -366,7 +365,7 @@
         </section>
 
         <!-- Section 5: Our Proud Community Partners Section -->
-        <section class="relative bg-[#004d2e] py-16 sm:py-24 px-4 sm:px-8 w-full overflow-hidden shadow-2xl">
+        <section class="relative bg-[#035c43] py-16 sm:py-24 px-4 sm:px-8 w-full overflow-hidden shadow-2xl">
             <!-- Background Circuit Pattern Overlay -->
             <div class="absolute inset-0 z-0 opacity-15 pointer-events-none">
                 <svg class="w-full h-full text-emerald-300 stroke-current" viewBox="0 0 1200 600" fill="none" stroke-width="1.5">
@@ -383,8 +382,8 @@
             <div class="relative z-10 w-full max-w-7xl mx-auto text-center space-y-12 sm:space-y-16">
                 <!-- Section Title: Our Proud Community Partners [✓] -->
                 <div class="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-                    <h2 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-normal leading-tight font-['Plus_Jakarta_Sans',sans-serif]">
-                        <span class="text-[#34d399]">Our Proud</span> 
+                    <h2 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-normal leading-tight font-['Albert_Sans',sans-serif]">
+                        <span class="text-white">Our Proud</span> 
                         <span class="text-white ml-2 sm:ml-4">Community Partners</span>
                     </h2>
                     <!-- Glass Checkbox Icon Badge -->
@@ -399,8 +398,8 @@
                 <!-- Continuous Marquee Slider for Partner Logos -->
                 <div class="relative w-full overflow-hidden py-4">
                     <!-- Left & Right Gradient Fade Edges -->
-                    <div class="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#004d2e] to-transparent z-10 pointer-events-none"></div>
-                    <div class="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#004d2e] to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#035c43] to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#035c43] to-transparent z-10 pointer-events-none"></div>
 
                     <div class="animate-partner-marquee flex items-center space-x-8 sm:space-x-12 md:space-x-16 pr-8 sm:pr-12">
                         @foreach([
@@ -413,8 +412,8 @@
                             'WhatsApp_Image_2026-06-04_at_9.43.39_PM__2_-removebg-preview.webp',
                             'WhatsApp_Image_2026-06-04_at_9.43.39_PM__3_-removebg-preview.webp'
                         ] as $img)
-                            <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                <img src="{{ asset('images/partners/' . $img) }}" alt="Community Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                            <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                <img src="{{ asset('images/partners/' . $img) }}" alt="Community Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                             </div>
                         @endforeach
 
@@ -429,8 +428,8 @@
                             'WhatsApp_Image_2026-06-04_at_9.43.39_PM__2_-removebg-preview.webp',
                             'WhatsApp_Image_2026-06-04_at_9.43.39_PM__3_-removebg-preview.webp'
                         ] as $img)
-                            <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                <img src="{{ asset('images/partners/' . $img) }}" alt="Community Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                            <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                <img src="{{ asset('images/partners/' . $img) }}" alt="Community Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                             </div>
                         @endforeach
                     </div>
@@ -446,7 +445,7 @@
                 <!-- Section Title: Our Services -->
                 <div class="text-center mb-12 sm:mb-16">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">Our</span> 
+                        <span class="text-[#035c43]">Our</span> 
                         <span class="text-[#222222] ml-2">Services</span>
                     </h2>
                 </div>
@@ -601,14 +600,14 @@
         <!-- Section 7: Our Proud Business Partners Section -->
         <div class="relative w-full bg-white overflow-hidden py-10 sm:py-16 border-t border-gray-100">
             <!-- Slanted Deep Green Outer Section Container -->
-            <section class="bg-[#004d2e] py-16 sm:py-24 transform -skew-y-2 origin-top-left shadow-2xl w-full">
+            <section class="bg-[#035c43] py-16 sm:py-24 transform -skew-y-2 origin-top-left shadow-2xl w-full">
                 <!-- Inner Content Container -->
                 <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-4 sm:px-8 text-center space-y-12">
                     
                     <!-- Section Title: Our Proud Business Partners -->
                     <div class="flex items-center justify-center gap-4 flex-wrap">
                         <h2 class="text-4xl sm:text-6xl md:text-7xl lg:text-[72px] font-black tracking-normal leading-none">
-                            <span class="text-[#34d399]">Our Proud</span> 
+                            <span class="text-white">Our Proud</span> 
                             <span class="text-white ml-2 sm:ml-4">Business Partners</span>
                         </h2>
                     </div>
@@ -633,8 +632,8 @@
                                 'WhatsApp_Image_2026-06-05_at_1.24.00_AM__1_-removebg-preview.webp',
                                 'WhatsApp_Image_2026-06-05_at_1.24.01_AM-removebg-preview.webp'
                             ] as $bImg)
-                                <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                    <img src="{{ asset('images/services/' . $bImg) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                                <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                    <img src="{{ asset('images/services/' . $bImg) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                                 </div>
                             @endforeach
 
@@ -653,8 +652,8 @@
                                 'WhatsApp_Image_2026-06-05_at_1.24.00_AM__1_-removebg-preview.webp',
                                 'WhatsApp_Image_2026-06-05_at_1.24.01_AM-removebg-preview.webp'
                             ] as $bImg)
-                                <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                    <img src="{{ asset('images/services/' . $bImg) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                                <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                    <img src="{{ asset('images/services/' . $bImg) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                                 </div>
                             @endforeach
                         </div>
@@ -676,8 +675,8 @@
                                 'WhatsApp_Image_2026-06-05_at_1.24.06_AM__1_-removebg-preview.webp',
                                 'WhatsApp_Image_2026-06-05_at_1.24.06_AM__2_-removebg-preview.webp'
                             ] as $bImg2)
-                                <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                    <img src="{{ asset('images/services/' . $bImg2) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                                <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                    <img src="{{ asset('images/services/' . $bImg2) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                                 </div>
                             @endforeach
 
@@ -696,8 +695,8 @@
                                 'WhatsApp_Image_2026-06-05_at_1.24.06_AM__1_-removebg-preview.webp',
                                 'WhatsApp_Image_2026-06-05_at_1.24.06_AM__2_-removebg-preview.webp'
                             ] as $bImg2)
-                                <div class="flex items-center justify-center h-28 sm:h-36 md:h-40 w-60 sm:w-80 md:w-[340px] shrink-0 p-5 rounded-2xl bg-[#7a7a7a] border border-[#5c5c5c] shadow-md hover:shadow-xl hover:bg-[#888888] transition-all duration-300 transform hover:scale-105 group">
-                                    <img src="{{ asset('images/services/' . $bImg2) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300" />
+                                <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0 p-5 rounded-2xl bg-transparent border-0 shadow-none transition-all duration-300 transform hover:scale-105 group">
+                                    <img src="{{ asset('images/services/' . $bImg2) }}" alt="Business Partner" class="max-h-full max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 brightness-200" />
                                 </div>
                             @endforeach
                         </div>
@@ -763,9 +762,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -778,7 +777,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -828,9 +827,9 @@
         </section>
 
         <!-- Section Divider Banner with Organization IT Asset Recovery Statement -->
-        <section class="bg-gradient-to-r from-[#004d2e] via-[#005a36] to-[#004d2e] text-white py-12 px-6 sm:px-12 w-full text-center shadow-lg border-y border-emerald-600/30">
+        <section class="bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43] text-white py-12 px-6 sm:px-12 w-full text-center shadow-lg border-y border-emerald-600/30">
             <div class="max-w-6xl mx-auto space-y-3">
-                <p class="text-xl sm:text-2xl lg:text-3xl font-extrabold leading-snug tracking-tight text-emerald-300 font-['Plus_Jakarta_Sans',sans-serif]">
+                <p class="text-xl sm:text-2xl lg:text-3xl font-extrabold leading-snug tracking-tight text-emerald-300 font-['Albert_Sans',sans-serif]">
                     We Help Government/Private Organizations Liquidate, Donate, Or Recycle Their IT and Electronic Assets Securely and Responsibly.
                 </p>
             </div>
@@ -846,16 +845,16 @@
             <div class="w-full max-w-7xl mx-auto p-8 sm:p-14 lg:p-16 rounded-[32px] bg-gradient-to-br from-emerald-50/90 via-white to-emerald-50/50 border-2 border-emerald-500/20 shadow-2xl relative text-center flex flex-col items-center space-y-7 z-10">
                 
                 <!-- Glowing E-Waste Shield / Recycling Icon Graphic Accent (No Extra Text) -->
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#10b981] to-[#005a36] border-2 border-emerald-400/50 flex items-center justify-center text-white shadow-xl shadow-emerald-500/30 transform hover:rotate-6 transition-transform duration-300 shrink-0">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#035c43] to-[#035c43] border-2 border-emerald-400/50 flex items-center justify-center text-white shadow-xl shadow-emerald-500/30 transform hover:rotate-6 transition-transform duration-300 shrink-0">
                     <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white fill-current" viewBox="0 0 24 24">
                         <path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zm4-9h4v2h-4v-2zm0 4h4v2h-4v-2z"/>
                     </svg>
                 </div>
 
                 <!-- Section Title: RECYCLE YOUR ELECTRONICS SECURELY -->
-                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-gray-900 leading-tight font-['Plus_Jakarta_Sans',sans-serif]">
+                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-gray-900 leading-tight font-['Albert_Sans',sans-serif]">
                     <span>RECYCLE YOUR</span> 
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-[#059669] to-[#34d399] ml-2 sm:ml-3">ELECTRONICS SECURELY</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43] ml-2 sm:ml-3">ELECTRONICS SECURELY</span>
                 </h2>
 
                 <!-- Paragraph Description (Expanded Width to max-w-5xl) -->
@@ -867,7 +866,7 @@
                 <div class="pt-3">
                     <a 
                         href="{{ url('/contact-us') }}#pickup-inquiry" 
-                        class="inline-flex items-center justify-center gap-3 px-9 py-4 sm:px-11 sm:py-4.5 rounded-tl-[28px] rounded-bl-[28px] rounded-tr-[28px] rounded-br-none bg-gradient-to-r from-[#0e8a55] via-[#10b981] to-[#34d399] hover:from-white hover:to-white text-white hover:text-[#005a36] border-2 border-[#10b981] font-bold text-base sm:text-xl tracking-wide shadow-xl shadow-emerald-500/30 transition-all duration-300 group whitespace-nowrap transform hover:scale-105"
+                        class="inline-flex items-center justify-center gap-3 px-9 py-4 sm:px-11 sm:py-4.5 rounded-tl-[28px] rounded-bl-[28px] rounded-tr-[28px] rounded-br-none bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43] hover:from-white hover:to-white text-white hover:text-[#035c43] border-2 border-[#035c43] font-bold text-base sm:text-xl tracking-wide shadow-xl shadow-emerald-500/30 transition-all duration-300 group whitespace-nowrap transform hover:scale-105"
                     >
                         <span class="font-extrabold tracking-wide">Schedule A Pickup</span>
                         <span class="text-xl sm:text-2xl transition-transform duration-300 group-hover:translate-x-2">→</span>
@@ -878,7 +877,7 @@
         </section>
 
         <!-- Section 10: Talk with an Expert Ratings Banner with Background Image Overlay -->
-        <section class="relative bg-[#004d2e] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden">
             
             <!-- Subtle Background Cityscape Overlay -->
             <div class="absolute inset-0 z-0 pointer-events-none">
@@ -887,7 +886,7 @@
                     alt="Denver Background" 
                     class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-[#003d24]/90 via-[#0e8a55]/85 to-[#003d24]/90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
             </div>
 
             <!-- Foreground Content Container -->
@@ -904,13 +903,13 @@
                     <div class="flex items-center gap-4 flex-wrap pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
                         >
                             Contact Us
                         </a>
                         <a 
                             href="tel:+13034724701" 
-                            class="bg-[#002d1b] hover:bg-white text-white hover:text-[#002d1b] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105"
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105"
                         >
                             <span>📞</span>
                             <span>+1-303-472-4701</span>
@@ -962,8 +961,8 @@
                         </svg>
                         <span>Stay Informed &amp; Eco-Compliant</span>
                     </div>
-                    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 font-['Plus_Jakarta_Sans',sans-serif]">
-                        Subscribe to <span class="text-[#10b981]">Our Newsletter</span>
+                    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900 font-['Albert_Sans',sans-serif]">
+                        Subscribe to <span class="text-[#035c43]">Our Newsletter</span>
                     </h2>
                     <p class="text-gray-600 text-base sm:text-lg font-normal leading-relaxed">
                         Get the latest e-waste recycling insights, data security best practices, and Denver recycling pickup schedules delivered to your inbox.
@@ -986,7 +985,7 @@
                         />
                         <button 
                             type="submit" 
-                            class="bg-gradient-to-r from-[#004d2e] to-[#005a36] hover:from-[#002d1b] hover:to-[#004d2e] text-white font-extrabold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-md transition-all duration-300 text-sm sm:text-base shrink-0 flex items-center gap-2 group transform hover:scale-105"
+                            class="bg-gradient-to-r from-[#035c43] to-[#035c43] hover:from-[#035c43] hover:to-[#035c43] text-white font-extrabold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-md transition-all duration-300 text-sm sm:text-base shrink-0 flex items-center gap-2 group transform hover:scale-105"
                         >
                             <span>Subscribe</span>
                             <span class="text-lg transition-transform duration-200 group-hover:translate-x-1">→</span>

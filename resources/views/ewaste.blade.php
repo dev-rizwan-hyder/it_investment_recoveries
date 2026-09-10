@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,16 +20,16 @@
                     extend: {
                         colors: {
                             emerald: {
-                                900: '#004d2e',
-                                800: '#005a36',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                900: '#035c43',
+                                800: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -63,13 +63,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-[#002d1b] text-white font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-[#035c43] text-white font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Hero Section (Using public/images/ewaste/fLATIRONS.webp) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="ewaste" />
 
@@ -80,8 +80,7 @@
                     alt="Community & Business Events Available - E-Waste Recycling Denver" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <!-- Dark Gradient Overlay for High Contrast Text -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/65 via-black/40 to-black/75"></div>
+                
             </div>
 
             <!-- Main Hero Center Text Content -->
@@ -89,7 +88,7 @@
                 <div class="w-full max-w-7xl mx-auto space-y-6 sm:space-y-8">
                     
                     <!-- Main Title: Residential Pickup -->
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
                         Residential Pickup
                     </h1>
 
@@ -97,7 +96,7 @@
                     <div class="pt-2">
                         <a 
                             href="#schedule-pickup" 
-                            class="inline-flex items-center justify-center gap-2 px-7 py-3 sm:px-9 sm:py-4 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-gradient-to-r from-[#0e8a55] via-[#10b981] to-[#10b981] hover:bg-none hover:bg-white text-white hover:text-[#005a36] border-2 border-[#10b981] font-bold text-base sm:text-xl tracking-wide shadow-2xl transition-all duration-300 group"
+                            class="inline-flex items-center justify-center gap-2 px-7 py-3 sm:px-9 sm:py-4 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-gradient-to-r from-[#035c43] via-[#035c43] to-[#035c43] hover:bg-none hover:bg-white text-white hover:text-[#035c43] border-2 border-[#035c43] font-bold text-base sm:text-xl tracking-wide shadow-2xl transition-all duration-300 group"
                         >
                             <span class="font-extrabold tracking-wide">Request Quote</span>
                             <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -130,9 +129,9 @@
                     :class="visible ? 'translate-y-0 opacity-100' : '-translate-y-12 opacity-0'"
                 >
 
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide uppercase font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide uppercase font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">IT INVESTMENT</span> 
-                        <span class="text-[#34d399] ml-2 sm:ml-3">RECOVERIES</span>
+                        <span class="text-[#035c43] ml-2 sm:ml-3">RECOVERIES</span>
                     </h2>
                 </div>
 
@@ -146,27 +145,27 @@
                         <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-snug">
                             Residential Pick Up Fee
                         </p>
-                        <p class="text-4xl sm:text-5xl md:text-6xl font-black text-[#005a36] tracking-tight">
+                        <p class="text-4xl sm:text-5xl md:text-6xl font-black text-[#035c43] tracking-tight">
                             $75.00
                         </p>
                     </div>
 
                     <!-- OR Separator -->
                     <div class="py-3">
-                        <span class="text-3xl sm:text-4xl font-black text-[#10b981] uppercase tracking-widest px-6 py-2 rounded-full bg-emerald-50 border-2 border-emerald-300/80 inline-block shadow-sm">
+                        <span class="text-3xl sm:text-4xl font-black text-[#035c43] uppercase tracking-widest px-6 py-2 rounded-full bg-emerald-50 border-2 border-emerald-300/80 inline-block shadow-sm">
                             OR
                         </span>
                     </div>
 
                     <!-- Free Drop Off Info -->
                     <div class="space-y-4">
-                        <p class="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#005a36] leading-snug">
+                        <p class="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#035c43] leading-snug">
                             Free Drop Off Location 5765 W 52nd Ave, Denver, CO 80212.
                         </p>
                         <p class="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed">
-                            Please Call <a href="tel:3034724701" class="text-[#005a36] font-extrabold underline hover:text-[#10b981]">303-472-4701</a> for Scheduling a Free Drop Off Recycling or Donation.
+                            Please Call <a href="tel:3034724701" class="text-[#035c43] font-extrabold underline hover:text-[#035c43]">303-472-4701</a> for Scheduling a Free Drop Off Recycling or Donation.
                         </p>
-                        <p class="text-lg sm:text-2xl font-bold text-[#10b981] italic pt-2">
+                        <p class="text-lg sm:text-2xl font-bold text-[#035c43] italic pt-2">
                             <a href="#schedule-pickup" class="hover:underline">Free IT Asset Disposition and Free E-Waste Recycling</a>
                         </p>
                     </div>
@@ -197,11 +196,11 @@
                     :class="visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'"
                 >
                     <!-- Top Green Accent Line -->
-                    <div class="w-full h-1.5 bg-gradient-to-r from-emerald-400 via-[#005a36] to-emerald-400 rounded-full mb-8"></div>
+                    <div class="w-full h-1.5 bg-gradient-to-r from-emerald-400 via-[#035c43] to-emerald-400 rounded-full mb-8"></div>
 
                     <!-- Title -->
                     <div class="text-center mb-8">
-                        <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#005a36] font-['Amaranth',sans-serif] tracking-tight">
+                        <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#035c43] font-['Albert_Sans',sans-serif] tracking-tight">
                             Accepted Items &amp; Fees:
                         </h2>
                     </div>
@@ -212,118 +211,118 @@
                     <!-- Items List (Large text layout) -->
                     <div class="space-y-4 text-center text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Off-Site NIST Data Destruction Per Hard Drive: <strong class="text-[#005a36] font-extrabold">$5.00</strong>
+                            Off-Site NIST Data Destruction Per Hard Drive: <strong class="text-[#035c43] font-extrabold">$5.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            On-Site NIST Data Destruction Per Hard Drive: <strong class="text-[#005a36] font-extrabold">$10.00</strong>
+                            On-Site NIST Data Destruction Per Hard Drive: <strong class="text-[#035c43] font-extrabold">$10.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Off-Site NON NIST Physical Data Destruction Per Hard Drive: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Off-Site NON NIST Physical Data Destruction Per Hard Drive: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Adapters/cables: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Adapters/cables: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Audio/Video Equipment: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Audio/Video Equipment: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Cable/satellite receivers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Cable/satellite receivers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            CD/DVD/Blu-Ray players: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            CD/DVD/Blu-Ray players: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Cell Phones: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Cell Phones: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Computers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Computers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Computer speakers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Computer speakers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Connected home devices: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Connected home devices: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Digital cameras: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Digital cameras: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Digital projectors: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Digital projectors: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            eReaders: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            eReaders: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Fax machines: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Fax machines: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Flash drives: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Flash drives: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Gaming consoles: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Gaming consoles: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Hard drives &amp; SSD’s: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Hard drives &amp; SSD’s: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            iPod®/MP3 players: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            iPod®/MP3 players: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Keyboards &amp; mice: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Keyboards &amp; mice: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Laptops: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Laptops: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Computer LCD/ LED Monitors: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Computer LCD/ LED Monitors: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Mainframe: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Mainframe: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Modems: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Modems: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Printers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Printers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Routers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Routers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Scanners: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Scanners: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Shredders: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Shredders: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Servers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Servers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Stereo receivers: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Stereo receivers: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            Tablets: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            Tablets: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors">
-                            UPS Backup &amp; Battery: <strong class="text-[#005a36] font-extrabold">$0.00</strong>
+                            UPS Backup &amp; Battery: <strong class="text-[#035c43] font-extrabold">$0.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors font-extrabold text-emerald-950">
-                            OLD CRT TUBE TVS &amp; MONITORS: <strong class="text-[#005a36] font-extrabold">$35.00</strong>
+                            OLD CRT TUBE TVS &amp; MONITORS: <strong class="text-[#035c43] font-extrabold">$35.00</strong>
                         </p>
                         <p class="hover:bg-emerald-50/60 py-2 px-3 rounded-lg transition-colors font-extrabold text-emerald-950">
-                            ALL LCD/ LED TVS ONLY: <strong class="text-[#005a36] font-extrabold">$35.00</strong>
+                            ALL LCD/ LED TVS ONLY: <strong class="text-[#035c43] font-extrabold">$35.00</strong>
                         </p>
                     </div>
 
                     <!-- Bottom Accent Line -->
-                    <div class="w-full h-1.5 bg-gradient-to-r from-emerald-400 via-[#005a36] to-emerald-400 rounded-full mt-8"></div>
+                    <div class="w-full h-1.5 bg-gradient-to-r from-emerald-400 via-[#035c43] to-emerald-400 rounded-full mt-8"></div>
                 </div>
 
                 <!-- Green Button below list -->
                 <div class="text-center mt-10">
                     <a 
                         href="#schedule-pickup" 
-                        class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#005a36] hover:bg-[#10b981] text-white font-bold text-lg tracking-wide shadow-xl transition-all duration-300 group"
+                        class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#035c43] hover:bg-[#024734] text-white font-bold text-lg tracking-wide shadow-xl transition-all duration-300 group"
                     >
                         <span class="font-extrabold tracking-wide">Book a Pickup</span>
                         <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -338,7 +337,7 @@
             <div class="w-full max-w-7xl mx-auto text-center">
                 <!-- Title matching home page & screenshot -->
                 <div class="max-w-5xl mx-auto mb-10 sm:mb-14 space-y-2">
-                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#10b981] sm:text-[#34d399] tracking-normal">
+                    <h3 class="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#035c43] sm:text-[#035c43] tracking-normal">
                         We Support &amp; Do Business With
                     </h3>
                     <h2 class="text-4xl sm:text-5xl lg:text-[54px] font-black text-[#222222] tracking-tight">
@@ -349,24 +348,24 @@
                 <!-- Sliding Logos Marquee Slider -->
                 <div class="relative w-full overflow-hidden py-6">
                     <div class="animate-partner-marquee flex items-center space-x-16 sm:space-x-24 md:space-x-32 pr-16 sm:pr-24">
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
-                        <div class="flex items-center justify-center h-36 sm:h-48 md:h-56 w-72 sm:w-96 md:w-[420px] shrink-0">
+                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
                             <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
                         </div>
                     </div>
@@ -431,9 +430,9 @@
                 
                 <!-- Section Title: Our Happy Clients 🕴️ -->
                 <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Plus_Jakarta_Sans',sans-serif]">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
                         <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#34d399] ml-2">Happy Clients</span>
+                        <span class="text-[#035c43] ml-2">Happy Clients</span>
                     </h2>
                     <span class="text-4xl sm:text-5xl">🕴️</span>
                 </div>
@@ -446,7 +445,7 @@
                     >
                         <template x-for="(review, index) in reviews" :key="index">
                             <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#005a36] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
+                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
                                     
                                     <!-- Stars Rating -->
                                     <div class="space-y-4 pt-2">
@@ -501,7 +500,7 @@
                 
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight uppercase">
                     <span class="text-[#222222]">RECYCLE YOUR</span> 
-                    <span class="text-[#34d399] ml-2">ELECTRONICS SECURELY</span>
+                    <span class="text-[#035c43] ml-2">ELECTRONICS SECURELY</span>
                 </h2>
 
                 <p class="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed max-w-4xl mx-auto font-normal">
@@ -511,7 +510,7 @@
                 <div class="pt-4">
                     <a 
                         href="#schedule-pickup" 
-                        class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#005a36] hover:bg-[#10b981] text-white font-bold text-base sm:text-lg tracking-wide shadow-xl transition-all duration-300 group"
+                        class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#035c43] hover:bg-[#024734] text-white font-bold text-base sm:text-lg tracking-wide shadow-xl transition-all duration-300 group"
                     >
                         <span class="font-extrabold tracking-wide">Automotive &amp; Products</span>
                         <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -524,7 +523,7 @@
         <!-- Section 7: Schedule a Dropoff or Pickup (Circuit Board fLATIRONS.webp Background) -->
         <section 
             id="schedule-pickup" 
-            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#004d2e]"
+            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
             style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
         >
             <!-- Soft White Overlay for readability -->
@@ -535,8 +534,8 @@
                 <div class="max-w-2xl space-y-6 text-left">
                     
                     <!-- Heading -->
-                    <h2 class="text-4xl sm:text-5xl lg:text-[56px] font-black text-[#222222] tracking-tight leading-[1.12] font-['Plus_Jakarta_Sans',sans-serif]">
-                        <span class="text-[#34d399] font-bold">Schedule a</span> Dropoff or<br />Pickup
+                    <h2 class="text-4xl sm:text-5xl lg:text-[56px] font-black text-[#222222] tracking-tight leading-[1.12] font-['Albert_Sans',sans-serif]">
+                        <span class="text-[#035c43] font-bold">Schedule a</span> Dropoff or<br />Pickup
                     </h2>
 
                     <!-- Paragraph -->
@@ -548,23 +547,23 @@
                     <div class="space-y-3.5 pt-2 text-sm sm:text-base font-semibold text-[#2d3748]">
                         <!-- Phone -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                             </svg>
-                            <a href="tel:13034724701" class="font-bold text-[#2d3748] hover:text-[#005a36] transition-colors">+1-303-472-4701</a>
+                            <a href="tel:13034724701" class="font-bold text-[#2d3748] hover:text-[#035c43] transition-colors">+1-303-472-4701</a>
                         </div>
 
                         <!-- Email -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                             </svg>
-                            <a href="mailto:Support@itinvestmentrecoveries.com" class="font-bold text-[#2d3748] hover:text-[#005a36] transition-colors">Support@itinvestmentrecoveries.com</a>
+                            <a href="mailto:Support@itinvestmentrecoveries.com" class="font-bold text-[#2d3748] hover:text-[#035c43] transition-colors">Support@itinvestmentrecoveries.com</a>
                         </div>
 
                         <!-- Location -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                             </svg>
                             <span class="font-bold text-[#2d3748]">5765 W 52nd Ave Denver Co 80212 USA</span>
@@ -576,7 +575,7 @@
                         <!-- Book Consultation -->
                         <a 
                             href="tel:13034724701" 
-                            class="px-7 py-3 rounded-full bg-[#004d2e] hover:bg-[#005a36] text-white font-bold text-sm sm:text-base shadow-md transition-all duration-300"
+                            class="px-7 py-3 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-bold text-sm sm:text-base shadow-md transition-all duration-300"
                         >
                             Book Consultation
                         </a>
@@ -584,7 +583,7 @@
                         <!-- Schedule Pickup -->
                         <a 
                             href="tel:13034724701" 
-                            class="px-7 py-3 rounded-full bg-white/80 hover:bg-[#004d2e] text-[#004d2e] hover:text-white border-2 border-[#004d2e] font-bold text-sm sm:text-base shadow-sm transition-all duration-300"
+                            class="px-7 py-3 rounded-full bg-white/80 hover:bg-[#024734] text-[#035c43] hover:text-white border-2 border-[#035c43] font-bold text-sm sm:text-base shadow-sm transition-all duration-300"
                         >
                             Schedule Pickup
                         </a>

@@ -23,7 +23,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         .header {
-            background-color: #004d2e;
+            background-color: #035c43;
             padding: 32px 24px;
             text-align: center;
             color: #ffffff;
@@ -37,7 +37,7 @@
         .header p {
             margin: 6px 0 0 0;
             font-size: 13px;
-            color: #34d399;
+            color: #035c43;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -49,7 +49,7 @@
             display: inline-block;
             padding: 6px 14px;
             background-color: #ecfdf5;
-            color: #047857;
+            color: #035c43;
             font-weight: 700;
             font-size: 13px;
             border-radius: 20px;
@@ -88,7 +88,7 @@
         }
         .message-card {
             background-color: #f9fafb;
-            border-left: 4px solid #004d2e;
+            border-left: 4px solid #035c43;
             padding: 16px;
             border-radius: 0 8px 8px 0;
             font-size: 14px;
@@ -105,7 +105,7 @@
             border-top: 1px solid #f3f4f6;
         }
         .footer strong {
-            color: #004d2e;
+            color: #035c43;
         }
     </style>
 </head>
@@ -131,7 +131,7 @@
                 <tr>
                     <th>Email Address</th>
                     <td>
-                        <a href="mailto:{{ $data['email'] ?? '' }}" style="color: #059669; font-weight: 600; text-decoration: none;">
+                        <a href="mailto:{{ $data['email'] ?? '' }}" style="color: #035c43; font-weight: 600; text-decoration: none;">
                             {{ $data['email'] ?? 'N/A' }}
                         </a>
                     </td>
@@ -147,7 +147,7 @@
                 </tr>
                 <tr>
                     <th>Requested Service</th>
-                    <td><strong style="color: #047857;">{{ $data['service_type'] ?? 'Not Specified' }}</strong></td>
+                    <td><strong style="color: #035c43;">{{ $data['service_type'] ?? 'Not Specified' }}</strong></td>
                 </tr>
                 <tr>
                     <th>Onsite Media Destruction</th>

@@ -10,7 +10,7 @@
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -20,18 +20,18 @@
                     extend: {
                         colors: {
                             emerald: {
-                                950: '#002d1b',
-                                900: '#004d2e',
-                                800: '#005a36',
-                                700: '#006c41',
-                                600: '#059669',
-                                500: '#10b981',
-                                400: '#34d399',
+                                950: '#035c43',
+                                900: '#035c43',
+                                800: '#035c43',
+                                700: '#035c43',
+                                600: '#035c43',
+                                500: '#035c43',
+                                400: '#035c43',
                             }
                         },
                         fontFamily: {
-                            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                            amaranth: ['"Amaranth"', 'sans-serif'],
+                            sans: ['"Albert Sans"', 'Helvetica', 'Arial', 'sans-serif'],
+                            amaranth: ['"Albert Sans"', 'sans-serif'],
                         }
                     }
                 }
@@ -49,13 +49,13 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="bg-white text-gray-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-500 selection:text-white w-full overflow-x-hidden m-0 p-0">
+    <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
         <!-- Section 1: Hero Section (Globe held over circuit boards background) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="services" />
 
@@ -66,8 +66,7 @@
                     alt="Our Services - IT Investment Recoveries Globe E-Waste" 
                     class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
                 />
-                <!-- Dark Gradient Overlay for Contrast -->
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/55 to-black/80"></div>
+                
             </div>
 
             <!-- Main Hero Center Content -->
@@ -75,7 +74,7 @@
                 <div class="w-full max-w-4xl mx-auto space-y-5 sm:space-y-7">
                     
                     <!-- Main Title: Our Services -->
-                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-none font-['Amaranth',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-white tracking-tight leading-none font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
                         Our Services
                     </h1>
 
@@ -88,7 +87,7 @@
                     <div class="pt-4">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-base sm:text-lg tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-base sm:text-lg tracking-wide shadow-2xl transition duration-300 transform hover:scale-105 group"
                         >
                             <span>Schedule A Consultation</span>
                             <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
@@ -106,7 +105,7 @@
                 <!-- Section Title: Our Core Services -->
                 <div class="text-center mb-12 sm:mb-16">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
-                        <span class="text-[#34d399]">Our Core</span> 
+                        <span class="text-[#035c43]">Our Core</span> 
                         <span class="text-[#222222] ml-2">Services</span>
                     </h2>
                 </div>
@@ -267,7 +266,7 @@
         <!-- Section 3: Schedule a Dropoff or Pickup (Circuit Board fLATIRONS.webp Background) -->
         <section 
             id="schedule-pickup" 
-            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#004d2e]"
+            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
             style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
         >
             <!-- Soft White Overlay for readability -->
@@ -278,8 +277,8 @@
                 <div class="max-w-2xl space-y-6 text-left">
                     
                     <!-- Heading -->
-                    <h2 class="text-4xl sm:text-5xl lg:text-[56px] font-black text-[#222222] tracking-tight leading-[1.12] font-['Plus_Jakarta_Sans',sans-serif]">
-                        <span class="text-[#34d399] font-bold">Schedule a</span> Dropoff or<br />Pickup
+                    <h2 class="text-4xl sm:text-5xl lg:text-[56px] font-black text-[#222222] tracking-tight leading-[1.12] font-['Albert_Sans',sans-serif]">
+                        <span class="text-[#035c43] font-bold">Schedule a</span> Dropoff or<br />Pickup
                     </h2>
 
                     <!-- Paragraph -->
@@ -291,23 +290,23 @@
                     <div class="space-y-3.5 pt-2 text-sm sm:text-base font-semibold text-[#2d3748]">
                         <!-- Phone -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                             </svg>
-                            <a href="tel:13034724701" class="font-bold text-[#2d3748] hover:text-[#005a36] transition-colors">+1-303-472-4701</a>
+                            <a href="tel:13034724701" class="font-bold text-[#2d3748] hover:text-[#035c43] transition-colors">+1-303-472-4701</a>
                         </div>
 
                         <!-- Email -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                             </svg>
-                            <a href="mailto:Support@itinvestmentrecoveries.com" class="font-bold text-[#2d3748] hover:text-[#005a36] transition-colors">Support@itinvestmentrecoveries.com</a>
+                            <a href="mailto:Support@itinvestmentrecoveries.com" class="font-bold text-[#2d3748] hover:text-[#035c43] transition-colors">Support@itinvestmentrecoveries.com</a>
                         </div>
 
                         <!-- Location -->
                         <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-[#34d399] shrink-0 fill-current" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#035c43] shrink-0 fill-current" viewBox="0 0 24 24">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                             </svg>
                             <span class="font-bold text-[#2d3748]">5765 W 52nd Ave Denver Co 80212 USA</span>
@@ -319,7 +318,7 @@
                         <!-- Book Consultation -->
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="px-7 py-3 rounded-full bg-[#004d2e] hover:bg-[#005a36] text-white font-bold text-sm sm:text-base shadow-md transition-all duration-300"
+                            class="px-7 py-3 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-bold text-sm sm:text-base shadow-md transition-all duration-300"
                         >
                             Book Consultation
                         </a>
@@ -327,7 +326,7 @@
                         <!-- Schedule Pickup -->
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="px-7 py-3 rounded-full bg-white/80 hover:bg-[#004d2e] text-[#004d2e] hover:text-white border-2 border-[#004d2e] font-bold text-sm sm:text-base shadow-sm transition-all duration-300"
+                            class="px-7 py-3 rounded-full bg-white/80 hover:bg-[#024734] text-[#035c43] hover:text-white border-2 border-[#035c43] font-bold text-sm sm:text-base shadow-sm transition-all duration-300"
                         >
                             Schedule Pickup
                         </a>
