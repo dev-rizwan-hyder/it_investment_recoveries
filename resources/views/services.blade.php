@@ -266,7 +266,7 @@
         <!-- Section 3: Schedule a Dropoff or Pickup (Circuit Board fLATIRONS.webp Background) -->
         <section 
             id="schedule-pickup" 
-            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
+            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
             style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
         >
             <!-- Soft White Overlay for readability -->

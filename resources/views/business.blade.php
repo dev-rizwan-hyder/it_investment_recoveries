@@ -384,125 +384,7 @@
         </section>
 
         <!-- Section 5: Our Happy Clients Section (Matching Home Page) -->
-        <section 
-            id="testimonials" 
-            class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 overflow-hidden relative"
-            x-data="{
-                activeSlide: 0,
-                maxSlide: 4,
-                reviews: [
-                    {
-                        name: 'David Jones',
-                        rating: 4,
-                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
-                        image: '{{ asset('images/home/reviews/1.webp') }}'
-                    },
-                    {
-                        name: 'David Martinelli',
-                        rating: 3,
-                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
-                        image: '{{ asset('images/home/reviews/2.webp') }}'
-                    },
-                    {
-                        name: 'Mark Richardson',
-                        rating: 5,
-                        text: `Their commitment to data security and environmentally responsible practices is commendable. A reliable choice for anyone looking to recycle electronics.`,
-                        image: '{{ asset('images/home/reviews/3.webp') }}'
-                    },
-                    {
-                        name: 'Michael Brown',
-                        rating: 4,
-                        text: `Every business and resident in Denver should know about their electronics recycling services. They make the whole process fast, easy and secure.`,
-                        image: '{{ asset('images/home/reviews/4.webp') }}'
-                    },
-                    {
-                        name: 'Shams W.Pawel',
-                        rating: 3,
-                        text: `With affordable and efficient Computer recycling in Denver they exceeded my expectations. They offer reasonable rates, making recycling accessible to all on a budget.`,
-                        image: '{{ asset('images/home/reviews/5.webp') }}'
-                    },
-                    {
-                        name: 'David Jones',
-                        rating: 4,
-                        text: `I have to say, I'm really impressed by professionalism and efficiency of It-Investment Recoveries team. If you're looking for hassle-free recycling, I highly recommend them`,
-                        image: '{{ asset('images/home/reviews/6.webp') }}'
-                    },
-                    {
-                        name: 'David Martinelli',
-                        rating: 3,
-                        text: `I recently hired It-Investment Recoveries for computer recycling in Denver, and I couldn't be happier. Their team was punctual, professional, and took care of everything. Highly recommended!`,
-                        image: '{{ asset('images/home/reviews/7.webp') }}'
-                    }
-                ]
-            }"
-        >
-            <div class="w-full max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 space-y-12">
-                
-                <!-- Section Title: Our Happy Clients 🕴️ -->
-                <div class="flex items-center justify-center gap-3">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal font-['Albert_Sans',sans-serif]">
-                        <span class="text-[#222222]">Our</span> 
-                        <span class="text-[#035c43] ml-2">Happy Clients</span>
-                    </h2>
-                    <span class="text-4xl sm:text-5xl">🕴️</span>
-                </div>
-
-                <!-- Testimonials Slider Container -->
-                <div class="relative w-full overflow-hidden py-2">
-                    <div 
-                        class="flex transition-transform duration-500 ease-out"
-                        :style="`transform: translateX(-${activeSlide * (100 / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1))}%)`"
-                    >
-                        <template x-for="(review, index) in reviews" :key="index">
-                            <div class="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3 sm:px-4 flex">
-                                <div class="bg-white rounded-2xl border-2 border-[#035c43] p-7 sm:p-9 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-center w-full relative group overflow-hidden">
-                                    
-                                    <!-- Stars Rating -->
-                                    <div class="space-y-4 pt-2">
-                                        <div class="flex items-center justify-center gap-1 text-amber-400 text-lg sm:text-xl">
-                                            <template x-for="star in 5" :key="star">
-                                                <span x-text="star <= review.rating ? '★' : '☆'" :class="star <= review.rating ? 'text-amber-400' : 'text-amber-300/60'"></span>
-                                            </template>
-                                        </div>
-
-                                        <!-- Review Body Text -->
-                                        <p class="text-gray-600 text-base sm:text-lg leading-relaxed font-medium py-2" x-text="review.text"></p>
-                                    </div>
-
-                                    <!-- Card Footer Profile & Quotation Icon -->
-                                    <div class="flex items-center justify-between pt-6 mt-6 border-t border-gray-100/80 relative">
-                                        <div class="flex items-center gap-4 shrink-0 text-left">
-                                            <img 
-                                                :src="review.image" 
-                                                :alt="review.name" 
-                                                class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border-2 border-white ring-2 ring-gray-100 shrink-0"
-                                            />
-                                            <div class="font-extrabold text-gray-900 text-lg sm:text-xl" x-text="review.name"></div>
-                                        </div>
-                                        
-                                        <!-- Quotation Icon -->
-                                        <div class="text-[#a5f3fc] font-serif text-5xl sm:text-6xl leading-none select-none opacity-80 pl-2">”</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Pagination Dots Controls -->
-                <div class="flex items-center justify-center gap-2.5 mt-8">
-                    <template x-for="dot in 5" :key="dot">
-                        <button 
-                            @click="activeSlide = dot - 1" 
-                            class="h-3 rounded-full transition-all duration-300 focus:outline-none"
-                            :class="activeSlide === (dot - 1) ? 'bg-[#2563eb] w-3 shadow-md' : 'bg-gray-300 w-3 hover:bg-gray-400'"
-                            :aria-label="`Go to review slide ${dot}`"
-                        ></button>
-                    </template>
-                </div>
-
-            </div>
-        </section>
+        <x-testimonials />
 
         <!-- Section 6: Recycle Your Electronics Securely -->
         <section class="bg-white text-gray-900 py-14 sm:py-20 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 text-center">
@@ -533,7 +415,7 @@
         <!-- Section 7: Schedule a Dropoff or Pickup (Circuit Board fLATIRONS.webp Background) -->
         <section 
             id="schedule-pickup" 
-            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-center bg-cover bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
+            class="relative w-full py-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat text-gray-900 border-t-4 border-[#035c43]"
             style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
         >
             <!-- Soft White Overlay for readability -->

@@ -152,20 +152,23 @@
             </div>
         </section>
 
-        <!-- Section 3: Recovery Specialists Banner Section -->
+        <!-- Section 3: Recovery Specialists Banner Section (Parallax Background) -->
         <section 
-            class="relative w-full py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-16 flex items-center justify-end overflow-hidden bg-center bg-cover bg-no-repeat"
+            class="relative w-full py-20 sm:py-28 lg:py-32 px-4 sm:px-8 lg:px-16 flex items-center justify-end overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat"
             style="background-image: url('{{ asset('images/about/download.webp') }}');"
         >
-            <!-- Content Container (Right Aligned Light Gray Card Overlay) -->
-            <div class="relative z-10 w-full max-w-7xl mx-auto flex justify-end pr-0 sm:pr-8 lg:pr-16">
-                <div class="w-full max-w-lg bg-[#d9d9d9]/95 backdrop-blur-sm p-8 sm:p-12 md:p-14 shadow-2xl border border-white/60 text-left rounded-none sm:rounded-sm">
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-black text-[#035c43] leading-[1.12] tracking-tight mb-6 font-['Albert_Sans',sans-serif]">
+            <!-- Dimming Overlay for Parallax Contrast -->
+            <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+
+            <!-- Content Container (Right Aligned Clean Glass Card) -->
+            <div class="relative z-10 w-full max-w-7xl mx-auto flex justify-end">
+                <div class="w-full max-w-lg bg-white/95 backdrop-blur-md p-8 sm:p-12 border border-white/80 shadow-2xl rounded-2xl text-left">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#035c43] leading-tight tracking-tight mb-5 font-['Albert_Sans',sans-serif]">
                         We Are<br />
                         Recovery<br />
                         Specialists
                     </h2>
-                    <p class="text-gray-900 font-extrabold text-xs sm:text-sm md:text-base leading-relaxed max-w-sm">
+                    <p class="text-gray-900 font-bold text-sm sm:text-base leading-relaxed">
                         We provide specialized solutions to maximize the value of your IT assets, ensuring efficiency and sustainability.
                     </p>
                 </div>
