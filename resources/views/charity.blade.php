@@ -64,22 +64,22 @@
         <x-events-badge />
 
         <!-- Section 1: Hero Banner -->
-        <section class="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[88vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
+        <section class="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Header Overlay -->
             <x-header active="services" />
 
             <!-- Background Image -->
             <div class="absolute inset-0 z-0 overflow-hidden w-full h-full">
                 <img 
-                    src="{{ asset('images/charity/ChatGPT-Image-Jun-20-2026-01_38_35-AM.webp') }}" 
+                    src="{{ asset('images/charity/charity-hero.webp') }}" 
                     alt="Donate Used Computers &amp; Electronics in Denver, CO" 
-                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
+                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out brightness-95 contrast-105"
                 />
-                
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-[#01281d]/30 to-slate-950/85"></div>
             </div>
 
             <!-- Hero Center Content -->
-            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-36 sm:pt-48 md:pt-52 pb-20 sm:pb-28 w-full">
+            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-48 sm:pt-60 md:pt-64 pb-32 sm:pb-40 w-full">
                 <div class="w-full max-w-5xl mx-auto space-y-6">
                     
                     <!-- Title -->

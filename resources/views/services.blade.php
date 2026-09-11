@@ -54,23 +54,23 @@
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
-        <!-- Section 1: Hero Section (Globe held over circuit boards background) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
+        <!-- Section 1: Hero Section -->
+        <section class="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="services" />
 
             <!-- Background Image -->
             <div class="absolute inset-0 z-0 overflow-hidden w-full h-full">
                 <img 
-                    src="{{ asset('images/old-electronic-devices-world-globe-e-waste-recycling-concept_878453-6585.webp') }}" 
-                    alt="Our Services - IT Investment Recoveries Globe E-Waste" 
-                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
+                    src="{{ asset('images/services/services-hero.webp') }}" 
+                    alt="Our Services - IT Investment Recoveries" 
+                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out brightness-95 contrast-105"
                 />
-                
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-[#01281d]/30 to-slate-950/85"></div>
             </div>
 
             <!-- Main Hero Center Content -->
-            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-36 sm:pt-48 md:pt-56 pb-24 sm:pb-32 w-full">
+            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-48 sm:pt-60 md:pt-64 pb-32 sm:pb-40 w-full">
                 <div class="w-full max-w-4xl mx-auto space-y-5 sm:space-y-7">
                     
                     <!-- Main Title: Our Services -->

@@ -116,21 +116,22 @@
         <x-events-badge />
 
         <!-- Section 1: Hero Section (Matching Screenshot) -->
-        <section class="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-[95vh] w-full flex flex-col justify-between overflow-hidden bg-transparent">
+        <section class="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="services" />
 
             <!-- Background Image -->
             <div class="absolute inset-0 z-0 overflow-hidden w-full h-full">
                 <img 
-                    src="{{ asset('images/about.webp') }}" 
+                    src="{{ asset('images/community/community-hero.webp') }}" 
                     alt="Community / Business Partners Header Background" 
-                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out brightness-90 filter"
+                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out brightness-95 contrast-105"
                 />
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-[#01281d]/30 to-slate-950/85"></div>
             </div>
 
             <!-- Main Hero Center Content -->
-            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-48 sm:pt-60 pb-28 sm:pb-36 w-full">
+            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-48 sm:pt-60 md:pt-64 pb-32 sm:pb-40 w-full">
                 <div class="w-full max-w-7xl mx-auto">
                     <!-- Title: Community/ Business Partners -->
                     <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-none font-['Albert_Sans',sans-serif] drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">

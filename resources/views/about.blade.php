@@ -68,23 +68,23 @@
         <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
         <x-events-badge />
 
-        <!-- Section 1: Hero Section (Using public/images/about.webp as Hero Background) -->
-        <section class="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
+        <!-- Section 1: Hero Section (Using public/images/about/about-hero.webp as Hero Background) -->
+        <section class="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent">
             <!-- Top Transparent Header Overlay -->
             <x-header active="about" />
 
             <!-- Background Image with Ken Burns Subtle Scale Effect -->
             <div class="absolute inset-0 z-0 overflow-hidden w-full h-full">
                 <img 
-                    src="{{ asset('images/about.webp') }}" 
+                    src="{{ asset('images/about/about-hero.webp') }}" 
                     alt="About Our Company - IT Investment Recoveries Team" 
-                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
+                    class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out brightness-95 contrast-105"
                 />
-                
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-[#01281d]/30 to-slate-950/85"></div>
             </div>
 
             <!-- Main Hero Center Text Content -->
-            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-28 sm:pt-40 md:pt-48 pb-16 w-full">
+            <div class="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8 lg:px-12 pt-48 sm:pt-60 md:pt-64 pb-32 sm:pb-40 w-full">
                 <div class="w-full max-w-5xl mx-auto space-y-4 sm:space-y-6">
                     
                     <!-- Main Title: About Our Company -->
