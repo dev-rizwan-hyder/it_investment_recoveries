@@ -20,20 +20,22 @@
 
         <!-- Column 2: Quick Links (Center) -->
         <div class="md:col-span-3 space-y-4 text-left">
-            <h3 class="text-xl sm:text-2xl font-bold text-[#035c43] tracking-wide">
+            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
                 Quick Links
             </h3>
             <ul class="space-y-3 text-sm sm:text-base font-semibold text-gray-100">
-                <li><a href="{{ url('/') }}" class="hover:text-[#035c43] transition-colors duration-200">Home</a></li>
-                <li><a href="{{ url('/about-us') }}" class="hover:text-[#035c43] transition-colors duration-200">About</a></li>
-                <li><a href="{{ url('/') }}#services" class="hover:text-[#035c43] transition-colors duration-200">Services</a></li>
-                <li><a href="{{ url('/contact-us') }}" class="hover:text-[#035c43] transition-colors duration-200">Get Started</a></li>
+                <li><a href="{{ url('/') }}" class="hover:text-emerald-200 transition-colors duration-200">Home</a></li>
+                <li><a href="{{ url('/about-us') }}" class="hover:text-emerald-200 transition-colors duration-200">About</a></li>
+                <li><a href="{{ url('/services') }}" class="hover:text-emerald-200 transition-colors duration-200">Services</a></li>
+                <li><a href="{{ url('/residential-pickup') }}" class="hover:text-emerald-200 transition-colors duration-200">Residential Pickup</a></li>
+                <li><a href="{{ url('/commercial-business-pickup') }}" class="hover:text-emerald-200 transition-colors duration-200">Commercial/Business Pickup</a></li>
+                <li><a href="{{ url('/contact-us') }}" class="hover:text-emerald-200 transition-colors duration-200">Get Started</a></li>
             </ul>
         </div>
 
         <!-- Column 3: Contact Details (Right) -->
         <div class="md:col-span-4 space-y-4 text-left">
-            <h3 class="text-xl sm:text-2xl font-bold text-[#035c43] tracking-wide">
+            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
                 Contact Details
             </h3>
             <ul class="space-y-4 text-sm sm:text-base font-semibold text-gray-100">
@@ -41,13 +43,13 @@
                     <svg class="w-5 h-5 text-white shrink-0 fill-current" viewBox="0 0 24 24">
                         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                     </svg>
-                    <a href="tel:+13034724701" class="hover:text-[#035c43] transition-colors duration-200">+1-303-472-4701</a>
+                    <a href="tel:+13034724701" class="hover:text-emerald-200 transition-colors duration-200">+1-303-472-4701</a>
                 </li>
                 <li class="flex items-center gap-3">
                     <svg class="w-5 h-5 text-white shrink-0 fill-current" viewBox="0 0 24 24">
                         <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
                     </svg>
-                    <a href="{{ url('/contact-us') }}" class="hover:text-[#035c43] transition-colors duration-200">Send a Message</a>
+                    <a href="{{ url('/contact-us') }}" class="hover:text-emerald-200 transition-colors duration-200">Send a Message</a>
                 </li>
                 <li class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-white shrink-0 fill-current mt-0.5" viewBox="0 0 24 24">

@@ -122,9 +122,60 @@ Route::get('/community-business-partners', function () {
     return redirect()->route('community-partners');
 });
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\ReceivedIntakeController;
+use App\Http\Controllers\User\DataDestructionController;
+use App\Http\Controllers\User\ItAssetsController;
+use App\Http\Controllers\User\UserOrdersController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\InquiryMail;
+
+// --- Authentication Routes (Native Customer Portal Login) ---
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register.page');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+});
+
+// --- Google OAuth Routes ---
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+// --- Protected User Dashboard Routes ---
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Regular User Dashboard
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+
+    // User Received Intake Routes
+    Route::controller(ReceivedIntakeController::class)->prefix('user-received-intake')->name('user.received-intake.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+    });
+
+    // User Data Destruction Routes
+    Route::controller(DataDestructionController::class)->prefix('user-data-destruction')->name('user.data-destruction.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+    });
+
+    // User IT Assets Routes
+    Route::controller(ItAssetsController::class)->prefix('user-it-assets')->name('user.it-assets.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+    });
+
+    // User Orders Routes
+    Route::controller(UserOrdersController::class)->prefix('my-orders')->name('user.orders.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::post('/{id}/cancel', 'cancel')->name('cancel');
+    });
+});
 
 Route::post('/contact-us', function (\Illuminate\Http\Request $request) {
     $formType = $request->input('form_type', 'general');

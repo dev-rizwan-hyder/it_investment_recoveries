@@ -177,315 +177,108 @@
             </div>
         </section>
 
-        <!-- Section 3: What We Do? (3D Flip Cards Grid) -->
+        <!-- Section 3: What We Do? (Simplified Image & Heading Grid) -->
         <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100">
-            <div class="w-full max-w-7xl mx-auto space-y-16">
+            <div class="w-full max-w-7xl mx-auto space-y-12">
                 
                 <!-- Section Heading -->
-                <div class="text-center space-y-3">
+                <div class="text-center">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal">
                         <span class="text-[#035c43]">What</span> 
                         <span class="text-gray-900 ml-2">We Do?</span>
                     </h2>
-                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto font-medium">
-                        Hover over any card below to explore our comprehensive data destruction solutions.
-                    </p>
                 </div>
 
-                <!-- 6 3D Flip Cards Grid -->
+                <!-- 6 Cards Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
                     
                     <!-- Card 1: Hard Drive Shredding -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/services/data-destruction-hero.webp') }}" 
-                                    alt="Hard Drive Shredding" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Hard Drive Shredding
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Hard Drive Shredding
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        We use powerful industrial shredders to physically shred end-of-life hard drives into small particles that cannot be reconstructed. This ensures no data can ever be recovered. We scan serial numbers for tracking and can provide video recording for accountability. Hard drive shredding provides total data security.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/hard-drive-shredding-card.png') }}" 
+                            alt="Hard Drive Shredding" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Hard Drive Shredding
+                            </h3>
                         </div>
                     </div>
 
                     <!-- Card 2: Degaussing Services -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/services/Asset-Removal-Services-.webp') }}" 
-                                    alt="Degaussing Services" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Degaussing Services
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Degaussing Services
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        We offer professional degaussing using powerful magnetic fields to completely erase and disrupt data stored on hard drives, tapes, floppy disks and other magnetic media. Our NSA approved HD-1T degausser securely wipes even classified and sensitive data beyond forensic recovery.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/degaussing-services-card.png') }}" 
+                            alt="Degaussing Services" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Degaussing Services
+                            </h3>
                         </div>
                     </div>
 
                     <!-- Card 3: Disk Wiping & Sanitization -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}" 
-                                    alt="Disk Wiping & Sanitization" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Disk Wiping &amp; Sanitization
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Disk Wiping &amp; Sanitization
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        We utilize customized disk wiping and sanitization hardware/software that overwrite all sectors of a hard drive multiple times using DoD 5220.22-M algorithms. Disk wiping can perform up to 7 total passes with different data patterns to guarantee 100% data eradication. If drives cannot be wiped, we shred them.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/disk-wiping-sanitization-card.png') }}" 
+                            alt="Disk Wiping & Sanitization" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Disk Wiping &amp; Sanitization
+                            </h3>
                         </div>
                     </div>
 
                     <!-- Card 4: Tape Destruction Services -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/about/download.webp') }}" 
-                                    alt="Tape Destruction Services" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Tape Destruction Services
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Tape Destruction Services
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        For secure tape destruction, we use specialized disintegrators and shredders designed to physically shred computer backup tapes into small particles. Tape destruction eliminates any chance of compromised data while allowing for safe recycling of these legacy formats. We provide reporting on every tape erased.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/tape-destruction-services-card.png') }}" 
+                            alt="Tape Destruction Services" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Tape Destruction Services
+                            </h3>
                         </div>
                     </div>
 
                     <!-- Card 5: Electronics Destruction -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/ewaste/electronics-destruction.png') }}" 
-                                    alt="Electronics Destruction" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Electronics Destruction
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Electronics Destruction
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        On-location electronics destruction allows for the demolishing of old computers, servers, networking equipment and other end computing devices right at your facility using powerful shredding machinery. This mitigates transportation risk and guarantees a certificate of destruction for all equipment processed.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/electronics-destruction-card.png') }}" 
+                            alt="Electronics Destruction" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Electronics Destruction
+                            </h3>
                         </div>
                     </div>
 
                     <!-- Card 6: Onsite Data Destruction -->
-                    <div class="group h-[420px] sm:h-[440px] [perspective:1000px] w-full cursor-pointer">
-                        <div class="relative w-full h-full rounded-2xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                            
-                            <!-- Front Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [backface-visibility:hidden] border border-gray-200 shadow-lg bg-gray-900 flex flex-col justify-end">
-                                <img 
-                                    src="{{ asset('images/ewaste/onsite-data-destruction.png') }}" 
-                                    alt="Onsite Data Destruction" 
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/95 via-black/40 to-transparent"></div>
-                                <div class="relative z-10 p-6 sm:p-8 space-y-2.5 text-left">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#035c43]/90 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-emerald-500/30">
-                                        <span>Hover to Reveal</span>
-                                        <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                    </span>
-                                    <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                                        Onsite Data Destruction
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#023e2d] via-[#035c43] to-[#01281d] text-white [transform:rotateY(180deg)] [backface-visibility:hidden] border border-emerald-600/40 shadow-2xl flex flex-col justify-between text-left">
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3 mb-4">
-                                        <h3 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-                                            Onsite Data Destruction
-                                        </h3>
-                                        <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-emerald-100 text-sm sm:text-base font-normal leading-relaxed overflow-y-auto max-h-[220px]">
-                                        For ultimate chain-of-custody security, our mobile shredding trucks can visit your location in Denver with onboard shredding capabilities to destroy hard drives, tapes or electronics onsite before they ever leave your building. This end-to-end service ensures complete visibility and control.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-emerald-500/30">
-                                    <a href="{{ url('/contact-us') }}" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-sm transition-all duration-300 shadow-md">
-                                        <span>Arrange Service</span>
-                                        <span class="text-base">→</span>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <div class="relative w-full h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 group transition-all duration-300 hover:shadow-2xl">
+                        <img 
+                            src="{{ asset('images/services/onsite-data-destruction-card.png') }}" 
+                            alt="Onsite Data Destruction" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#023e2d]/90 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                                Onsite Data Destruction
+                            </h3>
                         </div>
                     </div>
 
