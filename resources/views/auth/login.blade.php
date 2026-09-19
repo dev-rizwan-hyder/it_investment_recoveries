@@ -1,111 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Login | IT Investment Recoveries</title>
+    <title>Customer Sign In | IT Investment Recoveries</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .gradient-bg { background: radial-gradient(circle at top right, #0f172a, #1e293b); }
-        .input-focus:focus { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); border-color: #2563eb; }
+        .input-focus:focus { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); border-color: #2563eb; }
     </style>
 </head>
-<body class="bg-white flex min-h-screen antialiased">
+<body class="bg-slate-50 flex min-h-screen antialiased selection:bg-blue-500 selection:text-white">
+    <!-- Left Hero Banner -->
     <div class="hidden lg:flex w-[45%] gradient-bg items-center justify-center p-16 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500 rounded-full blur-[120px]"></div>
         </div>
-        <div class="relative z-10 text-center lg:text-left">
-            <h1 class="text-5xl font-bold text-white leading-tight mb-6">
+        <div class="relative z-10 max-w-md text-left space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider">
+                <i class="fa-solid fa-cube text-blue-400"></i> Secure Customer Portal
+            </div>
+            <h1 class="text-4xl xl:text-5xl font-extrabold text-white leading-tight tracking-tight">
                 IT INVESTMENT <br>
-                <span class="text-blue-400 font-extrabold">RECOVERIES.</span>
+                <span class="text-blue-400 font-black">RECOVERIES.</span>
             </h1>
-            <p class="text-slate-400 text-xl leading-relaxed max-w-sm">
-                Customer Portal for IT assets, data destruction certificates, and order tracking.
+            <p class="text-slate-300 text-base leading-relaxed font-medium">
+                Comprehensive tracking for received intakes, certified data destruction, IT assets, and equipment orders.
             </p>
+
+            <div class="pt-6 border-t border-slate-700/60 grid grid-cols-2 gap-4">
+                <div>
+                    <span class="block text-2xl font-black text-white">100%</span>
+                    <span class="text-xs text-slate-400 font-semibold">Certified Sanitization</span>
+                </div>
+                <div>
+                    <span class="block text-2xl font-black text-white">Real-time</span>
+                    <span class="text-xs text-slate-400 font-semibold">Inventory Tracking</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="w-full lg:w-[55%] flex flex-col items-center justify-center p-8 lg:p-20">
+    <!-- Right Form Section -->
+    <div class="w-full lg:w-[55%] flex flex-col items-center justify-center p-6 sm:p-12 lg:p-20">
         <div class="max-w-[420px] w-full">
-            <div class="flex flex-col items-center text-center mb-10">
-                <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">Customer Login</h2>
-                <p class="text-slate-500 font-medium">Sign in to your customer portal account.</p>
+            <div class="flex flex-col items-center text-center mb-8">
+                <a href="{{ url('/') }}" class="lg:hidden flex items-center gap-2 mb-6">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white font-bold">
+                        <i class="fa-solid fa-cube"></i>
+                    </span>
+                    <span class="font-extrabold text-slate-900 text-lg">IT Recoveries</span>
+                </a>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Customer Sign In</h2>
+                <p class="text-slate-500 text-sm font-medium">Enter your credentials to access your portal account.</p>
             </div>
 
             @if ($errors->any())
-                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl text-red-700 text-sm flex items-center justify-center gap-3">
-                    <i class="fas fa-circle-exclamation"></i>
-                    <p class="font-medium">{{ $errors->first() }}</p>
+                <div class="mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-2xl text-rose-700 text-xs sm:text-sm flex items-center gap-3 shadow-sm">
+                    <i class="fas fa-circle-exclamation text-rose-500 text-lg shrink-0"></i>
+                    <p class="font-bold">{{ $errors->first() }}</p>
                 </div>
             @endif
 
-            <!-- Google Sign In Button -->
+            <!-- Google OAuth Button -->
             <a href="{{ route('auth.google') }}"
-                class="w-full bg-white hover:bg-slate-50 text-slate-800 font-bold py-4 rounded-2xl border border-slate-200 transition-all duration-300 flex items-center justify-center gap-3 shadow-sm active:scale-[0.98]">
-                <i class="fa-brands fa-google text-[#4285f4]"></i>
-                <span class="tracking-wide">Sign in with Google</span>
+                class="w-full bg-white hover:bg-slate-50 text-slate-800 font-bold py-3.5 px-4 rounded-2xl border border-slate-200 transition-all duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow active:scale-[0.98]">
+                <i class="fa-brands fa-google text-[#4285f4] text-base"></i>
+                <span class="text-sm tracking-wide">Sign in with Google</span>
             </a>
 
             <div class="my-6 flex items-center gap-4">
                 <div class="h-px flex-1 bg-slate-200"></div>
-                <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">or</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400">or</span>
                 <div class="h-px flex-1 bg-slate-200"></div>
             </div>
 
-            <!-- Sign In Form -->
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <!-- Credentials Form -->
+            <form method="POST" action="{{ route('login') }}" class="space-y-5">
                 @csrf
 
-                <div class="space-y-2">
-                    <label class="text-[13px] font-bold text-slate-700 uppercase tracking-widest ml-1 block">Email</label>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Email Address</label>
                     <div class="relative group">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                             <i class="far fa-envelope text-sm"></i>
                         </span>
                         <input type="email" name="email" value="{{ old('email') }}" required
-                            class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none transition-all text-slate-900 placeholder-slate-400 font-medium input-focus"
+                            class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none transition-all text-slate-900 placeholder-slate-400 font-medium input-focus text-sm"
                             placeholder="customer@company.com">
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-[13px] font-bold text-slate-700 uppercase tracking-widest ml-1 block">Password</label>
+                <div class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Password</label>
+                    </div>
                     <div class="relative group">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                             <i class="fas fa-lock text-sm"></i>
                         </span>
                         <input type="password" id="password" name="password" required
-                            class="w-full pl-11 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none transition-all text-slate-900 placeholder-slate-400 font-medium input-focus"
+                            class="w-full pl-11 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none transition-all text-slate-900 placeholder-slate-400 font-medium input-focus text-sm"
                             placeholder="••••••••">
+                        <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-eye text-xs" id="togglePasswordIcon"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="flex items-center">
-                    <input type="checkbox" id="remember" name="remember" value="on"
-                        class="w-4 h-4 rounded border-slate-300 text-blue-600 cursor-pointer">
-                    <label for="remember" class="ml-2 text-[13px] font-medium text-slate-600 cursor-pointer">Remember me</label>
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="remember" name="remember" value="on"
+                            class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                        <span class="text-xs font-bold text-slate-600">Remember me</span>
+                    </label>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 shadow-xl shadow-blue-100 active:scale-[0.98]">
-                    <span class="tracking-wide">Sign In to Customer Portal</span>
-                    <i class="fas fa-chevron-right text-[10px] opacity-50"></i>
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
+                    <span class="tracking-wide text-sm">Sign In to Customer Portal</span>
+                    <i class="fas fa-arrow-right text-xs"></i>
                 </button>
             </form>
 
-            <div class="mt-8 text-center">
-                <p class="text-slate-600 text-sm font-medium">
+            <div class="mt-8 text-center pt-6 border-t border-slate-200/80">
+                <p class="text-slate-600 text-xs sm:text-sm font-medium">
                     Don't have an account? 
-                    <a href="{{ route('register.page') }}" class="text-blue-600 font-bold hover:text-blue-700 transition-colors ml-1">
+                    <a href="{{ route('register.page') }}" class="text-blue-600 font-extrabold hover:text-blue-700 transition-colors ml-1">
                         Register Here
                     </a>
                 </p>
             </div>
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+
+        toggleBtn?.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            toggleIcon.className = isPassword ? 'fa-solid fa-eye-slash text-xs' : 'fa-solid fa-eye text-xs';
+        });
+    </script>
 </body>
 </html>
+
