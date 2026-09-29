@@ -90,7 +90,8 @@ class ReceivedIntakeController extends Controller
         $ecommerceItems = DB::table('ecommerce_items')->where('pallet_number', $barcode)->get();
         $refurbishingItems = DB::table('refurbishing_items')->where('pallet_number', $barcode)->get();
         $universalWasteItems = DB::table('universal_waste_items')->where('pallet_number', $barcode)->get();
-        $dataDestructionItems = DB::table('data_destruction_items')->where('pallet_number', $barcode)->get();
+        $dataDestructionItems = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->get();
+        $itAssetsItems = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->get();
 
         $aggregate = $this->intakeAggregateForPallet(
             $this->intakeAggregatesForBarcodes([$pallet->barcode_number]),
@@ -106,6 +107,7 @@ class ReceivedIntakeController extends Controller
             'refurbishingItems' => $refurbishingItems,
             'universalWasteItems' => $universalWasteItems,
             'dataDestructionItems' => $dataDestructionItems,
+            'itAssetsItems' => $itAssetsItems,
         ]);
     }
 

@@ -127,6 +127,8 @@ use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ReceivedIntakeController;
 use App\Http\Controllers\User\DataDestructionController;
 use App\Http\Controllers\User\ItAssetsController;
+use App\Http\Controllers\User\UniversalWasteController;
+use App\Http\Controllers\User\EsgReportController;
 use App\Http\Controllers\User\UserOrdersController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
@@ -161,6 +163,17 @@ Route::middleware('auth')->group(function () {
     Route::controller(DataDestructionController::class)->prefix('user-data-destruction')->name('user.data-destruction.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
+    });
+
+    // User Universal Waste & Certificates Routes
+    Route::controller(UniversalWasteController::class)->prefix('user-universal-waste')->name('user.universal-waste.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+    });
+
+    // User ESG Sustainability Report Routes
+    Route::controller(EsgReportController::class)->prefix('user-esg-report')->name('user.esg-report.')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 
     // User IT Assets Routes

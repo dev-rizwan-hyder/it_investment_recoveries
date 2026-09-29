@@ -71,9 +71,9 @@
                         <i class="fa-solid fa-chart-line text-blue-600 w-4 text-center"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="{{ route('user.orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 rounded-xl hover:bg-slate-100 transition-colors">
-                        <i class="fa-solid fa-shopping-bag text-indigo-600 w-4 text-center"></i>
-                        <span>My Orders</span>
+                    <a href="{{ route('user.esg-report.index') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 rounded-xl hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-leaf text-teal-600 w-4 text-center"></i>
+                        <span>ESG Report</span>
                     </a>
                 </div>
 

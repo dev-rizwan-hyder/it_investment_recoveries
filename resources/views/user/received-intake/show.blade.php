@@ -144,8 +144,7 @@
             <div class="dashboard-card rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8">
                 <div class="flex items-center justify-between mb-6">
                     <div>
-                        <h2 class="text-lg font-black text-slate-950">Shipment Items Breakdown</h2>
-                        <p class="text-xs font-semibold text-slate-400">Items received from initial recycling intake</p>
+                        <h2 class="text-lg font-black text-slate-950">Items received from initial recycling intake</h2>
                     </div>
                     <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-600 border border-slate-200">
                         {{ $relatedPallets->count() }} {{ Str::plural('Item', $relatedPallets->count()) }}
@@ -271,30 +270,36 @@
                 <div class="border-b border-slate-200/80 bg-slate-50/60 px-6 pt-5">
                     <h3 class="text-lg font-black text-slate-950 mb-4">Processed Categorization</h3>
                     <div class="flex gap-2 border-b border-slate-200/80 overflow-x-auto no-scrollbar">
-                        <button onclick="switchTab('refurbishing')" id="tab-btn-refurbishing" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            Refurbishing <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-700">{{ $refurbishingItems->count() }}</span>
-                        </button>
-                        <button onclick="switchTab('ecommerce')" id="tab-btn-ecommerce" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            E-commerce <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-700">{{ $ecommerceItems->count() }}</span>
-                        </button>
-                        <button onclick="switchTab('universal')" id="tab-btn-universal" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            Universal Waste <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700">{{ $universalWasteItems->count() }}</span>
+                        <button onclick="switchTab('refurb-ecommerce')" id="tab-btn-refurb-ecommerce" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
+                            Refurb / E-commerce <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-700">{{ $refurbishingItems->count() + $ecommerceItems->count() }}</span>
                         </button>
                         <button onclick="switchTab('destruction')" id="tab-btn-destruction" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
                             Data Destruction <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700">{{ $dataDestructionItems->count() }}</span>
+                        </button>
+                        <button onclick="switchTab('itassets')" id="tab-btn-itassets" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
+                            IT Assets <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 text-indigo-700">{{ $itAssetsItems->count() }}</span>
+                        </button>
+                        <button onclick="switchTab('universal')" id="tab-btn-universal" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
+                            Universal Waste <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700">{{ $universalWasteItems->count() }}</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="p-6">
-                    {{-- Refurbishing Tab --}}
-                    <div id="tab-content-refurbishing" class="tab-content space-y-4">
-                        @forelse ($refurbishingItems as $item)
+                    {{-- Refurb / E-commerce Tab --}}
+                    <div id="tab-content-refurb-ecommerce" class="tab-content space-y-4">
+                        @php
+                            $combinedRefurbEcom = collect($refurbishingItems)->map(function($i) { $i->type_label = 'Refurbish'; return $i; })
+                                ->concat(collect($ecommerceItems)->map(function($i) { $i->type_label = 'E-Commerce'; return $i; }));
+                        @endphp
+                        @forelse ($combinedRefurbEcom as $item)
                             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-slate-200/70 rounded-2xl hover:bg-slate-50/50 transition">
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <h4 class="font-black text-slate-900 text-sm">{{ $item->name }}</h4>
-                                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 uppercase">Refurbish</span>
+                                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold {{ $item->type_label === 'E-Commerce' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-blue-50 text-blue-700 border-blue-100' }} uppercase border">
+                                            {{ $item->type_label }}
+                                        </span>
                                     </div>
                                     <div class="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap font-medium">
                                         <span><strong class="text-slate-700">Barcode:</strong> {{ $item->barcode }}</span>
@@ -321,55 +326,228 @@
                                     </div>
                                     <div class="text-right pl-3 border-l border-slate-200/80">
                                         <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Condition</span>
-                                        <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-100">{{ $item->condition }}</span>
+                                        <span class="text-xs font-black {{ $item->type_label === 'E-Commerce' ? 'text-blue-700 bg-blue-50 border-blue-100' : 'text-emerald-700 bg-emerald-50 border-emerald-100' }} px-2.5 py-0.5 rounded-md border">{{ $item->condition }}</span>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No refurbishing items processed yet.</div>
+                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No refurbishing or e-commerce items processed yet.</div>
                         @endforelse
                     </div>
 
-                    {{-- E-commerce Tab --}}
-                    <div id="tab-content-ecommerce" class="tab-content hidden space-y-4">
-                        @forelse ($ecommerceItems as $item)
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-slate-200/70 rounded-2xl hover:bg-slate-50/50 transition">
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex items-center gap-2 flex-wrap">
-                                        <h4 class="font-black text-slate-900 text-sm">{{ $item->name }}</h4>
-                                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase">E-Commerce</span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap font-medium">
-                                        <span><strong class="text-slate-700">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-700">Category:</strong> {{ $item->category }}</span>
-                                        @if ($item->serial_number)
-                                            <span class="text-slate-300">•</span>
-                                            <span class="inline-flex items-center gap-1 font-mono bg-slate-100 px-2 py-0.5 rounded text-[11px] text-slate-700 font-bold">
-                                                SN: {{ $item->serial_number }}
-                                                <button onclick="copyToClipboard('{{ $item->serial_number }}', 'Serial copied!')" class="text-slate-400 hover:text-blue-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    @if ($item->notes)
-                                        <p class="text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-xl mt-2 font-medium border border-slate-100">
-                                            {{ $item->notes }}
-                                        </p>
+                    {{-- Data Destruction Tab --}}
+                    <div id="tab-content-destruction" class="tab-content hidden space-y-6">
+                        @forelse ($dataDestructionItems as $itemIndex => $item)
+                            <div class="p-6 sm:p-7 rounded-3xl border border-slate-200/80 bg-slate-50/40 hover:bg-slate-50/70 transition duration-200 space-y-5">
+                                {{-- Device Name & Pill --}}
+                                <div class="flex items-center gap-3 flex-wrap">
+                                    <h4 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">{{ $item->primary_name }}</h4>
+                                    @if ($item->total_parsed_count > 1)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-rose-50 text-rose-700 border border-rose-200">
+                                            +{{ $item->total_parsed_count - 1 }} more
+                                        </span>
                                     @endif
                                 </div>
-                                <div class="flex items-center gap-4 shrink-0 bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                    <div class="text-right">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Quantity</span>
-                                        <span class="text-sm font-black text-slate-900">{{ $item->quantity }}</span>
+
+                                {{-- Metadata Row & Right Stats --}}
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-slate-200/60">
+                                    <div class="flex items-center gap-3 text-xs text-slate-600 flex-wrap font-bold">
+                                        @php
+                                            $rawStatus = strtolower(trim($item->status ?: 'received'));
+                                            $statusLabel = match($rawStatus) {
+                                                'completed' => 'COMPLETED',
+                                                'in progress', 'processing' => 'PROCESSING',
+                                                default => 'RECEIVED'
+                                            };
+                                            $statusStyle = match($rawStatus) {
+                                                'completed' => 'bg-emerald-100 text-emerald-800',
+                                                'in progress', 'processing' => 'bg-amber-100 text-amber-800',
+                                                default => 'bg-slate-200 text-slate-700'
+                                            };
+                                        @endphp
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider {{ $statusStyle }}">
+                                            {{ $statusLabel }}
+                                        </span>
+                                        <span><strong class="text-slate-800">Barcode:</strong> {{ $item->barcode }}</span>
+                                        <span class="text-slate-300">•</span>
+                                        <span><strong class="text-slate-800">Category:</strong> {{ $item->category }}</span>
                                     </div>
-                                    <div class="text-right pl-3 border-l border-slate-200/80">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Condition</span>
-                                        <span class="text-xs font-black text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100">{{ $item->condition }}</span>
+
+                                    <div class="flex items-center gap-6 shrink-0 bg-white sm:bg-transparent p-3 sm:p-0 rounded-2xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
+                                        <div class="text-center sm:text-right">
+                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">QUANTITY</span>
+                                            <span class="text-base font-black text-slate-900">{{ $item->quantity }}</span>
+                                        </div>
+                                        <div class="text-center sm:text-right pl-4 border-l border-slate-200/80">
+                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">SANITIZATION</span>
+                                            <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-black text-rose-600 bg-rose-50 border border-rose-100/80">Data Sanitized</span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                {{-- Serial Numbers Box or Parsed Items Breakdown --}}
+                                @if ($item->total_parsed_count > 1)
+                                    {{-- Expandable Parsed Breakdown --}}
+                                    <div class="mt-3">
+                                        <button type="button" 
+                                                onclick="toggleBreakdown('dd-breakdown-{{ $itemIndex }}')" 
+                                                class="inline-flex items-center gap-2 text-xs font-black text-rose-700 hover:text-rose-800 bg-rose-50 border border-rose-200/80 px-4 py-2 rounded-xl transition">
+                                            <i class="fa-solid fa-list-check"></i>
+                                            <span>View All {{ $item->total_parsed_count }} Serialized Media Items</span>
+                                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="dd-arrow-{{ $itemIndex }}"></i>
+                                        </button>
+
+                                        <div id="dd-breakdown-{{ $itemIndex }}" class="hidden mt-4 space-y-3 pt-3 border-t border-slate-200/60">
+                                            <div class="max-h-[400px] overflow-y-auto space-y-2 pr-1">
+                                                @foreach ($item->parsed_items as $subItem)
+                                                    <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs">
+                                                        <div class="flex items-center gap-2 min-w-0">
+                                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-lg bg-slate-100 text-[10px] font-extrabold text-slate-600 shrink-0">
+                                                                #{{ $subItem['index'] }}
+                                                            </span>
+                                                            <span class="font-black text-slate-900 truncate" title="{{ $subItem['name'] }}">{{ $subItem['name'] }}</span>
+                                                            @if ($subItem['brand'] !== 'N/A' || $subItem['model'] !== 'N/A')
+                                                                <span class="text-slate-400 font-medium text-[11px]">({{ $subItem['brand'] }} / {{ $subItem['model'] }})</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="flex items-center gap-2 shrink-0">
+                                                            @if (!empty($subItem['serial_number']))
+                                                                <span class="font-mono text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60 font-bold flex items-center gap-1.5">
+                                                                    SN: {{ $subItem['serial_number'] }}
+                                                                    <button onclick="copyToClipboard('{{ addslashes($subItem['serial_number']) }}', 'Serial copied!')" class="text-slate-400 hover:text-rose-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
+                                                                </span>
+                                                            @else
+                                                                <span class="text-slate-400 text-[11px] font-medium">SN: N/A</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif (!empty($item->serial_number))
+                                    <div class="p-4 rounded-2xl bg-slate-100/70 border border-slate-200/60 flex items-start justify-between gap-3 font-mono text-[11px] text-slate-600 leading-relaxed">
+                                        <div class="min-w-0 flex-1 break-words">
+                                            <strong class="font-sans font-bold text-slate-700">Serial:</strong> {{ $item->serial_number }}
+                                        </div>
+                                        <button onclick="copyToClipboard('{{ addslashes($item->serial_number) }}', 'Serials copied to clipboard!')" class="shrink-0 text-slate-400 hover:text-blue-600 p-1 transition" title="Copy Serials">
+                                            <i class="fa-regular fa-copy text-sm"></i>
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
                         @empty
-                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No e-commerce items processed yet.</div>
+                            <div class="text-center py-12 text-slate-400 font-semibold text-sm">No data destruction items processed yet.</div>
+                        @endforelse
+                    </div>
+
+                    {{-- IT Assets Tab --}}
+                    <div id="tab-content-itassets" class="tab-content hidden space-y-6">
+                        @forelse ($itAssetsItems as $itemIndex => $item)
+                            <div class="p-6 sm:p-7 rounded-3xl border border-slate-200/80 bg-slate-50/40 hover:bg-slate-50/70 transition duration-200 space-y-5">
+                                {{-- Device Name & Pill --}}
+                                <div class="flex items-center gap-3 flex-wrap">
+                                    <h4 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">{{ $item->primary_name }}</h4>
+                                    @if ($item->total_parsed_count > 1)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                            +{{ $item->total_parsed_count - 1 }} more
+                                        </span>
+                                    @endif
+                                </div>
+
+                                {{-- Metadata Row & Right Stats --}}
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-slate-200/60">
+                                    <div class="flex items-center gap-3 text-xs text-slate-600 flex-wrap font-bold">
+                                        @php
+                                            $rawStatus = strtolower(trim($item->status ?: 'received'));
+                                            $statusLabel = match($rawStatus) {
+                                                'completed', 'ready for inventory' => 'COMPLETED',
+                                                'in progress', 'processing' => 'PROCESSING',
+                                                default => 'RECEIVED'
+                                            };
+                                            $statusStyle = match($rawStatus) {
+                                                'completed', 'ready for inventory' => 'bg-emerald-100 text-emerald-800',
+                                                'in progress', 'processing' => 'bg-amber-100 text-amber-800',
+                                                default => 'bg-slate-200 text-slate-700'
+                                            };
+                                        @endphp
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider {{ $statusStyle }}">
+                                            {{ $statusLabel }}
+                                        </span>
+                                        <span><strong class="text-slate-800">Barcode:</strong> {{ $item->barcode }}</span>
+                                        <span class="text-slate-300">•</span>
+                                        <span><strong class="text-slate-800">Category:</strong> {{ $item->category ?: 'IT Assets' }}</span>
+                                        @if (!empty($item->primary_brand) && $item->primary_brand !== 'N/A')
+                                            <span class="text-slate-300">•</span>
+                                            <span><strong class="text-slate-800">Brand/Model:</strong> {{ $item->primary_brand }} / {{ $item->primary_model }}</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="flex items-center gap-6 shrink-0 bg-white sm:bg-transparent p-3 sm:p-0 rounded-2xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
+                                        <div class="text-center sm:text-right">
+                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">QUANTITY</span>
+                                            <span class="text-base font-black text-slate-900">{{ $item->quantity ?: 1 }}</span>
+                                        </div>
+                                        <div class="text-center sm:text-right pl-4 border-l border-slate-200/80">
+                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">ASSET STATUS</span>
+                                            <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-black text-indigo-700 bg-indigo-50 border border-indigo-100">{{ $item->status ?: 'Received' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Serial Numbers Box or Parsed Items Breakdown --}}
+                                @if ($item->total_parsed_count > 1)
+                                    {{-- Expandable Parsed Breakdown --}}
+                                    <div class="mt-3">
+                                        <button type="button" 
+                                                onclick="toggleBreakdown('ita-breakdown-{{ $itemIndex }}')" 
+                                                class="inline-flex items-center gap-2 text-xs font-black text-indigo-700 hover:text-indigo-800 bg-indigo-50 border border-indigo-200/80 px-4 py-2 rounded-xl transition">
+                                            <i class="fa-solid fa-list-check"></i>
+                                            <span>View All {{ $item->total_parsed_count }} IT Asset Items</span>
+                                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="ita-arrow-{{ $itemIndex }}"></i>
+                                        </button>
+
+                                        <div id="ita-breakdown-{{ $itemIndex }}" class="hidden mt-4 space-y-3 pt-3 border-t border-slate-200/60">
+                                            <div class="max-h-[400px] overflow-y-auto space-y-2 pr-1">
+                                                @foreach ($item->parsed_items as $subItem)
+                                                    <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs">
+                                                        <div class="flex items-center gap-2 min-w-0">
+                                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-lg bg-slate-100 text-[10px] font-extrabold text-slate-600 shrink-0">
+                                                                #{{ $subItem['index'] }}
+                                                            </span>
+                                                            <span class="font-black text-slate-900 truncate" title="{{ $subItem['name'] }}">{{ $subItem['name'] }}</span>
+                                                            @if ($subItem['brand'] !== 'N/A' || $subItem['model'] !== 'N/A')
+                                                                <span class="text-slate-400 font-medium text-[11px]">({{ $subItem['brand'] }} / {{ $subItem['model'] }})</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="flex items-center gap-2 shrink-0">
+                                                            @if (!empty($subItem['serial_number']))
+                                                                <span class="font-mono text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60 font-bold flex items-center gap-1.5">
+                                                                    SN: {{ $subItem['serial_number'] }}
+                                                                    <button onclick="copyToClipboard('{{ addslashes($subItem['serial_number'] ?? '') }}', 'Serial copied!')" class="text-slate-400 hover:text-indigo-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
+                                                                </span>
+                                                            @else
+                                                                <span class="text-slate-400 text-[11px] font-medium">SN: N/A</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif (!empty($item->serial_number))
+                                    <div class="p-4 rounded-2xl bg-slate-100/70 border border-slate-200/60 flex items-start justify-between gap-3 font-mono text-[11px] text-slate-600 leading-relaxed">
+                                        <div class="min-w-0 flex-1 break-words">
+                                            <strong class="font-sans font-bold text-slate-700">Serial:</strong> {{ $item->serial_number }}
+                                        </div>
+                                        <button onclick="copyToClipboard('{{ addslashes($item->serial_number) }}', 'Serials copied to clipboard!')" class="shrink-0 text-slate-400 hover:text-blue-600 p-1 transition" title="Copy Serials">
+                                            <i class="fa-regular fa-copy text-sm"></i>
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
+                        @empty
+                            <div class="text-center py-12 text-slate-400 font-semibold text-sm">No IT asset items processed yet.</div>
                         @endforelse
                     </div>
 
@@ -401,55 +579,6 @@
                             </div>
                         @empty
                             <div class="text-center py-10 text-slate-400 font-semibold text-sm">No universal waste items processed yet.</div>
-                        @endforelse
-                    </div>
-
-                    {{-- Data Destruction Tab --}}
-                    <div id="tab-content-destruction" class="tab-content hidden space-y-4">
-                        @forelse ($dataDestructionItems as $item)
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-slate-200/70 rounded-2xl hover:bg-slate-50/50 transition">
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex items-center gap-2 flex-wrap">
-                                        <h4 class="font-black text-slate-900 text-sm">{{ $item->name }}</h4>
-                                        @php
-                                            $badgeClass = match(strtolower($item->status)) {
-                                                'completed' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                                                'in progress' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                                'ready for inventory' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                                                default => 'bg-slate-100 text-slate-700 border-slate-200'
-                                            };
-                                        @endphp
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border {{ $badgeClass }}">
-                                            {{ $item->status }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap font-medium">
-                                        <span><strong class="text-slate-700">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-700">Category:</strong> {{ $item->category }}</span>
-                                    </div>
-                                    @if ($item->serial_number)
-                                        <div class="mt-2 font-mono text-[11px] bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200/60 text-slate-700 flex items-center justify-between">
-                                            <span><strong>Serial:</strong> {{ $item->serial_number }}</span>
-                                            <button onclick="copyToClipboard('{{ $item->serial_number }}', 'Serial copied!')" class="text-slate-400 hover:text-blue-600 ml-2">
-                                                <i class="fa-regular fa-copy"></i>
-                                            </button>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0 bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                    <div class="text-right">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Quantity</span>
-                                        <span class="text-sm font-black text-slate-900">{{ $item->quantity }}</span>
-                                    </div>
-                                    <div class="text-right pl-3 border-l border-slate-200/80">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Sanitization</span>
-                                        <span class="text-xs font-black text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-100">Data Sanitized</span>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No data destruction items processed yet.</div>
                         @endforelse
                     </div>
                 </div>
@@ -543,6 +672,13 @@
         });
         document.getElementById('tab-content-' + tabId).classList.remove('hidden');
         document.getElementById('tab-btn-' + tabId).classList.add('active');
+    }
+
+    function toggleBreakdown(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.toggle('hidden');
+        }
     }
 </script>
 @endsection

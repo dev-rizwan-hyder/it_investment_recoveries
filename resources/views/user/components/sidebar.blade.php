@@ -14,25 +14,25 @@
         <a href="{{ route('user.received-intake.index') }}" 
            class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.received-intake.*') ? 'sidebar-active' : '' }}">
             <i class="fas fa-boxes-stacked w-5 text-center text-slate-400 group-hover:text-blue-600 transition-colors"></i>
-            <span>Received Intake</span>
+            <span>Recieving / Processing</span>
         </a>
 
         <a href="{{ route('user.data-destruction.index') }}" 
            class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.data-destruction.*') ? 'sidebar-active' : '' }}">
             <i class="fas fa-shield-halved w-5 text-center text-slate-400 group-hover:text-rose-600 transition-colors"></i>
-            <span>Data Destruction</span>
+            <span>Data destruction / Certificate</span>
         </a>
 
-        <a href="{{ route('user.it-assets.index') }}" 
-           class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.it-assets.*') ? 'sidebar-active' : '' }}">
-            <i class="fas fa-laptop-code w-5 text-center text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
-            <span>IT Assets</span>
+        <a href="{{ route('user.universal-waste.index') }}" 
+           class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.universal-waste.*') ? 'sidebar-active' : '' }}">
+            <i class="fas fa-recycle w-5 text-center text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
+            <span>Universal Waste / Certificate</span>
         </a>
 
-        <a href="{{ route('user.orders.index') }}" 
-           class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.orders.*') ? 'sidebar-active' : '' }}">
-            <i class="fas fa-shopping-bag w-5 text-center text-slate-400 group-hover:text-amber-600 transition-colors"></i>
-            <span>My Orders</span>
+        <a href="{{ route('user.esg-report.index') }}" 
+           class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.esg-report.*') ? 'sidebar-active' : '' }}">
+            <i class="fas fa-leaf w-5 text-center text-slate-400 group-hover:text-teal-600 transition-colors"></i>
+            <span>ESG Report</span>
         </a>
 
         <div class="pt-2">

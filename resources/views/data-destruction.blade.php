@@ -114,62 +114,101 @@
             </div>
         </section>
 
-        <!-- Section 2: Certified Data Destruction Professionals in Denver -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full overflow-hidden">
-            <div class="w-full max-w-6xl mx-auto text-center space-y-10">
+        <!-- Section 2: Certified Data Destruction Professionals in Denver (Executive Light Photorealistic Suite) -->
+        <section class="bg-gradient-to-b from-white via-slate-50/80 to-white text-gray-900 py-24 sm:py-32 px-4 sm:px-8 lg:px-16 w-full border-t border-slate-200/80 relative overflow-hidden">
+            <!-- Ambient Background Glows -->
+            <div class="absolute top-1/4 -left-36 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[160px] pointer-events-none"></div>
+            <div class="absolute bottom-1/4 -right-36 w-[600px] h-[600px] bg-teal-500/5 rounded-full blur-[160px] pointer-events-none"></div>
+
+            <div class="w-full max-w-7xl mx-auto space-y-16 relative z-10">
                 
-                <!-- Sliding Logos Marquee Slider (Same as Home Slider) -->
-                <div class="relative w-full overflow-hidden py-4 border-b border-gray-100 mb-8">
+                <!-- Compliance Logos Light Glass Marquee (Increased Logo Dimensions) -->
+                <div class="relative w-full overflow-hidden py-8 sm:py-10 bg-white/95 border border-slate-200 shadow-lg rounded-3xl backdrop-blur-xl group">
+                    <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/90 to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white via-white/90 to-transparent z-10 pointer-events-none"></div>
+                    
                     <div class="animate-partner-marquee flex items-center space-x-12 sm:space-x-20 md:space-x-28">
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
 
                         <!-- Seamless Loop Duplicate -->
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/lruIoO-removebg-preview.webp') }}" alt="NIST Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/khyuXt-removebg-preview-1.webp') }}" alt="Department of Defense Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
-                        <div class="flex items-center justify-center w-[180px] h-[180px] shrink-0">
-                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105" />
+                        <div class="flex items-center justify-center w-[220px] sm:w-[280px] h-[120px] sm:h-[150px] shrink-0 p-2">
+                            <img src="{{ asset('images/home-slider/AEfjkp-removebg-preview-1.webp') }}" alt="EPA Certification" class="w-full h-full object-contain filter drop-shadow-md transition-all duration-500 hover:scale-110" />
                         </div>
                     </div>
                 </div>
 
-                <!-- Title -->
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#035c43]">Certified Data Destruction</span> 
-                    <span class="text-gray-900 block sm:inline ml-2">Professionals in Denver</span>
-                </h2>
+                <!-- Photorealistic Visual Split Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    
+                    <!-- Left Side: Photorealistic Tech Media Frame -->
+                    <div class="lg:col-span-5 relative group">
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/30 via-teal-400/30 to-emerald-600/30 rounded-3xl blur-md opacity-50 group-hover:opacity-100 transition duration-700"></div>
+                        <div class="relative rounded-3xl overflow-hidden border border-slate-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.08)] bg-slate-900 aspect-[4/3] sm:aspect-[16/11] lg:aspect-square">
+                            <img 
+                                src="{{ asset('images/services/data-destruction-hero.png') }}" 
+                                alt="Certified Data Destruction Professionals" 
+                                class="w-full h-full object-cover object-center transform scale-105 group-hover:scale-110 transition-transform duration-700 ease-out brightness-105 contrast-105"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500"></div>
+                            
+                            <!-- Shimmer Line -->
+                            <div class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[350%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+                        </div>
+                    </div>
 
-                <!-- Main Description -->
-                <p class="text-gray-700 text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed max-w-5xl mx-auto">
-                    As a top data destruction company in Denver, we uses industry-approved techniques like disk wiping, onsite hardware shredding, and degaussing to securely eliminate sensitive data from computers, hard drives, tapes and other devices. We adhere to NAID and NIST standards, providing certified reporting for compliance. Our information security experts make data destruction smooth, convenient and affordable for local businesses.
-                </p>
+                    <!-- Right Side: Primary Content Executive Card -->
+                    <div class="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-12 shadow-[0_20px_60px_rgba(3,92,67,0.08)] relative overflow-hidden space-y-6 text-left group">
+                        <!-- Top Accent Shimmer Line -->
+                        <div class="h-1.5 w-full bg-gradient-to-r from-[#035c43] via-emerald-500 to-teal-400 absolute top-0 left-0"></div>
+                        <div class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-emerald-50/60 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[350%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
 
-                <!-- Sub-Heading & Paragraph -->
-                <div class="pt-6 space-y-5">
-                    <h3 class="text-3xl sm:text-4xl font-black text-[#035c43]">
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight font-['Albert_Sans',sans-serif]">
+                            <span class="text-[#035c43]">Certified Data Destruction</span> 
+                            <span class="text-gray-900 block sm:inline ml-1">Professionals in Denver</span>
+                        </h2>
+
+                        <p class="text-gray-700 text-base sm:text-lg lg:text-xl font-normal leading-relaxed">
+                            As a top data destruction company in Denver, we uses industry-approved techniques like disk wiping, onsite hardware shredding, and degaussing to securely eliminate sensitive data from computers, hard drives, tapes and other devices. We adhere to NAID and NIST standards, providing certified reporting for compliance. Our information security experts make data destruction smooth, convenient and affordable for local businesses.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Action Section: Contact Callout Panel -->
+                <div class="bg-gradient-to-br from-emerald-50/90 via-slate-50 to-teal-50/90 border border-emerald-200/80 rounded-3xl p-8 sm:p-12 lg:p-14 shadow-xl relative overflow-hidden group text-center space-y-8">
+                    <!-- Ambient Soft Glow -->
+                    <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/70 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[350%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+
+                    <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#035c43] tracking-tight leading-tight font-['Albert_Sans',sans-serif] max-w-4xl mx-auto">
                         Contact for Hassle Free <span class="text-gray-900">Data Destruction</span>
                     </h3>
-                    <p class="text-gray-800 text-lg sm:text-xl md:text-2xl max-w-5xl mx-auto leading-relaxed font-medium">
+
+                    <p class="text-gray-800 text-base sm:text-lg lg:text-xl font-medium leading-relaxed max-w-4xl mx-auto">
                         As a leader in data destruction in Denver, we make the process smooth and simple for our local clients. Contact us today to learn more about our affordable and reliable Denver data destruction services.
                     </p>
-                    <div class="pt-3">
+
+                    <div class="pt-2">
                         <a 
                             href="{{ url('/contact-us') }}" 
-                            class="inline-flex items-center gap-2.5 px-9 py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg shadow-xl transition duration-300 transform hover:scale-105"
+                            class="inline-flex items-center gap-3 px-10 py-4.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-lg sm:text-xl shadow-2xl transition-all duration-300 transform hover:scale-105 group/btn"
                         >
                             <span>Book Consultation</span>
-                            <span class="text-xl">→</span>
+                            <span class="text-2xl transition-transform duration-200 group-hover/btn:translate-x-1.5">→</span>
                         </a>
                     </div>
                 </div>
