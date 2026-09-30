@@ -5,14 +5,23 @@
 @section('content')
 <div class="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8 space-y-6">
     {{-- Breadcrumb & Back --}}
-    <div class="flex items-center gap-3">
-        <a href="{{ route('user.it-assets.index') }}"
-           class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100 hover:text-slate-900">
-            <i class="fa-solid fa-arrow-left text-sm"></i>
-        </a>
-        <div>
-            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">IT Assets</span>
-            <h1 class="text-xl font-black text-slate-900 tracking-tight">Asset Entry #{{ $item->barcode }}</h1>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('user.it-assets.index') }}"
+               class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100 hover:text-slate-900">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">IT Assets</span>
+                <h1 class="text-xl font-black text-slate-900 tracking-tight">Asset Entry #{{ $item->barcode }}</h1>
+            </div>
+        </div>
+        <div class="no-print">
+            <button onclick="openPrintModal()" type="button" 
+                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 text-xs font-extrabold transition shadow-xs cursor-pointer">
+                <i class="fa-solid fa-print text-xs"></i>
+                <span>Print / Save PDF</span>
+            </button>
         </div>
     </div>
 
@@ -287,8 +296,191 @@
                 No item models found matching your search.
             </div>
         </div>
+    {{-- Bottom Action Bar --}}
+    <div class="mt-8 flex justify-center no-print">
+        <button onclick="openPrintModal()" type="button" 
+                class="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-slate-900 text-white hover:bg-slate-800 font-extrabold text-sm shadow-md transition cursor-pointer">
+            <i class="fa-solid fa-print"></i>
+            <span>Print Full IT Asset Details</span>
+        </button>
     </div>
 </div>
+
+{{-- Print Preview Modal --}}
+<div id="printAssetModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 sm:p-6 overflow-y-auto">
+    <div class="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+        {{-- Modal Toolbar --}}
+        <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white border-b border-slate-800 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white font-bold">
+                    <i class="fa-solid fa-print"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-black">IT Asset Details Print Preview</h3>
+                    <p class="text-xs text-slate-400 font-medium">Barcode #{{ $item->barcode }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="triggerAssetPrint()" 
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs transition shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print / Save PDF</span>
+                </button>
+                <button type="button" onclick="closePrintModal()" 
+                        class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        {{-- Scrollable Preview Body --}}
+        <div class="p-6 sm:p-8 overflow-y-auto bg-slate-100/70 flex-1">
+            {{-- Printable Report Card --}}
+            <div id="printableAssetReport" class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-xs space-y-8 font-sans">
+                {{-- Branding & Header --}}
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 gap-4">
+                    <div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-indigo-600 text-white font-black text-sm">IT</span>
+                            <span class="text-xl font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
+                        </div>
+                        <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Official IT Asset Details Report</p>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $badgeStyle }}">
+                            Status: {{ $statusDisplay }}
+                        </span>
+                        <p class="text-xs text-slate-500 font-bold mt-1.5">Registered Date: {{ $item->created_at ? $item->created_at->format('M d, Y') : 'N/A' }}</p>
+                    </div>
+                </div>
+
+                {{-- Barcode Banner --}}
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Asset Barcode Number</span>
+                        <h2 class="text-xl font-black text-slate-900 tracking-tight">#{{ $item->barcode }}</h2>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Pallet Number Ref</span>
+                        <p class="text-sm font-black text-slate-900">{{ $item->pallet_number ?: 'Unassigned' }}</p>
+                    </div>
+                </div>
+
+                {{-- Specifications Table --}}
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 border-b border-slate-200 pb-2 mb-3">1. Asset Specifications</h3>
+                    <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+                        <tbody class="divide-y divide-slate-200 font-bold text-slate-700">
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80 w-1/4">Primary Item Name</td>
+                                <td class="py-2.5 px-4 w-1/4">{{ $item->primary_name }}</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80 w-1/4">Category</td>
+                                <td class="py-2.5 px-4 w-1/4">{{ $item->category ?: 'IT Assets' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Brand / Model</td>
+                                <td class="py-2.5 px-4">{{ $item->primary_brand }} / {{ $item->primary_model }}</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Sub-Category</td>
+                                <td class="py-2.5 px-4">{{ $item->sub_category ?: 'N/A' }}</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Total Quantity</td>
+                                <td class="py-2.5 px-4 font-black text-indigo-700">{{ $item->quantity }} units</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Condition</td>
+                                <td class="py-2.5 px-4">{{ $item->condition ?: 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Total Weight</td>
+                                <td class="py-2.5 px-4">{{ $item->weight ?: 0 }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Placement Location</td>
+                                <td class="py-2.5 px-4">{{ $item->item_placement ?: 'Unassigned' }}</td>
+                            </tr>
+                            @if ($item->notes)
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Notes / Instructions</td>
+                                <td colspan="3" class="py-2.5 px-4 text-slate-800 font-medium">{{ $item->notes }}</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Serialized Item Models Breakdown Table --}}
+                @if (!empty($item->parsed_items) && count($item->parsed_items) > 0)
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 border-b border-slate-200 pb-2 mb-3">2. Serialized Item Models Breakdown</h3>
+                    <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-900 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200">
+                                <th class="py-2.5 px-3 w-10 text-center">#</th>
+                                <th class="py-2.5 px-4">Item Name</th>
+                                <th class="py-2.5 px-4">Brand</th>
+                                <th class="py-2.5 px-4">Model</th>
+                                <th class="py-2.5 px-4">Serial Number</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-bold text-slate-700">
+                            @foreach ($item->parsed_items as $subItem)
+                                <tr>
+                                    <td class="py-2 px-3 text-center text-slate-400 font-extrabold">{{ $subItem['index'] }}</td>
+                                    <td class="py-2 px-4 text-slate-900 font-extrabold">{{ $subItem['name'] }}</td>
+                                    <td class="py-2 px-4">{{ $subItem['brand'] }}</td>
+                                    <td class="py-2 px-4">{{ $subItem['model'] }}</td>
+                                    <td class="py-2 px-4 font-mono text-slate-800">{{ $subItem['serial_number'] ?: 'N/A' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media print {
+    @page {
+        margin: 0;
+    }
+    header, nav, sidebar, #sidebar, #sidebarOverlay, #toastContainer, .no-print, .no-print * {
+        display: none !important;
+    }
+    html, body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 15mm !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    #printAssetModal {
+        position: static !important;
+        display: block !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    #printAssetModal > div {
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    #printableAssetReport {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+}
+</style>
+
 @push('scripts')
 <script>
     const breakdownSearchInput = document.getElementById('breakdownSearchInput');
@@ -311,6 +503,58 @@
 
         if (noBreakdownMatches) {
             noBreakdownMatches.classList.toggle('hidden', visibleCount > 0);
+        }
+    });
+
+    function openPrintModal() {
+        const modal = document.getElementById('printAssetModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePrintModal() {
+        const modal = document.getElementById('printAssetModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    }
+
+    function triggerAssetPrint() {
+        const reportElement = document.getElementById('printableAssetReport');
+        if (!reportElement) {
+            window.print();
+            return;
+        }
+
+        const reportHtml = reportElement.outerHTML;
+        const barcodeNum = '{{ addslashes($item->barcode) }}';
+        const printWin = window.open('', '_blank', 'width=1000,height=850');
+        if (!printWin) {
+            window.print();
+            return;
+        }
+
+        let docContent = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
+        docContent += '<title>IT Asset Details Report - #' + barcodeNum + '</title>';
+        docContent += '<script src="https://cdn.tailwindcss.com"><\/script>';
+        docContent += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
+        docContent += '<style>@page { margin: 0; } body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: #ffffff; padding: 15mm; color: #0f172a; } @media print { body { padding: 12mm; } }</style>';
+        docContent += '</head><body class="bg-white"><div class="max-w-4xl mx-auto">';
+        docContent += reportHtml;
+        docContent += '</div><script>setTimeout(function() { window.print(); }, 400);<\/script></body></html>';
+
+        printWin.document.write(docContent);
+        printWin.document.close();
+    }
+
+    document.getElementById('printAssetModal')?.addEventListener('click', function(e) {
+        if (e.target.id === 'printAssetModal') {
+            closePrintModal();
         }
     });
 </script>
