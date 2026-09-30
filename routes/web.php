@@ -156,7 +156,9 @@ Route::middleware('auth')->group(function () {
     // User Received Intake Routes
     Route::controller(ReceivedIntakeController::class)->prefix('user-received-intake')->name('user.received-intake.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('bulk-delete');
         Route::get('/{id}', 'show')->name('show');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
     // User Data Destruction Routes

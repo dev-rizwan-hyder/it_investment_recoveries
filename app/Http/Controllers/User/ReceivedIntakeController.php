@@ -14,6 +14,9 @@ class ReceivedIntakeController extends Controller
     /**
      * Display a listing of received intakes (pallets) for the user.
      */
+    /**
+     * Display a listing of received intakes (pallets) for the user.
+     */
     public function index()
     {
         $user = Auth::user();
@@ -35,12 +38,12 @@ class ReceivedIntakeController extends Controller
             ->latest()
             ->paginate(10);
 
-        // Fetch aggregates to calculate remaining items/weight
-        $aggregates = $this->intakeAggregatesForBarcodes($pallets->pluck('barcode_number')->all());
+        // Fetch aggregates to calculate remaining items/weight specific to each pallet
+        $aggregates = $this->intakeAggregatesForPallets($pallets);
 
         // Process pallets to inject stats
         $processedPallets = collect($pallets->items())->map(function ($pallet) use ($aggregates) {
-            $breakdown = $this->processingBreakdown($pallet, $this->intakeAggregateForPallet($aggregates, $pallet));
+            $breakdown = $this->processingBreakdown($pallet, $aggregates[$pallet->id] ?? null);
             $pallet->remaining_quantity = $breakdown['remaining_quantity'];
             $pallet->remaining_weight = $breakdown['remaining_weight'];
             $pallet->intake_breakdown = $breakdown;
@@ -49,6 +52,9 @@ class ReceivedIntakeController extends Controller
 
         // Paginate manually since we mapped the items, or override items in the paginator
         $pallets->setCollection($processedPallets);
+
+        // Attach sub-pallet index (#1, #2, #3...) for barcodes split into multiple pallets
+        $this->attachSubPalletIndex($pallets);
 
         // Calculate stats for all pallets of this client
         $stats = $this->calculateStats($clientIds);
@@ -60,6 +66,9 @@ class ReceivedIntakeController extends Controller
         ]);
     }
 
+    /**
+     * Display the details of a specific received intake (pallet).
+     */
     /**
      * Display the details of a specific received intake (pallet).
      */
@@ -84,20 +93,74 @@ class ReceivedIntakeController extends Controller
             ->orderBy('id')
             ->get();
 
-        // Fetch all items from ecommerce, refurbishing, universal waste, and data destruction
+        $this->attachSubPalletIndex($relatedPallets);
+        $this->attachSubPalletIndex($pallet);
+
+        // Fetch all items from ecommerce, refurbishing, universal waste, data destruction, IT assets
         $barcode = trim($pallet->barcode_number);
 
-        $ecommerceItems = DB::table('ecommerce_items')->where('pallet_number', $barcode)->get();
-        $refurbishingItems = DB::table('refurbishing_items')->where('pallet_number', $barcode)->get();
-        $universalWasteItems = DB::table('universal_waste_items')->where('pallet_number', $barcode)->get();
-        $dataDestructionItems = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->get();
-        $itAssetsItems = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->get();
+        $allEcommerce = DB::table('ecommerce_items')->where('pallet_number', $barcode)->get();
+        $allRefurbishing = DB::table('refurbishing_items')->where('pallet_number', $barcode)->get();
+        $allUniversal = DB::table('universal_waste_items')->where('pallet_number', $barcode)->get();
+        $allDestruction = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->get();
+        $allItAssets = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->get();
 
-        $aggregate = $this->intakeAggregateForPallet(
-            $this->intakeAggregatesForBarcodes([$pallet->barcode_number]),
-            $pallet
-        );
-        $breakdown = $this->processingBreakdown($pallet, $aggregate);
+        // Build pallet lookup map for tagging items with sub-pallet names
+        $palletMap = $relatedPallets->keyBy('id');
+        $palletIdSet = $relatedPallets->pluck('id')->all();
+
+        // Filter items SPECIFIC to the opened pallet
+        $currentPid = $pallet->id;
+        $isFirstPallet = ($relatedPallets->first() && $relatedPallets->first()->id === $currentPid);
+
+        $currentPalletFilter = function ($item) use ($currentPid, $isFirstPallet, $palletIdSet) {
+            $itemPid = (int) ($item->pallet_id ?? 0);
+            if ($itemPid === $currentPid) {
+                return true;
+            }
+            if ($isFirstPallet && ($itemPid === 0 || !in_array($itemPid, $palletIdSet))) {
+                return true;
+            }
+            return false;
+        };
+
+        $ecommerceItems = $allEcommerce->filter($currentPalletFilter)->values();
+        $refurbishingItems = $allRefurbishing->filter($currentPalletFilter)->values();
+        $universalWasteItems = $allUniversal->filter($currentPalletFilter)->values();
+        $dataDestructionItems = $allDestruction->filter($currentPalletFilter)->values();
+        $itAssetsItems = $allItAssets->filter($currentPalletFilter)->values();
+
+        $pallet->total_processed_items_count = $ecommerceItems->count()
+            + $refurbishingItems->count()
+            + $universalWasteItems->count()
+            + $dataDestructionItems->count()
+            + $itAssetsItems->count();
+
+        $pallet->rel_ecommerce = $ecommerceItems;
+        $pallet->rel_refurbishing = $refurbishingItems;
+        $pallet->rel_universal = $universalWasteItems;
+        $pallet->rel_destruction = $dataDestructionItems;
+        $pallet->rel_itassets = $itAssetsItems;
+
+        // Tag items with sub-pallet display names for reference
+        $tagItemWithPallet = function ($item) use ($palletMap) {
+            $pid = (int) ($item->pallet_id ?? 0);
+            if ($pid > 0 && isset($palletMap[$pid])) {
+                $item->pallet_display_name = $palletMap[$pid]->display_barcode;
+            } else {
+                $item->pallet_display_name = null;
+            }
+            return $item;
+        };
+
+        $ecommerceItems->transform($tagItemWithPallet);
+        $refurbishingItems->transform($tagItemWithPallet);
+        $universalWasteItems->transform($tagItemWithPallet);
+        $dataDestructionItems->transform($tagItemWithPallet);
+        $itAssetsItems->transform($tagItemWithPallet);
+
+        $aggregates = $this->intakeAggregatesForPallets(collect([$pallet]));
+        $breakdown = $this->processingBreakdown($pallet, $aggregates[$pallet->id] ?? null);
 
         return view('user.received-intake.show', [
             'pallet' => $pallet,
@@ -115,33 +178,54 @@ class ReceivedIntakeController extends Controller
     {
         return [
             'totalPallets' => 0,
-            'processingCount' => 0,
-            'completedCount' => 0,
-            'totalItems' => 0,
-            'totalWeight' => 0.0,
+            'receivedPalletsCount' => 0,
+            'receivedItemsCount' => 0,
+            'processingPalletsCount' => 0,
+            'processingItemsCount' => 0,
+            'completedPalletsCount' => 0,
+            'completedItemsCount' => 0,
         ];
     }
 
     private function calculateStats(array $clientIds): array
     {
         $pallets = Pallet::whereIn('client_id', $clientIds)->get();
-        $aggregates = $this->intakeAggregatesForBarcodes($pallets->pluck('barcode_number')->all());
 
-        $totalItems = 0;
-        $totalWeight = 0.0;
+        $receivedPallets = $pallets->filter(function ($p) {
+            $st = strtolower(trim($p->status ?: 'received'));
+            return $st === 'received' || $st === 'pending' || $st === '';
+        });
 
-        foreach ($pallets as $pallet) {
-            $breakdown = $this->processingBreakdown($pallet, $this->intakeAggregateForPallet($aggregates, $pallet));
-            $totalItems += $breakdown['remaining_quantity'];
-            $totalWeight += $breakdown['remaining_weight'];
-        }
+        $processingPallets = $pallets->filter(function ($p) {
+            $st = strtolower(trim($p->status ?: ''));
+            return str_contains($st, 'progr') || str_contains($st, 'process');
+        });
+
+        $completedPallets = $pallets->filter(function ($p) {
+            $st = strtolower(trim($p->status ?: ''));
+            return str_contains($st, 'complet') || str_contains($st, 'ready') || str_contains($st, 'recycl');
+        });
+
+        $receivedItems = $receivedPallets->sum(function ($p) {
+            return max(0, (int) ($p->estimated_count ?? 0));
+        });
+
+        $processingItems = $processingPallets->sum(function ($p) {
+            return max(0, (int) ($p->estimated_count ?? 0));
+        });
+
+        $completedItems = $completedPallets->sum(function ($p) {
+            return max(0, (int) ($p->estimated_count ?? 0));
+        });
 
         return [
             'totalPallets' => $pallets->count(),
-            'processingCount' => $pallets->where('status', 'Processing')->count(),
-            'completedCount' => $pallets->where('status', 'Completed')->count(),
-            'totalItems' => $totalItems,
-            'totalWeight' => $totalWeight,
+            'receivedPalletsCount' => $receivedPallets->count(),
+            'receivedItemsCount' => $receivedItems,
+            'processingPalletsCount' => $processingPallets->count(),
+            'processingItemsCount' => $processingItems,
+            'completedPalletsCount' => $completedPallets->count(),
+            'completedItemsCount' => $completedItems,
         ];
     }
 
@@ -225,10 +309,171 @@ class ReceivedIntakeController extends Controller
         return $aggregates;
     }
 
+    private function attachSubPalletIndex($pallets)
+    {
+        $collection = $pallets instanceof \Illuminate\Pagination\LengthAwarePaginator
+            ? $pallets->getCollection()
+            : collect($pallets);
+
+        if ($collection->isEmpty()) {
+            return $pallets;
+        }
+
+        $barcodes = $collection->pluck('barcode_number')
+            ->filter(fn ($b) => is_string($b) && trim($b) !== '')
+            ->map(fn ($b) => trim(strtolower($b)))
+            ->unique()
+            ->values()
+            ->all();
+
+        if (empty($barcodes)) {
+            return $pallets;
+        }
+
+        $allPallets = Pallet::whereIn(DB::raw('TRIM(LOWER(barcode_number))'), $barcodes)
+            ->orderBy('id', 'asc')
+            ->get(['id', 'barcode_number']);
+
+        $allPalletGroup = $allPallets->groupBy(function ($p) {
+            return trim(strtolower($p->barcode_number));
+        });
+
+        $collection->transform(function ($pallet) use ($allPalletGroup) {
+            $key = trim(strtolower($pallet->barcode_number));
+            $group = $allPalletGroup->get($key, collect());
+            if ($group->count() > 1) {
+                $palletIds = $group->pluck('id')->all();
+                $idx = array_search($pallet->id, $palletIds);
+                if ($idx !== false) {
+                    $pallet->sub_pallet_index = $idx + 1;
+                    $pallet->display_barcode = trim($pallet->barcode_number) . ' (#' . ($idx + 1) . ')';
+                } else {
+                    $pallet->sub_pallet_index = null;
+                    $pallet->display_barcode = trim($pallet->barcode_number);
+                }
+            } else {
+                $pallet->sub_pallet_index = null;
+                $pallet->display_barcode = trim($pallet->barcode_number);
+            }
+            return $pallet;
+        });
+
+        if ($pallets instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $pallets->setCollection($collection);
+            return $pallets;
+        }
+
+        return $collection;
+    }
+
+    private function intakeAggregatesForPallets($pallets): array
+    {
+        $collection = $pallets instanceof \Illuminate\Pagination\LengthAwarePaginator
+            ? $pallets->getCollection()
+            : collect($pallets);
+
+        if ($collection->isEmpty()) {
+            return [];
+        }
+
+        $palletIds = $collection->pluck('id')->all();
+        $barcodes = $collection->pluck('barcode_number')->filter()->unique()->all();
+
+        if (empty($palletIds) && empty($barcodes)) {
+            return [];
+        }
+
+        $aggregates = [];
+        $sources = [
+            ['table' => 'ecommerce_items', 'label' => 'E-commerce'],
+            ['table' => 'refurbishing_items', 'label' => 'Refurbishing'],
+            ['table' => 'universal_waste_items', 'label' => 'Universal Waste'],
+            ['table' => 'data_destruction_items', 'label' => 'Data Destruction'],
+            ['table' => 'it_assets_items', 'label' => 'IT Assets'],
+        ];
+
+        foreach ($sources as $source) {
+            $table = $source['table'];
+            $isUniversalWaste = ($table === 'universal_waste_items');
+
+            $rows = DB::table($table)
+                ->selectRaw('COALESCE(pallet_id, 0) as pallet_id')
+                ->selectRaw('TRIM(pallet_number) as pallet_number')
+                ->selectRaw('COUNT(*) as records')
+                ->selectRaw('COALESCE(SUM(quantity), 0) as total_quantity')
+                ->selectRaw($isUniversalWaste 
+                    ? 'COALESCE(SUM(reuse_quantity), 0) as reuse_quantity' 
+                    : 'COALESCE(SUM(CASE WHEN reuse_quantity > 0 THEN reuse_quantity ELSE quantity END), 0) as reuse_quantity')
+                ->selectRaw($isUniversalWaste 
+                    ? 'COALESCE(SUM(CASE WHEN scrap_quantity > 0 THEN scrap_quantity ELSE quantity END), 0) as scrap_quantity' 
+                    : 'COALESCE(SUM(scrap_quantity), 0) as scrap_quantity')
+                ->selectRaw('COALESCE(SUM(weight), 0) as total_weight')
+                ->selectRaw($isUniversalWaste 
+                    ? 'COALESCE(SUM(reuse_weight), 0) as reuse_weight' 
+                    : 'COALESCE(SUM(CASE WHEN reuse_weight > 0 THEN reuse_weight ELSE weight END), 0) as reuse_weight')
+                ->selectRaw($isUniversalWaste 
+                    ? 'COALESCE(SUM(CASE WHEN scrap_weight > 0 THEN scrap_weight ELSE weight END), 0) as scrap_weight' 
+                    : 'COALESCE(SUM(scrap_weight), 0) as scrap_weight')
+                ->where(function ($q) use ($palletIds, $barcodes) {
+                    if (!empty($palletIds)) {
+                        $q->whereIn('pallet_id', $palletIds);
+                    }
+                    if (!empty($barcodes)) {
+                        $q->orWhereIn(DB::raw('TRIM(pallet_number)'), $barcodes);
+                    }
+                })
+                ->groupByRaw('COALESCE(pallet_id, 0), TRIM(pallet_number)')
+                ->get();
+
+            foreach ($rows as $row) {
+                $pid = (int) $row->pallet_id;
+                $barcode = (string) $row->pallet_number;
+
+                foreach ($collection as $pallet) {
+                    $matches = false;
+                    if ($pid > 0 && $pallet->id == $pid) {
+                        $matches = true;
+                    } elseif ($pid == 0 && trim($pallet->barcode_number) === $barcode) {
+                        $matches = true;
+                    }
+
+                    if ($matches) {
+                        $key = $pallet->id;
+                        if (!isset($aggregates[$key])) {
+                            $aggregates[$key] = $this->emptyProcessingBreakdown(true);
+                        }
+
+                        $sourceBreakdown = $this->normalizeProcessingBreakdown([
+                            'records' => (int) $row->records,
+                            'total_quantity' => (int) $row->total_quantity,
+                            'reuse_quantity' => (int) $row->reuse_quantity,
+                            'scrap_quantity' => (int) $row->scrap_quantity,
+                            'total_weight' => (float) $row->total_weight,
+                            'reuse_weight' => (float) $row->reuse_weight,
+                            'scrap_weight' => (float) $row->scrap_weight,
+                            'source_label' => $source['label'],
+                        ], true);
+
+                        foreach (['records', 'total_quantity', 'reuse_quantity', 'scrap_quantity', 'total_weight', 'reuse_weight', 'scrap_weight'] as $k) {
+                            $aggregates[$key][$k] += $sourceBreakdown[$k];
+                        }
+
+                        $aggregates[$key]['sources'][] = $sourceBreakdown;
+                    }
+                }
+            }
+        }
+
+        foreach ($aggregates as $key => $aggregate) {
+            $aggregates[$key] = $this->normalizeProcessingBreakdown($aggregate, true);
+        }
+
+        return $aggregates;
+    }
+
     private function intakeAggregateForPallet(array $aggregates, Pallet $pallet): ?array
     {
-        $barcode = trim((string) ($pallet->barcode_number ?? ''));
-        return $barcode === '' ? null : ($aggregates[$barcode] ?? null);
+        return $aggregates[$pallet->id] ?? null;
     }
 
     private function processingBreakdown(Pallet $pallet, ?array $intakeAggregate = null): array
@@ -368,4 +613,65 @@ class ReceivedIntakeController extends Controller
 
         return $breakdown;
     }
+
+    /**
+     * Remove the specified pallet (received intake) from storage.
+     */
+    public function destroy($id)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $pallet = Pallet::whereIn('client_id', $clientIds)->findOrFail($id);
+        $barcode = $pallet->barcode_number;
+        $pallet->delete();
+
+        return redirect()->route('user.received-intake.index')
+            ->with('success', 'Received intake pallet #' . $barcode . ' has been deleted.');
+    }
+
+    /**
+     * Remove multiple specified pallets from storage.
+     */
+    public function bulkDestroy(Request $request)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+        $ids = $request->input('ids', []);
+        $deletedCount = Pallet::whereIn('client_id', $clientIds)
+            ->whereIn('id', $ids)
+            ->delete();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => $deletedCount . ' received intake pallet(s) deleted successfully.',
+                'deleted_count' => $deletedCount,
+            ]);
+        }
+
+        return redirect()->route('user.received-intake.index')
+            ->with('success', $deletedCount . ' received intake pallet(s) deleted successfully.');
+    }
 }
+

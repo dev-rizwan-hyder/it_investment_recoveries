@@ -25,6 +25,22 @@
             background: linear-gradient(90deg, #2563eb, #3b82f6);
             border-radius: 9999px 9999px 0 0;
         }
+        .pallet-details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .pallet-details-grid {
+                grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+            }
+        }
+        .pallet-main-column {
+            min-width: 0;
+        }
+        .pallet-photos-column {
+            min-width: 0;
+        }
     </style>
 @endpush
 
@@ -66,12 +82,17 @@
             <div class="inline-block px-4 py-2 rounded-full shadow-xs font-black text-xs uppercase tracking-wider text-white {{ $statusClass }}">
                 Status: {{ $pallet->status ?: 'Received' }}
             </div>
+            <button onclick="openPrintModal()" type="button"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 font-extrabold text-xs shadow-sm transition cursor-pointer">
+                <i class="fa-solid fa-print text-xs"></i>
+                <span>Print Intake Details</span>
+            </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div class="pallet-details-grid grid grid-cols-1 gap-6 lg:gap-8 items-start">
         {{-- Left / Center Column (2 cols) --}}
-        <div class="lg:col-span-2 space-y-8">
+        <div class="pallet-main-column space-y-8">
             
             {{-- Pallet Specifications Card --}}
             <div class="dashboard-card rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8">
@@ -140,458 +161,14 @@
                 @endif
             </div>
 
-            {{-- Shipment Items Breakdown --}}
-            <div class="dashboard-card rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-lg font-black text-slate-950">Items received from initial recycling intake</h2>
-                    </div>
-                    <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-600 border border-slate-200">
-                        {{ $relatedPallets->count() }} {{ Str::plural('Item', $relatedPallets->count()) }}
-                    </span>
-                </div>
-                
-                <div class="space-y-5">
-                    @forelse ($relatedPallets as $index => $item)
-                        <div class="p-5 rounded-2xl border border-slate-200/70 bg-slate-50/40 hover:bg-slate-50 transition duration-200">
-                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/60 pb-3 mb-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="inline-flex items-center justify-center h-7 w-7 rounded-xl text-xs font-black bg-blue-100 text-blue-700">
-                                        #{{ $index + 1 }}
-                                    </span>
-                                    <h3 class="font-extrabold text-slate-900 text-base">{{ $item->description }}</h3>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs font-extrabold text-slate-500 bg-white px-3 py-1 rounded-xl border border-slate-200 shadow-2xs">
-                                        <i class="fa-solid fa-location-dot text-rose-500 mr-1.5"></i>{{ $item->put_away_location ?: 'N/A' }}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                                <div class="bg-white p-3 rounded-xl border border-slate-200/60 shadow-2xs">
-                                    <span class="block text-[10px] font-extrabold text-slate-400 uppercase">Est. Qty</span>
-                                    <span class="text-base font-black text-slate-900">{{ $item->estimated_count ?: 0 }}</span>
-                                </div>
-                                <div class="bg-white p-3 rounded-xl border border-slate-200/60 shadow-2xs">
-                                    <span class="block text-[10px] font-extrabold text-slate-400 uppercase">Gross Weight</span>
-                                    <span class="text-sm font-extrabold text-slate-800">{{ number_format($item->gross_weight, 1) }} lbs</span>
-                                </div>
-                                <div class="bg-white p-3 rounded-xl border border-slate-200/60 shadow-2xs">
-                                    <span class="block text-[10px] font-extrabold text-slate-400 uppercase">Tare Weight</span>
-                                    <span class="text-sm font-extrabold text-slate-800">{{ number_format($item->tare_weight, 1) }} lbs</span>
-                                </div>
-                                <div class="bg-blue-50/80 p-3 rounded-xl border border-blue-100 shadow-2xs">
-                                    <span class="block text-[10px] font-black text-blue-600 uppercase">Net Weight</span>
-                                    <span class="text-sm font-black text-blue-700">{{ number_format($item->gross_weight - $item->tare_weight, 1) }} lbs</span>
-                                </div>
-                            </div>
-
-                            @if ($item->notes)
-                                <div class="mt-4 pt-3 border-t border-slate-200/60">
-                                    <span class="text-[10px] font-extrabold text-slate-400 uppercase block mb-1">Item Notes</span>
-                                    <p class="text-xs text-slate-700 font-medium leading-relaxed bg-white p-3 rounded-xl border border-slate-200/60">
-                                        {{ $item->notes }}
-                                    </p>
-                                </div>
-                            @endif
-
-                            {{-- Item Photos / Attachments --}}
-                            @php
-                                $itemPhotos = [];
-                                if ($item->photos_paths) {
-                                    $itemPhotos = is_string($item->photos_paths) ? json_decode($item->photos_paths, true) : $item->photos_paths;
-                                }
-                            @endphp
-                            @if (!empty($itemPhotos) && is_array($itemPhotos))
-                                <div class="mt-4 pt-3 border-t border-slate-200/60">
-                                    <span class="text-[10px] font-extrabold text-slate-400 uppercase block mb-2">Item Photos & Attachments</span>
-                                    <div class="flex flex-wrap gap-2.5">
-                                        @foreach ($itemPhotos as $photo)
-                                            @php
-                                                $isImage = str_starts_with($photo, 'data:image/') || preg_match('/\.(jpg|jpeg|png|webp|gif|svg|bmp)$/i', strtok($photo, '?'));
-                                                $photoSrc = (str_starts_with($photo, 'data:') || str_starts_with($photo, 'http')) 
-                                                            ? $photo 
-                                                            : (str_starts_with($photo, '/') ? $photo : asset($photo));
-                                                
-                                                $filename = 'File';
-                                                if (str_starts_with($photo, 'data:')) {
-                                                    $mime = substr($photo, 5, strpos($photo, ';') - 5);
-                                                    if (str_contains($mime, 'pdf')) $filename = 'document.pdf';
-                                                    elseif (str_contains($mime, 'csv')) $filename = 'document.csv';
-                                                    elseif (str_contains($mime, 'excel') || str_contains($mime, 'spreadsheet') || str_contains($mime, 'sheet')) $filename = 'document.xlsx';
-                                                    elseif (str_contains($mime, 'word') || str_contains($mime, 'processing')) $filename = 'document.docx';
-                                                    else $filename = 'attachment';
-                                                } else {
-                                                    $filename = basename($photo);
-                                                }
-                                            @endphp
-
-                                            @if ($isImage)
-                                                <div onclick="window.openImageModal('{{ $photoSrc }}', '{{ $filename }}')" 
-                                                     class="group relative block w-16 h-16 overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-300 transition shadow-2xs cursor-pointer">
-                                                    <img src="{{ $photoSrc }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" alt="Item photo">
-                                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs">
-                                                        <i class="fa-solid fa-expand"></i>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                @php
-                                                    $iconClass = 'fa-file-lines text-blue-500';
-                                                    if (str_contains(strtolower($photo), 'pdf') || str_contains(strtolower($filename), 'pdf')) {
-                                                        $iconClass = 'fa-file-pdf text-red-500';
-                                                    } elseif (str_contains(strtolower($photo), 'csv') || str_contains(strtolower($photo), 'excel') || str_contains(strtolower($filename), 'xlsx') || str_contains(strtolower($filename), 'xls')) {
-                                                        $iconClass = 'fa-file-excel text-emerald-500';
-                                                    } elseif (str_contains(strtolower($photo), 'word') || str_contains(strtolower($filename), 'doc') || str_contains(strtolower($filename), 'docx')) {
-                                                        $iconClass = 'fa-file-word text-blue-600';
-                                                    }
-                                                @endphp
-                                                <a href="{{ $photoSrc }}" target="_blank" download="{{ $filename }}" class="group relative flex flex-col items-center justify-center w-16 h-16 rounded-xl border border-slate-200 bg-slate-50 p-1 text-center hover:border-blue-300 transition shadow-2xs" title="{{ $filename }}">
-                                                    <i class="fa-solid {{ $iconClass }} text-xl mb-0.5"></i>
-                                                    <span class="text-[8px] font-extrabold text-slate-700 truncate w-full px-0.5">{{ $filename }}</span>
-                                                </a>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @empty
-                        <div class="text-center py-12 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
-                            <i class="fa-solid fa-inbox text-slate-300 text-3xl mb-3"></i>
-                            <p class="text-slate-500 font-bold text-sm">No shipment breakdown items found.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-
-            {{-- Processed Items Tabs --}}
-            <div class="dashboard-card rounded-3xl border border-slate-200/80 bg-white overflow-hidden">
-                <div class="border-b border-slate-200/80 bg-slate-50/60 px-6 pt-5">
-                    <h3 class="text-lg font-black text-slate-950 mb-4">Processed Categorization</h3>
-                    <div class="flex gap-2 border-b border-slate-200/80 overflow-x-auto no-scrollbar">
-                        <button onclick="switchTab('refurb-ecommerce')" id="tab-btn-refurb-ecommerce" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            Refurb / E-commerce <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-700">{{ $refurbishingItems->count() + $ecommerceItems->count() }}</span>
-                        </button>
-                        <button onclick="switchTab('destruction')" id="tab-btn-destruction" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            Data Destruction <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700">{{ $dataDestructionItems->count() }}</span>
-                        </button>
-                        <button onclick="switchTab('itassets')" id="tab-btn-itassets" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            IT Assets <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 text-indigo-700">{{ $itAssetsItems->count() }}</span>
-                        </button>
-                        <button onclick="switchTab('universal')" id="tab-btn-universal" class="tab-btn px-4 py-3 text-xs sm:text-sm font-extrabold border-b-2 border-transparent text-slate-500 hover:text-slate-900 transition-colors whitespace-nowrap">
-                            Universal Waste <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700">{{ $universalWasteItems->count() }}</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="p-6">
-                    {{-- Refurb / E-commerce Tab --}}
-                    <div id="tab-content-refurb-ecommerce" class="tab-content space-y-4">
-                        @php
-                            $combinedRefurbEcom = collect($refurbishingItems)->map(function($i) { $i->type_label = 'Refurbish'; return $i; })
-                                ->concat(collect($ecommerceItems)->map(function($i) { $i->type_label = 'E-Commerce'; return $i; }));
-                        @endphp
-                        @forelse ($combinedRefurbEcom as $item)
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-slate-200/70 rounded-2xl hover:bg-slate-50/50 transition">
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex items-center gap-2 flex-wrap">
-                                        <h4 class="font-black text-slate-900 text-sm">{{ $item->name }}</h4>
-                                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold {{ $item->type_label === 'E-Commerce' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-blue-50 text-blue-700 border-blue-100' }} uppercase border">
-                                            {{ $item->type_label }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap font-medium">
-                                        <span><strong class="text-slate-700">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-700">Category:</strong> {{ $item->category }}</span>
-                                        @if ($item->serial_number)
-                                            <span class="text-slate-300">•</span>
-                                            <span class="inline-flex items-center gap-1 font-mono bg-slate-100 px-2 py-0.5 rounded text-[11px] text-slate-700 font-bold">
-                                                SN: {{ $item->serial_number }}
-                                                <button onclick="copyToClipboard('{{ $item->serial_number }}', 'Serial copied!')" class="text-slate-400 hover:text-blue-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    @if ($item->notes)
-                                        <p class="text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-xl mt-2 font-medium border border-slate-100">
-                                            {{ $item->notes }}
-                                        </p>
-                                    @endif
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0 bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                    <div class="text-right">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Quantity</span>
-                                        <span class="text-sm font-black text-slate-900">{{ $item->quantity }}</span>
-                                    </div>
-                                    <div class="text-right pl-3 border-l border-slate-200/80">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Condition</span>
-                                        <span class="text-xs font-black {{ $item->type_label === 'E-Commerce' ? 'text-blue-700 bg-blue-50 border-blue-100' : 'text-emerald-700 bg-emerald-50 border-emerald-100' }} px-2.5 py-0.5 rounded-md border">{{ $item->condition }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No refurbishing or e-commerce items processed yet.</div>
-                        @endforelse
-                    </div>
-
-                    {{-- Data Destruction Tab --}}
-                    <div id="tab-content-destruction" class="tab-content hidden space-y-6">
-                        @forelse ($dataDestructionItems as $itemIndex => $item)
-                            <div class="p-6 sm:p-7 rounded-3xl border border-slate-200/80 bg-slate-50/40 hover:bg-slate-50/70 transition duration-200 space-y-5">
-                                {{-- Device Name & Pill --}}
-                                <div class="flex items-center gap-3 flex-wrap">
-                                    <h4 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">{{ $item->primary_name }}</h4>
-                                    @if ($item->total_parsed_count > 1)
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-rose-50 text-rose-700 border border-rose-200">
-                                            +{{ $item->total_parsed_count - 1 }} more
-                                        </span>
-                                    @endif
-                                </div>
-
-                                {{-- Metadata Row & Right Stats --}}
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-slate-200/60">
-                                    <div class="flex items-center gap-3 text-xs text-slate-600 flex-wrap font-bold">
-                                        @php
-                                            $rawStatus = strtolower(trim($item->status ?: 'received'));
-                                            $statusLabel = match($rawStatus) {
-                                                'completed' => 'COMPLETED',
-                                                'in progress', 'processing' => 'PROCESSING',
-                                                default => 'RECEIVED'
-                                            };
-                                            $statusStyle = match($rawStatus) {
-                                                'completed' => 'bg-emerald-100 text-emerald-800',
-                                                'in progress', 'processing' => 'bg-amber-100 text-amber-800',
-                                                default => 'bg-slate-200 text-slate-700'
-                                            };
-                                        @endphp
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider {{ $statusStyle }}">
-                                            {{ $statusLabel }}
-                                        </span>
-                                        <span><strong class="text-slate-800">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-800">Category:</strong> {{ $item->category }}</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-6 shrink-0 bg-white sm:bg-transparent p-3 sm:p-0 rounded-2xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                        <div class="text-center sm:text-right">
-                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">QUANTITY</span>
-                                            <span class="text-base font-black text-slate-900">{{ $item->quantity }}</span>
-                                        </div>
-                                        <div class="text-center sm:text-right pl-4 border-l border-slate-200/80">
-                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">SANITIZATION</span>
-                                            <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-black text-rose-600 bg-rose-50 border border-rose-100/80">Data Sanitized</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Serial Numbers Box or Parsed Items Breakdown --}}
-                                @if ($item->total_parsed_count > 1)
-                                    {{-- Expandable Parsed Breakdown --}}
-                                    <div class="mt-3">
-                                        <button type="button" 
-                                                onclick="toggleBreakdown('dd-breakdown-{{ $itemIndex }}')" 
-                                                class="inline-flex items-center gap-2 text-xs font-black text-rose-700 hover:text-rose-800 bg-rose-50 border border-rose-200/80 px-4 py-2 rounded-xl transition">
-                                            <i class="fa-solid fa-list-check"></i>
-                                            <span>View All {{ $item->total_parsed_count }} Serialized Media Items</span>
-                                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="dd-arrow-{{ $itemIndex }}"></i>
-                                        </button>
-
-                                        <div id="dd-breakdown-{{ $itemIndex }}" class="hidden mt-4 space-y-3 pt-3 border-t border-slate-200/60">
-                                            <div class="max-h-[400px] overflow-y-auto space-y-2 pr-1">
-                                                @foreach ($item->parsed_items as $subItem)
-                                                    <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs">
-                                                        <div class="flex items-center gap-2 min-w-0">
-                                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-lg bg-slate-100 text-[10px] font-extrabold text-slate-600 shrink-0">
-                                                                #{{ $subItem['index'] }}
-                                                            </span>
-                                                            <span class="font-black text-slate-900 truncate" title="{{ $subItem['name'] }}">{{ $subItem['name'] }}</span>
-                                                            @if ($subItem['brand'] !== 'N/A' || $subItem['model'] !== 'N/A')
-                                                                <span class="text-slate-400 font-medium text-[11px]">({{ $subItem['brand'] }} / {{ $subItem['model'] }})</span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="flex items-center gap-2 shrink-0">
-                                                            @if (!empty($subItem['serial_number']))
-                                                                <span class="font-mono text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60 font-bold flex items-center gap-1.5">
-                                                                    SN: {{ $subItem['serial_number'] }}
-                                                                    <button onclick="copyToClipboard('{{ addslashes($subItem['serial_number']) }}', 'Serial copied!')" class="text-slate-400 hover:text-rose-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
-                                                                </span>
-                                                            @else
-                                                                <span class="text-slate-400 text-[11px] font-medium">SN: N/A</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @elseif (!empty($item->serial_number))
-                                    <div class="p-4 rounded-2xl bg-slate-100/70 border border-slate-200/60 flex items-start justify-between gap-3 font-mono text-[11px] text-slate-600 leading-relaxed">
-                                        <div class="min-w-0 flex-1 break-words">
-                                            <strong class="font-sans font-bold text-slate-700">Serial:</strong> {{ $item->serial_number }}
-                                        </div>
-                                        <button onclick="copyToClipboard('{{ addslashes($item->serial_number) }}', 'Serials copied to clipboard!')" class="shrink-0 text-slate-400 hover:text-blue-600 p-1 transition" title="Copy Serials">
-                                            <i class="fa-regular fa-copy text-sm"></i>
-                                        </button>
-                                    </div>
-                                @endif
-                            </div>
-                        @empty
-                            <div class="text-center py-12 text-slate-400 font-semibold text-sm">No data destruction items processed yet.</div>
-                        @endforelse
-                    </div>
-
-                    {{-- IT Assets Tab --}}
-                    <div id="tab-content-itassets" class="tab-content hidden space-y-6">
-                        @forelse ($itAssetsItems as $itemIndex => $item)
-                            <div class="p-6 sm:p-7 rounded-3xl border border-slate-200/80 bg-slate-50/40 hover:bg-slate-50/70 transition duration-200 space-y-5">
-                                {{-- Device Name & Pill --}}
-                                <div class="flex items-center gap-3 flex-wrap">
-                                    <h4 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">{{ $item->primary_name }}</h4>
-                                    @if ($item->total_parsed_count > 1)
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                            +{{ $item->total_parsed_count - 1 }} more
-                                        </span>
-                                    @endif
-                                </div>
-
-                                {{-- Metadata Row & Right Stats --}}
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-slate-200/60">
-                                    <div class="flex items-center gap-3 text-xs text-slate-600 flex-wrap font-bold">
-                                        @php
-                                            $rawStatus = strtolower(trim($item->status ?: 'received'));
-                                            $statusLabel = match($rawStatus) {
-                                                'completed', 'ready for inventory' => 'COMPLETED',
-                                                'in progress', 'processing' => 'PROCESSING',
-                                                default => 'RECEIVED'
-                                            };
-                                            $statusStyle = match($rawStatus) {
-                                                'completed', 'ready for inventory' => 'bg-emerald-100 text-emerald-800',
-                                                'in progress', 'processing' => 'bg-amber-100 text-amber-800',
-                                                default => 'bg-slate-200 text-slate-700'
-                                            };
-                                        @endphp
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider {{ $statusStyle }}">
-                                            {{ $statusLabel }}
-                                        </span>
-                                        <span><strong class="text-slate-800">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-800">Category:</strong> {{ $item->category ?: 'IT Assets' }}</span>
-                                        @if (!empty($item->primary_brand) && $item->primary_brand !== 'N/A')
-                                            <span class="text-slate-300">•</span>
-                                            <span><strong class="text-slate-800">Brand/Model:</strong> {{ $item->primary_brand }} / {{ $item->primary_model }}</span>
-                                        @endif
-                                    </div>
-
-                                    <div class="flex items-center gap-6 shrink-0 bg-white sm:bg-transparent p-3 sm:p-0 rounded-2xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                        <div class="text-center sm:text-right">
-                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">QUANTITY</span>
-                                            <span class="text-base font-black text-slate-900">{{ $item->quantity ?: 1 }}</span>
-                                        </div>
-                                        <div class="text-center sm:text-right pl-4 border-l border-slate-200/80">
-                                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">ASSET STATUS</span>
-                                            <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-black text-indigo-700 bg-indigo-50 border border-indigo-100">{{ $item->status ?: 'Received' }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Serial Numbers Box or Parsed Items Breakdown --}}
-                                @if ($item->total_parsed_count > 1)
-                                    {{-- Expandable Parsed Breakdown --}}
-                                    <div class="mt-3">
-                                        <button type="button" 
-                                                onclick="toggleBreakdown('ita-breakdown-{{ $itemIndex }}')" 
-                                                class="inline-flex items-center gap-2 text-xs font-black text-indigo-700 hover:text-indigo-800 bg-indigo-50 border border-indigo-200/80 px-4 py-2 rounded-xl transition">
-                                            <i class="fa-solid fa-list-check"></i>
-                                            <span>View All {{ $item->total_parsed_count }} IT Asset Items</span>
-                                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="ita-arrow-{{ $itemIndex }}"></i>
-                                        </button>
-
-                                        <div id="ita-breakdown-{{ $itemIndex }}" class="hidden mt-4 space-y-3 pt-3 border-t border-slate-200/60">
-                                            <div class="max-h-[400px] overflow-y-auto space-y-2 pr-1">
-                                                @foreach ($item->parsed_items as $subItem)
-                                                    <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs">
-                                                        <div class="flex items-center gap-2 min-w-0">
-                                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-lg bg-slate-100 text-[10px] font-extrabold text-slate-600 shrink-0">
-                                                                #{{ $subItem['index'] }}
-                                                            </span>
-                                                            <span class="font-black text-slate-900 truncate" title="{{ $subItem['name'] }}">{{ $subItem['name'] }}</span>
-                                                            @if ($subItem['brand'] !== 'N/A' || $subItem['model'] !== 'N/A')
-                                                                <span class="text-slate-400 font-medium text-[11px]">({{ $subItem['brand'] }} / {{ $subItem['model'] }})</span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="flex items-center gap-2 shrink-0">
-                                                            @if (!empty($subItem['serial_number']))
-                                                                <span class="font-mono text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60 font-bold flex items-center gap-1.5">
-                                                                    SN: {{ $subItem['serial_number'] }}
-                                                                    <button onclick="copyToClipboard('{{ addslashes($subItem['serial_number'] ?? '') }}', 'Serial copied!')" class="text-slate-400 hover:text-indigo-600"><i class="fa-regular fa-copy text-[10px]"></i></button>
-                                                                </span>
-                                                            @else
-                                                                <span class="text-slate-400 text-[11px] font-medium">SN: N/A</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @elseif (!empty($item->serial_number))
-                                    <div class="p-4 rounded-2xl bg-slate-100/70 border border-slate-200/60 flex items-start justify-between gap-3 font-mono text-[11px] text-slate-600 leading-relaxed">
-                                        <div class="min-w-0 flex-1 break-words">
-                                            <strong class="font-sans font-bold text-slate-700">Serial:</strong> {{ $item->serial_number }}
-                                        </div>
-                                        <button onclick="copyToClipboard('{{ addslashes($item->serial_number) }}', 'Serials copied to clipboard!')" class="shrink-0 text-slate-400 hover:text-blue-600 p-1 transition" title="Copy Serials">
-                                            <i class="fa-regular fa-copy text-sm"></i>
-                                        </button>
-                                    </div>
-                                @endif
-                            </div>
-                        @empty
-                            <div class="text-center py-12 text-slate-400 font-semibold text-sm">No IT asset items processed yet.</div>
-                        @endforelse
-                    </div>
-
-                    {{-- Universal Waste Tab --}}
-                    <div id="tab-content-universal" class="tab-content hidden space-y-4">
-                        @forelse ($universalWasteItems as $item)
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-slate-200/70 rounded-2xl hover:bg-slate-50/50 transition">
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex items-center gap-2 flex-wrap">
-                                        <h4 class="font-black text-slate-900 text-sm">{{ $item->name }}</h4>
-                                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-100 uppercase">Recycle Waste</span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap font-medium">
-                                        <span><strong class="text-slate-700">Barcode:</strong> {{ $item->barcode }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span><strong class="text-slate-700">Category:</strong> {{ $item->category }}</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0 bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl w-full sm:w-auto justify-between sm:justify-end border sm:border-0 border-slate-100">
-                                    <div class="text-right">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Qty</span>
-                                        <span class="text-sm font-black text-slate-900">{{ $item->quantity }}</span>
-                                    </div>
-                                    <div class="text-right pl-3 border-l border-slate-200/80">
-                                        <span class="text-[10px] font-extrabold text-slate-400 uppercase block">Weight</span>
-                                        <span class="text-xs font-black text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-md">{{ number_format($item->weight, 1) }} lbs</span>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="text-center py-10 text-slate-400 font-semibold text-sm">No universal waste items processed yet.</div>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </div>
 
         {{-- Right Column (1 col) - Pallet Photos --}}
-        <div class="lg:col-span-1">
+        <div class="pallet-photos-column">
             <div class="dashboard-card rounded-3xl border border-slate-200/80 bg-white p-6 sticky top-24">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
                     <h3 class="text-base font-black text-slate-950 flex items-center gap-2">
                         <i class="fa-solid fa-camera text-blue-600"></i>
-                        Pallet Photos & Docs
+                        Photos & Files
                     </h3>
                 </div>
 
@@ -603,7 +180,7 @@
                 @endphp
 
                 @if (!empty($photos) && is_array($photos))
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-3 items-start">
                         @foreach ($photos as $photo)
                             @php
                                 $isImage = str_starts_with($photo, 'data:image/') || preg_match('/\.(jpg|jpeg|png|webp|gif|svg|bmp)$/i', strtok($photo, '?'));
@@ -625,12 +202,20 @@
                             @endphp
 
                             @if ($isImage)
-                                <div onclick="window.openImageModal('{{ $photoSrc }}', '{{ $filename }}')" 
-                                     class="group relative block aspect-square max-h-36 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 hover:border-blue-300 transition cursor-pointer shadow-2xs">
-                                    <img src="{{ $photoSrc }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" alt="Pallet photo">
-                                    <span class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold gap-1">
-                                        <i class="fa-solid fa-expand"></i> View
-                                    </span>
+                                <div class="group relative flex flex-col justify-between h-44 w-full rounded-2xl border border-slate-200/80 bg-slate-50 p-2.5 transition hover:border-blue-300 hover:shadow-xs">
+                                    <div class="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100/90 flex items-center justify-center">
+                                        <img src="{{ $photoSrc }}" class="h-full w-full object-contain p-1 transition duration-300 group-hover:scale-105" alt="{{ $filename }}">
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 pt-2">
+                                        <button type="button" onclick="window.openImageModal('{{ $photoSrc }}', '{{ addslashes($filename) }}')" 
+                                                class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-eye text-[10px]"></i> View
+                                        </button>
+                                        <a href="{{ $photoSrc }}" download="{{ $filename }}" target="_blank" 
+                                           class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-download text-[10px]"></i> Download
+                                        </a>
+                                    </div>
                                 </div>
                             @else
                                 @php
@@ -643,11 +228,22 @@
                                         $iconClass = 'fa-file-word text-blue-600';
                                     }
                                 @endphp
-                                <a href="{{ $photoSrc }}" target="_blank" download="{{ $filename }}" class="group relative flex flex-col items-center justify-center aspect-square rounded-2xl border border-slate-200 bg-slate-50/80 p-3 text-center hover:border-blue-300 hover:bg-slate-100 transition shadow-2xs">
-                                    <i class="fa-solid {{ $iconClass }} text-3xl mb-2 transition duration-300 group-hover:scale-110"></i>
-                                    <span class="text-[10px] font-extrabold text-slate-700 truncate w-full px-1" title="{{ $filename }}">{{ $filename }}</span>
-                                    <span class="mt-1 text-[9px] font-black uppercase text-slate-400 group-hover:text-blue-600">Download</span>
-                                </a>
+                                <div class="group relative flex flex-col justify-between h-44 w-full rounded-2xl border border-slate-200/80 bg-slate-50/80 p-2.5 transition hover:border-blue-300 hover:bg-slate-50 hover:shadow-xs">
+                                    <div class="flex flex-col items-center justify-center h-28 w-full rounded-xl bg-white border border-slate-100 p-2 text-center">
+                                        <i class="fa-solid {{ $iconClass }} text-3xl mb-1.5 transition duration-300 group-hover:scale-110"></i>
+                                        <span class="text-[11px] font-extrabold text-slate-800 truncate w-full px-1" title="{{ $filename }}">{{ $filename }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 pt-2">
+                                        <button type="button" onclick="window.viewDocument('{{ $photoSrc }}', '{{ addslashes($filename) }}')" 
+                                                class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-eye text-[10px]"></i> View
+                                        </button>
+                                        <a href="{{ $photoSrc }}" download="{{ $filename }}" 
+                                           class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-download text-[10px]"></i> Download
+                                        </a>
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -660,9 +256,204 @@
             </div>
         </div>
     </div>
+
+    {{-- Bottom Action Bar --}}
+    <div class="mt-8 flex justify-center no-print">
+        <button onclick="openPrintModal()" type="button" 
+                class="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-slate-900 text-white hover:bg-slate-800 font-extrabold text-sm shadow-md transition cursor-pointer">
+            <i class="fa-solid fa-print"></i>
+            <span>Print Full Intake Details</span>
+        </button>
+    </div>
 </div>
 
+{{-- Print Preview Modal --}}
+<div id="printIntakeModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 sm:p-6 overflow-y-auto">
+    <div class="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+        {{-- Modal Toolbar --}}
+        <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white border-b border-slate-800 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white font-bold">
+                    <i class="fa-solid fa-print"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-black">Intake Details Print Preview</h3>
+                    <p class="text-xs text-slate-400 font-medium">Pallet Barcode #{{ $pallet->barcode_number }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="triggerIntakePrint()" 
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs transition shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print / Save PDF</span>
+                </button>
+                <button type="button" onclick="closePrintModal()" 
+                        class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        {{-- Scrollable Preview Body --}}
+        <div class="p-6 sm:p-8 overflow-y-auto bg-slate-100/70 flex-1">
+            {{-- Printable Report Card --}}
+            <div id="printableIntakeReport" class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-xs space-y-8 font-sans">
+                {{-- Branding & Header --}}
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 gap-4">
+                    <div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-blue-600 text-white font-black text-sm">IT</span>
+                            <span class="text-xl font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
+                        </div>
+                        <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Official Received Intake Report</p>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $statusClass }}">
+                            Status: {{ $pallet->status ?: 'Received' }}
+                        </span>
+                        <p class="text-xs text-slate-500 font-bold mt-1.5">Intake Date: {{ $pallet->created_at ? $pallet->created_at->format('M d, Y') : 'N/A' }}</p>
+                    </div>
+                </div>
+
+                {{-- Barcode Banner --}}
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Pallet Barcode Number</span>
+                        <h2 class="text-xl font-black text-slate-900 tracking-tight">#{{ $pallet->display_barcode ?? $pallet->barcode_number }}</h2>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Location Tag</span>
+                        <p class="text-sm font-black text-slate-900">{{ $pallet->put_away_location ?: 'Unassigned' }}</p>
+                    </div>
+                </div>
+
+                {{-- Specifications Table --}}
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 border-b border-slate-200 pb-2 mb-3">1. Pallet Specifications</h3>
+                    <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+                        <tbody class="divide-y divide-slate-200 font-bold text-slate-700">
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80 w-1/4">Put Away Location</td>
+                                <td class="py-2.5 px-4 w-1/4">{{ $pallet->put_away_location ?: 'Unassigned' }}</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80 w-1/4">Estimated Item Count</td>
+                                <td class="py-2.5 px-4 w-1/4">{{ number_format($pallet->estimated_count) }} units</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Gross Weight</td>
+                                <td class="py-2.5 px-4">{{ number_format($pallet->gross_weight, 1) }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Tare Weight</td>
+                                <td class="py-2.5 px-4">{{ number_format($pallet->tare_weight, 1) }} lbs</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Net Weight</td>
+                                <td class="py-2.5 px-4 font-black text-blue-700">{{ number_format($pallet->gross_weight - $pallet->tare_weight, 1) }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Marketing Reference</td>
+                                <td class="py-2.5 px-4">{{ $pallet->marketing_reference ?: 'N/A' }}</td>
+                            </tr>
+                            @if ($pallet->notes)
+                            <tr>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Pallet Notes</td>
+                                <td colspan="3" class="py-2.5 px-4 text-slate-800 font-medium">{{ $pallet->notes }}</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media print {
+    @page {
+        margin: 0;
+    }
+    header, nav, sidebar, #sidebar, #sidebarOverlay, #toastContainer, .no-print, .no-print * {
+        display: none !important;
+    }
+    html, body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 15mm !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    #printIntakeModal {
+        position: static !important;
+        display: block !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    #printIntakeModal > div {
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    #printableIntakeReport {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+}
+</style>
+
 <script>
+    function openPrintModal() {
+        const modal = document.getElementById('printIntakeModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePrintModal() {
+        const modal = document.getElementById('printIntakeModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    }
+
+    function triggerIntakePrint() {
+        const reportElement = document.getElementById('printableIntakeReport');
+        if (!reportElement) {
+            window.print();
+            return;
+        }
+
+        const reportHtml = reportElement.outerHTML;
+        const barcodeNum = '{{ addslashes($pallet->barcode_number) }}';
+        const printWin = window.open('', '_blank', 'width=1000,height=850');
+        if (!printWin) {
+            window.print();
+            return;
+        }
+
+        let docContent = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
+        docContent += '<title>Intake Details Report - #' + barcodeNum + '</title>';
+        docContent += '<script src="https://cdn.tailwindcss.com"><\/script>';
+        docContent += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
+        docContent += '<style>@page { margin: 0; } body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: #ffffff; padding: 15mm; color: #0f172a; } @media print { body { padding: 12mm; } }</style>';
+        docContent += '</head><body class="bg-white"><div class="max-w-4xl mx-auto">';
+        docContent += reportHtml;
+        docContent += '</div><script>setTimeout(function() { window.print(); }, 400);<\/script></body></html>';
+
+        printWin.document.write(docContent);
+        printWin.document.close();
+    }
+
     function switchTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(function(el) {
             el.classList.add('hidden');
@@ -680,6 +471,12 @@
             el.classList.toggle('hidden');
         }
     }
+
+    document.getElementById('printIntakeModal')?.addEventListener('click', function(e) {
+        if (e.target.id === 'printIntakeModal') {
+            closePrintModal();
+        }
+    });
 </script>
 @endsection
 

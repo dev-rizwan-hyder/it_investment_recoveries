@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 use App\Models\Pallet;
 use App\Models\DataDestructionItem;
 use App\Models\ItAssetsItem;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,68 +18,70 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $userId = $user->id;
         $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
             ->orWhere('email', $user->email)
             ->pluck('id')
             ->all();
         $client = Client::whereIn('id', $clientIds)->first();
 
-        $orderQuery = Order::where('user_id', $userId);
-        $totalOrders = (clone $orderQuery)->count();
-        $activeOrders = (clone $orderQuery)
-            ->whereNotIn('status', [
-                Order::STATUS_COMPLETED,
-                Order::STATUS_CANCELLED,
-            ])
-            ->count();
-
-        $recentOrders = (clone $orderQuery)
-            ->withCount('items')
-            ->latest()
-            ->limit(4)
-            ->get();
-
         $totalIntakes = 0;
-        $totalDestruction = 0;
         $totalItAssets = 0;
+        $totalDestruction = 0;
+        $totalUniversalWaste = 0;
+        $co2SavedTons = '0.00';
         $recentIntakes = collect();
         $recentDestruction = collect();
-        $recentItAssets = collect();
+        $recentUniversalWaste = collect();
 
         if (!empty($clientIds)) {
             $totalIntakes = Pallet::whereIn('client_id', $clientIds)->count();
             $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+
+            if (!empty($palletNumbers)) {
+                $totalItAssets = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->count();
+                $totalDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->count();
+                $totalUniversalWaste = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->count();
+
+                $recentDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+                    ->latest()
+                    ->limit(4)
+                    ->get();
+
+                $recentUniversalWaste = DB::table('universal_waste_items')
+                    ->whereIn('pallet_number', $palletNumbers)
+                    ->latest('id')
+                    ->limit(4)
+                    ->get();
+            }
+
+            // Calculate ESG Carbon Offset metric
+            $palletGrossWeight = (float) Pallet::whereIn('client_id', $clientIds)->get()->sum(function ($p) {
+                return max(0, (float)($p->gross_weight ?? 0) - (float)($p->tare_weight ?? 0));
+            });
+            $destWeight = !empty($palletNumbers) ? (float) DataDestructionItem::whereIn('pallet_number', $palletNumbers)->sum('weight') : 0.0;
+            $uwWeight = !empty($palletNumbers) ? (float) DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->sum('weight') : 0.0;
             
-            $totalDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->count();
-            $totalItAssets = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->count();
+            $totalLbs = max($palletGrossWeight, $destWeight + $uwWeight);
+            if ($totalLbs <= 0 && ($totalIntakes > 0 || $totalDestruction > 0 || $totalUniversalWaste > 0)) {
+                $totalLbs = ($totalIntakes * 250) + ($totalDestruction * 15) + ($totalUniversalWaste * 20);
+            }
+            $co2SavedTons = number_format(($totalLbs * 1.44) / 2204.62, 2);
 
             $recentIntakes = Pallet::whereIn('client_id', $clientIds)
-                ->latest()
-                ->limit(4)
-                ->get();
-
-            $recentDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
-                ->latest()
-                ->limit(4)
-                ->get();
-
-            $recentItAssets = ItAssetsItem::whereIn('pallet_number', $palletNumbers)
                 ->latest()
                 ->limit(4)
                 ->get();
         }
 
         return view('user.dashboard', compact(
-            'totalOrders',
-            'activeOrders',
             'totalIntakes',
-            'totalDestruction',
             'totalItAssets',
-            'recentOrders',
+            'totalDestruction',
+            'totalUniversalWaste',
+            'co2SavedTons',
             'recentIntakes',
             'recentDestruction',
-            'recentItAssets',
+            'recentUniversalWaste',
             'client'
         ));
     }

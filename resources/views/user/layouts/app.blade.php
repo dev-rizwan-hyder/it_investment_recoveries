@@ -209,9 +209,14 @@
 
         window.openImageInNewTab = () => {
             if (!currentLightboxSrc) return;
+            window.viewDocument(currentLightboxSrc, currentLightboxTitle || 'Image Preview');
+        };
+
+        window.viewDocument = (src, filename = 'Document') => {
+            if (!src) return;
             
-            if (currentLightboxSrc.startsWith('data:')) {
-                fetch(currentLightboxSrc)
+            if (src.startsWith('data:')) {
+                fetch(src)
                     .then(res => res.blob())
                     .then(blob => {
                         const blobUrl = URL.createObjectURL(blob);
@@ -220,12 +225,12 @@
                     .catch(() => {
                         const popup = window.open('', '_blank');
                         if (popup) {
-                            popup.document.write(`<html><head><title>${currentLightboxTitle || 'Image Preview'}</title></head><body style="margin:0;background:#0f172a;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${currentLightboxSrc}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body></html>`);
+                            popup.document.write(`<html><head><title>${filename}</title></head><body style="margin:0;background:#0f172a;display:flex;justify-content:center;align-items:center;min-height:100vh;"><iframe src="${src}" style="width:100%;height:100vh;border:none;"></iframe></body></html>`);
                             popup.document.close();
                         }
                     });
             } else {
-                window.open(currentLightboxSrc, '_blank');
+                window.open(src, '_blank');
             }
         };
 

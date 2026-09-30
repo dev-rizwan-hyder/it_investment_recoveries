@@ -87,8 +87,8 @@
     {{-- Main Table Section --}}
     <section class="portal-card rounded-3xl overflow-hidden">
         <!-- Search & Filter Bar -->
-        <div class="p-5 border-b border-slate-100 bg-slate-50/60 flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <div class="relative w-full sm:w-80">
+        <div class="p-5 border-b border-slate-100 bg-slate-50/60 flex flex-col lg:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full lg:w-80">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                 <input type="text" 
                        id="wasteSearchInput" 
@@ -96,13 +96,30 @@
                        class="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 placeholder-slate-400 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition">
             </div>
 
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-                <select id="wasteStatusFilter" class="px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition w-full sm:w-auto">
-                    <option value="all">All Statuses</option>
-                    <option value="received">RECEIVED</option>
-                    <option value="processing">PROCESSING</option>
-                    <option value="completed">COMPLETED</option>
-                </select>
+            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label for="wasteStatusFilter" class="text-xs font-bold text-slate-500 whitespace-nowrap">Status:</label>
+                    <select id="wasteStatusFilter" class="px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition w-full sm:w-auto">
+                        <option value="all">All Statuses</option>
+                        <option value="received">RECEIVED</option>
+                        <option value="processing">PROCESSING</option>
+                        <option value="completed">COMPLETED</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label for="wasteDateFilter" class="text-xs font-bold text-slate-500 whitespace-nowrap">Date:</label>
+                    <input type="date" 
+                           id="wasteDateFilter" 
+                           class="px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition w-full sm:w-auto">
+                </div>
+
+                <button type="button" 
+                        id="resetWasteFiltersBtn"
+                        class="px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold transition flex items-center gap-1.5"
+                        title="Clear all filters">
+                    <i class="fa-solid fa-arrow-rotate-left text-[10px]"></i> Reset
+                </button>
             </div>
         </div>
 
@@ -229,12 +246,15 @@
 <script>
     const searchInput = document.getElementById('wasteSearchInput');
     const statusSelect = document.getElementById('wasteStatusFilter');
+    const dateInput = document.getElementById('wasteDateFilter');
+    const resetBtn = document.getElementById('resetWasteFiltersBtn');
     const rows = document.querySelectorAll('.waste-row');
     const noMatches = document.getElementById('noWasteMatches');
 
     function filterWaste() {
         const query = (searchInput?.value || '').toLowerCase().trim();
         const selectedStatus = (statusSelect?.value || 'all').toLowerCase();
+        const selectedDate = dateInput?.value || '';
         let visibleCount = 0;
 
         rows.forEach(row => {
@@ -242,11 +262,13 @@
             const name = row.dataset.name || '';
             const serials = row.dataset.serials || '';
             const status = (row.dataset.status || '').toLowerCase();
+            const date = row.dataset.date || '';
 
             const matchesQuery = !query || barcode.includes(query) || name.includes(query) || serials.includes(query);
             const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
+            const matchesDate = !selectedDate || date === selectedDate;
 
-            if (matchesQuery && matchesStatus) {
+            if (matchesQuery && matchesStatus && matchesDate) {
                 row.classList.remove('hidden');
                 visibleCount++;
             } else {
@@ -261,6 +283,14 @@
 
     searchInput?.addEventListener('input', filterWaste);
     statusSelect?.addEventListener('change', filterWaste);
+    dateInput?.addEventListener('change', filterWaste);
+
+    resetBtn?.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        if (statusSelect) statusSelect.value = 'all';
+        if (dateInput) dateInput.value = '';
+        filterWaste();
+    });
 </script>
 @endpush
 @endsection

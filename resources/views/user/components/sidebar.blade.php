@@ -17,6 +17,12 @@
             <span>Recieving / Processing</span>
         </a>
 
+        <a href="{{ route('user.it-assets.index') }}" 
+           class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.it-assets.*') ? 'sidebar-active' : '' }}">
+            <i class="fas fa-laptop-code w-5 text-center text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
+            <span>IT Asset management</span>
+        </a>
+
         <a href="{{ route('user.data-destruction.index') }}" 
            class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.data-destruction.*') ? 'sidebar-active' : '' }}">
             <i class="fas fa-shield-halved w-5 text-center text-slate-400 group-hover:text-rose-600 transition-colors"></i>
