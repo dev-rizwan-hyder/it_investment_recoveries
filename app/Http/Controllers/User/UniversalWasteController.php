@@ -101,14 +101,76 @@ class UniversalWasteController extends Controller
         ]);
     }
 
+    /**
+     * Remove the specified universal waste item.
+     */
+    public function destroy($id)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+        $item = DB::table('universal_waste_items')
+            ->whereIn('pallet_number', $palletNumbers)
+            ->where('id', $id)
+            ->first();
+
+        if (!$item) {
+            abort(404, 'Universal waste item not found.');
+        }
+
+        $name = $item->name ?: ($item->barcode ?: 'Universal Waste Item');
+        DB::table('universal_waste_items')->where('id', $id)->delete();
+
+        return redirect()->route('user.universal-waste.index')
+            ->with('success', 'Universal Waste entry "' . $name . '" deleted successfully.');
+    }
+
+    /**
+     * Remove multiple specified universal waste items.
+     */
+    public function bulkDestroy(Request $request)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+
+        $ids = $request->input('ids', []);
+        $deletedCount = DB::table('universal_waste_items')
+            ->whereIn('pallet_number', $palletNumbers)
+            ->whereIn('id', $ids)
+            ->delete();
+
+        return redirect()->route('user.universal-waste.index')
+            ->with('success', $deletedCount . ' Universal Waste item(s) deleted successfully.');
+    }
+
     private function getEmptyStats(): array
     {
         return [
-            'totalItems' => 0,
-            'totalWeight' => 0.0,
+            'receivedCount' => 0,
             'processingCount' => 0,
             'completedCount' => 0,
-            'certificatesCount' => 0,
         ];
     }
 
@@ -118,19 +180,27 @@ class UniversalWasteController extends Controller
             return $this->getEmptyStats();
         }
 
-        $query = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers);
+        $items = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->get(['status']);
 
-        $totalItems = (clone $query)->count();
-        $totalWeight = (clone $query)->sum('weight') ?: 0.0;
-        $processingCount = (clone $query)->whereIn('status', ['In Progress', 'Processing', 'Pending'])->count();
-        $completedCount = (clone $query)->whereIn('status', ['Completed', 'Recycled', 'Processed'])->count();
+        $receivedCount = 0;
+        $processingCount = 0;
+        $completedCount = 0;
+
+        foreach ($items as $item) {
+            $rawStatus = strtolower(trim($item->status ?? ''));
+            if (str_contains($rawStatus, 'complet') || str_contains($rawStatus, 'ready') || str_contains($rawStatus, 'recycled') || str_contains($rawStatus, 'processed')) {
+                $completedCount++;
+            } elseif (str_contains($rawStatus, 'progr') || str_contains($rawStatus, 'process') || str_contains($rawStatus, 'pending')) {
+                $processingCount++;
+            } else {
+                $receivedCount++;
+            }
+        }
 
         return [
-            'totalItems' => $totalItems,
-            'totalWeight' => (float) $totalWeight,
+            'receivedCount' => $receivedCount,
             'processingCount' => $processingCount,
             'completedCount' => $completedCount,
-            'certificatesCount' => $completedCount > 0 ? $completedCount : max(1, $totalItems),
         ];
     }
 }

@@ -164,13 +164,17 @@ Route::middleware('auth')->group(function () {
     // User Data Destruction Routes
     Route::controller(DataDestructionController::class)->prefix('user-data-destruction')->name('user.data-destruction.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('bulk-delete');
         Route::get('/{id}', 'show')->name('show');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
     // User Universal Waste & Certificates Routes
     Route::controller(UniversalWasteController::class)->prefix('user-universal-waste')->name('user.universal-waste.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('bulk-delete');
         Route::get('/{id}', 'show')->name('show');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
     // User ESG Sustainability Report Routes
