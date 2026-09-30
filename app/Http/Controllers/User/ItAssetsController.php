@@ -39,7 +39,7 @@ class ItAssetsController extends Controller
             ->latest()
             ->paginate(10);
 
-        $stats = $this->calculateStats($palletNumbers);
+        $stats = $this->calculateStats($palletNumbers, $clientIds);
 
         return view('user.it-assets.index', [
             'items' => $items,
@@ -74,29 +74,97 @@ class ItAssetsController extends Controller
         ]);
     }
 
+    /**
+     * Remove the specified IT asset item.
+     */
+    public function destroy($id)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+        $item = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->findOrFail($id);
+        $name = $item->primary_name;
+        $item->delete();
+
+        return redirect()->route('user.it-assets.index')
+            ->with('success', 'IT Asset entry "' . $name . '" deleted successfully.');
+    }
+
+    /**
+     * Remove multiple specified IT asset items.
+     */
+    public function bulkDestroy(Request $request)
+    {
+        $user = Auth::user();
+        $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
+            ->orWhere('email', $user->email)
+            ->pluck('id')
+            ->all();
+
+        if (empty($clientIds)) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+
+        $ids = $request->input('ids', []);
+        $deletedCount = ItAssetsItem::whereIn('pallet_number', $palletNumbers)
+            ->whereIn('id', $ids)
+            ->delete();
+
+        return redirect()->route('user.it-assets.index')
+            ->with('success', $deletedCount . ' IT Asset item(s) deleted successfully.');
+    }
+
     private function getEmptyStats(): array
     {
         return [
-            'totalItems' => 0,
+            'receivedCount' => 0,
             'processingCount' => 0,
             'completedCount' => 0,
-            'readyCount' => 0,
         ];
     }
 
-    private function calculateStats(array $palletNumbers): array
+    private function calculateStats(array $palletNumbers, array $clientIds = []): array
     {
         if (empty($palletNumbers)) {
             return $this->getEmptyStats();
         }
 
-        $query = ItAssetsItem::whereIn('pallet_number', $palletNumbers);
+        $items = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->get(['status']);
+
+        $receivedCount = 0;
+        $processingCount = 0;
+        $completedCount = 0;
+
+        foreach ($items as $item) {
+            $rawStatus = strtolower(trim($item->status ?? ''));
+            if (str_contains($rawStatus, 'complet') || str_contains($rawStatus, 'ready')) {
+                $completedCount++;
+            } elseif (str_contains($rawStatus, 'progr') || str_contains($rawStatus, 'process')) {
+                $processingCount++;
+            } else {
+                $receivedCount++;
+            }
+        }
 
         return [
-            'totalItems' => (clone $query)->count(),
-            'processingCount' => (clone $query)->where('status', 'In Progress')->count(),
-            'readyCount' => (clone $query)->where('status', 'Ready for Inventory')->count(),
-            'completedCount' => (clone $query)->where('status', 'Completed')->count(),
+            'receivedCount' => $receivedCount,
+            'processingCount' => $processingCount,
+            'completedCount' => $completedCount,
         ];
     }
 }

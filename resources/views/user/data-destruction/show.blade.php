@@ -130,7 +130,7 @@
                 @endphp
 
                 @if (!empty($photos) && is_array($photos))
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-3 items-start">
                         @foreach ($photos as $photo)
                             @php
                                 $isImage = str_starts_with($photo, 'data:image/') || preg_match('/\.(jpg|jpeg|png|webp|gif|svg|bmp)$/i', strtok($photo, '?'));
@@ -152,19 +152,48 @@
                             @endphp
 
                             @if ($isImage)
-                                <div onclick="window.openImageModal('{{ $photoSrc }}', '{{ $filename }}')" 
-                                     class="group relative block aspect-square max-h-36 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 hover:border-rose-300 transition cursor-pointer shadow-2xs">
-                                    <img src="{{ $photoSrc }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" alt="Hardware photo">
-                                    <span class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold gap-1">
-                                        <i class="fa-solid fa-expand"></i> View
-                                    </span>
+                                <div class="group relative flex flex-col justify-between h-44 w-full rounded-2xl border border-slate-200/80 bg-slate-50 p-2.5 transition hover:border-rose-300 hover:shadow-xs">
+                                    <div class="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100/90 flex items-center justify-center">
+                                        <img src="{{ $photoSrc }}" class="h-full w-full object-contain p-1 transition duration-300 group-hover:scale-105" alt="{{ $filename }}">
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 pt-2">
+                                        <button type="button" onclick="window.openImageModal('{{ $photoSrc }}', '{{ addslashes($filename) }}')" 
+                                                class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-eye text-[10px]"></i> View
+                                        </button>
+                                        <a href="{{ $photoSrc }}" download="{{ $filename }}" target="_blank" 
+                                           class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-download text-[10px]"></i> Download
+                                        </a>
+                                    </div>
                                 </div>
                             @else
-                                <a href="{{ $photoSrc }}" target="_blank" download="{{ $filename }}" class="group relative flex flex-col items-center justify-center aspect-square max-h-36 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center hover:border-rose-300 hover:bg-slate-100/80 transition shadow-2xs">
-                                    <i class="fa-solid fa-file-pdf text-3xl text-rose-500 mb-2 transition duration-300 group-hover:scale-110"></i>
-                                    <span class="text-[10px] font-bold text-slate-700 truncate w-full px-1" title="{{ $filename }}">{{ $filename }}</span>
-                                    <span class="mt-1 text-[9px] font-extrabold uppercase text-slate-400 group-hover:text-rose-600">Download</span>
-                                </a>
+                                @php
+                                    $iconClass = 'fa-file-lines text-rose-500';
+                                    if (str_contains(strtolower($photo), 'pdf') || str_contains(strtolower($filename), 'pdf')) {
+                                        $iconClass = 'fa-file-pdf text-rose-500';
+                                    } elseif (str_contains(strtolower($photo), 'csv') || str_contains(strtolower($photo), 'excel') || str_contains(strtolower($filename), 'xlsx') || str_contains(strtolower($filename), 'xls')) {
+                                        $iconClass = 'fa-file-excel text-emerald-500';
+                                    } elseif (str_contains(strtolower($photo), 'word') || str_contains(strtolower($filename), 'doc') || str_contains(strtolower($filename), 'docx')) {
+                                        $iconClass = 'fa-file-word text-blue-600';
+                                    }
+                                @endphp
+                                <div class="group relative flex flex-col justify-between h-44 w-full rounded-2xl border border-slate-200/80 bg-slate-50/80 p-2.5 transition hover:border-rose-300 hover:bg-slate-50 hover:shadow-xs">
+                                    <div class="flex flex-col items-center justify-center h-28 w-full rounded-xl bg-white border border-slate-100 p-2 text-center">
+                                        <i class="fa-solid {{ $iconClass }} text-3xl mb-1.5 transition duration-300 group-hover:scale-110"></i>
+                                        <span class="text-[11px] font-extrabold text-slate-800 truncate w-full px-1" title="{{ $filename }}">{{ $filename }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 pt-2">
+                                        <button type="button" onclick="window.viewDocument('{{ $photoSrc }}', '{{ addslashes($filename) }}')" 
+                                                class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-eye text-[10px]"></i> View
+                                        </button>
+                                        <a href="{{ $photoSrc }}" download="{{ $filename }}" 
+                                           class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 text-[11px] font-bold transition shadow-2xs">
+                                            <i class="fa-solid fa-download text-[10px]"></i> Download
+                                        </a>
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     </div>

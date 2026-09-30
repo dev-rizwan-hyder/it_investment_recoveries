@@ -181,7 +181,9 @@ Route::middleware('auth')->group(function () {
     // User IT Assets Routes
     Route::controller(ItAssetsController::class)->prefix('user-it-assets')->name('user.it-assets.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('bulk-delete');
         Route::get('/{id}', 'show')->name('show');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
     // User Orders Routes
