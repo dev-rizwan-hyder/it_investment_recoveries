@@ -12,8 +12,8 @@
                 <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">IT Assets</span>
-                <h1 class="text-xl font-black text-slate-900 tracking-tight">Asset Entry #{{ $item->barcode }}</h1>
+                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Certificate of IT Assets Management</span>
+                <h1 class="text-xl font-black text-slate-900 tracking-tight">Certificate # {{ $item->barcode }}</h1>
             </div>
         </div>
         <div class="no-print">
@@ -296,6 +296,31 @@
                 No item models found matching your search.
             </div>
         </div>
+    {{-- Certification Statement --}}
+    <div class="mt-8 pt-6 border-t border-slate-200">
+        <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-5 sm:p-6">
+            <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 mt-0.5">
+                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-xl bg-emerald-100 text-emerald-600">
+                        <i class="fa-solid fa-certificate text-sm"></i>
+                    </span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+                    <span class="font-extrabold text-slate-900">IT Investment Recoveries</span> certifies that the materials referenced above have been recycled in accordance with established IT Asset Management & E-Waste recycling procedures and in compliance with applicable <span class="font-extrabold text-slate-900">NIST SP 800-88 Rev. 2</span> Guidelines for Media Sanitization / Physical Destruction method used, as well as all applicable local, city, state, and federal laws and regulations.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {{-- Authorized Signature --}}
+    <div class="mt-6 pt-6 border-t border-slate-200">
+        <div class="flex-1 max-w-sm">
+            <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-3">Authorized Signature</p>
+            <p class="text-2xl text-slate-800 mt-2 mb-1" style="font-family: 'Dancing Script', cursive;">Salwaster Daniel</p>
+            <div class="border-b-2 border-slate-300"></div>
+        </div>
+    </div>
+
     {{-- Bottom Action Bar --}}
     <div class="mt-8 flex justify-center no-print">
         <button onclick="openPrintModal()" type="button" 
@@ -433,6 +458,22 @@
                     </table>
                 </div>
                 @endif
+
+                {{-- Certification Statement (Print) --}}
+                <div class="pt-6 border-t border-slate-200">
+                    <p class="text-[10px] sm:text-xs text-slate-700 font-medium leading-relaxed">
+                        <span class="font-extrabold text-slate-900">IT Investment Recoveries</span> certifies that the materials referenced above have been recycled in accordance with established IT Asset Management & E-Waste recycling procedures and in compliance with applicable <span class="font-extrabold text-slate-900">NIST SP 800-88 Rev. 2</span> Guidelines for Media Sanitization / Physical Destruction method used, as well as all applicable local, city, state, and federal laws and regulations.
+                    </p>
+                </div>
+
+                {{-- Authorized Signature (Print) --}}
+                <div class="pt-6 mt-6 border-t border-slate-200">
+                    <div class="flex-1 max-w-xs">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-3">Authorized Signature</p>
+                        <p class="text-2xl text-slate-800 mt-2 mb-1" style="font-family: 'Dancing Script', cursive;">Salwaster Daniel</p>
+                        <div class="border-b-2 border-slate-300"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -543,6 +584,7 @@
         docContent += '<title>IT Asset Details Report - #' + barcodeNum + '</title>';
         docContent += '<script src="https://cdn.tailwindcss.com"><\/script>';
         docContent += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
+        docContent += '<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">';
         docContent += '<style>@page { margin: 0; } body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: #ffffff; padding: 15mm; color: #0f172a; } @media print { body { padding: 12mm; } }</style>';
         docContent += '</head><body class="bg-white"><div class="max-w-4xl mx-auto">';
         docContent += reportHtml;
