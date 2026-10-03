@@ -365,11 +365,12 @@
                 {{-- Branding & Header --}}
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 gap-4">
                     <div>
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex items-center gap-2.5 mb-1">
                             <span class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-indigo-600 text-white font-black text-sm">IT</span>
-                            <span class="text-xl font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
+                            <span class="text-lg font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
                         </div>
-                        <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Official IT Asset Details Report</p>
+                        <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block">Certificate of IT Assets Management</span>
+                        <h1 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Certificate # {{ $item->barcode }}</h1>
                     </div>
                     <div class="text-left sm:text-right">
                         <span class="inline-block px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $badgeStyle }}">

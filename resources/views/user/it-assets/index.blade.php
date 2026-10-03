@@ -62,7 +62,7 @@
             <div class="portal-card rounded-2xl p-5">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Recieved Assets / Pallet</p>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Received Assets / Pallet</p>
                         <p class="mt-1.5 text-2xl font-black text-blue-600">
                             {{ $stats['receivedCount'] ?? 0 }}
                         </p>

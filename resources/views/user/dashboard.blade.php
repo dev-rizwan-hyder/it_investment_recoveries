@@ -46,7 +46,7 @@
         <a href="{{ route('user.received-intake.index') }}" class="portal-card portal-card-hover rounded-2xl p-6 block group">
             <div class="flex items-start justify-between gap-4">
                 <div>
-                    <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Recieving / Processing</p>
+                    <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Receiving / Processing</p>
                     <p class="mt-2 text-3xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">{{ $totalIntakes }}</p>
                 </div>
                 <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 text-xl shadow-sm group-hover:scale-110 transition-transform">

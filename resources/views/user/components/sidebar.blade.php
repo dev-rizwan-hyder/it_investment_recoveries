@@ -14,7 +14,7 @@
         <a href="{{ route('user.received-intake.index') }}" 
            class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.received-intake.*') ? 'sidebar-active' : '' }}">
             <i class="fas fa-boxes-stacked w-5 text-center text-slate-400 group-hover:text-blue-600 transition-colors"></i>
-            <span>Recieving / Processing</span>
+            <span>Receiving / Processing</span>
         </a>
 
         <a href="{{ route('user.it-assets.index') }}" 

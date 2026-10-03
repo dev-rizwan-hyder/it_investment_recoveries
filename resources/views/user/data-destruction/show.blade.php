@@ -221,7 +221,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-5">
             <div>
                 <div class="flex items-center gap-2">
-                    <h3 class="text-lg font-black text-slate-900">Serialized Media Devices Breakdown</h3>
+                    <h3 class="text-lg font-black text-slate-900">Serialized Media Storage Devices Breakdown</h3>
                     <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-rose-50 text-rose-700 border border-rose-200">
                         {{ count($item->parsed_items) }} {{ Str::plural('Media Item', count($item->parsed_items)) }}
                     </span>
@@ -371,11 +371,12 @@
                 {{-- Branding & Header --}}
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 gap-4">
                     <div>
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex items-center gap-2.5 mb-1">
                             <span class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-rose-600 text-white font-black text-sm">DD</span>
-                            <span class="text-xl font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
+                            <span class="text-lg font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
                         </div>
-                        <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Official Data Destruction Compliance Certificate Report</p>
+                        <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block">Certificate of Data Destruction</span>
+                        <h1 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Certificate # {{ $item->barcode }}</h1>
                     </div>
                     <div class="text-left sm:text-right">
                         <span class="inline-block px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $badgeStyle }}">
@@ -468,7 +469,7 @@
                 {{-- Certification Statement (Print) --}}
                 <div class="pt-6 border-t border-slate-200">
                     <p class="text-[10px] sm:text-xs text-slate-700 font-medium leading-relaxed">
-                        <span class="font-extrabold text-slate-900">IT Investment Recoveries</span> certifies that the materials referenced above have been recycled in accordance with established data destruction recycling procedures and in compliance with applicable <span class="font-extrabold text-slate-900">NIST SP 800-88 Rev. 2</span> Guidelines for Media Sanitization / Physical Destruction method used, as well as all applicable local, city, state, and federal laws and regulations.
+                        <span class="font-extrabold text-slate-900">IT Investment Recoveries</span> certifies that the materials referenced above have been recycled in accordance with established IT Asset Management & E-Waste recycling procedures and in compliance with applicable <span class="font-extrabold text-slate-900">NIST SP 800-88 Rev. 2</span> Guidelines for Media Sanitization / Physical Destruction method used, as well as all applicable local, city, state, and federal laws and regulations.
                     </p>
                 </div>
 
