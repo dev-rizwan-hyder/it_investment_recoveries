@@ -32,7 +32,7 @@
         <a href="{{ route('user.universal-waste.index') }}" 
            class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-bold text-sm text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 group {{ request()->routeIs('user.universal-waste.*') ? 'sidebar-active' : '' }}">
             <i class="fas fa-recycle w-5 text-center text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
-            <span>Universal Waste / Certificate</span>
+            <span>E-Waste / Certificate</span>
         </a>
 
         <a href="{{ route('user.esg-report.index') }}" 

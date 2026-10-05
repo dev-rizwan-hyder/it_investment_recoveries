@@ -46,7 +46,7 @@
                     @endif
                 </div>
                 <h1 class="text-3xl font-black tracking-tight sm:text-4xl text-white">
-                    Universal Waste & Recycling Certificates
+                    E-Waste Certificates
                 </h1>
                 <p class="text-sm leading-relaxed text-slate-300 sm:text-base">
                     Monitor EPA-compliant universal waste recycling, zero-landfill processing, and official Certificates of Recycling for your electronic hardware.

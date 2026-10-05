@@ -95,7 +95,7 @@ class DataDestructionController extends Controller
         $item->delete();
 
         return redirect()->route('user.data-destruction.index')
-            ->with('success', 'Data Destruction entry "' . $name . '" deleted successfully.');
+            ->with('success', 'Data Destruction entry "' . $name . '" moved to trash successfully.');
     }
 
     /**
@@ -126,7 +126,7 @@ class DataDestructionController extends Controller
             ->delete();
 
         return redirect()->route('user.data-destruction.index')
-            ->with('success', $deletedCount . ' Data Destruction item(s) deleted successfully.');
+            ->with('success', $deletedCount . ' Data Destruction item(s) moved to trash successfully.');
     }
 
     private function getEmptyStats(): array

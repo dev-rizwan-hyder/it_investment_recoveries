@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\UniversalWasteItem;
 use App\Models\Pallet;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class UniversalWasteController extends Controller
 {
@@ -25,7 +25,7 @@ class UniversalWasteController extends Controller
 
         if (empty($clientIds)) {
             return view('user.universal-waste.index', [
-                'items' => collect(),
+                'items' => UniversalWasteItem::whereRaw('1 = 0')->paginate(10),
                 'client' => null,
                 'stats' => $this->getEmptyStats(),
                 'noClientLinked' => true,
@@ -41,7 +41,7 @@ class UniversalWasteController extends Controller
 
         if (empty($palletNumbers)) {
             return view('user.universal-waste.index', [
-                'items' => DB::table('universal_waste_items')->whereRaw('1 = 0')->paginate(10),
+                'items' => UniversalWasteItem::whereRaw('1 = 0')->paginate(10),
                 'client' => $client,
                 'stats' => $this->getEmptyStats(),
                 'noClientLinked' => false,
@@ -49,9 +49,8 @@ class UniversalWasteController extends Controller
             ]);
         }
 
-        $items = DB::table('universal_waste_items')
-            ->whereIn('pallet_number', $palletNumbers)
-            ->orderBy('id', 'desc')
+        $items = UniversalWasteItem::whereIn('pallet_number', $palletNumbers)
+            ->latest()
             ->paginate(10);
 
         $stats = $this->calculateStats($palletNumbers);
@@ -82,14 +81,8 @@ class UniversalWasteController extends Controller
 
         $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
 
-        $item = DB::table('universal_waste_items')
-            ->whereIn('pallet_number', $palletNumbers)
-            ->where('id', $id)
-            ->first();
-
-        if (!$item) {
-            abort(404, 'Universal waste item record not found.');
-        }
+        $item = UniversalWasteItem::whereIn('pallet_number', $palletNumbers)
+            ->findOrFail($id);
 
         $pallet = Pallet::where('barcode_number', $item->pallet_number)->first();
         $client = Client::whereIn('id', $clientIds)->first();
@@ -102,7 +95,7 @@ class UniversalWasteController extends Controller
     }
 
     /**
-     * Remove the specified universal waste item.
+     * Remove the specified universal waste item (soft delete -> trash).
      */
     public function destroy($id)
     {
@@ -117,24 +110,17 @@ class UniversalWasteController extends Controller
         }
 
         $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
-        $item = DB::table('universal_waste_items')
-            ->whereIn('pallet_number', $palletNumbers)
-            ->where('id', $id)
-            ->first();
-
-        if (!$item) {
-            abort(404, 'Universal waste item not found.');
-        }
+        $item = UniversalWasteItem::whereIn('pallet_number', $palletNumbers)->findOrFail($id);
 
         $name = $item->name ?: ($item->barcode ?: 'Universal Waste Item');
-        DB::table('universal_waste_items')->where('id', $id)->delete();
+        $item->delete();
 
         return redirect()->route('user.universal-waste.index')
-            ->with('success', 'Universal Waste entry "' . $name . '" deleted successfully.');
+            ->with('success', 'Universal Waste entry "' . $name . '" moved to trash successfully.');
     }
 
     /**
-     * Remove multiple specified universal waste items.
+     * Remove multiple specified universal waste items (soft delete -> trash).
      */
     public function bulkDestroy(Request $request)
     {
@@ -156,13 +142,12 @@ class UniversalWasteController extends Controller
         $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
 
         $ids = $request->input('ids', []);
-        $deletedCount = DB::table('universal_waste_items')
-            ->whereIn('pallet_number', $palletNumbers)
+        $deletedCount = UniversalWasteItem::whereIn('pallet_number', $palletNumbers)
             ->whereIn('id', $ids)
             ->delete();
 
         return redirect()->route('user.universal-waste.index')
-            ->with('success', $deletedCount . ' Universal Waste item(s) deleted successfully.');
+            ->with('success', $deletedCount . ' Universal Waste item(s) moved to trash successfully.');
     }
 
     private function getEmptyStats(): array
@@ -180,7 +165,7 @@ class UniversalWasteController extends Controller
             return $this->getEmptyStats();
         }
 
-        $items = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->get(['status']);
+        $items = UniversalWasteItem::whereIn('pallet_number', $palletNumbers)->get(['status']);
 
         $receivedCount = 0;
         $processingCount = 0;

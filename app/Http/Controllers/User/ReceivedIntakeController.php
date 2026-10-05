@@ -99,9 +99,9 @@ class ReceivedIntakeController extends Controller
         // Fetch all items from ecommerce, refurbishing, universal waste, data destruction, IT assets
         $barcode = trim($pallet->barcode_number);
 
-        $allEcommerce = DB::table('ecommerce_items')->where('pallet_number', $barcode)->get();
-        $allRefurbishing = DB::table('refurbishing_items')->where('pallet_number', $barcode)->get();
-        $allUniversal = DB::table('universal_waste_items')->where('pallet_number', $barcode)->get();
+        $allEcommerce = DB::table('ecommerce_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
+        $allRefurbishing = DB::table('refurbishing_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
+        $allUniversal = DB::table('universal_waste_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
         $allDestruction = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->get();
         $allItAssets = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->get();
 
@@ -273,6 +273,7 @@ class ReceivedIntakeController extends Controller
                     ? 'COALESCE(SUM(CASE WHEN scrap_weight > 0 THEN scrap_weight ELSE weight END), 0) as scrap_weight' 
                     : 'COALESCE(SUM(scrap_weight), 0) as scrap_weight')
                 ->whereNotNull('pallet_number')
+                ->whereNull('deleted_at')
                 ->whereIn(DB::raw('TRIM(pallet_number)'), $barcodes)
                 ->groupByRaw('TRIM(pallet_number)')
                 ->get();
@@ -414,6 +415,7 @@ class ReceivedIntakeController extends Controller
                 ->selectRaw($isUniversalWaste 
                     ? 'COALESCE(SUM(CASE WHEN scrap_weight > 0 THEN scrap_weight ELSE weight END), 0) as scrap_weight' 
                     : 'COALESCE(SUM(scrap_weight), 0) as scrap_weight')
+                ->whereNull('deleted_at')
                 ->where(function ($q) use ($palletIds, $barcodes) {
                     if (!empty($palletIds)) {
                         $q->whereIn('pallet_id', $palletIds);
@@ -634,7 +636,7 @@ class ReceivedIntakeController extends Controller
         $pallet->delete();
 
         return redirect()->route('user.received-intake.index')
-            ->with('success', 'Received intake pallet #' . $barcode . ' has been deleted.');
+            ->with('success', 'Received intake pallet #' . $barcode . ' has been moved to trash successfully.');
     }
 
     /**
@@ -665,13 +667,13 @@ class ReceivedIntakeController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => $deletedCount . ' received intake pallet(s) deleted successfully.',
+                'message' => $deletedCount . ' received intake pallet(s) moved to trash successfully.',
                 'deleted_count' => $deletedCount,
             ]);
         }
 
         return redirect()->route('user.received-intake.index')
-            ->with('success', $deletedCount . ' received intake pallet(s) deleted successfully.');
+            ->with('success', $deletedCount . ' received intake pallet(s) moved to trash successfully.');
     }
 }
 

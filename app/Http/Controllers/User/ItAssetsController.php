@@ -95,7 +95,7 @@ class ItAssetsController extends Controller
         $item->delete();
 
         return redirect()->route('user.it-assets.index')
-            ->with('success', 'IT Asset entry "' . $name . '" deleted successfully.');
+            ->with('success', 'IT Asset entry "' . $name . '" moved to trash successfully.');
     }
 
     /**
@@ -126,7 +126,7 @@ class ItAssetsController extends Controller
             ->delete();
 
         return redirect()->route('user.it-assets.index')
-            ->with('success', $deletedCount . ' IT Asset item(s) deleted successfully.');
+            ->with('success', $deletedCount . ' IT Asset item(s) moved to trash successfully.');
     }
 
     private function getEmptyStats(): array
