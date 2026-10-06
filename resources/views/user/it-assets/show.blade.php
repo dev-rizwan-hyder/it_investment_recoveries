@@ -86,8 +86,24 @@
                         <p class="mt-1 text-lg font-black text-slate-900">{{ $item->quantity }}</p>
                     </div>
                     <div>
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">IT Asset Quantity</p>
+                        <p class="mt-1 text-lg font-black text-indigo-600">{{ $item->reuse_quantity }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Scrap Quantity</p>
+                        <p class="mt-1 text-lg font-black text-rose-500">{{ $item->scrap_quantity }}</p>
+                    </div>
+                    <div>
                         <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total Weight</p>
-                        <p class="mt-1 text-sm font-extrabold text-slate-900">{{ $item->weight ?: 0 }} lbs</p>
+                        <p class="mt-1 text-sm font-extrabold text-slate-900">{{ number_format((float)($item->weight ?? 0), 2) }} lbs</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">IT Asset Weight (Lbs)</p>
+                        <p class="mt-1 text-sm font-extrabold text-slate-900">{{ number_format((float)($item->reuse_weight ?? 0), 2) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Scrap Weight (Lbs)</p>
+                        <p class="mt-1 text-sm font-extrabold text-slate-900">{{ number_format((float)($item->scrap_weight ?? 0), 2) }}</p>
                     </div>
                     <div>
                         <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Pallet Ref</p>
@@ -412,17 +428,23 @@
                             <tr class="bg-slate-50">
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Total Quantity</td>
                                 <td class="py-2.5 px-4 font-black text-indigo-700">{{ $item->quantity }} units</td>
-                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Condition</td>
-                                <td class="py-2.5 px-4">{{ $item->condition ?: 'N/A' }}</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">IT Asset Qty / Scrap Qty</td>
+                                <td class="py-2.5 px-4"><span class="text-indigo-600 font-extrabold">{{ $item->reuse_quantity }} asset</span> / <span class="text-rose-600 font-extrabold">{{ $item->scrap_quantity }} scrap</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Total Weight</td>
-                                <td class="py-2.5 px-4">{{ $item->weight ?: 0 }} lbs</td>
-                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Placement Location</td>
-                                <td class="py-2.5 px-4">{{ $item->item_placement ?: 'Unassigned' }}</td>
+                                <td class="py-2.5 px-4">{{ number_format((float)($item->weight ?? 0), 2) }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Condition</td>
+                                <td class="py-2.5 px-4">{{ $item->condition ?: 'N/A' }}</td>
+                            </tr>
+                            <tr class="bg-slate-50">
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">IT Asset Weight (Lbs)</td>
+                                <td class="py-2.5 px-4">{{ number_format((float)($item->reuse_weight ?? 0), 2) }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Scrap Weight (Lbs)</td>
+                                <td class="py-2.5 px-4">{{ number_format((float)($item->scrap_weight ?? 0), 2) }} lbs</td>
                             </tr>
                             @if ($item->notes)
-                            <tr class="bg-slate-50">
+                            <tr>
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Notes / Instructions</td>
                                 <td colspan="3" class="py-2.5 px-4 text-slate-800 font-medium">{{ $item->notes }}</td>
                             </tr>

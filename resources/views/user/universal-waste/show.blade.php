@@ -463,9 +463,7 @@
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Total Weight</td>
-                                <td class="py-2.5 px-4">{{ number_format($item->weight ?: 0, 1) }} lbs</td>
-                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Placement Location</td>
-                                <td class="py-2.5 px-4">{{ $item->item_placement ?? 'Unassigned' }}</td>
+                                <td colspan="3" class="py-2.5 px-4">{{ number_format($item->weight ?: 0, 1) }} lbs</td>
                             </tr>
                             @if (isset($item->notes) && $item->notes)
                             <tr class="bg-slate-50">

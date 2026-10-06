@@ -77,7 +77,7 @@
             <div class="portal-card rounded-2xl p-5">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Processing Recieved Pallet</p>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Processing Received / Pallet</p>
                         <p class="mt-1.5 text-2xl font-black text-amber-600">
                             {{ $stats['processingCount'] ?? 0 }}
                         </p>
