@@ -130,6 +130,7 @@ use App\Http\Controllers\User\ItAssetsController;
 use App\Http\Controllers\User\UniversalWasteController;
 use App\Http\Controllers\User\EsgReportController;
 use App\Http\Controllers\User\UserOrdersController;
+use App\Http\Controllers\User\UserInvoiceController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\InquiryMail;
@@ -195,6 +196,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::post('/{id}/cancel', 'cancel')->name('cancel');
+    });
+
+    // User Invoices (Paid / Unpaid) Routes
+    Route::controller(UserInvoiceController::class)->prefix('user-invoices')->name('user.invoices.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/print', 'printInvoice')->name('print');
+        Route::post('/{id}/pay-square', 'paySquare')->name('pay-square');
+        Route::post('/{id}/sync-square', 'syncSquare')->name('sync-square');
     });
 });
 

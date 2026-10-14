@@ -377,19 +377,19 @@
         {{-- Scrollable Preview Body --}}
         <div class="p-6 sm:p-8 overflow-y-auto bg-slate-100/70 flex-1">
             {{-- Printable Report Card --}}
-            <div id="printableAssetReport" class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-xs space-y-8 font-sans">
+            <div id="printableAssetReport" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6 font-sans w-full">
                 {{-- Branding & Header --}}
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-slate-200 gap-4">
                     <div>
                         <div class="flex items-center gap-2.5 mb-1">
-                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-indigo-600 text-white font-black text-sm">IT</span>
-                            <span class="text-lg font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
+                            <span class="inline-flex items-center justify-center h-9 w-9 rounded-xl bg-indigo-600 text-white font-black text-sm">IT</span>
+                            <span class="text-xl font-black tracking-tight text-slate-900">IT INVESTMENT RECOVERIES</span>
                         </div>
-                        <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block">Certificate of IT Assets Management</span>
+                        <span class="text-xs font-extrabold text-slate-400 uppercase tracking-widest block">Certificate of IT Assets Management</span>
                         <h1 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Certificate # {{ $item->barcode }}</h1>
                     </div>
                     <div class="text-left sm:text-right">
-                        <span class="inline-block px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $badgeStyle }}">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white {{ $badgeStyle }}">
                             Status: {{ $statusDisplay }}
                         </span>
                         <p class="text-xs text-slate-500 font-bold mt-1.5">Registered Date: {{ $item->created_at ? $item->created_at->format('M d, Y') : 'N/A' }}</p>
@@ -397,21 +397,21 @@
                 </div>
 
                 {{-- Barcode Banner --}}
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Asset Barcode Number</span>
-                        <h2 class="text-xl font-black text-slate-900 tracking-tight">#{{ $item->barcode }}</h2>
+                        <span class="text-xs font-black uppercase text-slate-400 tracking-wider">Asset Barcode Number</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">#{{ $item->barcode }}</h2>
                     </div>
                     <div class="text-left sm:text-right">
-                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Pallet Number Ref</span>
-                        <p class="text-sm font-black text-slate-900">{{ $item->pallet_number ?: 'Unassigned' }}</p>
+                        <span class="text-xs font-black uppercase text-slate-400 tracking-wider">Pallet Number Ref</span>
+                        <p class="text-base font-black text-slate-900">{{ $item->pallet_number ?: 'Unassigned' }}</p>
                     </div>
                 </div>
 
                 {{-- Specifications Table --}}
                 <div>
                     <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 border-b border-slate-200 pb-2 mb-3">1. Asset Specifications</h3>
-                    <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+                    <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
                         <tbody class="divide-y divide-slate-200 font-bold text-slate-700">
                             <tr class="bg-slate-50">
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80 w-1/4">Primary Item Name</td>
@@ -457,7 +457,7 @@
                 @if (!empty($item->parsed_items) && count($item->parsed_items) > 0)
                 <div>
                     <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 border-b border-slate-200 pb-2 mb-3">2. Serialized Item Models Breakdown</h3>
-                    <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+                    <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
                         <thead>
                             <tr class="bg-slate-100 text-slate-900 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200">
                                 <th class="py-2.5 px-3 w-10 text-center">#</th>
@@ -483,18 +483,18 @@
                 @endif
 
                 {{-- Certification Statement (Print) --}}
-                <div class="pt-6 border-t border-slate-200">
-                    <p class="text-[10px] sm:text-xs text-slate-700 font-medium leading-relaxed">
+                <div class="pt-4 border-t border-slate-200">
+                    <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
                         <span class="font-extrabold text-slate-900">IT Investment Recoveries</span> certifies that the materials referenced above have been recycled in accordance with established IT Asset Management & E-Waste recycling procedures and in compliance with applicable <span class="font-extrabold text-slate-900">NIST SP 800-88 Rev. 2</span> Guidelines for Media Sanitization / Physical Destruction method used, as well as all applicable local, city, state, and federal laws and regulations.
                     </p>
                 </div>
 
                 {{-- Authorized Signature (Print) --}}
-                <div class="pt-6 mt-6 border-t border-slate-200">
-                    <div class="flex-1 max-w-xs">
-                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-3">Authorized Signature</p>
-                        <p class="text-2xl text-slate-800 mt-2 mb-1" style="font-family: 'Dancing Script', cursive;">Salwaster Daniel</p>
-                        <div class="border-b-2 border-slate-300"></div>
+                <div class="pt-4 mt-2 border-t border-slate-200">
+                    <div class="flex-1 max-w-[260px]">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Authorized Signature</p>
+                        <p class="text-2xl text-slate-800 mt-1 mb-0.5" style="font-family: 'Dancing Script', cursive;">Salwaster Daniel</p>
+                        <div class="border-b-2 border-slate-400"></div>
                     </div>
                 </div>
             </div>
@@ -505,7 +505,13 @@
 <style>
 @media print {
     @page {
-        margin: 0;
+        size: letter portrait;
+        margin: 12mm 14mm !important;
+    }
+    *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
     }
     header, nav, sidebar, #sidebar, #sidebarOverlay, #toastContainer, .no-print, .no-print * {
         display: none !important;
@@ -513,9 +519,10 @@
     html, body {
         background: #ffffff !important;
         margin: 0 !important;
-        padding: 15mm !important;
+        padding: 0 !important;
         height: auto !important;
         overflow: visible !important;
+        width: 100% !important;
     }
     #printAssetModal {
         position: static !important;
@@ -526,6 +533,7 @@
         margin: 0 !important;
         max-height: none !important;
         overflow: visible !important;
+        width: 100% !important;
     }
     #printAssetModal > div {
         max-height: none !important;
@@ -534,6 +542,12 @@
         border-radius: 0 !important;
         margin: 0 !important;
         width: 100% !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+    #printAssetModal .p-6, #printAssetModal .sm\:p-8 {
+        padding: 0 !important;
+        background: transparent !important;
     }
     #printableAssetReport {
         border: none !important;
@@ -541,7 +555,9 @@
         padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
+    tr, td, th { page-break-inside: avoid !important; break-inside: avoid !important; }
 }
 </style>
 
@@ -608,8 +624,15 @@
         docContent += '<script src="https://cdn.tailwindcss.com"><\/script>';
         docContent += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
         docContent += '<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">';
-        docContent += '<style>@page { margin: 0; } body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: #ffffff; padding: 15mm; color: #0f172a; } @media print { body { padding: 12mm; } }</style>';
-        docContent += '</head><body class="bg-white"><div class="max-w-4xl mx-auto">';
+        docContent += '<style>';
+        docContent += '@page { size: letter portrait; margin: 12mm 14mm; }';
+        docContent += '*, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box !important; }';
+        docContent += 'html, body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif !important; color: #0f172a !important; width: 100% !important; }';
+        docContent += '#printableAssetReport { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }';
+        docContent += 'tr, td, th { page-break-inside: avoid !important; break-inside: avoid !important; }';
+        docContent += '@media print { body { padding: 0 !important; } }';
+        docContent += '</style>';
+        docContent += '</head><body class="bg-white"><div class="w-full">';
         docContent += reportHtml;
         docContent += '</div><script>setTimeout(function() { window.print(); }, 400);<\/script></body></html>';
 

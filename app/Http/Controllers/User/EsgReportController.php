@@ -5,15 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Pallet;
 use App\Models\Client;
-use App\Models\DataDestructionItem;
-use App\Models\ItAssetsItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EsgReportController extends Controller
 {
-    // Standard Emission Factors matching it_investment ReportController
+    // Standard Emission Factors matching sustainability report standards
     protected $EMISSION_FACTORS = [
         'laptop' => 4.5,
         'desktop' => 5.2,
@@ -23,9 +21,9 @@ class EsgReportController extends Controller
     ];
 
     /**
-     * Display ESG Environmental Impact & Sustainability Report for the user.
+     * Display ESG Environmental Impact & Sustainability Report with 2-step pallet selection wizard.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $clientIds = Client::whereRaw('TRIM(LOWER(email)) = ?', [trim(strtolower($user->email))])
@@ -37,14 +35,14 @@ class EsgReportController extends Controller
         if (empty($clientIds)) {
             return view('user.esg-report.index', [
                 'client' => null,
+                'pallets' => collect(),
                 'items' => collect(),
-                'results' => $this->getEmptyResults(),
                 'noClientLinked' => true,
                 'userEmail' => $user->email,
             ]);
         }
 
-        $pallets = Pallet::whereIn('client_id', $clientIds)->get();
+        $pallets = Pallet::whereIn('client_id', $clientIds)->latest()->get();
         $palletNumbers = $pallets->pluck('barcode_number')->filter()->unique()->all();
 
         $tables = [
@@ -62,19 +60,15 @@ class EsgReportController extends Controller
                 try {
                     $items = DB::table($tableName)
                         ->whereIn('pallet_number', $palletNumbers)
-                        ->where(function ($query) {
-                            $query->whereRaw("LOWER(TRIM(status)) = ?", ['completed'])
-                                  ->orWhereRaw("LOWER(TRIM(status)) LIKE ?", ['%complet%']);
-                        })
                         ->get();
                     $allItems = $allItems->concat($items);
                 } catch (\Throwable $e) {
-                    // Ignore table query errors if optional table missing
+                    // Ignore missing table errors gracefully
                 }
             }
         }
 
-        // Map client details onto items if available
+        // Map client metadata onto item records
         $clientName = $client->name ?? 'Client Name';
         $company = $client->company ?? ($user->company ?? 'No Company Registered');
         $address = $client->address ?? 'Address not available';
@@ -91,75 +85,64 @@ class EsgReportController extends Controller
             $itemObj->category = !empty($itemObj->category) ? $itemObj->category : 'General Peripherals';
             $itemObj->quantity = isset($itemObj->quantity) && (int)$itemObj->quantity > 0 ? (int)$itemObj->quantity : 1;
             $itemObj->weight = isset($itemObj->weight) ? (float)$itemObj->weight : 0.0;
+            $itemObj->pallet_number = $itemObj->pallet_number ?? '';
+            $itemObj->created_at_date = isset($itemObj->created_at) ? date('Y-m-d', strtotime($itemObj->created_at)) : '';
             return $itemObj;
         });
 
-        $totalUnits = $mappedItems->sum('quantity');
-        $totalWeightLbs = (float) $mappedItems->sum('weight');
-        $co2AvoidedLbs = 0;
+        // Format pallet list summary for client selection wizard: Group by barcode_number so each Pallet # appears only ONCE
+        $groupedPallets = $pallets->groupBy(function ($item) {
+            return trim(strtolower($item->barcode_number));
+        });
 
-        foreach ($mappedItems as $item) {
-            $factor = $this->getEmissionFactor($item->category);
-            $co2AvoidedLbs += ((float) ($item->weight ?? 0) * $factor);
+        $palletsData = collect();
+
+        foreach ($groupedPallets as $barcodeKey => $palletGroup) {
+            $firstPallet = $palletGroup->first();
+            $rawBarcode = $firstPallet->barcode_number;
+
+            $palletItems = $mappedItems->where('pallet_number', $rawBarcode);
+            $totalUnits = $palletItems->sum('quantity');
+            $totalWeight = $palletItems->sum('weight');
+
+            if ($totalUnits == 0) {
+                $totalUnits = (int) $palletGroup->sum('estimated_count');
+            }
+
+            if ($totalWeight == 0) {
+                $groupWeight = 0;
+                foreach ($palletGroup as $p) {
+                    $w = (float) $p->gross_weight - (float) ($p->tare_weight ?? 0);
+                    if ($w <= 0) {
+                        $w = (float) $p->gross_weight;
+                    }
+                    $groupWeight += $w;
+                }
+                $totalWeight = $groupWeight;
+            }
+
+            $palletsData->push([
+                'id' => $firstPallet->id,
+                'barcode' => $rawBarcode,
+                'date' => $firstPallet->created_at ? $firstPallet->created_at->format('Y-m-d') : '',
+                'formatted_date' => $firstPallet->created_at ? $firstPallet->created_at->format('M d, Y') : 'N/A',
+                'status' => $firstPallet->status ?: 'Received',
+                'location' => $firstPallet->put_away_location ?: 'Unassigned',
+                'estimated_count' => (int) $palletGroup->sum('estimated_count'),
+                'total_units' => $totalUnits,
+                'total_weight' => round($totalWeight, 2),
+                'items_count' => count($palletItems),
+                'records_count' => count($palletGroup),
+            ]);
         }
-
-        $results = [
-            'totalUnits' => $totalUnits,
-            'totalWeightLbs' => $totalWeightLbs,
-            'co2AvoidedLbs' => $co2AvoidedLbs,
-            'treesEquivalent' => round($co2AvoidedLbs / 48),
-            'carsOffRoadDays' => round($co2AvoidedLbs / 24.6),
-            'homesEnergyDays' => round($co2AvoidedLbs / 30),
-            'waterSavedGallons' => round($totalWeightLbs * 0.5),
-        ];
 
         return view('user.esg-report.index', [
             'client' => $client,
+            'pallets' => $palletsData,
             'items' => $mappedItems,
-            'results' => $results,
+            'emissionFactors' => $this->EMISSION_FACTORS,
             'noClientLinked' => false,
             'userEmail' => $user->email,
         ]);
     }
-
-    /**
-     * Get emission factor based on category keyword match or fallback to default factor.
-     */
-    protected function getEmissionFactor(?string $category): float
-    {
-        if (!$category) {
-            return $this->EMISSION_FACTORS['default'];
-        }
-
-        $catKey = strtolower($category);
-
-        if (str_contains($catKey, 'laptop') || str_contains($catKey, 'notebook')) {
-            return $this->EMISSION_FACTORS['laptop'];
-        }
-        if (str_contains($catKey, 'desktop') || str_contains($catKey, 'pc') || str_contains($catKey, 'computer')) {
-            return $this->EMISSION_FACTORS['desktop'];
-        }
-        if (str_contains($catKey, 'monitor') || str_contains($catKey, 'display') || str_contains($catKey, 'screen')) {
-            return $this->EMISSION_FACTORS['monitor'];
-        }
-        if (str_contains($catKey, 'server')) {
-            return $this->EMISSION_FACTORS['server'];
-        }
-
-        return $this->EMISSION_FACTORS[$catKey] ?? $this->EMISSION_FACTORS['default'];
-    }
-
-    private function getEmptyResults(): array
-    {
-        return [
-            'totalUnits' => 0,
-            'totalWeightLbs' => 0.0,
-            'co2AvoidedLbs' => 0.0,
-            'treesEquivalent' => 0,
-            'carsOffRoadDays' => 0,
-            'homesEnergyDays' => 0,
-            'waterSavedGallons' => 0,
-        ];
-    }
 }
-
