@@ -48,10 +48,23 @@ class UserInvoiceController extends Controller
 
             $isPaid = strtolower((string) $invoice->status) === SalesInvoice::STATUS_PAID;
 
+            $picturePaths = collect($invoice->picture_paths ?? [])->filter()->values();
+            $pictureUrls = $picturePaths->map(fn($p) => $invoice->pictureUrl($p))->values()->all();
+            $firstPicture = $pictureUrls[0] ?? null;
+            $firstIsImage = $firstPicture ? SalesInvoice::isImageFile($picturePaths[0]) : false;
+            $firstIcon = $firstPicture ? SalesInvoice::fileIconClass($picturePaths[0]) : null;
+            $firstFileName = $firstPicture ? SalesInvoice::fileName($picturePaths[0]) : null;
+
             return [
                 'id' => $invoice->id,
                 'row_key' => 'invoice-' . $invoice->id,
                 'num' => $invoice->invoice_number,
+                'pictures' => $pictureUrls,
+                'first_picture' => $firstPicture,
+                'first_is_image' => $firstIsImage,
+                'first_icon' => $firstIcon,
+                'first_file_name' => $firstFileName,
+                'picture_count' => count($pictureUrls),
                 'client' => $invoice->customer_name ?: 'Customer',
                 'email' => $invoice->customer_email,
                 'phone' => $invoice->customer_phone,

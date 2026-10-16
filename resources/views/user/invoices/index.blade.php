@@ -170,6 +170,7 @@
                     <thead>
                         <tr class="bg-slate-50/70 border-b border-slate-100 text-[11px] uppercase font-black text-slate-400 tracking-[0.15em]">
                             <th class="px-5 py-4">Invoice #</th>
+                            <th class="px-4 py-4 text-center">Media</th>
                             <th class="px-5 py-4">Category</th>
                             <th class="px-5 py-4">Date of Service</th>
                             <th class="px-5 py-4">Due Date</th>
@@ -206,6 +207,39 @@
                                     <a href="{{ $invoice['view_url'] }}" class="text-sm font-black text-slate-900 hover:text-blue-600 transition flex items-center gap-1.5">
                                         <span>{{ $invoice['num'] }}</span>
                                     </a>
+                                </td>
+
+                                {{-- Media / Attachments --}}
+                                <td class="px-4 py-4 text-center align-middle">
+                                    @if (!empty($invoice['pictures']))
+                                        @if ($invoice['first_is_image'])
+                                            <div class="relative inline-block cursor-pointer group/thumb"
+                                                onclick="window.openImageModal('{{ $invoice['first_picture'] }}', 'Invoice #{{ $invoice['num'] }}')"
+                                                title="Click to view image">
+                                                <img src="{{ $invoice['first_picture'] }}"
+                                                    class="h-9 w-9 rounded-xl object-cover border border-slate-200 mx-auto transition-transform group-hover/thumb:scale-105 group-hover/thumb:ring-2 group-hover/thumb:ring-blue-500 shadow-xs"
+                                                    onerror="this.src='/images/placeholder.png'">
+                                                @if ($invoice['picture_count'] > 1)
+                                                    <span class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center shadow-xs">
+                                                        +{{ $invoice['picture_count'] - 1 }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <a href="{{ $invoice['first_picture'] }}" target="_blank" download="{{ $invoice['first_file_name'] ?: 'attachment' }}"
+                                                class="relative inline-flex flex-col items-center justify-center cursor-pointer group/thumb h-9 w-9 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 mx-auto transition-transform group-hover/thumb:scale-105 group-hover/thumb:ring-2 group-hover/thumb:ring-blue-500 shadow-xs"
+                                                title="{{ $invoice['first_file_name'] ?: 'Download attachment' }}">
+                                                <i class="fas {{ $invoice['first_icon'] ?: 'fa-file text-slate-500' }} text-xs"></i>
+                                                @if ($invoice['picture_count'] > 1)
+                                                    <span class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center shadow-xs">
+                                                        +{{ $invoice['picture_count'] - 1 }}
+                                                    </span>
+                                                @endif
+                                            </a>
+                                        @endif
+                                    @else
+                                        <span class="text-xs font-semibold text-slate-300">—</span>
+                                    @endif
                                 </td>
 
                                 {{-- Category --}}

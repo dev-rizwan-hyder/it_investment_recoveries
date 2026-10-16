@@ -124,12 +124,33 @@ class SalesInvoice extends Model
             : 'bg-amber-100 text-amber-700';
     }
 
-    public function pictureUrl(?string $path): string
+    public static function pictureUrl(?string $path): string
     {
-        $path = ltrim((string) $path, '/');
+        $path = (string) $path;
+
+        if (Str::startsWith($path, 'data:')) {
+            // If it's an image data URI, strip any ;name=...; parameter before passing to img src
+            if (Str::startsWith($path, 'data:image/') && preg_match('/^data:image\/[^;]+;name=[^;]+;base64,/i', $path)) {
+                return preg_replace('/^data:(image\/[^;]+);name=[^;]+;base64,/i', 'data:$1;base64,', $path);
+            }
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
 
         if (Str::startsWith($path, ['http://', 'https://'])) {
             return $path;
+        }
+
+        if (Str::startsWith($path, ['sales/', 'storage/']) && file_exists(public_path($path))) {
+            return asset($path);
+        }
+
+        // Check if file exists in it_investment public folder
+        $itInvestmentPath = '/opt/lampp/htdocs/it_investment/public/' . $path;
+        if (file_exists($itInvestmentPath) && is_file($itInvestmentPath)) {
+            $mime = mime_content_type($itInvestmentPath) ?: 'application/octet-stream';
+            return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($itInvestmentPath));
         }
 
         if (Str::startsWith($path, ['sales/', 'storage/'])) {
@@ -139,15 +160,68 @@ class SalesInvoice extends Model
         return asset('storage/' . $path);
     }
 
+    public static function fileName(?string $path): string
+    {
+        if (empty($path)) {
+            return 'file';
+        }
+        if (preg_match('/;name=([^;]+);/i', $path, $matches)) {
+            try {
+                return rawurldecode($matches[1]);
+            } catch (\Throwable) {
+                return $matches[1];
+            }
+        }
+        if (Str::startsWith($path, 'data:image/')) {
+            $mimeSubtype = explode(';', explode('/', $path)[1] ?? 'jpeg')[0];
+            return 'image.' . ($mimeSubtype ?: 'jpg');
+        }
+        if (Str::startsWith($path, 'data:application/pdf')) {
+            return 'document.pdf';
+        }
+        if (Str::startsWith($path, 'data:')) {
+            return 'attachment';
+        }
+        return basename((string) $path);
+    }
+
+    public static function fileExtension(?string $path): string
+    {
+        $filename = self::fileName($path);
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        if ($extension) {
+            return $extension;
+        }
+        if (Str::startsWith($path, 'data:image/')) {
+            return 'jpg';
+        }
+        if (Str::startsWith($path, 'data:application/pdf')) {
+            return 'pdf';
+        }
+        return 'file';
+    }
+
     public static function isImageFile(?string $path): bool
     {
-        $extension = strtolower(pathinfo((string) $path, PATHINFO_EXTENSION));
+        if (empty($path)) {
+            return false;
+        }
+        if (Str::startsWith($path, 'data:image/')) {
+            return true;
+        }
+        $filename = self::fileName($path);
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp']);
     }
 
     public static function fileIconClass(?string $path): string
     {
-        $extension = strtolower(pathinfo((string) $path, PATHINFO_EXTENSION));
+        $extension = self::fileExtension($path);
+        if (!$extension && Str::startsWith($path, 'data:')) {
+            if (str_contains($path, 'word')) return 'fa-file-word text-blue-500';
+            if (str_contains($path, 'sheet') || str_contains($path, 'excel') || str_contains($path, 'csv')) return 'fa-file-excel text-emerald-500';
+            if (str_contains($path, 'zip')) return 'fa-file-archive text-amber-500';
+        }
         return match ($extension) {
             'pdf' => 'fa-file-pdf text-red-500',
             'doc', 'docx' => 'fa-file-word text-blue-500',
@@ -156,6 +230,20 @@ class SalesInvoice extends Model
             'txt' => 'fa-file-alt text-slate-500',
             default => 'fa-file text-slate-400',
         };
+    }
+
+    public function getPicturesAttribute(): array
+    {
+        if (is_array($this->picture_paths)) {
+            return array_values(array_filter($this->picture_paths));
+        }
+
+        if (empty($this->picture_paths)) {
+            return [];
+        }
+
+        $decoded = json_decode((string) $this->picture_paths, true);
+        return is_array($decoded) ? array_values(array_filter($decoded)) : [];
     }
 
     public function getPaymentMethodLabelAttribute(): string

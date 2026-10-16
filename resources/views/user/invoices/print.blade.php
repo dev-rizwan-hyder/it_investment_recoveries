@@ -381,7 +381,7 @@
                             @else
                                 <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 11px; font-weight: 700; color: #334155;">
                                     <span>📎</span>
-                                    <span>{{ basename($path) }}</span>
+                                    <span>{{ \App\Models\SalesInvoice::fileName($path) }}</span>
                                 </div>
                             @endif
                         @endforeach

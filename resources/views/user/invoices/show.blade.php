@@ -181,20 +181,27 @@
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                             @foreach($picturePaths as $path)
-                                @if(\App\Models\SalesInvoice::isImageFile($path))
-                                    <a href="{{ $invoice->pictureUrl($path) }}" target="_blank"
-                                       class="group relative block overflow-hidden rounded-xl border border-slate-200 bg-slate-100 hover:border-blue-400 transition">
-                                        <img src="{{ $invoice->pictureUrl($path) }}" alt="Invoice picture" class="h-32 w-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                @php
+                                    $picUrl = $invoice->pictureUrl($path);
+                                    $isImg = \App\Models\SalesInvoice::isImageFile($path);
+                                    $fileName = \App\Models\SalesInvoice::fileName($path);
+                                    $fileExt = \App\Models\SalesInvoice::fileExtension($path);
+                                    $fileIcon = \App\Models\SalesInvoice::fileIconClass($path);
+                                @endphp
+                                @if($isImg)
+                                    <button type="button" onclick="window.openImageModal('{{ $picUrl }}', '{{ addslashes($fileName) }}')"
+                                       class="group relative block overflow-hidden rounded-xl border border-slate-200 bg-slate-100 hover:border-blue-400 transition w-full text-left cursor-pointer">
+                                        <img src="{{ $picUrl }}" alt="{{ $fileName }}" class="h-32 w-full object-cover group-hover:scale-105 transition-transform duration-200">
                                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition">
                                             <i class="fas fa-magnifying-glass-plus mr-1"></i> View
                                         </div>
-                                    </a>
+                                    </button>
                                 @else
-                                    <a href="{{ $invoice->pictureUrl($path) }}" target="_blank" download
+                                    <a href="{{ $picUrl }}" target="_blank" download="{{ $fileName }}"
                                        class="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50/50 hover:border-blue-300 transition group text-center">
-                                        <i class="fas {{ \App\Models\SalesInvoice::fileIconClass($path) }} text-2xl text-slate-500 group-hover:text-blue-600 mb-2 transition-colors"></i>
-                                        <span class="text-xs font-bold text-slate-700 group-hover:text-blue-600 line-clamp-2 break-all">{{ basename($path) }}</span>
-                                        <span class="text-[10px] text-slate-400 uppercase mt-1">Download</span>
+                                        <i class="fas {{ $fileIcon }} text-2xl text-slate-500 group-hover:text-blue-600 mb-2 transition-colors"></i>
+                                        <span class="text-xs font-bold text-slate-700 group-hover:text-blue-600 line-clamp-2 break-all">{{ $fileName }}</span>
+                                        <span class="rounded bg-slate-200 px-2 py-0.5 text-[9px] font-black uppercase text-slate-600 mt-1.5">{{ $fileExt }}</span>
                                     </a>
                                 @endif
                             @endforeach

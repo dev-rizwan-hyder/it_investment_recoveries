@@ -501,7 +501,7 @@
                         <div class="pt-4 border-t border-slate-200">
                             <div class="flex-1 max-w-[260px]">
                                 <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Authorized Compliance Officer</p>
-                                <p class="text-2xl text-slate-800 mt-1 mb-0.5" style="font-family: 'Dancing Script', cursive;">Salwaster Daniel</p>
+                                <p class="text-2xl text-slate-800 mt-1 mb-0.5" style="font-family: 'Dancing Script', cursive;">Sal Daniel</p>
                                 <div class="border-b-2 border-slate-400"></div>
                             </div>
                         </div>
