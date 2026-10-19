@@ -8,7 +8,7 @@
         <div class="md:col-span-5 space-y-4 text-left">
             <a href="{{ url('/') }}" class="inline-block focus:outline-none py-1">
                 <img 
-                    src="{{ asset('images/new_logo.png') }}" 
+                    src="{{ asset('/images/recoveries.png') }}" 
                     alt="IT Investment Recoveries" 
                     class="h-24 sm:h-32 md:h-36 lg:h-40 w-auto object-contain drop-shadow-xl transition-transform duration-200 hover:scale-105"
                 />

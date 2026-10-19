@@ -12,7 +12,7 @@
             <!-- Brand / Logo (Far Left) -->
             <a href="{{ url('/') }}" class="flex items-center group focus:outline-none rounded-md py-1">
                 <img 
-                    src="{{ asset('images/new_logo.png') }}" 
+                    src="{{ asset('images/recoveries.png') }}" 
                     alt="IT Investment Recoveries" 
                     class="h-10 sm:h-12 md:h-24 lg:h-28 xl:h-32 max-h-full w-auto object-contain drop-shadow-xl transition-transform duration-200 hover:scale-105"
                 />
@@ -149,7 +149,7 @@
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between p-6 border-b border-emerald-800 bg-[#035c43]">
                 <img 
-                    src="{{ asset('images/logo.png') }}" 
+                    src="{{ asset('images/recoveries.png') }}" 
                     alt="IT Investment Recoveries" 
                     class="h-20 sm:h-22 w-auto object-contain"
                 />

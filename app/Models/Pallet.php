@@ -26,6 +26,7 @@ class Pallet extends Model
         'net_weight',
         'notes',
         'receiving_employee',
+        'job_no',
         'processing_employee',
         'intake_employee',
         'ecommerce_employee',

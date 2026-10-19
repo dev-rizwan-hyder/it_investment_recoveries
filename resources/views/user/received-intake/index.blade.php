@@ -196,6 +196,7 @@
                             @endphp
                             <tr class="pallet-row hover:bg-slate-50/80 transition-colors" 
                                 data-barcode="{{ strtolower(($pallet->display_barcode ?? $pallet->barcode_number) . ' ' . $pallet->barcode_number) }}" 
+                                data-jobno="{{ strtolower($pallet->job_no ?: '') }}"
                                 data-status="{{ strtolower($pallet->status ?: 'received') }}"
                                 data-location="{{ strtolower($pallet->put_away_location ?: '') }}"
                                 data-description="{{ strtolower($pallet->description ?: '') }}"
@@ -209,6 +210,9 @@
                                         <i class="fa-solid fa-barcode text-slate-400 group-hover:text-blue-600 transition-colors text-base"></i>
                                         {{ $pallet->display_barcode ?? $pallet->barcode_number }}
                                     </span>
+                                    @if ($pallet->job_no)
+                                        <div class="text-[11px] font-semibold text-slate-500 mt-0.5">Job: {{ $pallet->job_no }}</div>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4.5 text-center">
                                     <span class="inline-block px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-black uppercase tracking-wider text-white shadow-xs {{ $statusStyle }}">
@@ -476,10 +480,11 @@
             const barcode = row.dataset.barcode || '';
             const location = row.dataset.location || '';
             const description = row.dataset.description || '';
+            const jobno = row.dataset.jobno || '';
             const status = (row.dataset.status || '').toLowerCase();
             const date = row.dataset.date || '';
 
-            const matchesQuery = !query || barcode.includes(query) || location.includes(query) || description.includes(query);
+            const matchesQuery = !query || barcode.includes(query) || location.includes(query) || description.includes(query) || jobno.includes(query);
             const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
             const matchesDate = !selectedDate || date === selectedDate;
 

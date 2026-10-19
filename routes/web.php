@@ -110,6 +110,10 @@ Route::get('/electronics-donation', function () {
     return redirect()->route('charity');
 });
 
+Route::get('/charity-donations', function () {
+    return redirect()->route('charity');
+});
+
 Route::get('/community-partners', function () {
     return view('community-partners');
 })->name('community-partners');

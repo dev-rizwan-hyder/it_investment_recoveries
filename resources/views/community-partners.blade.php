@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Community/ Business Partners | IT Investment Recoveries</title>
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('/images/recoveries.png') }}">
         <meta name="description" content="Explore our community and business partners supporting eco-friendly electronics recycling, data destruction, and IT asset disposition in Denver, Colorado.">
 
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->

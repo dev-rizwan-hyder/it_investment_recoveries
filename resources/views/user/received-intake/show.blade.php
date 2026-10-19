@@ -136,10 +136,14 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                     <div class="p-3.5 rounded-2xl border border-slate-100 bg-white">
                         <span class="text-[10px] font-bold text-slate-400 uppercase block">Tare Weight</span>
                         <span class="text-sm font-extrabold text-slate-700">{{ number_format($pallet->tare_weight, 1) }} lbs</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl border border-slate-100 bg-white">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block">Job #</span>
+                        <span class="text-sm font-extrabold text-slate-900">{{ $pallet->job_no ?: 'N/A' }}</span>
                     </div>
                     <div class="p-3.5 rounded-2xl border border-slate-100 bg-white">
                         <span class="text-[10px] font-bold text-slate-400 uppercase block">Marketing Reference</span>
@@ -151,14 +155,12 @@
                     </div>
                 </div>
 
-                @if ($pallet->notes)
-                    <div class="mt-6 border-t border-slate-100 pt-5">
-                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Pallet Notes</p>
-                        <div class="text-slate-700 text-sm leading-relaxed font-medium bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
-                            {{ $pallet->notes }}
-                        </div>
+                <div class="mt-6 border-t border-slate-100 pt-5">
+                    <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Pallet Notes</p>
+                    <div class="text-slate-700 text-sm leading-relaxed font-medium bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
+                        {{ $pallet->notes ?: 'No notes available for this pallet.' }}
                     </div>
-                @endif
+                </div>
             </div>
 
 
@@ -347,15 +349,19 @@
                             <tr class="bg-slate-50">
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Net Weight</td>
                                 <td class="py-2.5 px-4 font-black text-blue-700">{{ number_format($pallet->gross_weight - $pallet->tare_weight, 1) }} lbs</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Job #</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900">{{ $pallet->job_no ?: 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Marketing Reference</td>
                                 <td class="py-2.5 px-4">{{ $pallet->marketing_reference ?: 'N/A' }}</td>
+                                <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Received Date</td>
+                                <td class="py-2.5 px-4">{{ $pallet->created_at ? $pallet->created_at->format('M d, Y') : 'N/A' }}</td>
                             </tr>
-                            @if ($pallet->notes)
-                            <tr>
+                            <tr class="bg-slate-50">
                                 <td class="py-2.5 px-4 font-extrabold text-slate-900 bg-slate-100/80">Pallet Notes</td>
-                                <td colspan="3" class="py-2.5 px-4 text-slate-800 font-medium">{{ $pallet->notes }}</td>
+                                <td colspan="3" class="py-2.5 px-4 text-slate-800 font-medium">{{ $pallet->notes ?: 'None' }}</td>
                             </tr>
-                            @endif
                         </tbody>
                     </table>
                 </div>

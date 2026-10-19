@@ -6,7 +6,7 @@
 
         <title>IT Investment Recoveries | Computer & Electronics Recycling in Denver</title>
         <meta name="description" content="Denver's top computer and electronics recycling company. Secure data destruction, e-waste recycling, liquidation, and drop-off services in Denver, Colorado.">
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('/images/recoveries.png') }}">
 
         <!-- Google Fonts: Amaranth, Plus Jakarta Sans & Outfit -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -140,8 +140,7 @@
             }
 
             @keyframes securityMediaFloat {
-                0%, 100% { transform: translate3d(0, 0, 0); }
-                50% { transform: translate3d(0, -10px, 0); }
+                0%, 100% { transform: none; }
             }
 
             @keyframes securityLineMove {
@@ -255,7 +254,7 @@
             }
 
             .security-media-float {
-                animation: securityMediaFloat 6.8s ease-in-out infinite;
+                animation: none;
             }
 
             .security-line {
@@ -331,7 +330,7 @@
     </head>
     <body class="bg-white text-gray-900 font-['Albert_Sans',sans-serif] antialiased selection:bg-[#035c43] selection:text-white w-full overflow-x-hidden m-0 p-0">
 
-        <!-- Fixed Bottom-Left Badge (Always Anchored to Bottom-Left) -->
+        <!-- Fixed Bottom-Left Badge -->
         <x-events-badge />
 
         <!-- Section 1: Main Hero Section (Full Height with Video Background & Transparent Header Overlay) -->
@@ -686,8 +685,8 @@
 
                 <!-- Right Side: Auto-Looping Video Frame -->
                 <div
-                    class="relative w-full transform transition-all duration-700 delay-200 ease-out"
-                    :class="visible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'"
+                    class="relative w-full transition-opacity duration-700 delay-200 ease-out"
+                    :class="visible ? 'opacity-100' : 'opacity-0'"
                 >
                     <div class="absolute -right-24 top-1/2 hidden h-[430px] w-[430px] -translate-y-1/2 rounded-full border border-[#035c43]/10 bg-[#035c43]/[0.035] lg:block"></div>
                     <svg class="about-recycle-spin absolute -right-28 top-1/2 z-0 hidden h-[360px] w-[360px] -translate-y-1/2 text-[#035c43]/10 fill-current lg:block" viewBox="0 0 500 500" aria-hidden="true">
@@ -708,7 +707,7 @@
                         <circle cx="150" cy="98" r="4" fill="#035c43" />
                     </svg>
 
-                    <div class="security-media-float relative mx-auto w-full max-w-4xl lg:-ml-3">
+                    <div class="relative mx-auto w-full max-w-4xl lg:-ml-3">
                         <div class="security-signal absolute -inset-6 rounded-lg bg-[#035c43]/15 blur-2xl"></div>
                         <div class="absolute -right-5 -top-5 h-24 w-24 border-t-2 border-r-2 border-[#035c43]"></div>
                         <div class="absolute -left-5 -bottom-5 h-24 w-24 border-b-2 border-l-2 border-[#035c43]"></div>
@@ -880,7 +879,7 @@
                     <a href="{{ url('/e-waste-recycling') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
                         <div class="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-950">
                             <img
-                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}"
+                                src="{{ asset('images/services/Asset-Removal-Services-.webp') }}"
                                 alt="E Waste Recycling"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
@@ -908,10 +907,10 @@
                     </a>
 
                     <!-- Card 3: Liquidation Reuse Resale -->
-                    <a href="{{ url('/it-asset-management') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
+                    <a href="{{ url('/computer-liquidator-reseller') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
                         <div class="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-950">
                             <img
-                                src="{{ asset('images/services/Asset-Removal-Services-.webp') }}"
+                                src="{{ asset('images/Liquidator/liquidator-hero.webp') }}"
                                 alt="Liquidation Reuse Resale"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
@@ -939,10 +938,10 @@
                     </a>
 
                     <!-- Card 4: Charity Donation -->
-                    <a href="{{ url('/charity-donations') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
+                    <a href="{{ url('/charity-donation') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
                         <div class="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-950">
                             <img
-                                src="{{ asset('images/services/business-partnership-infographics_1284-4534-e1705103864476.webp') }}"
+                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}"
                                 alt="Charity Donation"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
@@ -973,7 +972,7 @@
                     <a href="{{ url('/community-partners') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
                         <div class="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-950">
                             <img
-                                src="{{ asset('images/services/Partners-Service-Providers.webp') }}"
+                                src="{{ asset('images/services/business-partnership-infographics_1284-4534-e1705103864476.webp') }}"
                                 alt="Partner & Service Provider"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
@@ -1001,12 +1000,12 @@
                         </div>
                     </a>
 
-                    <!-- Card 6: Rebate Reuse Price List -->
-                    <a href="{{ url('/e-waste-recycling') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
+                    <!-- Card 6: Commercial Business/Pickup -->
+                    <a href="{{ url('/commercial-business-pickup') }}" class="group relative block rounded-[26px] p-2 bg-white border border-gray-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_50px_rgba(3,92,67,0.2)] hover:-translate-y-2 hover:border-[#035c43]/40 transition-all duration-500 overflow-hidden">
                         <div class="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-950">
                             <img
-                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.48.49-AM-1-300x300.webp') }}"
-                                alt="Rebate Reuse Price List"
+                                src="{{ asset('images/ewaste/business-hero.webp') }}"
+                                alt="Commercial Business/Pickup"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent"></div>
@@ -1022,11 +1021,11 @@
                             <div class="absolute inset-x-0 bottom-0 z-20 p-6 flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-[#035c43] border border-white/30 flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 group-hover:bg-[#024734] transition-all duration-300">
                                     <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 24 24">
-                                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                        <path d="M20 8h-3V4H1v13h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                                     </svg>
                                 </div>
                                 <h3 class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                                    Rebate Reuse<br />Price List
+                                    Commercial<br />Business/Pickup
                                 </h3>
                             </div>
                         </div>

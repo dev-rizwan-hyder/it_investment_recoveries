@@ -141,7 +141,7 @@
                     <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
-                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}" 
+                                src="{{ asset('images/services/Asset-Removal-Services-.webp') }}" 
                                 alt="E Waste Recycling" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
@@ -165,7 +165,7 @@
                     <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
-                                src="{{ asset('images/services/Asset-Removal-Services-.webp') }}" 
+                                src="{{ asset('images/Liquidator/liquidator-hero.webp') }}" 
                                 alt="Liquidation Reuse Resale" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
@@ -189,7 +189,7 @@
                     <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
-                                src="{{ asset('images/services/business-partnership-infographics_1284-4534-e1705103864476.webp') }}" 
+                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}" 
                                 alt="Charity Donation" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
@@ -213,7 +213,7 @@
                     <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
-                                src="{{ asset('images/services/Partners-Service-Providers.webp') }}" 
+                                src="{{ asset('images/services/business-partnership-infographics_1284-4534-e1705103864476.webp') }}" 
                                 alt="Partner & Service Provider" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
@@ -234,12 +234,12 @@
                         </div>
                     </div>
 
-                    <!-- Card 6: Rebate Reuse Price List -->
+                    <!-- Card 6: Commercial Business/Pickup -->
                     <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
-                                src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.48.49-AM-1-300x300.webp') }}" 
-                                alt="Rebate Reuse Price List" 
+                                src="{{ asset('images/ewaste/business-hero.webp') }}" 
+                                alt="Commercial Business/Pickup" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
                             <!-- Dark Bottom Overlay with Icon & Title -->
@@ -247,11 +247,11 @@
                                 <div class="flex items-center gap-3.5 text-white">
                                     <div class="w-12 h-12 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center shrink-0 backdrop-blur-sm">
                                         <svg class="w-7 h-7 text-white fill-current" viewBox="0 0 24 24">
-                                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                            <path d="M20 8h-3V4H1v13h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                                         </svg>
                                     </div>
                                     <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
-                                        Rebate Reuse<br />Price List
+                                        Commercial<br />Business/Pickup
                                     </div>
                                 </div>
                             </div>

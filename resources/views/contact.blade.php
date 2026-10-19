@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Contact Us | Denver &amp; Toronto Electronics Recycling &amp; IT Asset Disposition | IT Investment Recoveries</title>
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('/images/recoveries.png') }}">
         <meta name="description" content="Contact IT Investment Recoveries in Denver and Toronto for certified electronics recycling, IT asset disposition, data destruction, and equipment pickup inquiries.">
 
         <!-- Google Fonts: Amaranth & Plus Jakarta Sans -->
