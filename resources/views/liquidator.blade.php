@@ -100,75 +100,155 @@
         </section>
 
         <!-- Section 2: Computer Liquidation Services in Denver -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full">
-            <div class="w-full max-w-5xl mx-auto text-center space-y-6">
-                
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span class="text-[#035c43]">Computer Liquidation</span> 
-                    <span class="text-gray-900 ml-2">Services in Denver</span>
-                </h2>
+        <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50/80 text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full relative overflow-hidden border-b border-gray-100">
+            <!-- Background Ambient Glow Accents -->
+            <div class="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-emerald-400/10 blur-[130px] pointer-events-none rounded-full"></div>
+            <div class="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-teal-400/10 blur-[120px] pointer-events-none rounded-full"></div>
 
-                <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed max-w-5xl mx-auto">
-                    Our experienced team makes it easy for companies in Denver undergoing office relocation, downsizing, or closure to liquidate their surplus computer assets. We handle all aspects of the computer liquidation process efficiently and responsibly, including de-installation, transportation, and storage services. This includes liquidating computers, laptops, servers, monitors, printers, networking equipment, and other IT assets. We then resell operational equipment to businesses, schools, and individuals at discounted prices compared to new equipment.
-                </p>
-
-            </div>
-        </section>
-
-        <!-- Solid Dark Green Full-Width Band Divider -->
-        <div class="bg-[#035c43] h-8 sm:h-12 w-full"></div>
-
-        <!-- Section 3: We Offer Heading -->
-        <section class="bg-white text-gray-900 py-10 sm:py-14 px-4 w-full">
-            <div class="w-full max-w-4xl mx-auto text-center">
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal flex items-center justify-center gap-3">
-                    <span class="text-gray-900">We</span> 
-                    <span class="text-[#035c43]">Offer</span>
-                    <span class="text-[#035c43] text-2xl sm:text-3xl font-bold">▼</span>
-                </h2>
-            </div>
-        </section>
-
-        <!-- Section 4: 2 Slanted Service Cards (Dark Green Full-Width Banner) -->
-        <section class="bg-white text-gray-900 py-4 sm:py-8 w-full overflow-hidden">
-            <div class="bg-[#035c43] text-white transform -skew-y-2 py-16 sm:py-24 w-full overflow-hidden shadow-2xl">
-                <div class="transform skew-y-2 w-full max-w-7xl mx-auto px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
+            <div class="w-full max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
                     
-                    <!-- Card 1: Asset Removal Services -->
-                    <div class="flex flex-col items-center text-center space-y-5 group">
-                        <div class="w-full max-w-md h-60 sm:h-68 rounded-2xl border-4 border-white shadow-2xl overflow-hidden transform group-hover:scale-105 transition duration-500 bg-gray-900">
-                            <img 
-                                src="{{ asset('images/Liquidator/download.webp') }}" 
-                                alt="Asset Removal Services" 
-                                class="w-full h-full object-cover"
-                            />
+                    <!-- Left Column: Title & Verbatim Original Content Only -->
+                    <div class="lg:col-span-7 space-y-6 text-left">
+                        
+                        <!-- Main Title (Exact Original Wording) -->
+                        <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-[1.15] font-['Albert_Sans',sans-serif]">
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43]">Computer Liquidation</span>
+                            <span class="text-gray-900 block mt-1 sm:mt-2">Services in Denver</span>
+                        </h2>
+
+                        <!-- Decorative Accent Bar (No text) -->
+                        <div class="w-20 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full"></div>
+
+                        <!-- Content Cards (Strictly Verbatim Original Content - No Additions) -->
+                        <div class="space-y-5 pt-2">
+                            
+                            <!-- Paragraph Lead with Left Accent Border -->
+                            <div class="relative pl-5 sm:pl-6 border-l-4 border-[#035c43]">
+                                <p class="text-gray-800 text-lg sm:text-xl font-semibold leading-relaxed">
+                                    Our experienced team makes it easy for companies in Denver undergoing office relocation, downsizing, or closure to liquidate their surplus computer assets.
+                                </p>
+                            </div>
+
+                            <!-- Executive Highlight Box -->
+                            <div class="bg-gradient-to-r from-emerald-50/90 via-slate-50/80 to-emerald-50/40 rounded-2xl p-6 sm:p-7 border border-emerald-200/80 shadow-sm flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-[#035c43] text-white flex items-center justify-center shrink-0 shadow-md mt-0.5">
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-gray-900 text-base sm:text-lg font-bold leading-relaxed">
+                                    We handle all aspects of the computer liquidation process efficiently and responsibly, including de-installation, transportation, and storage services.
+                                </p>
+                            </div>
+
+                            <!-- Dual Cards for Assets & Resale (No added text labels) -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-white rounded-2xl p-5 sm:p-6 border border-gray-200/80 shadow-sm flex items-start gap-3.5">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-100 text-[#035c43] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-700 text-sm sm:text-base font-semibold leading-relaxed">
+                                        This includes liquidating computers, laptops, servers, monitors, printers, networking equipment, and other IT assets.
+                                    </p>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-5 sm:p-6 border border-gray-200/80 shadow-sm flex items-start gap-3.5">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-100 text-[#035c43] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-700 text-sm sm:text-base font-semibold leading-relaxed">
+                                        We then resell operational equipment to businesses, schools, and individuals at discounted prices compared to new equipment.
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
-                        <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white pt-1">
-                            Asset Removal Services
-                        </h3>
-                        <p class="text-emerald-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-lg">
-                            Our experienced team handles de-installation, transportation, and secure storage of your surplus IT assets. We remove laptops, computers, servers, printers, networking equipment, monitors, and other IT assets to safely liquidate them.
-                        </p>
+
                     </div>
 
-                    <!-- Card 2: Computer Resale Services -->
-                    <div class="flex flex-col items-center text-center space-y-5 group">
-                        <div class="w-full max-w-md h-60 sm:h-68 rounded-2xl border-4 border-white shadow-2xl overflow-hidden transform group-hover:scale-105 transition duration-500 bg-gray-900">
+                    <!-- Right Column: Professional Hardware Showcase (Real-Life Facility Photo) -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative rounded-3xl overflow-hidden border border-gray-200 shadow-2xl group bg-gray-50">
                             <img 
-                                src="{{ asset('images/Liquidator/Untitled-design-8.webp') }}" 
-                                alt="Computer Resale Services" 
-                                class="w-full h-full object-cover"
+                                src="{{ asset('images/IT Disposal/ewaste-recycling-hero.webp') }}" 
+                                alt="Computer Liquidation Services in Denver" 
+                                class="w-full h-[440px] sm:h-[500px] object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                             />
                         </div>
-                        <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white pt-1">
-                            Computer Resale Services
-                        </h3>
-                        <p class="text-emerald-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-lg">
-                            We resell quality desktop and laptop computers, printers, networking and server equipment, and monitors to businesses, schools, and individuals at discounted prices compared to new equipment.
-                        </p>
                     </div>
 
                 </div>
+            </div>
+        </section>
+
+        <!-- Section 3 & 4: We Offer (Modern Executive Service Cards) -->
+        <section class="relative bg-gradient-to-br from-[#013526] via-[#035c43] to-[#01251a] text-white py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full overflow-hidden border-y border-emerald-800/40 shadow-2xl">
+            <!-- Subtle Architectural Grid Pattern Overlay with Soft Radial Fade -->
+            <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px); background-size: 52px 52px; -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, #000 45%, transparent 100%); mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, #000 45%, transparent 100%);"></div>
+
+            <!-- Ambient Lighting Glows -->
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[320px] bg-emerald-400/15 blur-[130px] pointer-events-none rounded-full"></div>
+            <div class="absolute -bottom-24 right-1/4 w-[550px] h-[260px] bg-teal-400/10 blur-[120px] pointer-events-none rounded-full"></div>
+
+            <div class="w-full max-w-7xl mx-auto relative z-10 space-y-12 sm:space-y-16">
+                
+                <!-- We Offer ▼ Heading (Exact Original Text) -->
+                <div class="text-center">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-normal flex items-center justify-center gap-3 font-['Albert_Sans',sans-serif]">
+                        <span class="text-white">We</span> 
+                        <span class="text-emerald-300">Offer</span>
+                        <span class="text-emerald-300 text-2xl sm:text-3xl font-bold">▼</span>
+                    </h2>
+                </div>
+
+                <!-- 2 Service Cards Grid (Real-Life Photos & Exact Original Text) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
+                    
+                    <!-- Card 1: Asset Removal Services -->
+                    <div class="bg-white text-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20 flex flex-col justify-between group hover:shadow-[0_25px_60px_rgba(0,0,0,0.35)] transition-all duration-500">
+                        <div class="w-full h-64 sm:h-72 overflow-hidden relative bg-gray-900">
+                            <img 
+                                src="{{ asset('images/Liquidator/asset-removal-service.webp') }}" 
+                                alt="Asset Removal Services" 
+                                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                            />
+                        </div>
+                        <div class="p-8 sm:p-10 flex-grow flex flex-col justify-start space-y-4 text-left">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-950 group-hover:text-[#035c43] transition-colors duration-300">
+                                Asset Removal Services
+                            </h3>
+                            <p class="text-gray-600 text-base sm:text-lg font-medium leading-relaxed">
+                                Our experienced team handles de-installation, transportation, and secure storage of your surplus IT assets. We remove laptops, computers, servers, printers, networking equipment, monitors, and other IT assets to safely liquidate them.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Computer Resale Services -->
+                    <div class="bg-white text-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20 flex flex-col justify-between group hover:shadow-[0_25px_60px_rgba(0,0,0,0.35)] transition-all duration-500">
+                        <div class="w-full h-64 sm:h-72 overflow-hidden relative bg-gray-900">
+                            <img 
+                                src="{{ asset('images/Liquidator/computer-resale-service.webp') }}" 
+                                alt="Computer Resale Services" 
+                                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                            />
+                        </div>
+                        <div class="p-8 sm:p-10 flex-grow flex flex-col justify-start space-y-4 text-left">
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-950 group-hover:text-[#035c43] transition-colors duration-300">
+                                Computer Resale Services
+                            </h3>
+                            <p class="text-gray-600 text-base sm:text-lg font-medium leading-relaxed">
+                                We resell quality desktop and laptop computers, printers, networking and server equipment, and monitors to businesses, schools, and individuals at discounted prices compared to new equipment.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </section>
 

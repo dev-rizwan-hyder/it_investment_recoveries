@@ -317,20 +317,62 @@
                     <!-- Bottom Accent Line -->
                     <div class="w-full h-1.5 bg-gradient-to-r from-emerald-400 via-[#035c43] to-emerald-400 rounded-full mt-8"></div>
                 </div>
-
-                <!-- Green Button below list -->
-                <div class="text-center mt-10">
-                    <a 
-                        href="#schedule-pickup" 
-                        class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#035c43] hover:bg-[#024734] text-white font-bold text-lg tracking-wide shadow-xl transition-all duration-300 group"
-                    >
-                        <span class="font-extrabold tracking-wide">Book a Pickup</span>
-                        <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
-                    </a>
-                </div>
-
             </div>
         </section>
+
+        <!-- Section 4.5: Full-Width Policy Banner (No Cash Rebates — No Recycling Fees) -->
+    <section
+        class="w-full bg-gradient-to-r from-[#01281d] via-[#035c43] to-[#023e2d] text-white py-16 sm:py-20 px-6 sm:px-12 lg:px-16 relative overflow-hidden border-y border-emerald-500/30 group shadow-2xl">
+        <!-- Animated Ambient Glow Accents -->
+        <div
+            class="absolute -right-20 -bottom-20 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-1000">
+        </div>
+        <div class="absolute -left-20 -top-20 w-80 h-80 bg-teal-400/15 rounded-full blur-3xl pointer-events-none">
+        </div>
+        <div
+            class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[350%] transition-transform duration-1000 ease-in-out pointer-events-none">
+        </div>
+
+        <div
+            class="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+
+            <div class="space-y-3.5 text-left max-w-3xl">
+                <span
+                    class="px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-emerald-200 font-extrabold text-xs tracking-wider uppercase backdrop-blur-md">
+                    Clear &amp; Upfront Policy
+                </span>
+                <h3
+                    class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight font-['Albert_Sans',sans-serif]">
+                    No Cash Rebates — No Recycling Fees
+                </h3>
+                <p class="text-emerald-100/90 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
+                    We do not offer cash-back payments for equipment. Instead, our focus is on providing convenient,
+                    secure, and properly documented IT Asset Management, data destruction, and e-waste recycling
+                    services.
+                </p>
+            </div>
+
+            <div class="shrink-0">
+                <a href="{{ url('/contact-us') }}"
+                    class="inline-flex items-center gap-2.5 bg-white text-[#035c43] hover:bg-emerald-50 font-extrabold text-base sm:text-lg px-8 py-4 sm:px-10 sm:py-4.5 rounded-full shadow-2xl transition duration-300 whitespace-nowrap transform hover:scale-105 group-hover:shadow-emerald-900/50">
+                    <span>Transparent Service</span>
+                    <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Book a Pickup CTA (White Background Area, Green Button) -->
+    <div class="w-full bg-white text-center py-10 sm:py-14">
+        <div class="w-full max-w-7xl mx-auto px-4">
+            <a href="#schedule-pickup"
+                class="inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[24px] rounded-br-none bg-[#035c43] hover:bg-[#024734] text-white font-bold text-lg tracking-wide shadow-xl hover:shadow-2xl transition-all duration-300 group transform hover:-translate-y-0.5">
+                <span class="font-extrabold tracking-wide">Book a Pickup</span>
+                <span class="text-xl transition-transform duration-200 group-hover:translate-x-1.5">→</span>
+            </a>
+        </div>
+    </div>
 
         <!-- Section 4: Certified Service Providers Slider Section -->
         <section class="bg-white text-gray-800 py-14 sm:py-20 px-4 sm:px-8 w-full overflow-hidden border-t border-gray-100">
