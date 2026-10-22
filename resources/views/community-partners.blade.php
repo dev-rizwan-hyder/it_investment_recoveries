@@ -141,18 +141,6 @@
             </div>
         </section>
 
-        <!-- Section 2: Small Green Recycling Icon Divider Line -->
-        <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
-            <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
-                <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#035c43]">
-                    <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
-                        <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
         <!-- Section 3: Our Proud Community Partners -->
         <section class="bg-white text-gray-900 pb-16 pt-6 w-full">
             <div class="w-full space-y-10">
@@ -332,6 +320,76 @@
                             </div>
 
                         </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 5: Our Happy Clients Section (Matching Home Page) -->
+        <x-testimonials />
+
+          <!-- Section 6: Talk with an Expert Ratings Banner (Universal Site Component) -->
+        <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden border-t border-emerald-800">
+            
+            <!-- Background Overlay -->
+            <div class="absolute inset-0 z-0 pointer-events-none">
+                <img 
+                    src="{{ asset('images/home-banner.webp') }}" 
+                    alt="Denver Background" 
+                    class="w-full h-full object-cover opacity-25 mix-blend-overlay filter contrast-125 brightness-110 scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-r from-[#035c43]/90 via-[#035c43]/85 to-[#035c43]/90"></div>
+            </div>
+
+            <!-- Foreground Content Container -->
+            <div class="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Side: Title, Description, and Contact Buttons -->
+                <div class="lg:col-span-7 space-y-6 text-left">
+                    <h2 class="text-3xl sm:text-5xl font-black text-white tracking-normal font-['Albert_Sans',sans-serif]">
+                        Talk with an Expert
+                    </h2>
+                    <p class="text-emerald-100 text-base sm:text-lg md:text-xl max-w-xl font-normal leading-relaxed">
+                        Everyone Can Help Create a Full Circle. Let's Recycle Together. Call or email us to talk with an expert.
+                    </p>
+                    <div class="flex items-center gap-4 flex-wrap pt-2">
+                        <a 
+                            href="{{ url('/contact-us') }}" 
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
+                        >
+                            Contact Us
+                        </a>
+                        <a 
+                            href="tel:+13034724701" 
+                            class="bg-[#035c43] hover:bg-white text-white hover:text-[#035c43] border border-emerald-400/40 px-8 py-3.5 rounded-full font-extrabold text-sm sm:text-base shadow-lg transition duration-300 flex items-center gap-2 transform hover:scale-105"
+                        >
+                            <span>📞</span>
+                            <span>+1-303-472-4701</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side: Google & BBB Ratings Cards -->
+                <div class="lg:col-span-5 flex items-center justify-start lg:justify-end gap-8 sm:gap-14 pt-6 lg:pt-0">
+                    <!-- Rating 1: Google Reviews (4.8) -->
+                    <div class="text-center space-y-1">
+                        <div class="text-4xl sm:text-6xl font-black text-emerald-100 leading-none">4.8</div>
+                        <div class="flex items-center justify-center gap-0.5 text-amber-300 text-sm">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-emerald-100">2,394 Ratings</div>
+                        <div class="text-xs font-bold text-white uppercase tracking-wider">Google Reviews</div>
+                    </div>
+
+                    <!-- Rating 2: BBB Rating (A+) -->
+                    <div class="text-center space-y-1">
+                        <div class="text-4xl sm:text-6xl font-black text-emerald-100 leading-none">A+</div>
+                        <div class="flex items-center justify-center gap-0.5 text-amber-300 text-sm">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-emerald-100">125 Client Reviews</div>
+                        <div class="text-xs font-bold text-white uppercase tracking-wider">BBB Rating</div>
                     </div>
                 </div>
 

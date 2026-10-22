@@ -212,21 +212,27 @@
         </section>
 
         <!-- Section 3: Used Computer Donation Services in Denver & Charity Partners Slider -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 overflow-hidden">
-            <div class="w-full max-w-7xl mx-auto text-center space-y-10 sm:space-y-12">
+        <section class="bg-gradient-to-b from-slate-50/70 via-white to-slate-50/50 text-gray-900 py-20 sm:py-28 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 relative overflow-hidden">
+            <!-- Subtle Ambient Background Accents -->
+            <div class="absolute top-1/3 left-10 w-96 h-96 bg-emerald-400/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="w-full max-w-7xl mx-auto text-center space-y-12 sm:space-y-14 relative z-10">
                 
                 <!-- Title & Lead Description -->
-                <div class="max-w-4xl mx-auto space-y-4">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                <div class="max-w-7xl mx-auto space-y-5">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight font-['Albert_Sans',sans-serif]">
                         <span class="text-gray-900">Used Computer Donation</span> 
-                        <span class="text-[#035c43] ml-2">Services in Denver</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43] block sm:inline sm:ml-2">Services in Denver</span>
                     </h2>
-                    <div class="mx-auto h-1 w-24 rounded-full bg-[#035c43]"></div>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full mx-auto"></div>
 
-                    <!-- Verbatim Original Paragraph -->
-                    <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed pt-2">
-                        We specialize in computer donation in Denver, accepting donations of used computers, laptops, monitors, printers and other electronics from individuals and businesses. These donated computers and electronics are redistributed to schools, nonprofits, students or sold for parts, keeping e-waste out of landfills. If you have older models, broken devices with salvageable parts or a surplus of computers and electronics you no longer need, our Denver computer donation program welcomes your tax-deductible equipment and parts donations.
-                    </p>
+                    <!-- Verbatim Original Paragraph in Executive Card -->
+                    <div class="bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40 rounded-3xl p-7 sm:p-10 border border-emerald-100/90 shadow-sm mt-6">
+                        <p class="text-gray-700 text-lg sm:text-xl md:text-2xl font-medium leading-relaxed">
+                            We specialize in computer donation in Denver, accepting donations of used computers, laptops, monitors, printers and other electronics from individuals and businesses. These donated computers and electronics are redistributed to schools, nonprofits, students or sold for parts, keeping e-waste out of landfills. If you have older models, broken devices with salvageable parts or a surplus of computers and electronics you no longer need, our Denver computer donation program welcomes your tax-deductible equipment and parts donations.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Continuous Marquee Slider (Matching Home Page Slider) -->
@@ -407,74 +413,94 @@
         </section>
 
         <!-- Section 6: Donation of Equipment We Accept (7 Equipment Image Cards) -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100">
-            <div class="w-full max-w-7xl mx-auto space-y-14">
+        <section 
+            class="relative w-full py-20 sm:py-28 px-4 sm:px-8 lg:px-16 overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat text-gray-900 border-t border-b border-gray-200/80 shadow-inner"
+            style="background-image: url('{{ asset('images/IT Disposal/ewaste-recycling-hero.webp') }}');"
+        >
+            <!-- Overlay for contrast, readability & smooth scrolling parallax depth -->
+            <div class="absolute inset-0 bg-white/85 backdrop-blur-[1px] pointer-events-none"></div>
+
+            <!-- Subtle Emerald Glow Highlights & Architectural Grid -->
+            <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-emerald-400/20 blur-[140px] rounded-full"></div>
+                <div class="absolute -bottom-32 left-10 w-[500px] h-[400px] bg-teal-400/15 blur-[130px] rounded-full"></div>
+                <div class="absolute -bottom-32 right-10 w-[500px] h-[400px] bg-emerald-300/15 blur-[130px] rounded-full"></div>
+                <!-- Architectural Grid Texture with Radial Mask -->
+                <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(to right, #035c43 1px, transparent 1px), linear-gradient(to bottom, #035c43 1px, transparent 1px); background-size: 36px 36px; -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 60%, transparent 100%); mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 60%, transparent 100%);"></div>
+            </div>
+
+            <div class="w-full max-w-7xl mx-auto space-y-12 sm:space-y-16 relative z-10">
                 
                 <!-- Title -->
-                <div class="text-center">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                        <span class="text-[#035c43]">Donation of Equipment</span> 
+                <div class="text-center space-y-4 max-w-4xl mx-auto">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight font-['Albert_Sans',sans-serif]">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43]">Donation of Equipment</span> 
                         <span class="text-gray-900 ml-2">We Accept</span>
                     </h2>
+                    <div class="w-24 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full mx-auto shadow-sm"></div>
                 </div>
 
                 <!-- 7 Equipment Items Grid -->
-                <div class="space-y-12">
+                <div class="space-y-6 sm:space-y-8">
                     <!-- Top Row: 4 Items -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                         
                         <!-- Item 1 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Used_desktop_and_laptop_computers__2_-removebg-preview.webp') }}" 
                                     alt="Used desktop and laptop computers" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Used desktop and laptop computers
                             </h3>
                         </div>
 
                         <!-- Item 2 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Untitled-design-1.webp') }}" 
                                     alt="LED/LCD monitors and displays" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 LED/LCD monitors and displays
                             </h3>
                         </div>
 
                         <!-- Item 3 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Networking_equipment_like_routers_and_switches-removebg-preview.webp') }}" 
                                     alt="Networking equipments like routers and switches" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Networking equipments like routers and switches
                             </h3>
                         </div>
 
                         <!-- Item 4 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Printers__scanners__fax_machines-removebg-preview.webp') }}" 
                                     alt="Printers, scanners, fax machines" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Printers, scanners, fax machines
                             </h3>
                         </div>
@@ -482,46 +508,49 @@
                     </div>
 
                     <!-- Bottom Row: 3 Items Centered -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10 max-w-5xl mx-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
                         
                         <!-- Item 5 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Gaming_consoles_and_controllers-removebg-preview.webp') }}" 
                                     alt="Gaming consoles and controllers" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Gaming consoles and controllers
                             </h3>
                         </div>
 
                         <!-- Item 6 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/charity/equipment/Mobile_devices-removebg-preview.webp') }}" 
                                     alt="Mobile devices" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Mobile devices
                             </h3>
                         </div>
 
                         <!-- Item 7 -->
-                        <div class="flex flex-col items-center text-center space-y-4 group">
-                            <div class="h-44 sm:h-48 w-full flex items-center justify-center p-2">
+                        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-between group relative overflow-hidden text-center min-h-[280px]">
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="w-full h-44 sm:h-48 rounded-2xl bg-gradient-to-b from-slate-50 to-emerald-50/30 p-4 border border-gray-100 group-hover:border-emerald-200/60 flex items-center justify-center transition-colors shadow-inner">
                                 <img 
                                     src="{{ asset('images/IT Disposal/image-removebg-preview-3.webp') }}" 
                                     alt="Other electronics, functioning or broken" 
-                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition duration-300"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out"
                                 />
                             </div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#035c43] max-w-xs leading-snug">
+                            <h3 class="text-base sm:text-lg font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug pt-4">
                                 Other electronics, functioning or broken
                             </h3>
                         </div>
@@ -535,30 +564,6 @@
         <!-- Section 5: Our Happy Clients Section (Matching Home Page) -->
         <x-testimonials />
 
-        <!-- Small Green Recycling Icon Divider -->
-        <div class="bg-white py-6 w-full flex items-center justify-center relative overflow-hidden">
-            <div class="w-full max-w-7xl px-6 flex items-center justify-center relative">
-                <div class="w-full border-t border-emerald-300"></div>
-                <div class="absolute bg-white px-4 text-[#035c43]">
-                    <svg class="w-6 h-6 fill-current mx-auto" viewBox="0 0 24 24">
-                        <path d="M12 2A10 10 0 1 0 22 12 10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-2-12.5l2.5 3 2.5-3h-2V6h-1v1.5zm-3.5 6l3.5 2.5V15h1.5v-1.5H10l-3.5-3.5zm9 0l-3.5-3.5v1.5H12.5V15H14l3.5-2.5z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 7: Donate Used Computers in Denver -->
-        <section class="bg-white text-gray-900 py-12 sm:py-16 px-4 sm:px-8 w-full">
-            <div class="w-full max-w-5xl mx-auto text-center space-y-5">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                    <span class="text-gray-900">Donate Used Computers</span> 
-                    <span class="text-[#035c43] ml-2">in Denver</span>
-                </h2>
-                <p class="text-gray-700 text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto font-medium leading-relaxed">
-                    We make electronics donations easy. Our team handles all the packaging and transportation logistics at absolutely no cost to you. Call now or schedule a pickup to get started today and coordinate with our electronics donation pickup specialists. We look forward to putting your used equipment to good use!
-                </p>
-            </div>
-        </section>
 
         <!-- Section 8: Talk with an Expert Ratings Banner -->
         <section class="relative bg-[#035c43] text-white py-16 sm:py-24 px-6 sm:px-12 lg:px-16 w-full shadow-inner overflow-hidden border-t border-emerald-800">
@@ -622,6 +627,26 @@
                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- Section 7: Donate Used Computers in Denver (Full-Width Parallax Background) -->
+        <section 
+            class="relative w-full py-16 sm:py-20 px-4 sm:px-8 lg:px-16 overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat text-gray-900 border-t border-b border-gray-200/80 shadow-inner"
+            style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
+        >
+            <!-- Soft White Overlay for readability & smooth parallax depth -->
+            <div class="absolute inset-0 bg-white/80 backdrop-blur-[1px] pointer-events-none"></div>
+
+            <div class="relative z-10 w-full max-w-5xl mx-auto text-center space-y-5">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight font-['Albert_Sans',sans-serif] max-w-4xl mx-auto">
+                    <span class="text-gray-900">Donate Used Computers</span> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43] ml-2">in Denver</span>
+                </h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full mx-auto"></div>
+                <p class="text-gray-800 text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto font-medium leading-relaxed">
+                    We make electronics donations easy. Our team handles all the packaging and transportation logistics at absolutely no cost to you. Call now or schedule a pickup to get started today and coordinate with our electronics donation pickup specialists. We look forward to putting your used equipment to good use!
+                </p>
             </div>
         </section>
 

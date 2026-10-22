@@ -256,90 +256,79 @@
         <x-testimonials />
 
         <!-- Section 6: Why Choose Us for Computer Liquidation in Denver? -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100">
-            <div class="w-full max-w-7xl mx-auto space-y-12">
+        <section class="bg-gradient-to-b from-slate-50/70 via-white to-slate-50/50 text-gray-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-16 w-full border-t border-gray-100 relative overflow-hidden">
+            <!-- Subtle Ambient Background Accents -->
+            <div class="absolute top-1/3 left-10 w-96 h-96 bg-emerald-400/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="w-full max-w-7xl mx-auto space-y-12 sm:space-y-16 relative z-10">
                 
                 <!-- Title -->
-                <div class="text-center">
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight max-w-4xl mx-auto leading-tight">
-                        <span class="text-[#035c43]">Why Choose Us for Computer</span> 
-                        <span class="text-gray-900 ml-2">Liquidation in</span><br />
-                        <span class="text-gray-900">Denver?</span>
+                <div class="text-center space-y-4">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight font-['Albert_Sans',sans-serif] max-w-4xl mx-auto">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43]">Why Choose Us for Computer</span> 
+                        <span class="text-gray-900 block sm:inline sm:ml-2">Liquidation in Denver?</span>
                     </h2>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full mx-auto"></div>
                 </div>
 
-                <!-- 4 Columns Grid with Yellow Star Icons -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 4 Columns Grid with Modern Feature Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                     
                     <!-- Column 1 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="text-amber-400 text-4xl font-bold mx-auto">
-                            ⭐
+                    <div class="bg-white rounded-3xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center group relative overflow-hidden min-h-[220px]">
+                        <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 text-[#035c43] group-hover:bg-[#035c43] group-hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm mb-6">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug">
                             Premium Used Computers and Electronic
                         </h3>
                     </div>
 
                     <!-- Column 2 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="text-amber-400 text-4xl font-bold mx-auto">
-                            ⭐
+                    <div class="bg-white rounded-3xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center group relative overflow-hidden min-h-[220px]">
+                        <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 text-[#035c43] group-hover:bg-[#035c43] group-hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm mb-6">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug">
                             Trust Over 18 Years of Experience
                         </h3>
                     </div>
 
                     <!-- Column 3 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="text-amber-400 text-4xl font-bold mx-auto">
-                            ⭐
+                    <div class="bg-white rounded-3xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center group relative overflow-hidden min-h-[220px]">
+                        <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 text-[#035c43] group-hover:bg-[#035c43] group-hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm mb-6">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug">
                             Hassle Free Office Liquidation
                         </h3>
                     </div>
 
                     <!-- Column 4 -->
-                    <div class="text-center space-y-3 px-2">
-                        <div class="text-amber-400 text-4xl font-bold mx-auto">
-                            ⭐
+                    <div class="bg-white rounded-3xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center group relative overflow-hidden min-h-[220px]">
+                        <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 text-[#035c43] group-hover:bg-[#035c43] group-hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm mb-6">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] leading-snug">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-[#035c43] group-hover:text-gray-950 transition-colors leading-snug">
                             Transparent Pricing and Operations
                         </h3>
                     </div>
 
                 </div>
 
-            </div>
-        </section>
-
-        <!-- Section 7: Liquidate Your Electronic Quickly and Responsibly -->
-        <section class="bg-white text-gray-900 py-16 sm:py-24 px-4 sm:px-8 w-full border-t border-gray-100">
-            <div class="w-full max-w-4xl mx-auto text-center space-y-6">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                    <span class="text-[#035c43]">Liquidate Your Electronic</span> 
-                    <span class="text-gray-900 ml-2">Quickly and Responsibly</span>
-                </h2>
-                <p class="text-gray-700 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-4xl mx-auto">
-                    Contact us today to schedule a walkthrough and receive a no-obligation quote! We make computer liquidation and reselling stress-free. Call now to liquidate your electronic assets quickly and responsibly in Denver.
-                </p>
-                <div class="flex items-center justify-center gap-4 flex-wrap pt-4">
-                    <a 
-                        href="{{ url('/contact-us') }}" 
-                        class="px-8 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
-                    >
-                        Request Pickup
-                    </a>
-                    <a 
-                        href="{{ url('/contact-us') }}" 
-                        class="px-8 py-3.5 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-sm sm:text-base shadow-lg transition duration-300 transform hover:scale-105"
-                    >
-                        Book Consultation
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -403,6 +392,50 @@
                         <div class="text-xs sm:text-sm font-semibold text-emerald-100">125 Client Reviews</div>
                         <div class="text-xs font-bold text-white uppercase tracking-wider">BBB Rating</div>
                     </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 7: Liquidate Your Electronic Quickly and Responsibly (Full-Width Parallax Background) -->
+        <section 
+            class="relative w-full py-12 sm:py-16 px-4 sm:px-8 lg:px-16 overflow-hidden bg-fixed bg-cover bg-center bg-no-repeat text-gray-900 border-t border-gray-200/80 shadow-inner"
+            style="background-image: url('{{ asset('images/ewaste/fLATIRONS.webp') }}');"
+        >
+            <!-- Soft White Overlay for readability & smooth parallax depth -->
+            <div class="absolute inset-0 bg-white/80 backdrop-blur-[1px] pointer-events-none"></div>
+
+            <!-- Foreground Content -->
+            <div class="relative z-10 w-full max-w-5xl mx-auto text-center space-y-5">
+                
+                <!-- Main Section Heading (Verbatim Original Text) -->
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight font-['Albert_Sans',sans-serif] max-w-4xl mx-auto">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#035c43] via-emerald-700 to-[#035c43]">Liquidate Your Electronic</span> 
+                    <span class="text-gray-900 block sm:inline sm:ml-2">Quickly and Responsibly</span>
+                </h2>
+
+                <!-- Decorative Accent Bar -->
+                <div class="w-20 h-1.5 bg-gradient-to-r from-[#035c43] to-emerald-400 rounded-full mx-auto"></div>
+
+                <!-- Main Body Paragraph (Verbatim Original Text) -->
+                <p class="text-gray-800 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-3xl mx-auto">
+                    Contact us today to schedule a walkthrough and receive a no-obligation quote! We make computer liquidation and reselling stress-free. Call now to liquidate your electronic assets quickly and responsibly in Denver.
+                </p>
+
+                <!-- Call To Action Buttons (Verbatim Original Text, Professional Styling) -->
+                <div class="flex items-center justify-center gap-4 flex-wrap pt-2">
+                    <a 
+                        href="{{ url('/contact-us') }}" 
+                        class="px-9 py-3.5 sm:py-4 rounded-full bg-[#035c43] hover:bg-[#024734] text-white font-extrabold text-base sm:text-lg shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105"
+                    >
+                        Request Pickup
+                    </a>
+                    <a 
+                        href="{{ url('/contact-us') }}" 
+                        class="px-9 py-3.5 sm:py-4 rounded-full bg-white hover:bg-emerald-50 text-[#035c43] font-extrabold text-base sm:text-lg border-2 border-[#035c43] shadow-md transition duration-300 transform hover:scale-105"
+                    >
+                        Book Consultation
+                    </a>
                 </div>
 
             </div>
