@@ -35,6 +35,11 @@ class ReceivedIntakeController extends Controller
         }
 
         $pallets = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
             ->latest()
             ->paginate(10);
 
@@ -85,11 +90,22 @@ class ReceivedIntakeController extends Controller
             abort(403, 'Unauthorized access or client profile not found.');
         }
 
-        $pallet = Pallet::whereIn('client_id', $clientIds)->findOrFail($id);
+        $pallet = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
+            ->findOrFail($id);
 
         // Fetch all related pallets (items received under the same barcode)
         $relatedPallets = Pallet::where('barcode_number', $pallet->barcode_number)
             ->whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
             ->orderBy('id')
             ->get();
 
@@ -99,11 +115,15 @@ class ReceivedIntakeController extends Controller
         // Fetch all items from ecommerce, refurbishing, universal waste, data destruction, IT assets
         $barcode = trim($pallet->barcode_number);
 
-        $allEcommerce = DB::table('ecommerce_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
-        $allRefurbishing = DB::table('refurbishing_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
-        $allUniversal = DB::table('universal_waste_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->get();
-        $allDestruction = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->get();
-        $allItAssets = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->get();
+        $itemNotDraftScope = function ($q) {
+            $q->whereNull('status')->orWhereNotIn('status', ['Draft', 'draft']);
+        };
+
+        $allEcommerce = DB::table('ecommerce_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->where($itemNotDraftScope)->get();
+        $allRefurbishing = DB::table('refurbishing_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->where($itemNotDraftScope)->get();
+        $allUniversal = DB::table('universal_waste_items')->where('pallet_number', $barcode)->whereNull('deleted_at')->where($itemNotDraftScope)->get();
+        $allDestruction = \App\Models\DataDestructionItem::where('pallet_number', $barcode)->where($itemNotDraftScope)->get();
+        $allItAssets = \App\Models\ItAssetsItem::where('pallet_number', $barcode)->where($itemNotDraftScope)->get();
 
         // Build pallet lookup map for tagging items with sub-pallet names
         $palletMap = $relatedPallets->keyBy('id');
@@ -189,7 +209,13 @@ class ReceivedIntakeController extends Controller
 
     private function calculateStats(array $clientIds): array
     {
-        $pallets = Pallet::whereIn('client_id', $clientIds)->get();
+        $pallets = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
+            ->get();
 
         $receivedPallets = $pallets->filter(function ($p) {
             $st = strtolower(trim($p->status ?: 'received'));
@@ -274,6 +300,9 @@ class ReceivedIntakeController extends Controller
                     : 'COALESCE(SUM(scrap_weight), 0) as scrap_weight')
                 ->whereNotNull('pallet_number')
                 ->whereNull('deleted_at')
+                ->where(function ($q) {
+                    $q->whereNull('status')->orWhereNotIn('status', ['Draft', 'draft']);
+                })
                 ->whereIn(DB::raw('TRIM(pallet_number)'), $barcodes)
                 ->groupByRaw('TRIM(pallet_number)')
                 ->get();
@@ -332,6 +361,11 @@ class ReceivedIntakeController extends Controller
         }
 
         $allPallets = Pallet::whereIn(DB::raw('TRIM(LOWER(barcode_number))'), $barcodes)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
             ->orderBy('id', 'asc')
             ->get(['id', 'barcode_number']);
 
@@ -416,6 +450,9 @@ class ReceivedIntakeController extends Controller
                     ? 'COALESCE(SUM(CASE WHEN scrap_weight > 0 THEN scrap_weight ELSE weight END), 0) as scrap_weight' 
                     : 'COALESCE(SUM(scrap_weight), 0) as scrap_weight')
                 ->whereNull('deleted_at')
+                ->where(function ($q) {
+                    $q->whereNull('status')->orWhereNotIn('status', ['Draft', 'draft']);
+                })
                 ->where(function ($q) use ($palletIds, $barcodes) {
                     if (!empty($palletIds)) {
                         $q->whereIn('pallet_id', $palletIds);
@@ -631,7 +668,9 @@ class ReceivedIntakeController extends Controller
             abort(403, 'Unauthorized access.');
         }
 
-        $pallet = Pallet::whereIn('client_id', $clientIds)->findOrFail($id);
+        $pallet = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->findOrFail($id);
         $barcode = $pallet->barcode_number;
         $pallet->delete();
 
@@ -661,6 +700,7 @@ class ReceivedIntakeController extends Controller
 
         $ids = $request->input('ids', []);
         $deletedCount = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
             ->whereIn('id', $ids)
             ->delete();
 

@@ -174,13 +174,13 @@
                             <th class="px-4 py-4 w-10 text-center">
                                 <input type="checkbox" id="selectAllCheckbox" class="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer" title="Select All Visible">
                             </th>
+                            <th class="px-6 py-4 whitespace-nowrap">Received Date</th>
                             <th class="px-6 py-4">Pallet Barcode #</th>
                             <th class="px-6 py-4 text-center">Status</th>
                             <th class="px-6 py-4 text-center">Items (Total / Left)</th>
                             <th class="px-6 py-4 text-center">Net Weight (Total / Left)</th>
                             <th class="px-6 py-4">Location</th>
                             <th class="px-6 py-4">Description</th>
-                            <th class="px-6 py-4">Received Date</th>
                             <th class="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
@@ -204,15 +204,16 @@
                                 <td class="px-4 py-4.5 text-center">
                                     <input type="checkbox" class="pallet-checkbox w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer" value="{{ $pallet->id }}" data-barcode="{{ $pallet->display_barcode ?? $pallet->barcode_number }}">
                                 </td>
+                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold whitespace-nowrap">
+                                    {{ $pallet->created_at ? $pallet->created_at->format('M d, Y') : 'N/A' }}
+                                </td>
                                 <td class="px-6 py-4.5">
                                     <span class="font-extrabold text-slate-900 text-sm sm:text-base flex items-center gap-2 group cursor-pointer" 
                                           onclick="window.copyToClipboard('{{ $pallet->barcode_number }}', 'Barcode')">
                                         <i class="fa-solid fa-barcode text-slate-400 group-hover:text-blue-600 transition-colors text-base"></i>
                                         {{ $pallet->display_barcode ?? $pallet->barcode_number }}
                                     </span>
-                                    @if ($pallet->job_no)
-                                        <div class="text-[11px] font-semibold text-slate-500 mt-0.5">Job: {{ $pallet->job_no }}</div>
-                                    @endif
+                                    <div class="text-[11px] font-semibold {{ $pallet->job_no ? 'text-slate-500' : 'text-slate-400' }} mt-0.5">Job: {{ $pallet->job_no ?: 'N/A' }}</div>
                                 </td>
                                 <td class="px-6 py-4.5 text-center">
                                     <span class="inline-block px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-black uppercase tracking-wider text-white shadow-xs {{ $statusStyle }}">
@@ -243,9 +244,6 @@
                                     <p class="max-w-[240px] truncate text-slate-600 text-xs sm:text-sm font-medium" title="{{ $pallet->description }}">
                                         {{ $pallet->description ?: 'No description' }}
                                     </p>
-                                </td>
-                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold">
-                                    {{ $pallet->created_at ? $pallet->created_at->format('M d, Y') : 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4.5 text-right">
                                     <div class="inline-flex items-center justify-end gap-2">

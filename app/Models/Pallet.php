@@ -44,6 +44,20 @@ class Pallet extends Model
     ];
 
     /**
+     * Get the pallet's status, defaulting 'pending' or empty values to 'Received'.
+     */
+    public function getStatusAttribute($value): string
+    {
+        if (empty($value) || strtolower($value) === 'pending') {
+            return 'Received';
+        }
+        if (strtolower($value) === 'draft') {
+            return 'Draft';
+        }
+        return $value;
+    }
+
+    /**
      * Boot the model - ensure clean data
      */
     protected static function boot()

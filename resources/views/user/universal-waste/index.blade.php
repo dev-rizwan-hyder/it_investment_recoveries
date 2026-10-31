@@ -175,14 +175,14 @@
                             <th class="px-4 py-4 w-10 text-center select-none">
                                 <input type="checkbox" id="selectAllCheckbox" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer" title="Select All Visible">
                             </th>
-                            <th class="px-6 py-4 min-w-[170px] whitespace-nowrap">Barcode #</th>
+                            <th class="px-6 py-4 min-w-[140px] whitespace-nowrap">Received Date</th>
+                            <th class="px-6 py-4 min-w-[170px] whitespace-nowrap">Pallet #</th>
                             <th class="px-6 py-4 min-w-[200px]">Item Name</th>
                             <th class="px-6 py-4 min-w-[190px]">Brand / Model</th>
                             <th class="px-6 py-4 min-w-[130px] whitespace-nowrap">Category</th>
                             <th class="px-6 py-4 text-center min-w-[140px] whitespace-nowrap">Status</th>
                             <th class="px-6 py-4 text-center min-w-[140px] whitespace-nowrap">Qty / Weight</th>
                             <th class="px-6 py-4 min-w-[170px]">Logged Serials</th>
-                            <th class="px-6 py-4 min-w-[140px] whitespace-nowrap">Received Date</th>
                             <th class="px-6 py-4 text-right min-w-[180px] whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
@@ -190,6 +190,7 @@
                         @foreach ($items as $item)
                             @php
                                 $barcode = $item->pallet_number ?? $item->barcode ?? 'N/A';
+                                $jobNo = $item->job_no;
                                 $rawStatus = strtolower(trim($item->status ?? ''));
                                 if (str_contains($rawStatus, 'complet') || str_contains($rawStatus, 'recycl') || str_contains($rawStatus, 'ready') || str_contains($rawStatus, 'processed')) {
                                     $statusDisplay = 'COMPLETED';
@@ -206,7 +207,8 @@
                                 $formattedDate = isset($item->created_at) ? date('M d, Y', strtotime($item->created_at)) : 'N/A';
                             @endphp
                             <tr class="waste-row hover:bg-slate-50/80 transition-colors" 
-                                data-barcode="{{ strtolower($barcode) }}" 
+                                data-barcode="{{ strtolower($barcode . ' ' . ($item->barcode ?? '')) }}" 
+                                data-jobno="{{ strtolower($jobNo ?: '') }}"
                                 data-name="{{ strtolower($item->name ?? '') }}"
                                 data-serials="{{ strtolower($item->serial_number ?? '') }}"
                                 data-category="{{ strtolower($item->category ?? '') }}"
@@ -215,12 +217,16 @@
                                 <td class="px-4 py-4.5 text-center">
                                     <input type="checkbox" class="waste-checkbox w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer" value="{{ $item->id }}" data-barcode="{{ $barcode }}">
                                 </td>
+                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold whitespace-nowrap">
+                                    {{ $formattedDate }}
+                                </td>
                                 <td class="px-6 py-4.5 whitespace-nowrap">
                                     <span class="font-extrabold text-slate-900 text-sm sm:text-base flex items-center gap-2 group cursor-pointer" 
-                                          onclick="window.copyToClipboard('{{ $barcode }}', 'Barcode')">
-                                        <i class="fa-solid fa-recycle text-slate-400 group-hover:text-emerald-600 transition-colors text-base"></i>
+                                          onclick="window.copyToClipboard('{{ $barcode }}', 'Pallet')">
+                                        <i class="fa-solid fa-boxes-stacked text-slate-400 group-hover:text-emerald-600 transition-colors text-base"></i>
                                         {{ $barcode }}
                                     </span>
+                                    <div class="text-[11px] font-semibold {{ $jobNo ? 'text-slate-500' : 'text-slate-400' }} mt-0.5">Job: {{ $jobNo ?: 'N/A' }}</div>
                                 </td>
                                 <td class="px-6 py-4.5">
                                     <span class="font-extrabold text-slate-900 text-sm sm:text-base truncate max-w-[200px] inline-block" title="{{ $item->name ?? 'Universal Waste Item' }}">
@@ -254,9 +260,6 @@
                                     @else
                                         <span class="text-slate-400 text-xs sm:text-sm font-bold">N/A</span>
                                     @endif
-                                </td>
-                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold whitespace-nowrap">
-                                    {{ $formattedDate }}
                                 </td>
                                 <td class="px-6 py-4.5 text-right whitespace-nowrap">
                                     <div class="inline-flex items-center justify-end gap-2 shrink-0">
@@ -506,10 +509,11 @@
             const name = row.dataset.name || '';
             const serials = row.dataset.serials || '';
             const category = row.dataset.category || '';
+            const jobno = row.dataset.jobno || '';
             const status = (row.dataset.status || '').toLowerCase();
             const date = row.dataset.date || '';
 
-            const matchesQuery = !query || barcode.includes(query) || name.includes(query) || serials.includes(query) || category.includes(query);
+            const matchesQuery = !query || barcode.includes(query) || name.includes(query) || serials.includes(query) || category.includes(query) || jobno.includes(query);
             const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
             const matchesDate = !selectedDate || date === selectedDate;
 

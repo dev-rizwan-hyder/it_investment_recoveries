@@ -60,4 +60,30 @@ class UniversalWasteItem extends Model
     {
         return $this->status === 'Completed';
     }
+
+    /**
+     * Relationship with Pallet.
+     */
+    public function pallet()
+    {
+        return $this->belongsTo(Pallet::class, 'pallet_id')->withTrashed();
+    }
+
+    /**
+     * Get Job number from related pallet or pallet barcode.
+     */
+    public function getJobNoAttribute(): ?string
+    {
+        if ($this->relationLoaded('pallet') && $this->pallet) {
+            return $this->pallet->job_no;
+        }
+        if ($this->pallet_id && $this->pallet) {
+            return $this->pallet->job_no;
+        }
+        if ($this->pallet_number) {
+            return Pallet::withTrashed()->where('barcode_number', $this->pallet_number)->value('job_no');
+        }
+        return null;
+    }
 }
+

@@ -67,6 +67,7 @@
                         <span>Copy</span>
                     </button>
                 </div>
+                <div class="text-xs font-semibold text-slate-500 mt-1">Job #: {{ $pallet->job_no ?: 'N/A' }}</div>
             </div>
         </div>
         

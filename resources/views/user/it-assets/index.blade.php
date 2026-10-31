@@ -175,14 +175,14 @@
                             <th class="px-4 py-4 w-10 text-center select-none">
                                 <input type="checkbox" id="selectAllCheckbox" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer" title="Select All Visible">
                             </th>
-                            <th class="px-6 py-4 min-w-[170px] whitespace-nowrap">Barcode #</th>
+                            <th class="px-6 py-4 min-w-[140px] whitespace-nowrap">Received Date</th>
+                            <th class="px-6 py-4 min-w-[170px] whitespace-nowrap">Pallet #</th>
                             <th class="px-6 py-4 min-w-[200px]">Asset Name</th>
                             <th class="px-6 py-4 min-w-[190px]">Brand / Model</th>
                             <th class="px-6 py-4 min-w-[130px] whitespace-nowrap">Category</th>
                             <th class="px-6 py-4 text-center min-w-[140px] whitespace-nowrap">Status</th>
                             <th class="px-6 py-4 text-center min-w-[140px] whitespace-nowrap">Qty / Weight</th>
                             <th class="px-6 py-4 min-w-[170px]">Serial Numbers</th>
-                            <th class="px-6 py-4 min-w-[140px] whitespace-nowrap">Received Date</th>
                             <th class="px-6 py-4 text-right min-w-[180px] whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
@@ -200,23 +200,30 @@
                                     $statusDisplay = 'RECEIVED';
                                     $statusStyle = 'bg-[#357af6] text-white';
                                 }
+                                $palletNo = $item->pallet_number ?: ($item->barcode ?: 'N/A');
+                                $jobNo = $item->job_no;
                             @endphp
                             <tr class="asset-row hover:bg-slate-50/80 transition-colors" 
-                                data-barcode="{{ strtolower($item->barcode) }}" 
+                                data-barcode="{{ strtolower($palletNo . ' ' . $item->barcode) }}" 
+                                data-jobno="{{ strtolower($jobNo ?: '') }}"
                                 data-name="{{ strtolower($item->name ?: '') }}"
                                 data-serials="{{ strtolower($item->serial_number ?: '') }}"
                                 data-category="{{ strtolower($item->category ?: '') }}"
                                 data-status="{{ strtolower($statusDisplay) }}"
                                 data-date="{{ $item->created_at ? $item->created_at->format('Y-m-d') : '' }}">
                                 <td class="px-4 py-4.5 text-center">
-                                    <input type="checkbox" class="asset-checkbox w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer" value="{{ $item->id }}" data-barcode="{{ $item->barcode }}">
+                                    <input type="checkbox" class="asset-checkbox w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer" value="{{ $item->id }}" data-barcode="{{ $palletNo }}">
+                                </td>
+                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold whitespace-nowrap">
+                                    {{ $item->created_at ? $item->created_at->format('M d, Y') : 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4.5 whitespace-nowrap">
                                     <span class="font-extrabold text-slate-900 text-sm sm:text-base flex items-center gap-2 group cursor-pointer" 
-                                          onclick="window.copyToClipboard('{{ $item->barcode }}', 'Barcode')">
-                                        <i class="fa-solid fa-laptop text-slate-400 group-hover:text-indigo-600 transition-colors text-base"></i>
-                                        {{ $item->barcode }}
+                                          onclick="window.copyToClipboard('{{ $palletNo }}', 'Pallet')">
+                                        <i class="fa-solid fa-boxes-stacked text-slate-400 group-hover:text-indigo-600 transition-colors text-base"></i>
+                                        {{ $palletNo }}
                                     </span>
+                                    <div class="text-[11px] font-semibold {{ $jobNo ? 'text-slate-500' : 'text-slate-400' }} mt-0.5">Job: {{ $jobNo ?: 'N/A' }}</div>
                                 </td>
                                 <td class="px-6 py-4.5">
                                     <div class="flex items-center gap-1.5 flex-wrap max-w-[250px]">
@@ -271,9 +278,6 @@
                                     @else
                                         <span class="text-slate-400 text-xs sm:text-sm font-bold">N/A</span>
                                     @endif
-                                </td>
-                                <td class="px-6 py-4.5 text-slate-600 text-xs sm:text-sm font-bold whitespace-nowrap">
-                                    {{ $item->created_at ? $item->created_at->format('M d, Y') : 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4.5 text-right whitespace-nowrap">
                                     <div class="inline-flex items-center justify-end gap-2 shrink-0">
@@ -523,10 +527,11 @@
             const name = row.dataset.name || '';
             const serials = row.dataset.serials || '';
             const category = row.dataset.category || '';
+            const jobno = row.dataset.jobno || '';
             const status = (row.dataset.status || '').toLowerCase();
             const date = row.dataset.date || '';
 
-            const matchesQuery = !query || barcode.includes(query) || name.includes(query) || serials.includes(query) || category.includes(query);
+            const matchesQuery = !query || barcode.includes(query) || name.includes(query) || serials.includes(query) || category.includes(query) || jobno.includes(query);
             const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
             const matchesDate = !selectedDate || date === selectedDate;
 

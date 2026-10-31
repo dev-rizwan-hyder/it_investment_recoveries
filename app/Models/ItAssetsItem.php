@@ -140,4 +140,30 @@ class ItAssetsItem extends Model
 
         return max(count($names), count($brands), count($models), count($serials), 1);
     }
+
+    /**
+     * Relationship with Pallet.
+     */
+    public function pallet()
+    {
+        return $this->belongsTo(Pallet::class, 'pallet_id')->withTrashed();
+    }
+
+    /**
+     * Get Job number from related pallet or pallet barcode.
+     */
+    public function getJobNoAttribute(): ?string
+    {
+        if ($this->relationLoaded('pallet') && $this->pallet) {
+            return $this->pallet->job_no;
+        }
+        if ($this->pallet_id && $this->pallet) {
+            return $this->pallet->job_no;
+        }
+        if ($this->pallet_number) {
+            return Pallet::withTrashed()->where('barcode_number', $this->pallet_number)->value('job_no');
+        }
+        return null;
+    }
 }
+

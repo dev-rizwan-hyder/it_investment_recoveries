@@ -34,32 +34,59 @@ class DashboardController extends Controller
         $recentUniversalWaste = collect();
 
         if (!empty($clientIds)) {
-            $totalIntakes = Pallet::whereIn('client_id', $clientIds)->count();
-            $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+            $totalIntakes = Pallet::whereIn('client_id', $clientIds)
+                ->whereNotIn('status', ['Draft', 'draft'])
+                ->where(function ($q) {
+                    $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                      ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+                })
+                ->count();
+            $palletNumbers = Pallet::whereIn('client_id', $clientIds)
+                ->whereNotIn('status', ['Draft', 'draft'])
+                ->where(function ($q) {
+                    $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                      ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+                })
+                ->pluck('barcode_number')
+                ->filter()
+                ->unique()
+                ->all();
 
             if (!empty($palletNumbers)) {
-                $totalItAssets = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->count();
-                $totalDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->count();
-                $totalUniversalWaste = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->count();
+                $itemNotDraftScope = function ($q) {
+                    $q->whereNull('status')->orWhereNotIn('status', ['Draft', 'draft']);
+                };
+
+                $totalItAssets = ItAssetsItem::whereIn('pallet_number', $palletNumbers)->where($itemNotDraftScope)->count();
+                $totalDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->where($itemNotDraftScope)->count();
+                $totalUniversalWaste = DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->where($itemNotDraftScope)->count();
 
                 $recentDestruction = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+                    ->where($itemNotDraftScope)
                     ->latest()
                     ->limit(4)
                     ->get();
 
                 $recentUniversalWaste = DB::table('universal_waste_items')
                     ->whereIn('pallet_number', $palletNumbers)
+                    ->where($itemNotDraftScope)
                     ->latest('id')
                     ->limit(4)
                     ->get();
             }
 
             // Calculate ESG Carbon Offset metric
-            $palletGrossWeight = (float) Pallet::whereIn('client_id', $clientIds)->get()->sum(function ($p) {
-                return max(0, (float)($p->gross_weight ?? 0) - (float)($p->tare_weight ?? 0));
-            });
-            $destWeight = !empty($palletNumbers) ? (float) DataDestructionItem::whereIn('pallet_number', $palletNumbers)->sum('weight') : 0.0;
-            $uwWeight = !empty($palletNumbers) ? (float) DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->sum('weight') : 0.0;
+            $palletGrossWeight = (float) Pallet::whereIn('client_id', $clientIds)
+                ->whereNotIn('status', ['Draft', 'draft'])
+                ->where(function ($q) {
+                    $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                      ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+                })
+                ->get()->sum(function ($p) {
+                    return max(0, (float)($p->gross_weight ?? 0) - (float)($p->tare_weight ?? 0));
+                });
+            $destWeight = !empty($palletNumbers) ? (float) DataDestructionItem::whereIn('pallet_number', $palletNumbers)->where($itemNotDraftScope)->sum('weight') : 0.0;
+            $uwWeight = !empty($palletNumbers) ? (float) DB::table('universal_waste_items')->whereIn('pallet_number', $palletNumbers)->where($itemNotDraftScope)->sum('weight') : 0.0;
             
             $totalLbs = max($palletGrossWeight, $destWeight + $uwWeight);
             if ($totalLbs <= 0 && ($totalIntakes > 0 || $totalDestruction > 0 || $totalUniversalWaste > 0)) {
@@ -68,6 +95,11 @@ class DashboardController extends Controller
             $co2SavedTons = number_format(($totalLbs * 1.44) / 2204.62, 2);
 
             $recentIntakes = Pallet::whereIn('client_id', $clientIds)
+                ->whereNotIn('status', ['Draft', 'draft'])
+                ->where(function ($q) {
+                    $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                      ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+                })
                 ->latest()
                 ->limit(4)
                 ->get();

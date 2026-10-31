@@ -42,7 +42,14 @@ class EsgReportController extends Controller
             ]);
         }
 
-        $pallets = Pallet::whereIn('client_id', $clientIds)->latest()->get();
+        $pallets = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->where(function ($q) {
+                $q->whereIn('status', ['Received', 'Processing', 'Completed'])
+                  ->orWhereRaw("LOWER(TRIM(status)) IN ('received', 'processing', 'completed')");
+            })
+            ->latest()
+            ->get();
         $palletNumbers = $pallets->pluck('barcode_number')->filter()->unique()->all();
 
         $tables = [

@@ -113,8 +113,32 @@
                 <!-- 6 Service Cards Grid (3 Columns x 2 Rows) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
                     
-                    <!-- Card 1: Data Destruction -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                    <!-- Card 1: IT Assets Management -->
+                    <a href="{{ url('/it-asset-management') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                        <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
+                            <img 
+                                src="{{ asset('images/services/it-asset-management-hero.webp') }}" 
+                                alt="IT Assets Management" 
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <!-- Dark Bottom Overlay with Icon & Title -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent flex items-end p-6">
+                                <div class="flex items-center gap-3.5 text-white">
+                                    <div class="w-12 h-12 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center shrink-0 backdrop-blur-sm">
+                                        <svg class="w-7 h-7 text-white fill-current" viewBox="0 0 24 24">
+                                            <path d="M4 6h16V4H4v2zm0 5h16V9H4v2zm0 5h16v-2H4v2zm0 5h16v-2H4v2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
+                                        IT Assets<br />Management
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 2: Data Destruction -->
+                    <a href="{{ url('/data-destruction') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
                                 src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.48.49-AM.webp') }}" 
@@ -135,14 +159,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
-                    <!-- Card 2: E Waste Recycling -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                    <!-- Card 3: E Waste/ IT Disposal -->
+                    <a href="{{ url('/e-waste-recycling') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
                                 src="{{ asset('images/services/Asset-Removal-Services-.webp') }}" 
-                                alt="E Waste Recycling" 
+                                alt="E Waste/ IT Disposal" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
                             <!-- Dark Bottom Overlay with Icon & Title -->
@@ -154,19 +178,19 @@
                                         </svg>
                                     </div>
                                     <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
-                                        E Waste<br />Recycling
+                                        E Waste/<br />IT Disposal
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
-                    <!-- Card 3: Liquidation Reuse Resale -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                    <!-- Card 4: Computer Liquidator and Reseller -->
+                    <a href="{{ url('/computer-liquidator-reseller') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
                                 src="{{ asset('images/Liquidator/liquidator-hero.webp') }}" 
-                                alt="Liquidation Reuse Resale" 
+                                alt="Computer Liquidator and Reseller" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
                             <!-- Dark Bottom Overlay with Icon & Title -->
@@ -178,15 +202,15 @@
                                         </svg>
                                     </div>
                                     <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
-                                        Liquidation<br />Reuse Resale
+                                        Computer Liquidator<br />and Reseller
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
-                    <!-- Card 4: Charity Donation -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                    <!-- Card 5: Charity Donation -->
+                    <a href="{{ url('/charity-donation') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
                                 src="{{ asset('images/services/WhatsApp-Image-2026-03-03-at-2.59.30-AM-300x300.webp') }}" 
@@ -207,14 +231,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
-                    <!-- Card 5: Partner & Service Provider -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
+                    <!-- Card 6: Community/ Business Partners -->
+                    <a href="{{ url('/community-partners') }}" class="block rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
                         <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
                             <img 
                                 src="{{ asset('images/services/business-partnership-infographics_1284-4534-e1705103864476.webp') }}" 
-                                alt="Partner & Service Provider" 
+                                alt="Community/ Business Partners" 
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                             />
                             <!-- Dark Bottom Overlay with Icon & Title -->
@@ -227,36 +251,12 @@
                                         </svg>
                                     </div>
                                     <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
-                                        Partner &amp;<br />Service Provider
+                                        Community/<br />Business Partners
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Card 6: Commercial Business/Pickup -->
-                    <div class="rounded-[28px] p-2.5 bg-white border-4 border-white shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1.5 group">
-                        <div class="rounded-[20px] overflow-hidden aspect-square relative w-full bg-gray-100">
-                            <img 
-                                src="{{ asset('images/ewaste/business-hero.webp') }}" 
-                                alt="Commercial Business/Pickup" 
-                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                            />
-                            <!-- Dark Bottom Overlay with Icon & Title -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent flex items-end p-6">
-                                <div class="flex items-center gap-3.5 text-white">
-                                    <div class="w-12 h-12 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center shrink-0 backdrop-blur-sm">
-                                        <svg class="w-7 h-7 text-white fill-current" viewBox="0 0 24 24">
-                                            <path d="M20 8h-3V4H1v13h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
-                                        Commercial<br />Business/Pickup
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </a>
 
                 </div>
 

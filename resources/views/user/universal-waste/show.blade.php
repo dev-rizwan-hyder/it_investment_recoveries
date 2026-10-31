@@ -127,6 +127,7 @@
                             <i class="fa-solid fa-box text-slate-400"></i>
                             {{ $item->pallet_number ?? $item->barcode ?? 'Unassigned' }}
                         </p>
+                        <div class="text-[11px] font-semibold {{ $item->job_no ? 'text-slate-500' : 'text-slate-400' }} mt-0.5">Job: {{ $item->job_no ?: 'N/A' }}</div>
                     </div>
                     @if (isset($item->item_placement) && $item->item_placement)
                         <div>
@@ -435,6 +436,7 @@
                     <div class="text-left sm:text-right">
                         <span class="text-xs font-black uppercase text-slate-400 tracking-wider">Pallet Number Ref</span>
                         <p class="text-base font-black text-slate-900">{{ $item->pallet_number ?? $item->barcode ?? 'Unassigned' }}</p>
+                        <div class="text-[11px] font-semibold {{ $item->job_no ? 'text-slate-500' : 'text-slate-400' }} mt-0.5">Job: {{ $item->job_no ?: 'N/A' }}</div>
                     </div>
                 </div>
 

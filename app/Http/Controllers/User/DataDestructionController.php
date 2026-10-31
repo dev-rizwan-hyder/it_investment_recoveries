@@ -33,9 +33,19 @@ class DataDestructionController extends Controller
             ]);
         }
 
-        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->pluck('barcode_number')
+            ->filter()
+            ->unique()
+            ->all();
 
         $items = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                  ->orWhereNotIn('status', ['Draft', 'draft']);
+            })
+            ->with('pallet')
             ->latest()
             ->paginate(10);
 
@@ -65,9 +75,20 @@ class DataDestructionController extends Controller
             abort(403, 'Unauthorized access or client profile not found.');
         }
 
-        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->pluck('barcode_number')
+            ->filter()
+            ->unique()
+            ->all();
 
-        $item = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->findOrFail($id);
+        $item = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                  ->orWhereNotIn('status', ['Draft', 'draft']);
+            })
+            ->with('pallet')
+            ->findOrFail($id);
 
         return view('user.data-destruction.show', [
             'item' => $item,
@@ -89,8 +110,18 @@ class DataDestructionController extends Controller
             abort(403, 'Unauthorized access.');
         }
 
-        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
-        $item = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->findOrFail($id);
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->pluck('barcode_number')
+            ->filter()
+            ->unique()
+            ->all();
+        $item = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                  ->orWhereNotIn('status', ['Draft', 'draft']);
+            })
+            ->findOrFail($id);
         $name = $item->primary_name;
         $item->delete();
 
@@ -118,10 +149,19 @@ class DataDestructionController extends Controller
             'ids.*' => 'integer',
         ]);
 
-        $palletNumbers = Pallet::whereIn('client_id', $clientIds)->pluck('barcode_number')->filter()->unique()->all();
+        $palletNumbers = Pallet::whereIn('client_id', $clientIds)
+            ->whereNotIn('status', ['Draft', 'draft'])
+            ->pluck('barcode_number')
+            ->filter()
+            ->unique()
+            ->all();
 
         $ids = $request->input('ids', []);
         $deletedCount = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                  ->orWhereNotIn('status', ['Draft', 'draft']);
+            })
             ->whereIn('id', $ids)
             ->delete();
 
@@ -144,7 +184,12 @@ class DataDestructionController extends Controller
             return $this->getEmptyStats();
         }
 
-        $items = DataDestructionItem::whereIn('pallet_number', $palletNumbers)->get(['status']);
+        $items = DataDestructionItem::whereIn('pallet_number', $palletNumbers)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                  ->orWhereNotIn('status', ['Draft', 'draft']);
+            })
+            ->get(['status']);
 
         $receivedCount = 0;
         $processingCount = 0;
