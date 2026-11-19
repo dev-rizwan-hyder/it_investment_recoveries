@@ -1,0 +1,110 @@
+name: Deploy to Hostinger (CI/CD)
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build & Deploy to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, bcmath, curl, zip
+          coverage: none
+
+      - name: 📦 Install Composer dependencies
+        run: |
+          composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 🎨 Build Frontend Assets (Vite)
+        run: |
+          npm ci || npm install
+          npm run build
+
+      - name: 🔑 Parse Credentials (Single Secret Support)
+        id: creds
+        env:
+          RAW_CREDS: ${{ secrets.FTP_CREDENTIALS || secrets.HOSTINGER_CREDENTIALS }}
+          FALLBACK_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          SERVER="194.164.64.189"
+          USERNAME="u229482509.it-investmentrecoveries.com"
+          PASSWORD=""
+          PORT="21"
+
+          while IFS='=' read -r key val || [ -n "$key" ]; do
+            # Trim whitespace and convert key to uppercase
+            clean_key=$(echo "$key" | tr -d ' \r\t' | tr '[:lower:]' '[:upper:]')
+            # Trim quotes and whitespace from val
+            clean_val=$(echo "$val" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^["'\''']//' -e 's/["'\''']$//')
+            
+            case "$clean_key" in
+              *SERVER*|*HOST*|*IP*) [ -n "$clean_val" ] && SERVER="$clean_val" ;;
+              *USER*) [ -n "$clean_val" ] && USERNAME="$clean_val" ;;
+              *PASS*) [ -n "$clean_val" ] && PASSWORD="$clean_val" ;;
+              *PORT*) [ -n "$clean_val" ] && PORT="$clean_val" ;;
+            esac
+          done <<< "$RAW_CREDS"
+
+          if [ -z "$PASSWORD" ] && [ -n "$FALLBACK_PASSWORD" ]; then
+            PASSWORD="$FALLBACK_PASSWORD"
+          fi
+
+          # Strip ftp:// or ftps:// prefix and trailing slash
+          SERVER=$(echo "$SERVER" | sed -e 's#^ftps\?://##' -e 's#/$##')
+
+          if [ -z "$PASSWORD" ]; then
+            echo "::error::FTP Password not found! Please ensure you have added the 'FTP_CREDENTIALS' secret in GitHub Repository Settings."
+            exit 1
+          fi
+
+          echo "::add-mask::$PASSWORD"
+          echo "server=$SERVER" >> "$GITHUB_OUTPUT"
+          echo "username=$USERNAME" >> "$GITHUB_OUTPUT"
+          echo "password=$PASSWORD" >> "$GITHUB_OUTPUT"
+          echo "port=$PORT" >> "$GITHUB_OUTPUT"
+          echo "✅ Target Host: $SERVER:$PORT"
+          echo "✅ Target User: $USERNAME"
+
+      - name: 🚀 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ steps.creds.outputs.server }}
+          username: ${{ steps.creds.outputs.username }}
+          password: ${{ steps.creds.outputs.password }}
+          port: ${{ steps.creds.outputs.port }}
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.idea/**
+            **/.vscode/**
+            **/tests/**
+            **/.env
+            **/.env.*
+            **/node_modules/**
+            **/storage/logs/**
+            **/storage/framework/cache/**
+            **/storage/framework/sessions/**
+            **/storage/framework/views/**
+            **/README.md
+            **/*.log
