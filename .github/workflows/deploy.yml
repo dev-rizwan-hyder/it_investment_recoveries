@@ -38,8 +38,7 @@ jobs:
           npm ci || npm install
           npm run build
 
-      - name: 🚀 Deploy via SSH (Single Secret - SSH Private Key)
-        if: "${{ secrets.SSH_PRIVATE_KEY != '' }}"
+      - name: 🚀 Deploy to Hostinger via SSH
         env:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: "194.164.64.189"
@@ -47,6 +46,11 @@ jobs:
           REMOTE_USER: "u229482509"
           TARGET_DIR: "domains/it-investmentrecoveries.com/public_html"
         run: |
+          if [ -z "$SSH_KEY" ]; then
+            echo "::error::SSH_PRIVATE_KEY secret is missing! Please add it in GitHub Settings -> Secrets -> Actions."
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
@@ -84,33 +88,6 @@ jobs:
             --exclude='README.md' \
             ./ $REMOTE_USER@$REMOTE_HOST:~/public_html/
 
-          echo "Running Laravel optimization commands..."
+          echo "Running Laravel commands on Hostinger..."
           ssh -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST "cd ~/$TARGET_DIR 2>/dev/null || cd ~/public_html; php artisan optimize:clear; php artisan config:cache; php artisan route:cache; php artisan view:cache"
           echo "Deployment completed successfully via SSH!"
-
-      - name: 🚀 Deploy via FTP (Fallback if SSH key not configured)
-        if: "${{ secrets.SSH_PRIVATE_KEY == '' }}"
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: "194.164.64.189"
-          username: "u229482509.it-investmentrecoveries.com"
-          password: ${{ secrets.FTP_PASSWORD || 'NewCdn123' }}
-          port: 21
-          server-dir: ./
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/.idea/**
-            **/.vscode/**
-            **/tests/**
-            **/.env
-            **/.env.*
-            **/node_modules/**
-            **/storage/logs/**
-            **/storage/framework/cache/**
-            **/storage/framework/sessions/**
-            **/storage/framework/views/**
-            **/README.md
-            **/*.log
