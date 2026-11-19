@@ -764,6 +764,11 @@ class InventoryController extends Controller
     public function getCategoriesTree()
     {
         try {
+            $cached = \Illuminate\Support\Facades\Cache::get('inventory_categories_tree');
+            if (!is_array($cached) && !($cached instanceof \Illuminate\Support\Collection)) {
+                \Illuminate\Support\Facades\Cache::forget('inventory_categories_tree');
+            }
+
             // Cache category tree for 1 hour to avoid repeated recursive queries
             $rootCategories = \Illuminate\Support\Facades\Cache::remember('inventory_categories_tree', 3600, function () {
                 return \App\Store\Models\Category::whereNull('parent_id')
@@ -772,17 +777,24 @@ class InventoryController extends Controller
                     ->get()
                     ->map(function ($category) {
                         return $this->buildCategoryTree($category);
-                    });
+                    })
+                    ->values()
+                    ->all();
             });
+
+            if ($rootCategories instanceof \Illuminate\Support\Collection) {
+                $rootCategories = $rootCategories->values()->all();
+            }
 
             return response()->json([
                 'success' => true,
-                'categories' => $rootCategories,
+                'categories' => is_array($rootCategories) ? array_values($rootCategories) : [],
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
+                'categories' => [],
             ], 500);
         }
     }

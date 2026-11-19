@@ -76,22 +76,29 @@
                 })
                 .then(data => {
                     console.log('Categories data received:', data);
-                    self.categories = data.categories || [];
+                    let rawCats = data.categories;
+                    if (!Array.isArray(rawCats)) {
+                        if (rawCats && typeof rawCats === 'object') {
+                            rawCats = Object.values(rawCats).filter(c => c && typeof c === 'object' && c.id);
+                        } else {
+                            rawCats = [];
+                        }
+                    }
+                    self.categories = rawCats;
                     self.isLoaded = true;
                     self.buildCategoryMap();
                     self.populateRootCategories();
                     console.log('Categories populated. Root categories count:', self.categories.filter(c =>
-                        !c.parent_id).length);
+                        c && !c.parent_id).length);
                     console.log('Category map size:', Object.keys(self.categoryMap).length);
                     return self.categories;
                 })
                 .catch(error => {
                     console.error('Error loading categories:', error);
                     self.loadingPromise = null;
-                    // Try to show a more helpful error
-                    alert('Failed to load categories from ' + apiUrl +
-                        '. Check browser console for details.');
-                    throw error;
+                    self.categories = [];
+                    self.isLoaded = true;
+                    self.categoryMap = {};
                 });
 
             return this.loadingPromise;
@@ -103,9 +110,17 @@
         buildCategoryMap: function() {
             this.categoryMap = {};
             const flattenCategories = (cats) => {
+                if (!Array.isArray(cats)) {
+                    if (cats && typeof cats === 'object') {
+                        cats = Object.values(cats).filter(c => c && typeof c === 'object' && c.id);
+                    } else {
+                        return;
+                    }
+                }
                 cats.forEach(cat => {
+                    if (!cat || !cat.id) return;
                     this.categoryMap[cat.id] = cat;
-                    if (cat.children && cat.children.length > 0) {
+                    if (cat.children && (Array.isArray(cat.children) || typeof cat.children === 'object')) {
                         flattenCategories(cat.children);
                     }
                 });
@@ -123,8 +138,12 @@
                 return;
             }
 
+            if (!Array.isArray(this.categories)) {
+                this.categories = [];
+            }
+
             // Only show root categories (no parent)
-            const rootCategories = this.categories.filter(cat => !cat.parent_id);
+            const rootCategories = this.categories.filter(cat => cat && !cat.parent_id);
             console.log('Root categories:', rootCategories);
 
             rootCategories.forEach(cat => {

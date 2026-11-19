@@ -502,22 +502,46 @@ class InventoryManager {
             fetch('/admin/inventory/categories-tree')
                 .then(res => res.json())
                 .then(data => {
-                    this.categories = data.categories || [];
+                    let rawCats = data.categories;
+                    if (!Array.isArray(rawCats)) {
+                        if (rawCats && typeof rawCats === 'object') {
+                            rawCats = Object.values(rawCats).filter(c => c && typeof c === 'object' && c.id);
+                        } else {
+                            rawCats = [];
+                        }
+                    }
+                    this.categories = rawCats;
                     this.categoryMap = {};
                     const flatten = (cats) => {
+                        if (!Array.isArray(cats)) {
+                            if (cats && typeof cats === 'object') {
+                                cats = Object.values(cats).filter(c => c && typeof c === 'object' && c.id);
+                            } else {
+                                return;
+                            }
+                        }
                         cats.forEach(c => {
+                            if (!c || !c.id) return;
                             this.categoryMap[c.id] = c;
                             if (c.children) flatten(c.children);
                         });
                     };
                     flatten(this.categories);
                     this.populateRootCategories();
+                })
+                .catch(err => {
+                    console.error('Failed to load categories tree:', err);
+                    this.categories = [];
+                    this.categoryMap = {};
                 });
         }
     }
 
     populateRootCategories() {
-        const rootCats = this.categories.filter(c => !c.parent_id);
+        if (!Array.isArray(this.categories)) {
+            this.categories = [];
+        }
+        const rootCats = this.categories.filter(c => c && !c.parent_id);
         this.categoryFilter.html('<option value="">All Categories</option>');
         rootCats.forEach(c => {
             this.categoryFilter.append(`<option value="${c.name}" data-id="${c.id}">${c.name}</option>`);
