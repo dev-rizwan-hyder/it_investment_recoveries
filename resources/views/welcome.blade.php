@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>IT Investment Recoveries | Computer & Electronics Recycling in Denver</title>
+        <title>IT Investment Recoveries | sdfgsdfgsdfgdsfgsdg</title>
         <meta name="description" content="Denver's top computer and electronics recycling company. Secure data destruction, e-waste recycling, liquidation, and drop-off services in Denver, Colorado.">
         <link rel="icon" type="image/png" href="{{ asset('/images/recoveries.png') }}">
 
