@@ -536,7 +536,7 @@ class EbaySummaryController extends Controller
     private function createProductFolder(array $data, array $files = []): array
     {
         $basePath = $this->basePath();
-        File::ensureDirectoryExists($basePath, 0755);
+        $this->safeEnsureDirectory($basePath);
 
         $folderName = trim($data['folder_name']);
         [$folder, $folderPath] = $this->createUniqueProductDirectory($basePath, $folderName);
@@ -579,7 +579,7 @@ class EbaySummaryController extends Controller
     private function createProductFolderFromTempIds(array $data, array $tempIds): array
     {
         $basePath = $this->basePath();
-        File::ensureDirectoryExists($basePath, 0755);
+        $this->safeEnsureDirectory($basePath);
 
         $folderName = trim($data['folder_name']);
         [$folder, $folderPath] = $this->createUniqueProductDirectory($basePath, $folderName);
@@ -752,7 +752,7 @@ class EbaySummaryController extends Controller
     private function productsFromDisk(): array
     {
         $basePath = $this->basePath();
-        File::ensureDirectoryExists($basePath, 0755);
+        $this->safeEnsureDirectory($basePath);
 
         $products = collect(File::directories($basePath))
             ->map(fn ($directory) => $this->productFromDirectory($directory))
@@ -1070,6 +1070,17 @@ class EbaySummaryController extends Controller
         );
 
         $this->forgetProductsCache();
+    }
+
+    private function safeEnsureDirectory(string $path): void
+    {
+        if (is_link($path) && !file_exists($path)) {
+            @unlink($path);
+        }
+
+        if (!is_dir($path)) {
+            @mkdir($path, 0755, true);
+        }
     }
 
     private function basePath(): string

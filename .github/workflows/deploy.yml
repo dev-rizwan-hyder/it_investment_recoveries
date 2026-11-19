@@ -88,5 +88,5 @@ jobs:
             ./ $REMOTE_USER@$REMOTE_HOST:~/public_html/
 
           echo "Running Laravel commands on Hostinger..."
-          ssh -p $REMOTE_PORT -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "cd ~/$TARGET_DIR 2>/dev/null || cd ~/public_html; php artisan optimize:clear; php artisan config:cache; php artisan route:cache; php artisan view:cache" || true
+          ssh -p $REMOTE_PORT -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "cd ~/$TARGET_DIR 2>/dev/null || cd ~/public_html; find . -xtype l -delete 2>/dev/null || true; php artisan optimize:clear; php artisan config:cache; php artisan route:cache; php artisan view:cache" || true
           echo "Deployment completed successfully via SSH!"

@@ -516,7 +516,7 @@ class EbayProductController extends Controller
         $uploaded = [];
 
         $tempBase = public_path(self::TEMP_DIR);
-        File::ensureDirectoryExists($tempBase, 0755);
+        $this->safeEnsureDirectory($tempBase);
 
         foreach ($files as $file) {
             if (!$file->isValid()) continue;
@@ -527,7 +527,7 @@ class EbayProductController extends Controller
             $filename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
             
             $targetDir = $tempBase . DIRECTORY_SEPARATOR . $tempId;
-            File::ensureDirectoryExists($targetDir, 0755);
+            $this->safeEnsureDirectory($targetDir);
             
             $file->move($targetDir, $filename);
 
@@ -574,7 +574,7 @@ class EbayProductController extends Controller
         ]);
 
         $basePath = $this->basePath();
-        File::ensureDirectoryExists($basePath, 0755);
+        $this->safeEnsureDirectory($basePath);
 
         $folderName = trim($data['folder_name']);
         
@@ -832,7 +832,7 @@ class EbayProductController extends Controller
         }
 
         $trashPath = public_path('ebay-product-trash');
-        File::ensureDirectoryExists($trashPath, 0755);
+        $this->safeEnsureDirectory($trashPath);
         $trashedFolderPath = $trashPath . DIRECTORY_SEPARATOR . basename($folder) . '_' . time();
         File::moveDirectory($folderPath, $trashedFolderPath, true);
         File::put($trashedFolderPath . DIRECTORY_SEPARATOR . '.trashed_at', now()->toDateTimeString());
@@ -1042,7 +1042,7 @@ class EbayProductController extends Controller
                     if (File::isFile($sourcePath)) {
                         $newFilename = time() . '_' . uniqid() . '.' . pathinfo($img['filename'], PATHINFO_EXTENSION);
                         $destPath = public_path('repair') . DIRECTORY_SEPARATOR . $newFilename;
-                        File::ensureDirectoryExists(public_path('repair'), 0755);
+                        $this->safeEnsureDirectory(public_path('repair'));
                         File::copy($sourcePath, $destPath);
                         $repairPhotosPaths[] = 'repair/' . $newFilename;
                     }
@@ -1218,10 +1218,21 @@ class EbayProductController extends Controller
         );
     }
 
+    private function safeEnsureDirectory(string $path): void
+    {
+        if (is_link($path) && !file_exists($path)) {
+            @unlink($path);
+        }
+
+        if (!is_dir($path)) {
+            @mkdir($path, 0755, true);
+        }
+    }
+
     private function productsFromDisk(): array
     {
         $basePath = $this->basePath();
-        File::ensureDirectoryExists($basePath, 0755);
+        $this->safeEnsureDirectory($basePath);
 
         return collect(File::directories($basePath))
             ->map(fn ($directory) => $this->productFromDirectory($directory))
