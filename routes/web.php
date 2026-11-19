@@ -170,10 +170,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\InquiryMail;
 
-// --- Authentication Routes (Native Customer Portal Login) ---
+// --- Authentication Routes (Role-Based Login) ---
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.login');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register.page');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });

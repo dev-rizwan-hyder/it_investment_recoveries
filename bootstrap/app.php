@@ -24,7 +24,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->redirectTo(
             guests: '/login',
-            users: '/dashboard'
+            users: function (Request $request) {
+                if (\Illuminate\Support\Facades\Auth::user()?->role === 'admin') {
+                    return route('admin.dashboard');
+                }
+                return route('dashboard');
+            }
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {

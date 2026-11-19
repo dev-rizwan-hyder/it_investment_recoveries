@@ -10,7 +10,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    public function showLogin(Request $request)
+    public function showLogin()
     {
         return view('auth.login');
     }
@@ -27,17 +27,42 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Attempt the login
-        if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
+        $email = strtolower(trim($request->input('email')));
+        $password = $request->input('password');
+        $remember = $request->boolean('remember');
 
+        // Attempt the login
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            // Safe explicit redirect check
             $redirectTo = $this->safeRedirectPath($request->input('redirect'));
             if ($redirectTo) {
-                return redirect($redirectTo);
+                if (str_starts_with($redirectTo, '/admin') && $user->role !== 'admin') {
+                    $redirectTo = null;
+                } else {
+                    return redirect($redirectTo);
+                }
             }
 
-            // Redirect based on user role
-            if (Auth::user()->role === 'admin') {
+            // Check intended URL if available
+            $intended = session()->get('url.intended');
+            if ($intended) {
+                $safeIntended = $this->safeRedirectPath($intended);
+                if ($safeIntended) {
+                    if (str_starts_with($safeIntended, '/admin') && $user->role !== 'admin') {
+                        // ignore admin intended for non-admin
+                    } else {
+                        return redirect()->intended(
+                            $user->role === 'admin' ? route('admin.dashboard') : route('dashboard')
+                        );
+                    }
+                }
+            }
+
+            // Redirect automatically based on user role: admin -> admin dashboard, customer -> user dashboard
+            if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             } else {
                 return redirect()->route('dashboard');
@@ -45,7 +70,7 @@ class AuthController extends Controller
         }
 
         return back()
-            ->withErrors(['email' => 'Invalid Credentials'])
+            ->withErrors(['email' => 'Invalid email or password.'])
             ->withInput($request->only('email', 'redirect'));
     }
 
@@ -77,7 +102,8 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+
+        return redirect('/login')->with('success', 'You have been logged out successfully.');
     }
 
     /**
@@ -114,7 +140,7 @@ class AuthController extends Controller
                     'google_refresh_token' => $googleUser->refreshToken,
                 ]);
             } else {
-                // Create new user
+                // Create new user (default to user role)
                 $user = User::create([
                     'name' => $googleUser->getName() ?? $googleUser->getEmail(),
                     'email' => $googleUser->getEmail(),
@@ -132,7 +158,11 @@ class AuthController extends Controller
 
             $redirectTo = $this->safeRedirectPath($request->session()->pull('login.redirect_to'));
             if ($redirectTo) {
-                return redirect($redirectTo);
+                if (str_starts_with($redirectTo, '/admin') && $user->role !== 'admin') {
+                    $redirectTo = null;
+                } else {
+                    return redirect($redirectTo);
+                }
             }
 
             if ($user->role === 'admin') {

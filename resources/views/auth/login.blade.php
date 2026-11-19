@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Sign In | IT Investment Recoveries</title>
+    <title>Sign In | IT Investment Recoveries</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,16 +24,19 @@
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500 rounded-full blur-[120px]"></div>
         </div>
+
         <div class="relative z-10 max-w-md text-left space-y-6">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider">
-                <i class="fa-solid fa-cube text-blue-400"></i> Secure Customer Portal
+                <i class="fa-solid fa-cube text-blue-400"></i> Secure Portal Access
             </div>
+
             <h1 class="text-4xl xl:text-5xl font-extrabold text-white leading-tight tracking-tight">
                 IT INVESTMENT <br>
                 <span class="text-blue-400 font-black">RECOVERIES.</span>
             </h1>
+
             <p class="text-slate-300 text-base leading-relaxed font-medium">
-                Comprehensive tracking for received intakes, certified data destruction, IT assets, and equipment orders.
+                Unified portal access for intake shipments, certified data destruction, asset tracking, inventory, and operations management.
             </p>
 
             <div class="pt-6 border-t border-slate-700/60 grid grid-cols-2 gap-4">
@@ -52,19 +55,36 @@
     <!-- Right Form Section -->
     <div class="w-full lg:w-[55%] flex flex-col items-center justify-center p-6 sm:p-12 lg:p-20">
         <div class="max-w-[420px] w-full">
-            <div class="flex flex-col items-center text-center mb-8">
-                <a href="{{ url('/') }}" class="lg:hidden flex items-center gap-2 mb-6">
+            
+            <!-- Mobile Brand -->
+            <div class="flex flex-col items-center text-center mb-6">
+                <a href="{{ url('/') }}" class="lg:hidden flex items-center gap-2 mb-4">
                     <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white font-bold">
                         <i class="fa-solid fa-cube"></i>
                     </span>
                     <span class="font-extrabold text-slate-900 text-lg">IT Recoveries</span>
                 </a>
-                <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Customer Sign In</h2>
-                <p class="text-slate-500 text-sm font-medium">Enter your credentials to access your portal account.</p>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Sign In</h2>
+                <p class="text-slate-500 text-sm font-medium">Enter your credentials to access your account.</p>
             </div>
 
+            <!-- Alerts -->
+            @if (session('success'))
+                <div class="mb-5 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-2xl text-emerald-800 text-xs sm:text-sm flex items-center gap-3 shadow-sm">
+                    <i class="fas fa-circle-check text-emerald-500 text-lg shrink-0"></i>
+                    <p class="font-bold">{{ session('success') }}</p>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="mb-5 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-2xl text-rose-700 text-xs sm:text-sm flex items-center gap-3 shadow-sm">
+                    <i class="fas fa-circle-exclamation text-rose-500 text-lg shrink-0"></i>
+                    <p class="font-bold">{{ session('error') }}</p>
+                </div>
+            @endif
+
             @if ($errors->any())
-                <div class="mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-2xl text-rose-700 text-xs sm:text-sm flex items-center gap-3 shadow-sm">
+                <div class="mb-5 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-2xl text-rose-700 text-xs sm:text-sm flex items-center gap-3 shadow-sm">
                     <i class="fas fa-circle-exclamation text-rose-500 text-lg shrink-0"></i>
                     <p class="font-bold">{{ $errors->first() }}</p>
                 </div>
@@ -77,15 +97,19 @@
                 <span class="text-sm tracking-wide">Sign in with Google</span>
             </a>
 
-            <div class="my-6 flex items-center gap-4">
+            <div class="my-5 flex items-center gap-4">
                 <div class="h-px flex-1 bg-slate-200"></div>
-                <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400">or</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400">or sign in with email</span>
                 <div class="h-px flex-1 bg-slate-200"></div>
             </div>
 
-            <!-- Credentials Form -->
-            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+            <!-- Unified Credentials Form -->
+            <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
+
+                @if (request()->has('redirect'))
+                    <input type="hidden" name="redirect" value="{{ request('redirect') }}">
+                @endif
 
                 <div class="space-y-1.5">
                     <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Email Address</label>
@@ -93,9 +117,9 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                             <i class="far fa-envelope text-sm"></i>
                         </span>
-                        <input type="email" name="email" value="{{ old('email') }}" required
+                        <input type="email" name="email" value="{{ old('email') }}" required autofocus
                             class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none transition-all text-slate-900 placeholder-slate-400 font-medium input-focus text-sm"
-                            placeholder="customer@company.com">
+                            placeholder="name@company.com">
                     </div>
                 </div>
 
@@ -116,7 +140,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between pt-1">
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="remember" name="remember" value="on"
                             class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
@@ -124,12 +148,15 @@
                     </label>
                 </div>
 
-                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
-                    <span class="tracking-wide text-sm">Sign In to Customer Portal</span>
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
+                    <span class="tracking-wide text-sm">Sign In</span>
                     <i class="fas fa-arrow-right text-xs"></i>
                 </button>
             </form>
 
+            <!-- Bottom Registration Link -->
             <div class="mt-8 text-center pt-6 border-t border-slate-200/80">
                 <p class="text-slate-600 text-xs sm:text-sm font-medium">
                     Don't have an account? 
@@ -154,4 +181,3 @@
     </script>
 </body>
 </html>
-

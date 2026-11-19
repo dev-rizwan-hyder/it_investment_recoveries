@@ -14,6 +14,11 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard')->with('error', 'Unauthorized access.');
+        if (!Auth::check()) {
+            return redirect()->guest(route('login'))
+                ->with('error', 'Please sign in with administrator credentials to access the admin area.');
+        }
+
+        return redirect('/dashboard')->with('error', 'Access denied. Administrator privileges required.');
     }
 }

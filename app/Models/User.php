@@ -28,6 +28,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if the user has an admin role
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if the user is a standard customer/user
+     */
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
      * Get the user's orders
      */
     public function orders()
