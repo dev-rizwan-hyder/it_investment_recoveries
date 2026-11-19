@@ -41,7 +41,7 @@
     </section>
 
     {{-- KPI Cards Grid Matching Sidebar Tabs --}}
-    <section class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+    <section class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <!-- Card 1: Recieving / Processing -->
         <a href="{{ route('user.received-intake.index') }}" class="portal-card portal-card-hover rounded-2xl p-6 block group">
             <div class="flex items-start justify-between gap-4">
@@ -124,6 +124,23 @@
             <div class="mt-4 flex items-center justify-between text-xs text-slate-500 font-semibold pt-3 border-t border-slate-100">
                 <span>Carbon Offset (CO2e)</span>
                 <span class="text-teal-600 group-hover:translate-x-1 transition-transform">View Report <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></span>
+            </div>
+        </a>
+
+        <!-- Card 6: Repair Order -->
+        <a href="{{ route('user.repair-orders.index') }}" class="portal-card portal-card-hover rounded-2xl p-6 block group">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Repair Order</p>
+                    <p class="mt-2 text-3xl font-black tracking-tight text-amber-600 group-hover:text-amber-700 transition-colors">{{ $totalRepairs }}</p>
+                </div>
+                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 border border-amber-100 text-amber-600 text-xl shadow-sm group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-wrench"></i>
+                </span>
+            </div>
+            <div class="mt-4 flex items-center justify-between text-xs text-slate-500 font-semibold pt-3 border-t border-slate-100">
+                <span>Hardware Servicing</span>
+                <span class="text-amber-600 group-hover:translate-x-1 transition-transform">Repairs <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></span>
             </div>
         </a>
     </section>

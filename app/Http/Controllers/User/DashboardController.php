@@ -7,6 +7,7 @@ use App\Models\Pallet;
 use App\Models\DataDestructionItem;
 use App\Models\ItAssetsItem;
 use App\Models\Client;
+use App\Models\RepairEntry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -28,10 +29,13 @@ class DashboardController extends Controller
         $totalItAssets = 0;
         $totalDestruction = 0;
         $totalUniversalWaste = 0;
+        $totalRepairs = 0;
         $co2SavedTons = '0.00';
         $recentIntakes = collect();
         $recentDestruction = collect();
         $recentUniversalWaste = collect();
+
+        $palletNumbers = [];
 
         if (!empty($clientIds)) {
             $totalIntakes = Pallet::whereIn('client_id', $clientIds)
@@ -105,11 +109,27 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        // Count Repair Orders for this client (excluding Draft status)
+        $totalRepairs = RepairEntry::where(function ($q) use ($clientIds, $user, $palletNumbers) {
+            if (!empty($clientIds)) {
+                $q->whereIn('user_id', $clientIds);
+            }
+            $q->orWhereRaw('TRIM(LOWER(customer_email)) = ?', [trim(strtolower($user->email))])
+              ->orWhere('customer_email', $user->email);
+            if (!empty($palletNumbers)) {
+                $q->orWhereIn('pallet_info', $palletNumbers);
+            }
+        })
+        ->whereNotIn('status', ['Draft', 'draft'])
+        ->whereRaw("LOWER(TRIM(COALESCE(status, ''))) != 'draft'")
+        ->count();
+
         return view('user.dashboard', compact(
             'totalIntakes',
             'totalItAssets',
             'totalDestruction',
             'totalUniversalWaste',
+            'totalRepairs',
             'co2SavedTons',
             'recentIntakes',
             'recentDestruction',

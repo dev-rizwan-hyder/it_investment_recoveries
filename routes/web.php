@@ -133,6 +133,7 @@ use App\Http\Controllers\User\DataDestructionController;
 use App\Http\Controllers\User\ItAssetsController;
 use App\Http\Controllers\User\UniversalWasteController;
 use App\Http\Controllers\User\EsgReportController;
+use App\Http\Controllers\User\RepairOrderController;
 use App\Http\Controllers\User\UserOrdersController;
 use App\Http\Controllers\User\UserInvoiceController;
 use Illuminate\Support\Facades\Mail;
@@ -185,6 +186,12 @@ Route::middleware('auth')->group(function () {
     // User ESG Sustainability Report Routes
     Route::controller(EsgReportController::class)->prefix('user-esg-report')->name('user.esg-report.')->group(function () {
         Route::get('/', 'index')->name('index');
+    });
+
+    // User Repair Orders Routes
+    Route::controller(RepairOrderController::class)->prefix('user-repair-orders')->name('user.repair-orders.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
     });
 
     // User IT Assets Routes
