@@ -38,6 +38,7 @@ class SalesInvoice extends Model
     ];
 
     protected $fillable = [
+        'repair_entry_id',
         'client_id',
         'created_by',
         'invoice_number',
@@ -64,6 +65,9 @@ class SalesInvoice extends Model
         'square_public_url',
         'square_status',
         'square_sent_at',
+        'square_reminded_at',
+        'square_reminder_count',
+        'square_last_reminder_message',
     ];
 
     protected $casts = [
@@ -76,6 +80,8 @@ class SalesInvoice extends Model
         'total' => 'decimal:2',
         'paid_at' => 'datetime',
         'square_sent_at' => 'datetime',
+        'square_reminded_at' => 'datetime',
+        'square_reminder_count' => 'integer',
     ];
 
     public static function generateInvoiceNumber(): string
@@ -140,17 +146,6 @@ class SalesInvoice extends Model
 
         if (Str::startsWith($path, ['http://', 'https://'])) {
             return $path;
-        }
-
-        if (Str::startsWith($path, ['sales/', 'storage/']) && file_exists(public_path($path))) {
-            return asset($path);
-        }
-
-        // Check if file exists in it_investment public folder
-        $itInvestmentPath = '/opt/lampp/htdocs/it_investment/public/' . $path;
-        if (file_exists($itInvestmentPath) && is_file($itInvestmentPath)) {
-            $mime = mime_content_type($itInvestmentPath) ?: 'application/octet-stream';
-            return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($itInvestmentPath));
         }
 
         if (Str::startsWith($path, ['sales/', 'storage/'])) {
@@ -281,6 +276,16 @@ class SalesInvoice extends Model
         return strtoupper((string) $this->square_status) === 'PAID' || $this->status === self::STATUS_PAID;
     }
 
+    public static function defaultReminderMessage(self $invoice): string
+    {
+        $customerName = $invoice->customer_name ?: 'Valued Customer';
+        $invoiceNum = $invoice->invoice_number;
+        $total = '$' . number_format((float) $invoice->total, 2);
+        $dueDate = $invoice->due_date?->format('F d, Y') ?: ($invoice->service_date?->format('F d, Y') ?: 'upon receipt');
+
+        return "Hi {$customerName},\n\nThis is a friendly reminder from IT INVESTMENT RECOVERIES regarding invoice #{$invoiceNum} for {$total}, which is due {$dueDate}.\n\nPlease review your invoice and submit payment securely online using the Square payment link provided.\n\nThank you for choosing IT INVESTMENT RECOVERIES!";
+    }
+
     public function getSquareStatusBadgeClassAttribute(): string
     {
         $status = strtoupper((string) $this->square_status);
@@ -306,5 +311,10 @@ class SalesInvoice extends Model
     public function items()
     {
         return $this->hasMany(SalesInvoiceItem::class);
+    }
+
+    public function repairEntry()
+    {
+        return $this->belongsTo(RepairEntry::class, 'repair_entry_id');
     }
 }

@@ -44,9 +44,14 @@ class ItAssetsItem extends Model
         'data_destruction_employee',
         'it_assets_employee',
         'pallet_number',
+        'pallet_id',
         'item_placement',
         'photos_paths',
         'status',
+    ];
+
+    protected $attributes = [
+        'status' => 'Recieved',
     ];
 
     protected $casts = [

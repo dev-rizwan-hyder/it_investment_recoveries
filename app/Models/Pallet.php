@@ -33,7 +33,9 @@ class Pallet extends Model
         'refurbishing_employee',
         'universal_waste_employee',
         'data_destruction_employee',
-        'photos_paths'
+        'photos_paths',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -83,6 +85,78 @@ class Pallet extends Model
      */
     public function client(): BelongsTo
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        return $this->belongsTo(Client::class, 'client_id')->withTrashed();
+    }
+
+    /**
+     * Get formatted display barcode with duplicate sequence number e.g. PAL-7525830626 (#1).
+     */
+    public function getDisplayBarcode(): string
+    {
+        $barcode = $this->barcode_number;
+        if (empty($barcode)) {
+            return 'N/A';
+        }
+
+        $query = static::where('barcode_number', $barcode);
+        if ($this->client_id) {
+            $query->where('client_id', $this->client_id);
+        }
+
+        $allIds = $query->orderBy('id', 'asc')->pluck('id');
+
+        if ($allIds->count() > 1) {
+            $index = $allIds->search($this->id);
+            if ($index !== false) {
+                return "{$barcode} (#" . ($index + 1) . ")";
+            }
+        }
+
+        return $barcode;
+    }
+
+    /**
+     * Get all related entries for this pallet (sharing the same barcode and client).
+     */
+    public function getRelatedEntries()
+    {
+        $barcode = trim((string) ($this->barcode_number ?? ''));
+        if ($barcode === '') {
+            return collect([$this]);
+        }
+
+        $query = static::whereRaw('TRIM(barcode_number) = ?', [$barcode]);
+        if ($this->client_id) {
+            $query->where('client_id', $this->client_id);
+        } else {
+            $query->whereNull('client_id');
+        }
+
+        return $query->orderBy('id', 'asc')->get();
+    }
+
+    /**
+     * Check if this pallet belongs to a group with multiple entries (#1, #2, #3...).
+     */
+    public function hasMultipleEntries(): bool
+    {
+        return $this->getRelatedEntries()->count() > 1;
+    }
+
+    /**
+     * Check if all entries for this pallet (#1, #2, #3...) are marked Completed.
+     */
+    public function areAllEntriesCompleted(): bool
+    {
+        $entries = $this->getRelatedEntries();
+
+        if ($entries->isEmpty()) {
+            return false;
+        }
+
+        return $entries->every(function ($entry) {
+            $status = ($entry->id === $this->id) ? $this->status : $entry->status;
+            return $status === 'Completed';
+        });
     }
 }

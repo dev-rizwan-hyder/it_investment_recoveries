@@ -43,9 +43,14 @@ class DataDestructionItem extends Model
         'universal_waste_employee',
         'data_destruction_employee',
         'pallet_number',
+        'pallet_id',
         'item_placement',
         'photos_paths',
         'status',
+    ];
+
+    protected $attributes = [
+        'status' => 'Recieved',
     ];
 
     protected $casts = [

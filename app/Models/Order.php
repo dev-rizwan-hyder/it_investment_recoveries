@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public const DENVER_TIMEZONE = 'America/Denver';
 
@@ -80,6 +81,8 @@ class Order extends Model
         'user_id',
         'order_number',
         'subtotal',
+        'discount',
+        'discount_code',
         'shipping',
         'total',
         'status',
@@ -111,6 +114,7 @@ class Order extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'shipping_selection_payload' => 'array',
+        'discount' => 'float',
     ];
 
     public static function statusChoices(): array
@@ -192,7 +196,8 @@ class Order extends Model
             return (float) $value;
         }
 
-        $tax = (float) $this->total - (float) $this->subtotal - (float) $this->shipping;
+        $discountedSubtotal = (float) $this->subtotal - (float) ($this->discount ?? 0);
+        $tax = (float) $this->total - $discountedSubtotal - (float) $this->shipping;
 
         return round(max(0, $tax), 2);
     }

@@ -38,8 +38,7 @@ class AuthController extends Controller
 
             // Redirect based on user role
             if (Auth::user()->role === 'admin') {
-                $investmentUrl = env('IT_INVESTMENT_URL', 'https://denverdiscountcomputers.com/admin/dashboard');
-                return redirect()->away(rtrim($investmentUrl, '/'));
+                return redirect()->route('admin.dashboard');
             } else {
                 return redirect()->route('dashboard');
             }
@@ -134,6 +133,10 @@ class AuthController extends Controller
             $redirectTo = $this->safeRedirectPath($request->session()->pull('login.redirect_to'));
             if ($redirectTo) {
                 return redirect($redirectTo);
+            }
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
             }
 
             return redirect()->route('dashboard');

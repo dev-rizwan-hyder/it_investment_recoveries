@@ -10,6 +10,27 @@ class UniversalWasteItem extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($item) {
+            if (!isset($item->scrap_quantity) || $item->scrap_quantity === null || (int)$item->scrap_quantity === 0) {
+                if (!empty($item->quantity)) {
+                    $item->scrap_quantity = $item->quantity;
+                }
+            }
+            if (!isset($item->scrap_weight) || $item->scrap_weight === null || (float)$item->scrap_weight == 0.0) {
+                if (!empty($item->weight)) {
+                    $item->scrap_weight = $item->weight;
+                }
+            }
+            if (empty($item->status)) {
+                $item->status = 'Completed';
+            }
+        });
+    }
+
     protected $table = 'universal_waste_items';
 
     protected $fillable = [
