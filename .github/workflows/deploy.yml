@@ -38,58 +38,64 @@ jobs:
           npm ci || npm install
           npm run build
 
-      - name: 🔑 Parse Credentials (Single Secret Support)
-        id: creds
+      - name: 🚀 Deploy via SSH (Single Secret - SSH Private Key)
+        if: "${{ secrets.SSH_PRIVATE_KEY != '' }}"
         env:
-          RAW_CREDS: ${{ secrets.FTP_CREDENTIALS || secrets.HOSTINGER_CREDENTIALS }}
-          FALLBACK_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: "194.164.64.189"
+          REMOTE_PORT: "65002"
+          REMOTE_USER: "u229482509"
+          TARGET_DIR: "domains/it-investmentrecoveries.com/public_html"
         run: |
-          SERVER="194.164.64.189"
-          USERNAME="u229482509.it-investmentrecoveries.com"
-          PASSWORD=""
-          PORT="21"
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p $REMOTE_PORT $REMOTE_HOST >> ~/.ssh/known_hosts
 
-          while IFS='=' read -r key val || [ -n "$key" ]; do
-            # Trim whitespace and convert key to uppercase
-            clean_key=$(echo "$key" | tr -d ' \r\t' | tr '[:lower:]' '[:upper:]')
-            # Trim quotes and whitespace from val
-            clean_val=$(echo "$val" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^["'\''']//' -e 's/["'\''']$//')
-            
-            case "$clean_key" in
-              *SERVER*|*HOST*|*IP*) [ -n "$clean_val" ] && SERVER="$clean_val" ;;
-              *USER*) [ -n "$clean_val" ] && USERNAME="$clean_val" ;;
-              *PASS*) [ -n "$clean_val" ] && PASSWORD="$clean_val" ;;
-              *PORT*) [ -n "$clean_val" ] && PORT="$clean_val" ;;
-            esac
-          done <<< "$RAW_CREDS"
+          echo "Deploying files via Rsync..."
+          rsync -avz -e "ssh -p $REMOTE_PORT" \
+            --exclude='.git*' \
+            --exclude='.github' \
+            --exclude='.idea' \
+            --exclude='.vscode' \
+            --exclude='tests' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='node_modules' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='README.md' \
+            ./ $REMOTE_USER@$REMOTE_HOST:~/$TARGET_DIR/ || \
+          rsync -avz -e "ssh -p $REMOTE_PORT" \
+            --exclude='.git*' \
+            --exclude='.github' \
+            --exclude='.idea' \
+            --exclude='.vscode' \
+            --exclude='tests' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='node_modules' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='README.md' \
+            ./ $REMOTE_USER@$REMOTE_HOST:~/public_html/
 
-          if [ -z "$PASSWORD" ] && [ -n "$FALLBACK_PASSWORD" ]; then
-            PASSWORD="$FALLBACK_PASSWORD"
-          fi
+          echo "Running Laravel optimization commands..."
+          ssh -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST "cd ~/$TARGET_DIR 2>/dev/null || cd ~/public_html; php artisan optimize:clear; php artisan config:cache; php artisan route:cache; php artisan view:cache"
+          echo "Deployment completed successfully via SSH!"
 
-          # Strip ftp:// or ftps:// prefix and trailing slash
-          SERVER=$(echo "$SERVER" | sed -e 's#^ftps\?://##' -e 's#/$##')
-
-          if [ -z "$PASSWORD" ]; then
-            echo "::error::FTP Password not found! Please ensure you have added the 'FTP_CREDENTIALS' secret in GitHub Repository Settings."
-            exit 1
-          fi
-
-          echo "::add-mask::$PASSWORD"
-          echo "server=$SERVER" >> "$GITHUB_OUTPUT"
-          echo "username=$USERNAME" >> "$GITHUB_OUTPUT"
-          echo "password=$PASSWORD" >> "$GITHUB_OUTPUT"
-          echo "port=$PORT" >> "$GITHUB_OUTPUT"
-          echo "✅ Target Host: $SERVER:$PORT"
-          echo "✅ Target User: $USERNAME"
-
-      - name: 🚀 Sync files via FTP
+      - name: 🚀 Deploy via FTP (Fallback if SSH key not configured)
+        if: "${{ secrets.SSH_PRIVATE_KEY == '' }}"
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ steps.creds.outputs.server }}
-          username: ${{ steps.creds.outputs.username }}
-          password: ${{ steps.creds.outputs.password }}
-          port: ${{ steps.creds.outputs.port }}
+          server: "194.164.64.189"
+          username: "u229482509.it-investmentrecoveries.com"
+          password: ${{ secrets.FTP_PASSWORD || 'NewCdn123' }}
+          port: 21
           server-dir: ./
           dangerous-clean-slate: false
           exclude: |
