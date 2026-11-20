@@ -65,8 +65,10 @@
     <!-- Bottom Sub-Footer Bar (Full Width Copyright & Developer Info) -->
     <div class="w-full bg-[#1c1c1c] py-4 px-6 sm:px-12 lg:px-16 border-t border-gray-800 text-xs sm:text-sm text-gray-300">
         <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left relative">
-            <div>
-                Copyright &copy; {{ date('Y') }} IT Investment Recoveries
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3">
+                <span>Copyright &copy; {{ date('Y') }} IT Investment Recoveries</span>
+                <span class="text-gray-600 hidden sm:inline">&bull;</span>
+                <a href="{{ url('/privacy-policy') }}" class="hover:text-emerald-300 transition-colors duration-200 underline sm:no-underline sm:hover:underline">Privacy Policy</a>
             </div>
             <div class="pr-12 sm:pr-14">
                 Developed By <a href="https://thebiztechsolutions.com" target="_blank" rel="noopener noreferrer" class="text-[#035c43] hover:underline font-bold">TheBizTechSolutions</a>

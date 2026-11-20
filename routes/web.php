@@ -215,8 +215,7 @@ Route::get('/ebay/login', [EbayController::class, 'login']);
 Route::get('/ebay/callback', [EbayController::class, 'callback']);
 Route::get('/ebay/cancel', [EbayController::class, 'cancel']);
 Route::get('/ebay/orders/status', [EbayController::class, 'ordersStatus'])->name('ebay.orders.status');
-Route::match(['get', 'post'], '/ebay/orders/sync', [EbayController::class, 'syncOrders'])->name('ebay.orders.sync');
-Route::view('/privacy-policy', 'privacy');
+Route::view('/privacy-policy', 'privacy')->name('privacy-policy');
 
 Route::get('/api/ebay/callback', [EbayCallbackController::class, 'handle']);
 Route::post('/api/ebay/callback', [EbayCallbackController::class, 'handle']);
