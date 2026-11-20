@@ -17,7 +17,7 @@
     </div>
 
     <div class="flex items-center gap-3 md:gap-8">
-        <a href="/" class="px-4 py-2 md:px-5 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-[12px] md:text-[13px] font-semibold rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
+        <a href="https://denverdiscountcomputers.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 md:px-5 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-[12px] md:text-[13px] font-semibold rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
             <i class="fa-solid fa-store mr-2"></i>View Store
         </a>
         
