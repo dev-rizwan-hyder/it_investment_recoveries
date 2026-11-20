@@ -1,0 +1,50 @@
+{
+    "folder": "20260803_143626_ebay",
+    "folder_name": "eBay",
+    "condition": "New",
+    "folder_type": "Ebay",
+    "location": "9A/ B3",
+    "quantity": 1,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/SEMM24",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000014882.jpg",
+            "original_name": "1000014882.jpg",
+            "size": 62401,
+            "uploaded_at": "2026-08-03T14:36:26-06:00"
+        },
+        {
+            "filename": "02_1000014883.jpg",
+            "original_name": "1000014883.jpg",
+            "size": 59350,
+            "uploaded_at": "2026-08-03T14:36:26-06:00"
+        },
+        {
+            "filename": "03_1000014884.jpg",
+            "original_name": "1000014884.jpg",
+            "size": 53705,
+            "uploaded_at": "2026-08-03T14:36:26-06:00"
+        },
+        {
+            "filename": "04_1000014885.jpg",
+            "original_name": "1000014885.jpg",
+            "size": 63208,
+            "uploaded_at": "2026-08-03T14:36:26-06:00"
+        },
+        {
+            "filename": "05_1000014886.jpg",
+            "original_name": "1000014886.jpg",
+            "size": 56737,
+            "uploaded_at": "2026-08-03T14:36:26-06:00"
+        }
+    ],
+    "created_at": "2026-08-03T14:36:26-06:00",
+    "updated_at": "2026-08-04T15:46:07-06:00"
+}

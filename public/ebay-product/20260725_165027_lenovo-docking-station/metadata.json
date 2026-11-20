@@ -1,0 +1,44 @@
+{
+    "folder": "20260725_165027_lenovo-docking-station",
+    "folder_name": "Lenovo docking station",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "4B-B4",
+    "quantity": 1,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336713657091",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-6163.jpg",
+            "original_name": "IMG_6163.jpg",
+            "size": 56898,
+            "uploaded_at": "2026-07-25T16:50:27-06:00"
+        },
+        {
+            "filename": "02_img-6164.jpg",
+            "original_name": "IMG_6164.jpg",
+            "size": 45590,
+            "uploaded_at": "2026-07-25T16:50:27-06:00"
+        },
+        {
+            "filename": "03_img-6165.jpg",
+            "original_name": "IMG_6165.jpg",
+            "size": 42795,
+            "uploaded_at": "2026-07-25T16:50:27-06:00"
+        },
+        {
+            "filename": "04_img-6166.jpg",
+            "original_name": "IMG_6166.jpg",
+            "size": 90391,
+            "uploaded_at": "2026-07-25T16:50:27-06:00"
+        }
+    ],
+    "created_at": "2026-07-25T16:50:27-06:00",
+    "updated_at": "2026-07-28T13:42:17-06:00"
+}

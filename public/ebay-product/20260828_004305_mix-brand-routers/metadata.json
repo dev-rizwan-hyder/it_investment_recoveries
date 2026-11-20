@@ -1,0 +1,47 @@
+{
+    "folder": "20260828_004305_mix-brand-routers",
+    "folder_name": "Mix Brand Routers",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "13a/b3",
+    "quantity": 1,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336766502139",
+    "website_link": "https://denverdiscountcomputers.com/product/603",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a90d99808be5_1000015138.jpg",
+            "size": 140075,
+            "uploaded_at": "2026-08-28T00:43:05+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a90d9984f153_1000015139.jpg",
+            "size": 144903,
+            "uploaded_at": "2026-08-28T00:43:05+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a90d99873f1d_1000015140.jpg",
+            "size": 171047,
+            "uploaded_at": "2026-08-28T00:43:05+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6a90d9989f26b_1000015141.jpg",
+            "size": 451557,
+            "uploaded_at": "2026-08-28T00:43:06+00:00"
+        }
+    ],
+    "created_at": "2026-08-28T00:43:06+00:00",
+    "updated_at": "2026-08-28T12:01:15-06:00",
+    "inventory_id": 603
+}

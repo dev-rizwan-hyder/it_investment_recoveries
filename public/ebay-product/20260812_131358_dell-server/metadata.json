@@ -1,0 +1,51 @@
+{
+    "folder": "20260812_131358_dell-server",
+    "folder_name": "Dell Server",
+    "condition": "Used",
+    "folder_type": "Denver",
+    "location": "F1",
+    "quantity": 1,
+    "notes": "Non shipping item. In store pick up only.",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "",
+    "website_link": "1U Rackmount Processor\tIntel Xeon, Quad-Core, 2.66 GHz (single socket) Memory\t16GB RAM Storage Bays\t3x 3.5\" hot-swap SAS bays Drive Caddies\t3x SAS 6Gb 450GB 15K (caddy labels \u2014 see note below) Optical Drive\tDVD-ROM Operating System\tNot installed (label states \"NO HDD NO OS\") Rear Ports\tVGA, Serial (DB9), 2x USB, 2x Gigabit Ethernet, dedicated iDRAC port Power Supply\tDual redundant power supplies",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000014936.jpg",
+            "original_name": "1000014936.jpg",
+            "size": 36163,
+            "uploaded_at": "2026-08-12T13:13:58-06:00"
+        },
+        {
+            "filename": "02_1000014937.jpg",
+            "original_name": "1000014937.jpg",
+            "size": 31808,
+            "uploaded_at": "2026-08-12T13:13:58-06:00"
+        },
+        {
+            "filename": "03_1000014938.jpg",
+            "original_name": "1000014938.jpg",
+            "size": 33379,
+            "uploaded_at": "2026-08-12T13:13:58-06:00"
+        },
+        {
+            "filename": "04_1000014939.jpg",
+            "original_name": "1000014939.jpg",
+            "size": 48872,
+            "uploaded_at": "2026-08-12T13:13:58-06:00"
+        },
+        {
+            "filename": "05_1000014940.jpg",
+            "original_name": "1000014940.jpg",
+            "size": 46073,
+            "uploaded_at": "2026-08-12T13:13:58-06:00"
+        }
+    ],
+    "created_at": "2026-08-12T13:13:58-06:00",
+    "updated_at": "2026-08-12T14:21:21-06:00",
+    "inventory_id": 447
+}

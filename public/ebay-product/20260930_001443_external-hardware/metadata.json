@@ -1,0 +1,48 @@
+{
+    "folder": "20260930_001443_external-hardware",
+    "folder_name": "External hardware",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D11 B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336822243811",
+    "website_link": "https://denverdiscountcomputers.com/product/719",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6abc547341dc5_IMG_20260929_181338494.jpg",
+            "size": 391651,
+            "uploaded_at": "2026-09-30T00:14:43+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6abc5473421c4_IMG_20260929_181333773.jpg",
+            "size": 217377,
+            "uploaded_at": "2026-09-30T00:14:43+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6abc54734241d_IMG_20260929_181256529.jpg",
+            "size": 179046,
+            "uploaded_at": "2026-09-30T00:14:43+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6abc54734262d_IMG_20260929_181245647.jpg",
+            "size": 139498,
+            "uploaded_at": "2026-09-30T00:14:43+00:00"
+        }
+    ],
+    "created_at": "2026-09-30T00:14:43+00:00",
+    "updated_at": "2026-10-01T07:45:27-06:00"
+}

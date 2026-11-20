@@ -1,0 +1,36 @@
+{
+    "folder": "20260930_015431_asmt-2115-1tb-external-drive",
+    "folder_name": "ASMT 2115 1TB external drive",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D15 B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "Comes with USB cable",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336822711329",
+    "website_link": "https://denverdiscountcomputers.com/product/736",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6abc6bd716c54_17907332440878100465840903585127.jpg",
+            "size": 125462,
+            "uploaded_at": "2026-09-30T01:54:31+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6abc6bd716e93_17907332547638270361321293301025.jpg",
+            "size": 105468,
+            "uploaded_at": "2026-09-30T01:54:31+00:00"
+        }
+    ],
+    "created_at": "2026-09-30T01:54:31+00:00",
+    "updated_at": "2026-10-02T09:38:08-06:00"
+}

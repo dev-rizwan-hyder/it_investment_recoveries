@@ -1,0 +1,54 @@
+{
+    "folder": "20261103_183611_ebay",
+    "folder_name": "eBay",
+    "condition": "Open Box",
+    "folder_type": "Ebay",
+    "location": "11A/B1",
+    "quantity": 7,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336879715858",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6aea299b359f6_IMG_20261103_113236884_HDR.jpg",
+            "size": 221921,
+            "uploaded_at": "2026-11-03T18:36:11+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6aea299b35c69_IMG_20261103_113243310_HDR.jpg",
+            "size": 233179,
+            "uploaded_at": "2026-11-03T18:36:11+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6aea299b35eed_IMG_20261103_113257757_HDR.jpg",
+            "size": 154586,
+            "uploaded_at": "2026-11-03T18:36:11+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6aea299b3609c_IMG_20261103_113310743_HDR.jpg",
+            "size": 179774,
+            "uploaded_at": "2026-11-03T18:36:11+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6aea299b36280_IMG_20261103_113343772_HDR.jpg",
+            "size": 221737,
+            "uploaded_at": "2026-11-03T18:36:11+00:00"
+        }
+    ],
+    "created_at": "2026-11-03T18:36:11+00:00",
+    "updated_at": "2026-11-04T10:17:56-07:00"
+}

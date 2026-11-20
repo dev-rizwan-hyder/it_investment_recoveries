@@ -1,0 +1,47 @@
+{
+    "folder": "20260815_203717_mix-brand-switch",
+    "folder_name": "Mix brand switch",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "2A/B2",
+    "quantity": 1,
+    "weight": "1",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/lP7LMM",
+    "website_link": "https://denverdiscountcomputers.com/product/475",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a80cdfce26e8_1000029133.jpg",
+            "size": 123606,
+            "uploaded_at": "2026-08-15T20:37:17+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a80cdfce295f_1000029134.jpg",
+            "size": 187964,
+            "uploaded_at": "2026-08-15T20:37:17+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a80cdfce2c9e_1000029135.jpg",
+            "size": 105497,
+            "uploaded_at": "2026-08-15T20:37:17+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6a80cdfcea17f_1000029136.jpg",
+            "size": 283239,
+            "uploaded_at": "2026-08-15T20:37:17+00:00"
+        }
+    ],
+    "created_at": "2026-08-15T20:37:17+00:00",
+    "updated_at": "2026-08-15T15:16:23-06:00",
+    "inventory_id": 475
+}

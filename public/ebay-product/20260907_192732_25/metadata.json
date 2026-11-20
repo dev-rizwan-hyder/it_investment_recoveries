@@ -1,0 +1,29 @@
+{
+    "folder": "20260907_192732_25",
+    "folder_name": "2.5 HDD",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D2/b1",
+    "quantity": 1,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336783777088",
+    "website_link": "https://denverdiscountcomputers.com/product/631",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a9f10242a9b9_1000031634.jpg",
+            "size": 263141,
+            "uploaded_at": "2026-09-07T19:27:32+00:00"
+        }
+    ],
+    "created_at": "2026-09-07T19:27:32+00:00",
+    "updated_at": "2026-09-08T13:48:43-06:00",
+    "inventory_id": 631
+}

@@ -1,0 +1,29 @@
+{
+    "folder": "20260907_192943_25",
+    "folder_name": "2.5",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D2/b1",
+    "quantity": 2,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336783800159",
+    "website_link": "https://denverdiscountcomputers.com/product/632",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a9f10a7431b5_1000031635.jpg",
+            "size": 293143,
+            "uploaded_at": "2026-09-07T19:29:43+00:00"
+        }
+    ],
+    "created_at": "2026-09-07T19:29:43+00:00",
+    "updated_at": "2026-09-08T13:56:01-06:00",
+    "inventory_id": 632
+}

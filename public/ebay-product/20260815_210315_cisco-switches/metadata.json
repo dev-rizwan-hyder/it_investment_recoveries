@@ -1,0 +1,41 @@
+{
+    "folder": "20260815_210315_cisco-switches",
+    "folder_name": "Cisco Switches",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "A2/B2",
+    "quantity": 1,
+    "weight": "1",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/U9cjxC",
+    "website_link": "https://denverdiscountcomputers.com/product/477",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a80d413cbbeb_1000029147.jpg",
+            "size": 125933,
+            "uploaded_at": "2026-08-15T21:03:15+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a80d413cbdcb_1000029148.jpg",
+            "size": 204853,
+            "uploaded_at": "2026-08-15T21:03:16+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a80d413cc010_1000029149.jpg",
+            "size": 127058,
+            "uploaded_at": "2026-08-15T21:03:16+00:00"
+        }
+    ],
+    "created_at": "2026-08-15T21:03:16+00:00",
+    "updated_at": "2026-08-17T11:47:15-06:00",
+    "inventory_id": 477
+}

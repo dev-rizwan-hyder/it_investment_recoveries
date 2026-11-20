@@ -1,0 +1,34 @@
+{
+    "folder": "20260715_055613_ebay-used-1-unit-15b-b2",
+    "folder_name": "eBay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "eB15B-B2",
+    "quantity": 1,
+    "notes": "",
+    "marked": "abid",
+    "images": [
+        {
+            "filename": "01_1000458477.jpg",
+            "original_name": "1000458477.jpg",
+            "size": 42721,
+            "uploaded_at": "2026-07-15T05:56:13-06:00"
+        },
+        {
+            "filename": "02_1000458476.jpg",
+            "original_name": "1000458476.jpg",
+            "size": 34080,
+            "uploaded_at": "2026-07-15T05:56:13-06:00"
+        }
+    ],
+    "created_at": "2026-07-15T05:56:13-06:00",
+    "updated_at": "2026-11-07T10:59:11-07:00",
+    "user": "",
+    "serial_number": "",
+    "weight": "",
+    "ebay_link": "https://www.ebay.com/itm/336691850522",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": ""
+}

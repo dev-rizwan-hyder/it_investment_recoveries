@@ -1,0 +1,61 @@
+{
+    "folder": "20261014_035643_dell-poweredge-r510",
+    "folder_name": "Dell PowerEdge R510",
+    "condition": "Refurbished",
+    "folder_type": "Denver",
+    "location": "",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "Dual Intel Xeon CPU E5620 @ 2.40GHz, 16GB DDR4 RAM, NO HDD, NO OS",
+    "marked": "abid",
+    "user": "",
+    "ebay_link": "",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6acefd7b1e8c9_IMG_9981.jpg",
+            "size": 130425,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6acefd7b1eb1c_IMG_9980.jpg",
+            "size": 403432,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6acefd7b1ee4d_IMG_9982.jpg",
+            "size": 222505,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6acefd7b1f05a_IMG_9983.jpg",
+            "size": 213272,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6acefd7b1f258_IMG_9984.jpg",
+            "size": 269123,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        },
+        {
+            "filename": "06_photo.jpg",
+            "original_name": "6acefd7b1f491_IMG_9985.jpg",
+            "size": 253347,
+            "uploaded_at": "2026-10-14T03:56:43+00:00"
+        }
+    ],
+    "created_at": "2026-10-14T03:56:43+00:00",
+    "updated_at": "2026-10-20T14:14:33-06:00",
+    "blinking": true
+}

@@ -1,0 +1,48 @@
+{
+    "folder": "20261103_200433_ebay",
+    "folder_name": "eBay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "11A/B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "moses",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/iUix5A",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6aea3e50f2eaa_IMG_20261103_130244991_HDR.jpg",
+            "size": 151309,
+            "uploaded_at": "2026-11-03T20:04:33+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6aea3e50f30e5_IMG_20261103_130300780_HDR.jpg",
+            "size": 126689,
+            "uploaded_at": "2026-11-03T20:04:33+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6aea3e50f3287_IMG_20261103_130309206_HDR.jpg",
+            "size": 184954,
+            "uploaded_at": "2026-11-03T20:04:33+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6aea3e50f3462_IMG_20261103_130322698_HDR.jpg",
+            "size": 306293,
+            "uploaded_at": "2026-11-03T20:04:33+00:00"
+        }
+    ],
+    "created_at": "2026-11-03T20:04:33+00:00",
+    "updated_at": "2026-11-03T13:21:47-07:00"
+}

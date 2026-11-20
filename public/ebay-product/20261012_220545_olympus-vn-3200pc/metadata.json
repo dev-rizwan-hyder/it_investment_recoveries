@@ -1,0 +1,42 @@
+{
+    "folder": "20261012_220545_olympus-vn-3200pc",
+    "folder_name": "Olympus VN-3200PC",
+    "condition": "Refurbished",
+    "folder_type": "Ebay",
+    "location": "D8 B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "comes with batteries, working",
+    "marked": "abid",
+    "user": "",
+    "ebay_link": "https://www.ebay.com/itm/336843054015",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6acd59b9c182a_IMG_9859.jpg",
+            "size": 196375,
+            "uploaded_at": "2026-10-12T22:05:45+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6acd59b9c1a49_IMG_9860.jpg",
+            "size": 183727,
+            "uploaded_at": "2026-10-12T22:05:45+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6acd59b9c1c6a_IMG_9861.jpg",
+            "size": 210275,
+            "uploaded_at": "2026-10-12T22:05:45+00:00"
+        }
+    ],
+    "created_at": "2026-10-12T22:05:45+00:00",
+    "updated_at": "2026-10-13T12:31:35-06:00"
+}

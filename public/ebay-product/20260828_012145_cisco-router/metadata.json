@@ -1,0 +1,41 @@
+{
+    "folder": "20260828_012145_cisco-router",
+    "folder_name": "Cisco router",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "13a/b3",
+    "quantity": 1,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/Dtq5eQ",
+    "website_link": "https://denverdiscountcomputers.com/product/616",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a90e2a8876ee_1000015170.jpg",
+            "size": 230831,
+            "uploaded_at": "2026-08-28T01:21:45+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a90e2a887950_1000015171.jpg",
+            "size": 170877,
+            "uploaded_at": "2026-08-28T01:21:45+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a90e2a89ee7e_1000015172.jpg",
+            "size": 364302,
+            "uploaded_at": "2026-08-28T01:21:45+00:00"
+        }
+    ],
+    "created_at": "2026-08-28T01:21:45+00:00",
+    "updated_at": "2026-08-28T14:33:08-06:00",
+    "inventory_id": 616
+}

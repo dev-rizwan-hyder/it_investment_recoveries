@@ -1,0 +1,33 @@
+{
+    "folder": "20260806_160959_wire-cables-hdmi-to-dvi",
+    "folder_name": "Wire & Cables HDMI to DVI",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "R2/B8",
+    "quantity": 8,
+    "notes": "HDMI to DVI",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/SXd81b",
+    "website_link": "https://denverdiscountcomputers.com/product/439",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000027703.jpg",
+            "original_name": "1000027703.jpg",
+            "size": 25088,
+            "uploaded_at": "2026-08-06T16:09:59-06:00"
+        },
+        {
+            "filename": "02_1000027704.jpg",
+            "original_name": "1000027704.jpg",
+            "size": 29224,
+            "uploaded_at": "2026-08-06T16:09:59-06:00"
+        }
+    ],
+    "created_at": "2026-08-06T16:09:59-06:00",
+    "updated_at": "2026-08-07T11:23:33-06:00",
+    "inventory_id": 439
+}

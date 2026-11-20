@@ -1,0 +1,38 @@
+{
+    "folder": "20260718_120519_adapters-connectors-display-adapters",
+    "folder_name": "Adapters Connectors/ Display Adapters",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "R10/ B2",
+    "quantity": 3,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336699075302",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000025605.jpg",
+            "original_name": "1000025605.jpg",
+            "size": 15142,
+            "uploaded_at": "2026-07-18T12:05:19-06:00"
+        },
+        {
+            "filename": "02_1000025606.jpg",
+            "original_name": "1000025606.jpg",
+            "size": 16873,
+            "uploaded_at": "2026-07-18T12:05:19-06:00"
+        },
+        {
+            "filename": "03_1000025608.jpg",
+            "original_name": "1000025608.jpg",
+            "size": 20902,
+            "uploaded_at": "2026-07-18T12:05:19-06:00"
+        }
+    ],
+    "created_at": "2026-07-18T12:05:19-06:00",
+    "updated_at": "2026-07-20T11:10:13-06:00"
+}

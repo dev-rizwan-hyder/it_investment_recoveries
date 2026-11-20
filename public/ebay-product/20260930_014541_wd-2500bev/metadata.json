@@ -1,0 +1,36 @@
+{
+    "folder": "20260930_014541_wd-2500bev",
+    "folder_name": "WD 2500BEV",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D14 B3",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "WD 2500BEV",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336822593724",
+    "website_link": "https://denverdiscountcomputers.com/product/732",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6abc69c5bbd6a_17907327192584095527704137848860.jpg",
+            "size": 120196,
+            "uploaded_at": "2026-09-30T01:45:41+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6abc69c5bbf42_17907327291156020919032840751930.jpg",
+            "size": 116010,
+            "uploaded_at": "2026-09-30T01:45:41+00:00"
+        }
+    ],
+    "created_at": "2026-09-30T01:45:41+00:00",
+    "updated_at": "2026-10-01T14:19:15-06:00"
+}

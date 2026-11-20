@@ -1,0 +1,38 @@
+{
+    "folder": "20260725_164448_lenovo-docking-station",
+    "folder_name": "Lenovo Docking Station",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "4B-B2",
+    "quantity": 1,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336713625879",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-8020.jpg",
+            "original_name": "IMG_8020.jpg",
+            "size": 79929,
+            "uploaded_at": "2026-07-25T16:44:48-06:00"
+        },
+        {
+            "filename": "02_img-8021.jpg",
+            "original_name": "IMG_8021.jpg",
+            "size": 63755,
+            "uploaded_at": "2026-07-25T16:44:48-06:00"
+        },
+        {
+            "filename": "03_img-8024.jpg",
+            "original_name": "IMG_8024.jpg",
+            "size": 159139,
+            "uploaded_at": "2026-07-25T16:44:48-06:00"
+        }
+    ],
+    "created_at": "2026-07-25T16:44:48-06:00",
+    "updated_at": "2026-07-28T13:28:18-06:00"
+}

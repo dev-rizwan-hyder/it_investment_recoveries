@@ -1,0 +1,44 @@
+{
+    "folder": "20260729_112722_ebay",
+    "folder_name": "eBay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "19B-B1",
+    "quantity": 1,
+    "notes": "",
+    "marked": "moses",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/ovKxPz",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-6203.jpg",
+            "original_name": "IMG_6203.jpg",
+            "size": 209784,
+            "uploaded_at": "2026-07-29T11:27:22-06:00"
+        },
+        {
+            "filename": "02_img-6200.jpg",
+            "original_name": "IMG_6200.jpg",
+            "size": 123255,
+            "uploaded_at": "2026-07-29T11:27:22-06:00"
+        },
+        {
+            "filename": "03_img-6201.jpg",
+            "original_name": "IMG_6201.jpg",
+            "size": 124038,
+            "uploaded_at": "2026-07-29T11:27:22-06:00"
+        },
+        {
+            "filename": "04_img-6202.jpg",
+            "original_name": "IMG_6202.jpg",
+            "size": 156150,
+            "uploaded_at": "2026-07-29T11:27:22-06:00"
+        }
+    ],
+    "created_at": "2026-07-29T11:27:22-06:00",
+    "updated_at": "2026-07-29T12:02:13-06:00"
+}

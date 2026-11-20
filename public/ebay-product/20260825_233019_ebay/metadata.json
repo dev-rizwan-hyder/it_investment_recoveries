@@ -1,0 +1,52 @@
+{
+    "folder": "20260825_233019_ebay",
+    "folder_name": "eBay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "13a/b3",
+    "quantity": 1,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/kH42se",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a8e258a02914_1000030410.jpg",
+            "size": 277867,
+            "uploaded_at": "2026-08-25T23:30:20+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a8e258a435c4_1000030411.jpg",
+            "size": 688851,
+            "uploaded_at": "2026-08-25T23:30:20+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a8e258aed58f_1000030412.jpg",
+            "size": 350320,
+            "uploaded_at": "2026-08-25T23:30:21+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6a8e258b43238_1000030413.jpg",
+            "size": 381231,
+            "uploaded_at": "2026-08-25T23:30:21+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6a8e258b9b42a_1000030414.jpg",
+            "size": 232921,
+            "uploaded_at": "2026-08-25T23:30:21+00:00"
+        }
+    ],
+    "created_at": "2026-08-25T23:30:21+00:00",
+    "updated_at": "2026-08-27T09:45:32-06:00"
+}

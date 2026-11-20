@@ -1,0 +1,36 @@
+{
+    "folder": "20260926_164611_ebay",
+    "folder_name": "eBay",
+    "condition": "New",
+    "folder_type": "Ebay",
+    "location": "13C-B1",
+    "quantity": 7,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336814344689",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6ab7f6d338f4f_IMG_9146.jpg",
+            "size": 307210,
+            "uploaded_at": "2026-09-26T16:46:11+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6ab7f6d339350_IMG_9147.jpg",
+            "size": 415759,
+            "uploaded_at": "2026-09-26T16:46:11+00:00"
+        }
+    ],
+    "created_at": "2026-09-26T16:46:11+00:00",
+    "updated_at": "2026-09-26T13:30:36-06:00"
+}

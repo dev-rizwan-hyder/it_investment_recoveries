@@ -1,0 +1,30 @@
+{
+    "folder": "20260926_171440_ebay",
+    "folder_name": "eBay",
+    "condition": "Open Box",
+    "folder_type": "Ebay",
+    "location": "13C-B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336819029491",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6ab7fd806f1a6_IMG_9171.jpg",
+            "size": 337551,
+            "uploaded_at": "2026-09-26T17:14:40+00:00"
+        }
+    ],
+    "created_at": "2026-09-26T17:14:40+00:00",
+    "updated_at": "2026-09-29T09:57:21-06:00"
+}

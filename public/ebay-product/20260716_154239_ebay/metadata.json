@@ -1,0 +1,46 @@
+{
+    "folder": "20260716_154239_ebay",
+    "folder_name": "Ebay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "9B/ B1",
+    "quantity": 1,
+    "notes": "",
+    "marked": "moses",
+    "user": "Moses",
+    "images": [
+        {
+            "filename": "01_1000025312.jpg",
+            "original_name": "1000025312.jpg",
+            "size": 29562,
+            "uploaded_at": "2026-07-16T15:42:39-06:00"
+        },
+        {
+            "filename": "02_1000025313.jpg",
+            "original_name": "1000025313.jpg",
+            "size": 34259,
+            "uploaded_at": "2026-07-16T15:42:39-06:00"
+        },
+        {
+            "filename": "03_1000025314.jpg",
+            "original_name": "1000025314.jpg",
+            "size": 28210,
+            "uploaded_at": "2026-07-16T15:42:39-06:00"
+        },
+        {
+            "filename": "04_1000025315.jpg",
+            "original_name": "1000025315.jpg",
+            "size": 55148,
+            "uploaded_at": "2026-07-16T15:42:39-06:00"
+        }
+    ],
+    "created_at": "2026-07-16T15:42:39-06:00",
+    "updated_at": "2026-11-07T11:10:21-07:00",
+    "serial_number": "",
+    "weight": "",
+    "ebay_link": "https://www.ebay.com/itm/336692152968",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": ""
+}

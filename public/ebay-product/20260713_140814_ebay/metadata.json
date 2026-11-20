@@ -1,0 +1,38 @@
+{
+    "folder": "20260713_140814_ebay",
+    "folder_name": "Ebay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "16A/ B1",
+    "quantity": 1,
+    "notes": "",
+    "marked": true,
+    "images": [
+        {
+            "filename": "01_1000025022.jpg",
+            "original_name": "1000025022.jpg",
+            "size": 2084824,
+            "uploaded_at": "2026-07-13T14:08:14-06:00"
+        },
+        {
+            "filename": "02_1000025025.jpg",
+            "original_name": "1000025025.jpg",
+            "size": 2196548,
+            "uploaded_at": "2026-07-13T14:08:14-06:00"
+        },
+        {
+            "filename": "03_1000025023.jpg",
+            "original_name": "1000025023.jpg",
+            "size": 2168928,
+            "uploaded_at": "2026-07-13T14:08:14-06:00"
+        },
+        {
+            "filename": "04_1000025024.jpg",
+            "original_name": "1000025024.jpg",
+            "size": 2434993,
+            "uploaded_at": "2026-07-13T14:08:14-06:00"
+        }
+    ],
+    "created_at": "2026-07-13T14:08:14-06:00",
+    "updated_at": "2026-07-13T14:48:21-06:00"
+}

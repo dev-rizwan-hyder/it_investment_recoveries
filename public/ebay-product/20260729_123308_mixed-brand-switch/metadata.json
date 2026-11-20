@@ -1,0 +1,51 @@
+{
+    "folder": "20260729_123308_mixed-brand-switch",
+    "folder_name": "Mixed brand switch",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "1B",
+    "quantity": 1,
+    "notes": "",
+    "marked": "moses",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/9W7uEi",
+    "website_link": "https://denverdiscountcomputers.com/product/347",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-6225.jpg",
+            "original_name": "IMG_6225.jpg",
+            "size": 71692,
+            "uploaded_at": "2026-07-29T12:33:08-06:00"
+        },
+        {
+            "filename": "02_img-6226.jpg",
+            "original_name": "IMG_6226.jpg",
+            "size": 85800,
+            "uploaded_at": "2026-07-29T12:33:08-06:00"
+        },
+        {
+            "filename": "03_img-6227.jpg",
+            "original_name": "IMG_6227.jpg",
+            "size": 86326,
+            "uploaded_at": "2026-07-29T12:33:08-06:00"
+        },
+        {
+            "filename": "04_img-6228.jpg",
+            "original_name": "IMG_6228.jpg",
+            "size": 54267,
+            "uploaded_at": "2026-07-29T12:33:08-06:00"
+        },
+        {
+            "filename": "05_img-6229.jpg",
+            "original_name": "IMG_6229.jpg",
+            "size": 185164,
+            "uploaded_at": "2026-07-29T12:33:08-06:00"
+        }
+    ],
+    "created_at": "2026-07-29T12:33:08-06:00",
+    "updated_at": "2026-07-29T13:28:59-06:00",
+    "inventory_id": 347
+}

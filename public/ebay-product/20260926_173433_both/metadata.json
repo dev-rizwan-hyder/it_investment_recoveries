@@ -1,0 +1,42 @@
+{
+    "folder": "20260926_173433_both",
+    "folder_name": "Both",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "2A-B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336817510081",
+    "website_link": "https://denverdiscountcomputers.com/product/717",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6ab8022929b0f_IMG_9181.jpg",
+            "size": 247516,
+            "uploaded_at": "2026-09-26T17:34:33+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6ab8022929da1_IMG_9182.jpg",
+            "size": 623213,
+            "uploaded_at": "2026-09-26T17:34:33+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6ab802292a15a_IMG_9184.jpg",
+            "size": 340173,
+            "uploaded_at": "2026-09-26T17:34:33+00:00"
+        }
+    ],
+    "created_at": "2026-09-26T17:34:33+00:00",
+    "updated_at": "2026-09-29T13:58:51-06:00"
+}

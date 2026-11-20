@@ -1,0 +1,32 @@
+{
+    "folder": "20260813_194128_ebay",
+    "folder_name": "Ebay",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "12A/B1",
+    "quantity": 4,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/Y0WCB5",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000028816.jpg",
+            "original_name": "1000028816.jpg",
+            "size": 31693,
+            "uploaded_at": "2026-08-13T19:41:28-06:00"
+        },
+        {
+            "filename": "02_1000028817.jpg",
+            "original_name": "1000028817.jpg",
+            "size": 58223,
+            "uploaded_at": "2026-08-13T19:41:28-06:00"
+        }
+    ],
+    "created_at": "2026-08-13T19:41:28-06:00",
+    "updated_at": "2026-08-14T11:13:50-06:00"
+}

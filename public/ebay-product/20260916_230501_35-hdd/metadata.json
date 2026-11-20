@@ -1,0 +1,29 @@
+{
+    "folder": "20260916_230501_35-hdd",
+    "folder_name": "3.5 HDD",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D6/b1",
+    "quantity": 2,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336798492777",
+    "website_link": "https://denverdiscountcomputers.com/product/665",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6aab209d858f5_1000032061.jpg",
+            "size": 240473,
+            "uploaded_at": "2026-09-16T23:05:01+00:00"
+        }
+    ],
+    "created_at": "2026-09-16T23:05:01+00:00",
+    "updated_at": "2026-09-17T11:10:46-06:00",
+    "inventory_id": 665
+}

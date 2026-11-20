@@ -1,0 +1,40 @@
+{
+    "folder": "20260714_142056_mixed-switches",
+    "folder_name": "Mixed switches",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "1B-B3",
+    "quantity": 1,
+    "notes": "",
+    "marked": "moses",
+    "images": [
+        {
+            "filename": "01_1000457254.jpg",
+            "original_name": "1000457254.jpg",
+            "size": 79380,
+            "uploaded_at": "2026-07-14T14:20:56-06:00"
+        },
+        {
+            "filename": "02_1000457253.jpg",
+            "original_name": "1000457253.jpg",
+            "size": 29103,
+            "uploaded_at": "2026-07-14T14:20:56-06:00"
+        },
+        {
+            "filename": "03_1000457252.jpg",
+            "original_name": "1000457252.jpg",
+            "size": 36819,
+            "uploaded_at": "2026-07-14T14:20:56-06:00"
+        }
+    ],
+    "created_at": "2026-07-14T14:20:56-06:00",
+    "updated_at": "2026-11-13T12:28:59-07:00",
+    "user": "",
+    "serial_number": "",
+    "weight": "",
+    "ebay_link": "",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": ""
+}

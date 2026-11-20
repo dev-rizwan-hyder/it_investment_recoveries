@@ -1,0 +1,51 @@
+{
+    "folder": "20260812_154847_apple-imac-500",
+    "folder_name": "Apple iMac $500",
+    "condition": "Used",
+    "folder_type": "Denver",
+    "location": "F1",
+    "quantity": 8,
+    "notes": "Non shipping item, In store pick up only.",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "",
+    "website_link": "https://denverdiscountcomputers.com/product/454",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_1000014971.jpg",
+            "original_name": "1000014971.jpg",
+            "size": 28649,
+            "uploaded_at": "2026-08-12T15:48:47-06:00"
+        },
+        {
+            "filename": "02_1000014973.jpg",
+            "original_name": "1000014973.jpg",
+            "size": 31026,
+            "uploaded_at": "2026-08-12T15:48:47-06:00"
+        },
+        {
+            "filename": "03_1000014974.jpg",
+            "original_name": "1000014974.jpg",
+            "size": 22315,
+            "uploaded_at": "2026-08-12T15:48:47-06:00"
+        },
+        {
+            "filename": "04_1000014972.jpg",
+            "original_name": "1000014972.jpg",
+            "size": 20018,
+            "uploaded_at": "2026-08-12T15:48:47-06:00"
+        },
+        {
+            "filename": "05_1000014975.jpg",
+            "original_name": "1000014975.jpg",
+            "size": 55921,
+            "uploaded_at": "2026-08-12T15:48:47-06:00"
+        }
+    ],
+    "created_at": "2026-08-12T15:48:47-06:00",
+    "updated_at": "2026-08-13T11:14:49-06:00",
+    "inventory_id": 454
+}

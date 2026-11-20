@@ -1,0 +1,41 @@
+{
+    "folder": "20260815_210846_laptops-pc-accesorios-webcam",
+    "folder_name": "Laptops PC accesorios/ webcam",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "3b/b1",
+    "quantity": 5,
+    "weight": "1",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/J7Wp1y",
+    "website_link": "https://denverdiscountcomputers.com/product/476",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a80d55e53b14_1000029150.jpg",
+            "size": 113990,
+            "uploaded_at": "2026-08-15T21:08:46+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a80d55e53cdb_1000029152.jpg",
+            "size": 123477,
+            "uploaded_at": "2026-08-15T21:08:46+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a80d55e53f0f_1000029153.jpg",
+            "size": 183323,
+            "uploaded_at": "2026-08-15T21:08:46+00:00"
+        }
+    ],
+    "created_at": "2026-08-15T21:08:46+00:00",
+    "updated_at": "2026-08-17T11:41:49-06:00",
+    "inventory_id": 476
+}

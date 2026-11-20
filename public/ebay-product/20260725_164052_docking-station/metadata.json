@@ -1,0 +1,38 @@
+{
+    "folder": "20260725_164052_docking-station",
+    "folder_name": "Docking station",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "4B-B2",
+    "quantity": 1,
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336713585445",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-8017.jpg",
+            "original_name": "IMG_8017.jpg",
+            "size": 83371,
+            "uploaded_at": "2026-07-25T16:40:52-06:00"
+        },
+        {
+            "filename": "02_img-8018.jpg",
+            "original_name": "IMG_8018.jpg",
+            "size": 152808,
+            "uploaded_at": "2026-07-25T16:40:52-06:00"
+        },
+        {
+            "filename": "03_img-8019.jpg",
+            "original_name": "IMG_8019.jpg",
+            "size": 107080,
+            "uploaded_at": "2026-07-25T16:40:52-06:00"
+        }
+    ],
+    "created_at": "2026-07-25T16:40:52-06:00",
+    "updated_at": "2026-07-28T12:53:57-06:00"
+}

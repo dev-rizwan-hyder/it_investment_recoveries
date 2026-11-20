@@ -1,0 +1,39 @@
+{
+    "folder": "20260715_112530_ebay-wire",
+    "folder_name": "eBay wire",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "Leeds",
+    "quantity": 0,
+    "notes": "arygw",
+    "marked": "both",
+    "user": "Abid",
+    "images": [
+        {
+            "filename": "01_bottom-right-1.png",
+            "original_name": "bottom_right (1).png",
+            "size": 267744,
+            "uploaded_at": "2026-07-15T11:25:30-06:00"
+        },
+        {
+            "filename": "02_britishcolumbia.jpg",
+            "original_name": "britishcolumbia.jpg",
+            "size": 163072,
+            "uploaded_at": "2026-07-15T11:25:30-06:00"
+        },
+        {
+            "filename": "03_building-software-for-your-future.jpg",
+            "original_name": "Building software for your future.jpg",
+            "size": 25829,
+            "uploaded_at": "2026-07-15T11:25:30-06:00"
+        },
+        {
+            "filename": "04_c79f043c-0c2c-4b47-82da-63e9fd7a68fb-00-khwrggj0zozbworfreplitdev.jpg",
+            "original_name": "c79f043c-0c2c-4b47-82da-63e9fd7a68fb-00-khwrggj0zozb.worf.replit.dev_.jpg",
+            "size": 32090,
+            "uploaded_at": "2026-07-15T11:25:30-06:00"
+        }
+    ],
+    "created_at": "2026-07-15T11:25:30-06:00",
+    "updated_at": "2026-07-23T13:54:14-06:00"
+}

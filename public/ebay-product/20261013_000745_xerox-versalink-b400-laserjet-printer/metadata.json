@@ -1,0 +1,55 @@
+{
+    "folder": "20261013_000745_xerox-versalink-b400-laserjet-printer",
+    "folder_name": "Xerox VersaLink B400 LaserJet Printer",
+    "condition": "Refurbished",
+    "folder_type": "Denver",
+    "location": "",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "",
+    "ebay_link": "",
+    "website_link": "https://denverdiscountcomputers.com/product/774",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6acd76514d4ea_IMG_9889.jpg",
+            "size": 162494,
+            "uploaded_at": "2026-10-13T00:07:45+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6acd76514d77d_IMG_9890.jpg",
+            "size": 159984,
+            "uploaded_at": "2026-10-13T00:07:45+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6acd76514d98d_IMG_9891.jpg",
+            "size": 215007,
+            "uploaded_at": "2026-10-13T00:07:45+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6acd76514db80_IMG_9892.jpg",
+            "size": 124058,
+            "uploaded_at": "2026-10-13T00:07:45+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6acd76514dd76_IMG_9893.jpg",
+            "size": 154662,
+            "uploaded_at": "2026-10-13T00:07:45+00:00"
+        }
+    ],
+    "created_at": "2026-10-13T00:07:45+00:00",
+    "updated_at": "2026-10-16T14:42:35-06:00",
+    "inventory_id": 774
+}

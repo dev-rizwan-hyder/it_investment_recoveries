@@ -1,0 +1,44 @@
+{
+    "folder": "20260807_175820_del-docking-station",
+    "folder_name": "Del docking station",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "",
+    "quantity": 7,
+    "notes": "",
+    "marked": "moses",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/7RBAam",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-8158.jpg",
+            "original_name": "IMG_8158.jpg",
+            "size": 157932,
+            "uploaded_at": "2026-08-07T17:58:20-06:00"
+        },
+        {
+            "filename": "02_img-8157.jpg",
+            "original_name": "IMG_8157.jpg",
+            "size": 70309,
+            "uploaded_at": "2026-08-07T17:58:20-06:00"
+        },
+        {
+            "filename": "03_img-8156.jpg",
+            "original_name": "IMG_8156.jpg",
+            "size": 65982,
+            "uploaded_at": "2026-08-07T17:58:20-06:00"
+        },
+        {
+            "filename": "04_img-8155.jpg",
+            "original_name": "IMG_8155.jpg",
+            "size": 74997,
+            "uploaded_at": "2026-08-07T17:58:20-06:00"
+        }
+    ],
+    "created_at": "2026-08-07T17:58:20-06:00",
+    "updated_at": "2026-08-08T14:22:53-06:00"
+}

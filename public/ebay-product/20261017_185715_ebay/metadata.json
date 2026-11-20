@@ -1,0 +1,36 @@
+{
+    "folder": "20261017_185715_ebay",
+    "folder_name": "Ebay",
+    "condition": "Open Box",
+    "folder_type": "Ebay",
+    "location": "14b/b2",
+    "quantity": 1,
+    "weight": 0,
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6ad3c50b2d3ac_IMG_20261017_125419082.jpg",
+            "size": 219545,
+            "uploaded_at": "2026-10-17T18:57:15+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6ad3c50b2d6d8_IMG_20261017_125510724.jpg",
+            "size": 350581,
+            "uploaded_at": "2026-10-17T18:57:15+00:00"
+        }
+    ],
+    "created_at": "2026-10-17T18:57:15+00:00",
+    "updated_at": "2026-10-19T10:09:15-06:00"
+}

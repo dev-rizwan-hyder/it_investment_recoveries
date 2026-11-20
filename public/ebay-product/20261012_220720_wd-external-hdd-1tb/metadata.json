@@ -1,0 +1,48 @@
+{
+    "folder": "20261012_220720_wd-external-hdd-1tb",
+    "folder_name": "WD External HDD 1TB",
+    "condition": "Refurbished",
+    "folder_type": "Ebay",
+    "location": "D11 B2",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "Comes with power + usb cable",
+    "marked": "abid",
+    "user": "",
+    "ebay_link": "https://www.ebay.com/itm/336843077703",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6acd5a18168fe_IMG_9862.jpg",
+            "size": 104713,
+            "uploaded_at": "2026-10-12T22:07:20+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6acd5a1816cd3_IMG_9863.jpg",
+            "size": 86617,
+            "uploaded_at": "2026-10-12T22:07:20+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6acd5a1816ef3_IMG_9864.jpg",
+            "size": 94896,
+            "uploaded_at": "2026-10-12T22:07:20+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6acd5a18170e0_IMG_9865.jpg",
+            "size": 126083,
+            "uploaded_at": "2026-10-12T22:07:20+00:00"
+        }
+    ],
+    "created_at": "2026-10-12T22:07:20+00:00",
+    "updated_at": "2026-10-13T12:56:54-06:00"
+}

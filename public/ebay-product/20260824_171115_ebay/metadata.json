@@ -1,0 +1,40 @@
+{
+    "folder": "20260824_171115_ebay",
+    "folder_name": "eBay",
+    "condition": "New",
+    "folder_type": "Ebay",
+    "location": "13a/b3",
+    "quantity": 1,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/P5Xqkd",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a8c7b333f1af_1000030219.jpg",
+            "size": 186830,
+            "uploaded_at": "2026-08-24T17:11:15+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a8c7b333f3f4_1000030220.jpg",
+            "size": 239788,
+            "uploaded_at": "2026-08-24T17:11:15+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a8c7b333f600_1000030221.jpg",
+            "size": 136703,
+            "uploaded_at": "2026-08-24T17:11:15+00:00"
+        }
+    ],
+    "created_at": "2026-08-24T17:11:15+00:00",
+    "updated_at": "2026-08-24T12:06:51-06:00"
+}

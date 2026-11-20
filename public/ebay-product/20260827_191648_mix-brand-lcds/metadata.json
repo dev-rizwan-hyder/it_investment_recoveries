@@ -1,0 +1,59 @@
+{
+    "folder": "20260827_191648_mix-brand-lcds",
+    "folder_name": "Mix Brand lcds",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "F1",
+    "quantity": 3,
+    "weight": "",
+    "serial_number": "",
+    "notes": "",
+    "marked": "abid",
+    "user": "Abid",
+    "ebay_link": "https://www.ebay.com/itm/336764882158",
+    "website_link": "https://denverdiscountcomputers.com/product/1250",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6a908d1f36ca7_1000015104.jpg",
+            "size": 165105,
+            "uploaded_at": "2026-08-27T19:16:48+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6a908d1f58d7a_1000015105.jpg",
+            "size": 119961,
+            "uploaded_at": "2026-08-27T19:16:48+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6a908d1f76226_1000015106.jpg",
+            "size": 156551,
+            "uploaded_at": "2026-08-27T19:16:49+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6a908d1f9b410_1000015107.jpg",
+            "size": 192465,
+            "uploaded_at": "2026-08-27T19:16:49+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6a908d1fc9e50_1000015108.jpg",
+            "size": 453655,
+            "uploaded_at": "2026-08-27T19:16:49+00:00"
+        },
+        {
+            "filename": "06_photo.jpg",
+            "original_name": "6a908d203f3bf_1000015109.jpg",
+            "size": 389447,
+            "uploaded_at": "2026-08-27T19:16:50+00:00"
+        }
+    ],
+    "created_at": "2026-08-27T19:16:50+00:00",
+    "updated_at": "2026-11-03T12:24:57-07:00",
+    "inventory_id": 1250
+}

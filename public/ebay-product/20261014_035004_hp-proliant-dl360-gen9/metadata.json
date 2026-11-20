@@ -1,0 +1,60 @@
+{
+    "folder": "20261014_035004_hp-proliant-dl360-gen9",
+    "folder_name": "HP ProLiant DL360 Gen9",
+    "condition": "Refurbished",
+    "folder_type": "Denver",
+    "location": "",
+    "quantity": 1,
+    "weight": 0,
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "Dual Intel Xeon CPU E5-2697 v3 @ 2.60GHz, 64GB DDR4, NO OS NO HDD",
+    "marked": "abid",
+    "user": "Kaleab",
+    "ebay_link": "",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6acefbecb51e1_IMG_9978.jpg",
+            "size": 124155,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6acefbecb53c3_IMG_9973.jpg",
+            "size": 242582,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6acefbecb55fa_IMG_9975.jpg",
+            "size": 260790,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        },
+        {
+            "filename": "04_photo.jpg",
+            "original_name": "6acefbecb581c_IMG_9976.jpg",
+            "size": 187064,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        },
+        {
+            "filename": "05_photo.jpg",
+            "original_name": "6acefbecb59dd_IMG_9977.jpg",
+            "size": 305436,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        },
+        {
+            "filename": "06_photo.jpg",
+            "original_name": "6acefbecb5c26_IMG_9979.jpg",
+            "size": 349993,
+            "uploaded_at": "2026-10-14T03:50:04+00:00"
+        }
+    ],
+    "created_at": "2026-10-14T03:50:04+00:00",
+    "updated_at": "2026-10-16T11:15:42-06:00"
+}

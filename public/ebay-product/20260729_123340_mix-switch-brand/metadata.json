@@ -1,0 +1,38 @@
+{
+    "folder": "20260729_123340_mix-switch-brand",
+    "folder_name": "Mix switch brand",
+    "condition": "Used",
+    "folder_type": "Ebay",
+    "location": "1B",
+    "quantity": 1,
+    "notes": "",
+    "marked": "moses",
+    "user": "Abid",
+    "ebay_link": "https://ebay.io/m/79hJmR",
+    "website_link": "",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_img-8061.jpg",
+            "original_name": "IMG_8061.jpg",
+            "size": 79286,
+            "uploaded_at": "2026-07-29T12:33:40-06:00"
+        },
+        {
+            "filename": "02_img-8062.jpg",
+            "original_name": "IMG_8062.jpg",
+            "size": 145818,
+            "uploaded_at": "2026-07-29T12:33:40-06:00"
+        },
+        {
+            "filename": "03_img-8063.jpg",
+            "original_name": "IMG_8063.jpg",
+            "size": 57182,
+            "uploaded_at": "2026-07-29T12:33:40-06:00"
+        }
+    ],
+    "created_at": "2026-07-29T12:33:40-06:00",
+    "updated_at": "2026-07-29T13:33:39-06:00"
+}

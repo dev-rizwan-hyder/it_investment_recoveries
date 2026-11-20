@@ -1,0 +1,42 @@
+{
+    "folder": "20260930_023155_seagate-desktop-1tb-external-hdd",
+    "folder_name": "Seagate Desktop 1TB external HDD",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "D15 B1",
+    "quantity": 1,
+    "weight": "",
+    "value": 0,
+    "estimated_value": 0,
+    "serial_number": "",
+    "notes": "Comes with USB",
+    "marked": "abid",
+    "user": "Junaid",
+    "ebay_link": "https://www.ebay.com/itm/336824015474",
+    "website_link": "https://denverdiscountcomputers.com/product/741",
+    "social_media_1": "",
+    "social_media_2": "",
+    "social_media_3": "",
+    "images": [
+        {
+            "filename": "01_photo.jpg",
+            "original_name": "6abc749b8e177_17907354647653021595456743954053.jpg",
+            "size": 116333,
+            "uploaded_at": "2026-09-30T02:31:55+00:00"
+        },
+        {
+            "filename": "02_photo.jpg",
+            "original_name": "6abc749b8e35f_17907354844383039103055724085126.jpg",
+            "size": 117478,
+            "uploaded_at": "2026-09-30T02:31:55+00:00"
+        },
+        {
+            "filename": "03_photo.jpg",
+            "original_name": "6abc749b8e54d_17907355011819062781613421134960.jpg",
+            "size": 112832,
+            "uploaded_at": "2026-09-30T02:31:55+00:00"
+        }
+    ],
+    "created_at": "2026-09-30T02:31:55+00:00",
+    "updated_at": "2026-10-02T13:04:09-06:00"
+}

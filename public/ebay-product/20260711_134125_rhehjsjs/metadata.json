@@ -1,0 +1,128 @@
+{
+    "folder": "20260711_134125_rhehjsjs",
+    "folder_name": "RHEHJSJS",
+    "condition": "New",
+    "folder_type": "Both",
+    "location": "ERUE",
+    "quantity": 11,
+    "notes": "NJR",
+    "marked": "both",
+    "images": [
+        {
+            "filename": "02_2.jpeg",
+            "original_name": "2.jpeg",
+            "size": 270661,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "03_2-150x150.jpg",
+            "original_name": "2-150x150.jpg",
+            "size": 5656,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "04_3.jpeg",
+            "original_name": "3.jpeg",
+            "size": 215651,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "06_4.jpeg",
+            "original_name": "4.jpeg",
+            "size": 270661,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "07_6.jpeg",
+            "original_name": "6.jpeg",
+            "size": 330173,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "08_8.jpeg",
+            "original_name": "8.jpeg",
+            "size": 184974,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "09_7.jpeg",
+            "original_name": "7.jpeg",
+            "size": 248945,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "10_10.jpeg",
+            "original_name": "10.jpeg",
+            "size": 226737,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "11_9.jpeg",
+            "original_name": "9.jpeg",
+            "size": 268134,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "12_11.jpeg",
+            "original_name": "11.jpeg",
+            "size": 272446,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "13_12.jpeg",
+            "original_name": "12.jpeg",
+            "size": 208900,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "14_13.jpeg",
+            "original_name": "13.jpeg",
+            "size": 247079,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "15_14.jpeg",
+            "original_name": "14.jpeg",
+            "size": 214720,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "16_17.jpeg",
+            "original_name": "17.jpeg",
+            "size": 166028,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "17_15.jpeg",
+            "original_name": "15.jpeg",
+            "size": 259424,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "18_18.jpeg",
+            "original_name": "18.jpeg",
+            "size": 166028,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "19_19.jpeg",
+            "original_name": "19.jpeg",
+            "size": 166818,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "20_16.jpeg",
+            "original_name": "16.jpeg",
+            "size": 286726,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        },
+        {
+            "filename": "21_20.jpeg",
+            "original_name": "20.jpeg",
+            "size": 166818,
+            "uploaded_at": "2026-07-11T13:41:25-06:00"
+        }
+    ],
+    "created_at": "2026-07-11T13:41:25-06:00",
+    "updated_at": "2026-07-16T13:25:43-06:00"
+}

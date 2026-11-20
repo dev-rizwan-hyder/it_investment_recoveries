@@ -1,0 +1,38 @@
+{
+    "folder": "20260714_130805_mixed-routers",
+    "folder_name": "Mixed routers",
+    "condition": "Used",
+    "folder_type": "Both",
+    "location": "2A-B1",
+    "quantity": 1,
+    "notes": "",
+    "marked": true,
+    "images": [
+        {
+            "filename": "01_1000457327.jpg",
+            "original_name": "1000457327.jpg",
+            "size": 30169,
+            "uploaded_at": "2026-07-14T14:55:56-06:00"
+        },
+        {
+            "filename": "02_1000457330.jpg",
+            "original_name": "1000457330.jpg",
+            "size": 91526,
+            "uploaded_at": "2026-07-14T14:55:56-06:00"
+        },
+        {
+            "filename": "03_1000457329.jpg",
+            "original_name": "1000457329.jpg",
+            "size": 403333,
+            "uploaded_at": "2026-07-14T14:55:56-06:00"
+        },
+        {
+            "filename": "04_1000457328.jpg",
+            "original_name": "1000457328.jpg",
+            "size": 487123,
+            "uploaded_at": "2026-07-14T14:55:56-06:00"
+        }
+    ],
+    "created_at": "2026-07-14T13:08:05-06:00",
+    "updated_at": "2026-07-14T15:08:34-06:00"
+}
