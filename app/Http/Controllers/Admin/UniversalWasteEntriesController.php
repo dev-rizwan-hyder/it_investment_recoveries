@@ -94,10 +94,9 @@ class UniversalWasteEntriesController extends Controller
     {
         $stats = [
             ['label' => 'Draft', 'value' => UniversalWasteItem::where('status', 'Draft')->count(), 'color' => 'text-slate-500'],
-            ['label' => 'Received', 'value' => UniversalWasteItem::where('status', '!=', 'Draft')->count(), 'color' => 'text-emerald-600'],
+            ['label' => 'Received', 'value' => UniversalWasteItem::whereIn('status', ['Recieved', 'Received'])->count(), 'color' => 'text-emerald-600'],
             ['label' => 'Processing', 'value' => UniversalWasteItem::where('status', 'In Progress')->count(), 'color' => 'text-orange-500'],
-            ['label' => 'Ready', 'value' => UniversalWasteItem::where('status', 'Ready for Inventory')->count(), 'color' => 'text-blue-500'],
-            ['label' => 'Added to Inventory', 'value' => UniversalWasteItem::sum('reuse_quantity'), 'color' => 'text-emerald-600'],
+            ['label' => 'Ready', 'value' => UniversalWasteItem::whereIn('status', ['Ready', 'Ready for Inventory'])->count(), 'color' => 'text-blue-500'],
             ['label' => 'Completed', 'value' => UniversalWasteItem::where('status', 'Completed')->count(), 'color' => 'text-purple-500'],
         ];
 

@@ -123,18 +123,12 @@ class InventoryController extends Controller
     public function getStats()
     {
         try {
-            $row = Inventory::selectRaw("
-                COALESCE(SUM(quantity), 0) as total,
-                COUNT(*) as received,
-                COUNT(CASE WHEN status = 'In Progress' THEN 1 END) as repair,
-                COUNT(CASE WHEN status = 'In Stock' THEN 1 END) as ready
-            ")->first();
-
             $stats = [
-                'total' => (int) ($row->total ?? 0),
-                'received' => (int) ($row->received ?? 0),
-                'repair' => (int) ($row->repair ?? 0),
-                'ready' => (int) ($row->ready ?? 0),
+                ['label' => 'Received', 'value' => Inventory::whereIn('status', ['Recieved', 'Received', 'Pending'])->count(), 'color' => 'text-blue-600'],
+                ['label' => 'In Stock', 'value' => Inventory::whereIn('status', ['In Stock', 'Ready'])->count(), 'color' => 'text-emerald-600'],
+                ['label' => 'Live Online', 'value' => Inventory::whereIn('status', ['LIVE ONLINE', 'Live Online'])->count(), 'color' => 'text-indigo-600'],
+                ['label' => 'Sold', 'value' => Inventory::where('status', 'Sold')->count(), 'color' => 'text-amber-500'],
+                ['label' => 'Completed', 'value' => Inventory::whereIn('status', ['COMPLETED', 'Completed'])->count(), 'color' => 'text-purple-500'],
             ];
 
             return response()->json(['success' => true, 'stats' => $stats]);

@@ -489,8 +489,9 @@ class DataDestructionEntries {
                 <option value="Draft" ${item.status === 'Draft' ? 'selected' : ''}>Draft</option>
                 <option value="Recieved" ${['Recieved', 'Received'].includes(item.status) ? 'selected' : ''}>Recieved</option>
                 <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                <option value="Ready for Inventory" ${item.status === 'Ready for Inventory' ? 'selected' : ''}>Ready for Inventory</option>
                 <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                ${!['Draft', 'Recieved', 'Received', 'In Progress', 'Completed'].includes(item.status) ? `<option value="${item.status}" selected>${item.status}</option>` : ''}
+                ${!['Draft', 'Recieved', 'Received', 'In Progress', 'Ready for Inventory', 'Completed'].includes(item.status) ? `<option value="${item.status}" selected>${item.status}</option>` : ''}
             </select>
         `;
 

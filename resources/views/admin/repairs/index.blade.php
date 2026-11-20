@@ -32,6 +32,24 @@
             </div>
         @endif
 
+        {{-- Top Stats Cards --}}
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-6" id="stats-container">
+            @foreach ($stats as $stat)
+                <a href="{{ route('admin.repair-intake.index', ['status' => $stat['status']]) }}"
+                    class="bg-white p-4 md:p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md relative overflow-hidden block group">
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 {{ $stat['bg'] }}"></div>
+                    <div class="pl-2">
+                        <p class="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 opacity-80 group-hover:text-slate-800">
+                            {{ $stat['label'] }}
+                        </p>
+                        <h3 class="text-xl md:text-2xl font-black {{ $stat['color'] }} tracking-tight">
+                            {{ $stat['value'] }}
+                        </h3>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+
         {{-- Action Toolbar --}}
         <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-6">
             <div class="flex flex-wrap items-center gap-2 mb-4">

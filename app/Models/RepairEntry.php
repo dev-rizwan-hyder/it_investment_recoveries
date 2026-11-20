@@ -36,11 +36,12 @@ class RepairEntry extends Model
     ];
 
     public const STATUS_CHOICES = [
+        self::STATUS_DRAFT => 'Draft',
         self::STATUS_READY_FOR_PICKUP => 'Ready for Pickup',
-        self::STATUS_SHIPPED => 'Shipped',
-        self::STATUS_CANCELLED => 'Cancelled',
         self::STATUS_READY_FOR_SHIPMENT => 'Ready for Shipment',
+        self::STATUS_SHIPPED => 'Shipped',
         self::STATUS_COMPLETED => 'Completed',
+        self::STATUS_CANCELLED => 'Cancelled',
     ];
 
     public const STATUS_SELECT_CLASSES = [

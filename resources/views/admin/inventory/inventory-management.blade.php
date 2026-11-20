@@ -63,7 +63,7 @@
         </div>
 
         {{-- 1. Stats Cards --}}
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="stats-container"></div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-8" id="stats-container"></div>
 
         {{-- 2. Action Toolbar --}}
         <div class="flex flex-wrap items-center gap-2 mb-6">
@@ -112,7 +112,10 @@
             <select id="status-filter"
                 class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px]">
                 <option value="">All Statuses</option>
+                <option value="Recieved">RECEIVED</option>
+                <option value="In Stock">IN STOCK</option>
                 <option value="LIVE ONLINE">LIVE ONLINE</option>
+                <option value="Sold">SOLD</option>
                 <option value="COMPLETED">COMPLETED</option>
             </select>
 

@@ -330,28 +330,34 @@ class InventoryManager {
     }
 
     renderStats(stats) {
-        const statsHtml = `
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-800"></div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Items</p>
-                <h3 class="text-2xl font-black tracking-tight text-slate-800">${stats.total}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600"></div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Received</p>
-                <h3 class="text-2xl font-black tracking-tight text-blue-600">${stats.received}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-orange-500"></div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">In Repair</p>
-                <h3 class="text-2xl font-black tracking-tight text-orange-500">${stats.repair}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-emerald-500"></div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Ready</p>
-                <h3 class="text-2xl font-black tracking-tight text-emerald-500">${stats.ready}</h3>
-            </div>
-        `;
+        if (!Array.isArray(stats)) {
+            stats = [
+                { label: 'Received', value: stats.received || 0, color: 'text-blue-600' },
+                { label: 'In Stock', value: stats.ready || 0, color: 'text-emerald-600' },
+                { label: 'Live Online', value: stats.live_online || 0, color: 'text-indigo-600' },
+                { label: 'Sold', value: stats.sold || 0, color: 'text-amber-500' },
+                { label: 'Completed', value: stats.completed || 0, color: 'text-purple-500' }
+            ];
+        }
+
+        let statsHtml = '';
+        stats.forEach((stat) => {
+            const colorClass = stat.color || 'text-blue-600';
+            const bgClass = colorClass.replace('text-', 'bg-');
+            statsHtml += `
+                <div class="bg-white p-4 md:p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 ${bgClass}"></div>
+                    <div class="pl-2">
+                        <p class="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 opacity-80">
+                            ${stat.label}
+                        </p>
+                        <h3 class="text-xl md:text-2xl font-black ${colorClass} tracking-tight">
+                            ${stat.value}
+                        </h3>
+                    </div>
+                </div>
+            `;
+        });
         this.statsContainer.html(statsHtml);
     }
 

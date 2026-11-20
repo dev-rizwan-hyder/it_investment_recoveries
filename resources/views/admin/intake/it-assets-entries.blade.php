@@ -25,7 +25,7 @@
     @endif
 
     {{-- Top Stats Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-6" id="stats-container"></div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-6" id="stats-container"></div>
 
     {{-- Action Toolbar --}}
     <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-6">
@@ -58,6 +58,7 @@
                 <option value="Draft">Draft</option>
                 <option value="Recieved">Recieved</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Ready for Inventory">Ready for Inventory</option>
                 <option value="Completed">Completed</option>
             </select>
             <button id="bulk-status-btn"
@@ -84,6 +85,7 @@
                 <option value="Draft">Draft</option>
                 <option value="Recieved">Recieved</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Ready for Inventory">Ready for Inventory</option>
                 <option value="Completed">Completed</option>
             </select>
 

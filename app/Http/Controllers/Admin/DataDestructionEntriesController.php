@@ -99,6 +99,7 @@ class DataDestructionEntriesController extends Controller
             ['label' => 'Draft', 'value' => DataDestructionItem::where('status', 'Draft')->count(), 'color' => 'text-slate-500'],
             ['label' => 'Received', 'value' => DataDestructionItem::whereIn('status', ['Recieved', 'Received'])->count(), 'color' => 'text-emerald-600'],
             ['label' => 'In Progress', 'value' => DataDestructionItem::where('status', 'In Progress')->count(), 'color' => 'text-amber-500'],
+            ['label' => 'Ready', 'value' => DataDestructionItem::whereIn('status', ['Ready', 'Ready for Inventory'])->count(), 'color' => 'text-blue-500'],
             ['label' => 'Completed', 'value' => DataDestructionItem::where('status', 'Completed')->count(), 'color' => 'text-purple-500'],
         ];
 

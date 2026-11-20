@@ -56,12 +56,21 @@ class RepairController extends Controller
         $totalCount = RepairEntry::count();
         $pallets_list = \App\Models\Pallet::latest()->get();
 
+        $stats = [
+            ['label' => 'Draft', 'status' => RepairEntry::STATUS_DRAFT, 'value' => RepairEntry::where('status', RepairEntry::STATUS_DRAFT)->count(), 'color' => 'text-slate-500', 'bg' => 'bg-slate-500'],
+            ['label' => 'Ready for Pickup', 'status' => RepairEntry::STATUS_READY_FOR_PICKUP, 'value' => RepairEntry::where('status', RepairEntry::STATUS_READY_FOR_PICKUP)->count(), 'color' => 'text-indigo-600', 'bg' => 'bg-indigo-600'],
+            ['label' => 'Ready for Shipment', 'status' => RepairEntry::STATUS_READY_FOR_SHIPMENT, 'value' => RepairEntry::where('status', RepairEntry::STATUS_READY_FOR_SHIPMENT)->count(), 'color' => 'text-blue-500', 'bg' => 'bg-blue-500'],
+            ['label' => 'Shipped', 'status' => RepairEntry::STATUS_SHIPPED, 'value' => RepairEntry::where('status', RepairEntry::STATUS_SHIPPED)->count(), 'color' => 'text-purple-500', 'bg' => 'bg-purple-500'],
+            ['label' => 'Completed', 'status' => RepairEntry::STATUS_COMPLETED, 'value' => RepairEntry::where('status', RepairEntry::STATUS_COMPLETED)->count(), 'color' => 'text-emerald-600', 'bg' => 'bg-emerald-600'],
+        ];
+
         return view('admin.repairs.index', [
             'entries' => $entries,
             'totalCount' => $totalCount,
             'currentStatus' => $request->status ?? 'All Statuses',
             'currentPallet' => $request->pallet ?? '',
             'pallets_list' => $pallets_list,
+            'stats' => $stats,
         ]);
     }
 
