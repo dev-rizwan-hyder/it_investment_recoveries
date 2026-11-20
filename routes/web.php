@@ -497,6 +497,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/{id}/delete-photo', 'deletePhoto')->name('delete-photo');
             Route::post('/{id}/sync', 'syncToStore')->name('sync-to-store');
             Route::delete('/bulk-delete', 'bulkDelete')->name('bulk-delete');
+            Route::delete('/delete-zero-quantity', 'deleteZeroQuantity')->name('delete-zero-quantity');
             Route::delete('/{id}', 'delete')->name('delete');
         });
 

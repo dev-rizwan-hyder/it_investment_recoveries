@@ -601,6 +601,46 @@ class InventoryController extends Controller
     }
 
     /**
+     * Delete all inventory items with 0 or negative/null quantity
+     */
+    public function deleteZeroQuantity(Request $request)
+    {
+        try {
+            $force = $request->boolean('force', false);
+
+            $query = Inventory::where(function ($q) {
+                $q->where('quantity', '<=', 0)->orWhereNull('quantity');
+            });
+
+            $count = $query->count();
+
+            if ($count === 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No items with 0 quantity found in inventory.'
+                ]);
+            }
+
+            if ($force) {
+                $query->forceDelete();
+            } else {
+                $query->delete();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "{$count} zero-quantity item(s) removed from inventory successfully!",
+                'count' => $count
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Delete all eBay inventory listings
      */
     public function deleteAllEbay(Request $request)

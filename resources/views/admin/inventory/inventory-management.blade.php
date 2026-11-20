@@ -84,6 +84,12 @@
                 <i class="fas fa-trash-alt mr-2"></i>
                 Delete Selected (<span id="bulk-delete-count">0</span>)
             </button>
+            <button id="delete-zero-qty-btn" type="button" onclick="deleteZeroQuantityItems()"
+                class="bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white px-4 py-2.5 rounded-lg font-bold text-[11px] flex items-center border border-rose-200 transition-all active:scale-95"
+                title="Delete all inventory items with quantity 0">
+                <i class="fas fa-trash-alt mr-2"></i>
+                Delete 0 Qty (<span id="zero-qty-count">{{ \App\Models\Inventory::where('quantity', '<=', 0)->orWhereNull('quantity')->count() }}</span>)
+            </button>
             <button id="export-csv-btn"
                 class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2.5 rounded-lg font-bold text-[11px] flex items-center border border-slate-200 transition-all">
                 <i class="fas fa-download mr-2 opacity-50"></i> Export CSV
@@ -1075,6 +1081,61 @@
             }
 
             const defaultDirectSellOrderStatus = "{{ \App\Models\Order::STATUS_IN_STORE_PURCHASED }}";
+
+            async function deleteZeroQuantityItems() {
+                const countBadge = document.getElementById('zero-qty-count');
+                const countText = countBadge ? countBadge.textContent.trim() : '0';
+                const currentCount = parseInt(countText) || 0;
+
+                if (currentCount === 0) {
+                    alert('No items with 0 quantity found to delete.');
+                    return;
+                }
+
+                if (!confirm(`Are you sure you want to delete all ${currentCount} items with quantity 0 from inventory?\n\nThey will be removed from inventory and moved to Trash.`)) {
+                    return;
+                }
+
+                const btn = document.getElementById('delete-zero-qty-btn');
+                const originalHtml = btn ? btn.innerHTML : '';
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> Deleting...';
+                }
+
+                try {
+                    const response = await fetch("{{ route('admin.inventory.delete-zero-quantity') }}", {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Accept': 'application/json',
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert(data.message || 'Zero quantity items deleted successfully!');
+                        if (countBadge) countBadge.textContent = '0';
+                        if (typeof inventoryManager !== 'undefined') {
+                            if (inventoryManager.loadData) inventoryManager.loadData();
+                            if (inventoryManager.loadStats) inventoryManager.loadStats();
+                        }
+                    } else {
+                        alert('Error: ' + (data.message || 'Failed to delete items.'));
+                    }
+                } catch (err) {
+                    alert('Network error: ' + (err.message || 'Failed to communicate with server.'));
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
+                        const updatedBadge = document.getElementById('zero-qty-count');
+                        if (updatedBadge) updatedBadge.textContent = '0';
+                    }
+                }
+            }
         </script>
         <script
             src="{{ asset('js/admin/inventory/inventory-management.js') }}?v={{ filemtime(public_path('js/admin/inventory/inventory-management.js')) }}">
