@@ -16,7 +16,25 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
-        @media (min-width: 1024px) { .lg\:ml-68 { margin-left: 17rem; } }
+
+        :root {
+            --sidebar-width: 18rem; /* 288px */
+        }
+
+        #main-sidebar,
+        .w-68 {
+            width: var(--sidebar-width) !important;
+            min-width: var(--sidebar-width) !important;
+            max-width: var(--sidebar-width) !important;
+            box-sizing: border-box !important;
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:ml-68 {
+                margin-left: var(--sidebar-width) !important;
+            }
+        }
+
         /* Global Drag Scroll Styles */
         .global-drag-scroll.cursor-grab * { cursor: grab; }
         .global-drag-scroll.active-grabbing * { cursor: grabbing !important; }

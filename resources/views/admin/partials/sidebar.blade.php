@@ -15,7 +15,7 @@
         </button>
     </div>
 
-    <nav id="sidebar-nav" class="flex-1 overflow-y-auto py-6 space-y-1 px-4"
+    <nav id="sidebar-nav" class="flex-1 overflow-y-auto overflow-x-hidden py-6 space-y-1 px-4"
         style="scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.05) transparent;">
         @php
             $menus = [
@@ -101,13 +101,13 @@
                 class="w-full group flex items-center px-4 py-3 rounded-xl transition-all duration-200 
                 {{ $isSubActive ? 'bg-slate-50 text-slate-900' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900' }} font-semibold">
                 
-                <div class="w-8 flex items-center justify-center">
+                <div class="w-8 flex items-center justify-center shrink-0">
                     <i class="fas {{ $menu['icon'] }} text-base {{ $isSubActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-500' }}"></i>
                 </div>
                 
-                <span class="ml-3 text-[13.5px] tracking-wide flex-1 text-left">{{ $menu['label'] }}</span>
+                <span class="ml-3 text-[13.5px] tracking-wide flex-1 text-left truncate">{{ $menu['label'] }}</span>
                 
-                <i class="fas fa-chevron-right text-[10px] transition-transform duration-300 transform" 
+                <i class="fas fa-chevron-right text-[10px] shrink-0 transition-transform duration-300 transform" 
                    :class="open ? 'rotate-90' : ''"></i>
             </button>
 
@@ -136,7 +136,7 @@
                              {{ $subActive ? 'bg-blue-600' : 'bg-slate-200 group-hover:bg-slate-400' }}">
                         </span>
                         
-                        {{ $sub['label'] }}
+                        <span class="truncate">{{ $sub['label'] }}</span>
                     </a>
                 @endforeach
             </div>
@@ -151,12 +151,12 @@
                ? 'bg-blue-50 text-blue-600 shadow-sm font-bold'
                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900 hover:translate-x-1 font-semibold' }}">
 
-            <div class="w-8 flex items-center justify-center">
+            <div class="w-8 flex items-center justify-center shrink-0">
                 <i class="fas {{ $menu['icon'] }} text-base transition-transform duration-300 group-hover:scale-110 
                    {{ $isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-500' }}"></i>
             </div>
 
-            <span class="ml-3 text-[13.5px] tracking-wide">{{ $menu['label'] }}</span>
+            <span class="ml-3 text-[13.5px] tracking-wide flex-1 truncate">{{ $menu['label'] }}</span>
 
             @if ($isActive)
                 <div class="absolute left-0 w-1.5 h-6 bg-blue-600 rounded-r-full"></div>
@@ -209,9 +209,9 @@
                     <span
                         class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
                 </div>
-                <div class="flex flex-col overflow-hidden">
+                <div class="flex flex-col overflow-hidden min-w-0">
                     <p class="text-slate-900 font-bold text-[12px] truncate">{{ Auth::user()?->name ?? 'User' }}</p>
-                    <p class="text-[9px] text-blue-600 font-black tracking-widest mt-0.5 uppercase">
+                    <p class="text-[9px] text-blue-600 font-black tracking-widest mt-0.5 uppercase truncate">
                         {{ Auth::user()?->role ?? 'ADMIN' }}</p>
                 </div>
             </div>

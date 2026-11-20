@@ -49,7 +49,7 @@
 <style>
     @media (min-width: 1024px) {
         .lg\:ml-68 {
-            margin-left: 17rem;
+            margin-left: var(--sidebar-width, 18rem) !important;
         }
     }
 
