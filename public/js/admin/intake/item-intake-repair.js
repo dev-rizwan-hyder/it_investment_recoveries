@@ -655,9 +655,9 @@
         const marketingRef = document.getElementById("repair-marketing-ref")?.value || "No reference";
         const receivingEmployee = document.getElementById("repair-receiving-employee")?.value || "";
         const receivingNotes = document.getElementById("repair-receiving-notes")?.value || "";
-        const techName = document.getElementById("repair-tech-name")?.value || "";
-        const repairStatus = document.getElementById("repair-status-select")?.value || "Ready for Pickup";
-        const techNotes = document.getElementById("repair-tech-notes")?.value || "";
+        const techName = document.getElementById("repair-tech-name")?.value.trim() || "";
+        const repairStatus = document.getElementById("repair-status-select")?.value || "Receiving";
+        const techNotes = document.getElementById("repair-tech-notes")?.value.trim() || "";
         const sendEmail = document.getElementById("repair-send-email-checkbox")?.checked ? "1" : "0";
 
         const formData = new FormData();

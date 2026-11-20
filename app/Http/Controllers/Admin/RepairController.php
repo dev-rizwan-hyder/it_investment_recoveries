@@ -58,6 +58,8 @@ class RepairController extends Controller
 
         $stats = [
             ['label' => 'Draft', 'status' => RepairEntry::STATUS_DRAFT, 'value' => RepairEntry::where('status', RepairEntry::STATUS_DRAFT)->count(), 'color' => 'text-slate-500', 'bg' => 'bg-slate-500'],
+            ['label' => 'Receiving', 'status' => RepairEntry::STATUS_RECEIVING, 'value' => RepairEntry::where('status', RepairEntry::STATUS_RECEIVING)->count(), 'color' => 'text-sky-600', 'bg' => 'bg-sky-500'],
+            ['label' => 'Processing', 'status' => RepairEntry::STATUS_PROCESSING, 'value' => RepairEntry::where('status', RepairEntry::STATUS_PROCESSING)->count(), 'color' => 'text-amber-600', 'bg' => 'bg-amber-500'],
             ['label' => 'Ready for Pickup', 'status' => RepairEntry::STATUS_READY_FOR_PICKUP, 'value' => RepairEntry::where('status', RepairEntry::STATUS_READY_FOR_PICKUP)->count(), 'color' => 'text-indigo-600', 'bg' => 'bg-indigo-600'],
             ['label' => 'Ready for Shipment', 'status' => RepairEntry::STATUS_READY_FOR_SHIPMENT, 'value' => RepairEntry::where('status', RepairEntry::STATUS_READY_FOR_SHIPMENT)->count(), 'color' => 'text-blue-500', 'bg' => 'bg-blue-500'],
             ['label' => 'Shipped', 'status' => RepairEntry::STATUS_SHIPPED, 'value' => RepairEntry::where('status', RepairEntry::STATUS_SHIPPED)->count(), 'color' => 'text-purple-500', 'bg' => 'bg-purple-500'],
@@ -284,7 +286,10 @@ class RepairController extends Controller
 
         $repair = RepairEntry::with(['client', 'user'])->findOrFail($id);
         $previousStatus = $repair->status;
-        $repair->update(['status' => $validated['status']]);
+        $repair->update([
+            'status' => $validated['status'],
+            'repair_status' => $validated['status'],
+        ]);
         $emailResult = $this->sendRepairStatusUpdateEmail($repair->fresh(['client', 'user', 'pallet']), $previousStatus);
 
         if ($request->expectsJson() || $request->ajax() || $request->wantsJson()) {
@@ -724,17 +729,32 @@ class RepairController extends Controller
             ];
         }
 
-        $repair->loadMissing(['client', 'user', 'pallet']);
+        $repair->loadMissing(['client', 'user', 'pallet.client']);
         $customerEmail = trim((string) (
             $repair->customer_email
             ?: ($repair->client?->email
-                ?: ($repair->user?->email ?? ''))
+                ?: ($repair->user?->email
+                    ?: ($repair->pallet?->client?->email ?? '')))
         ));
 
-        if (empty($customerEmail)) {
+        if (empty($customerEmail) && $repair->user_id) {
+            $client = \App\Models\Client::find($repair->user_id);
+            if ($client && !empty($client->email)) {
+                $customerEmail = trim((string) $client->email);
+            }
+        }
+
+        if (empty($customerEmail) || !filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
+            Log::warning('Repair status update email skipped: no valid customer email found', [
+                'repair_id' => $repair->id,
+                'raw_email' => $customerEmail,
+                'previous_status' => $previousStatus,
+                'status' => $repair->status,
+            ]);
+
             return [
                 'sent' => false,
-                'message' => 'Status email not sent: no customer email address found.',
+                'message' => 'Status email not sent: no valid customer email address found (' . ($customerEmail ?: 'empty') . ').',
             ];
         }
 
@@ -759,7 +779,7 @@ class RepairController extends Controller
                 'message' => 'Status email sent to ' . $customerEmail . '.',
             ];
         } catch (\Throwable $e) {
-            Log::warning('Failed to send repair status update email', [
+            Log::error('Failed to send repair status update email', [
                 'repair_id' => $repair->id,
                 'email' => $customerEmail,
                 'previous_status' => $previousStatus,

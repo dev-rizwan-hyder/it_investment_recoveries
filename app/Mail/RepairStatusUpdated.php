@@ -22,8 +22,8 @@ class RepairStatusUpdated extends Mailable
 
     public function build()
     {
-        $fromAddress = config('mail.from.address', 'info@denverdiscountcomputers.com');
-        $fromName = config('mail.from.name', 'Denver Discount Computers');
+        $fromAddress = config('mail.from.address') ?: 'customerservice@it-investmentrecoveries.com';
+        $fromName = config('mail.from.name') ?: 'IT Investment Recoveries';
 
         $deviceTitle = trim(($this->repair->brand_category ? $this->repair->brand_category . ' ' : '') . ($this->repair->device_type ?: 'Repair Item'));
         $jobSuffix = $this->repair->job_no ? ' (Job #' . $this->repair->job_no . ')' : '';

@@ -14,7 +14,7 @@
                 'sub_sub_category_id' => old('sub_sub_category_id'),
                 'price' => old('price'),
                 'quantity' => old('quantity', 1),
-                'status' => old('status', \App\Models\RepairEntry::STATUS_READY_FOR_PICKUP),
+                'status' => old('status', \App\Models\RepairEntry::STATUS_RECEIVING),
                 'operating_system' => old('operating_system'),
                 'put_away_location' => old('put_away_location'),
                 'device_specs' => old('device_specs'),

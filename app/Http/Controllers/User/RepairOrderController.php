@@ -43,6 +43,8 @@ class RepairOrderController extends Controller
             'in_progress' => $allEntries->filter(fn($e) => in_array($e->status, [
                 RepairEntry::STATUS_REPAIR_SERVICES,
                 RepairEntry::STATUS_IN_STORE_RESERVED,
+                RepairEntry::STATUS_RECEIVING,
+                RepairEntry::STATUS_PROCESSING,
             ]))->count(),
             'ready' => $allEntries->filter(fn($e) => in_array($e->status, [
                 RepairEntry::STATUS_READY_FOR_PICKUP,

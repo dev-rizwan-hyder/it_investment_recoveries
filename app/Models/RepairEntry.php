@@ -22,6 +22,8 @@ class RepairEntry extends Model
     public const STATUS_READY_FOR_SHIPMENT = 'Ready for Shipment';
     public const STATUS_COMPLETED = 'Completed';
     public const STATUS_DRAFT = 'Draft';
+    public const STATUS_RECEIVING = 'Receiving';
+    public const STATUS_PROCESSING = 'Processing';
 
     public const PAYMENT_STATUS_PENDING = 'pending';
     public const PAYMENT_STATUS_PAID = 'paid';
@@ -39,6 +41,8 @@ class RepairEntry extends Model
 
     public const STATUS_CHOICES = [
         self::STATUS_DRAFT => 'Draft',
+        self::STATUS_RECEIVING => 'Receiving',
+        self::STATUS_PROCESSING => 'Processing',
         self::STATUS_READY_FOR_PICKUP => 'Ready for Pickup',
         self::STATUS_READY_FOR_SHIPMENT => 'Ready for Shipment',
         self::STATUS_SHIPPED => 'Shipped',
@@ -51,12 +55,14 @@ class RepairEntry extends Model
         self::STATUS_IN_STORE_PURCHASED => 'bg-emerald-50 text-emerald-700 border-emerald-100',
         self::STATUS_IN_STORE_RESERVED => 'bg-amber-50 text-amber-700 border-amber-100',
         self::STATUS_ONLINE_PURCHASED => 'bg-teal-50 text-teal-700 border-teal-100',
+        self::STATUS_RECEIVING => 'bg-sky-50 text-sky-700 border-sky-100',
+        self::STATUS_PROCESSING => 'bg-amber-50 text-amber-700 border-amber-100',
         self::STATUS_READY_FOR_PICKUP => 'bg-indigo-50 text-indigo-700 border-indigo-100',
         self::STATUS_SHIPPED => 'bg-purple-50 text-purple-700 border-purple-100',
         self::STATUS_CANCELLED => 'bg-red-50 text-red-700 border-red-100',
         self::STATUS_READY_FOR_SHIPMENT => 'bg-violet-50 text-violet-700 border-violet-100',
         self::STATUS_COMPLETED => 'bg-slate-900 text-white border-slate-900',
-        self::STATUS_DRAFT => 'bg-amber-50 text-amber-700 border-amber-100',
+        self::STATUS_DRAFT => 'bg-slate-100 text-slate-700 border-slate-200',
     ];
 
     public const STATUS_BADGE_CLASSES = [
@@ -64,12 +70,14 @@ class RepairEntry extends Model
         self::STATUS_IN_STORE_PURCHASED => 'bg-emerald-100 text-emerald-700',
         self::STATUS_IN_STORE_RESERVED => 'bg-amber-100 text-amber-700',
         self::STATUS_ONLINE_PURCHASED => 'bg-teal-100 text-teal-700',
+        self::STATUS_RECEIVING => 'bg-sky-100 text-sky-700',
+        self::STATUS_PROCESSING => 'bg-amber-100 text-amber-700',
         self::STATUS_READY_FOR_PICKUP => 'bg-indigo-100 text-indigo-700',
         self::STATUS_SHIPPED => 'bg-purple-100 text-purple-700',
         self::STATUS_CANCELLED => 'bg-red-100 text-red-700',
         self::STATUS_READY_FOR_SHIPMENT => 'bg-violet-100 text-violet-700',
         self::STATUS_COMPLETED => 'bg-slate-900 text-white',
-        self::STATUS_DRAFT => 'bg-amber-100 text-amber-700',
+        self::STATUS_DRAFT => 'bg-slate-100 text-slate-700',
     ];
 
     public const PAYMENT_STATUS_CHOICES = [
@@ -109,6 +117,7 @@ class RepairEntry extends Model
         'lot_info',
         'serial_number',
         'status',
+        'repair_status',
         'pallet_info',
         'device_specs',
         'operating_system',
@@ -148,7 +157,7 @@ class RepairEntry extends Model
     public static function statusLabel(?string $status): string
     {
         if (empty($status)) {
-            return self::STATUS_CHOICES[self::STATUS_READY_FOR_PICKUP];
+            return self::STATUS_CHOICES[self::STATUS_RECEIVING];
         }
 
         return self::STATUS_CHOICES[$status] ?? ucwords(str_replace(['-', '_'], ' ', (string) $status));
@@ -306,23 +315,39 @@ class RepairEntry extends Model
 
     public function getReceivingEmployeeAttribute(): ?string
     {
-        return $this->pallet?->receiving_employee ?? $this->technician;
+        return $this->pallet?->receiving_employee ?: null;
     }
 
     public function getReceivingNotesAttribute(): ?string
     {
-        if ($this->notes && preg_match('/Receiving Notes:\s*(.*?)(?=\nTech Notes:|$)/is', $this->notes, $m)) {
-            return trim($m[1]);
+        if ($this->notes) {
+            if (preg_match('/Receiving Notes:\s*(.*?)(?=\nTech Notes:|$)/is', $this->notes, $m)) {
+                $val = trim($m[1]);
+                if ($val !== '') {
+                    return $val;
+                }
+            } elseif (preg_match('/Tech Notes:/i', $this->notes)) {
+                return $this->pallet?->notes ?: null;
+            } else {
+                return $this->pallet?->notes ?? $this->notes;
+            }
         }
-        return $this->pallet?->notes ?? $this->notes;
+        return $this->pallet?->notes ?: null;
     }
 
     public function getTechnicianNotesAttribute(): ?string
     {
-        if ($this->notes && preg_match('/Tech Notes:\s*(.*)/is', $this->notes, $m)) {
-            return trim($m[1]);
+        if ($this->notes) {
+            if (preg_match('/Tech Notes:\s*(.*)/is', $this->notes, $m)) {
+                $val = trim($m[1]);
+                if ($val !== '') {
+                    return $val;
+                }
+            } elseif (preg_match('/Receiving Notes:/i', $this->notes)) {
+                return null;
+            }
         }
-        return $this->notes;
+        return null;
     }
 
     public function getItemsListAttribute(): array

@@ -751,11 +751,13 @@
                         <div class="space-y-1.5">
                             <label class="text-[12px] font-bold text-[#475569]">Repair Status</label>
                             <select id="repair-status-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-white outline-none font-semibold text-slate-800">
+                                <option value="Receiving" selected>Receiving</option>
+                                <option value="Processing">Processing</option>
                                 <option value="Ready for Pickup">Ready for Pickup</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Cancelled">Cancelled</option>
                                 <option value="Ready for Shipment">Ready for Shipment</option>
+                                <option value="Shipped">Shipped</option>
                                 <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
                     </div>

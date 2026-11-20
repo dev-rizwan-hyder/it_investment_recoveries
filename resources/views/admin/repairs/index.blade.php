@@ -33,7 +33,7 @@
         @endif
 
         {{-- Top Stats Cards --}}
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-6" id="stats-container">
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-6" id="stats-container">
             @foreach ($stats as $stat)
                 <a href="{{ route('admin.repair-intake.index', ['status' => $stat['status']]) }}"
                     class="bg-white p-4 md:p-5 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md relative overflow-hidden block group">
@@ -845,9 +845,12 @@
                 container.textContent = message;
                 container.className = `mt-1 h-4 text-[10px] font-bold ${isError ? 'text-red-600' : 'text-emerald-600'}`;
 
-                setTimeout(() => {
+                if (container._feedbackTimeout) {
+                    clearTimeout(container._feedbackTimeout);
+                }
+                container._feedbackTimeout = setTimeout(() => {
                     container.textContent = '';
-                }, 1800);
+                }, 3500);
             }
 
             async function patchRepair(url, payload) {
@@ -894,7 +897,7 @@
                         applyStatusClass(select);
                         const feedbackMsg = data.email_sent === true 
                             ? 'Updated & Email Sent' 
-                            : (data.email_message && data.email_message.includes('no customer email') ? 'Updated (no email)' : (data.email_sent === false ? 'Email failed' : 'Updated'));
+                            : (data.email_message && data.email_message.includes('no customer email') ? 'Updated (no customer email)' : (data.email_sent === false ? 'Email failed' : 'Updated'));
                         showFeedback(feedback, feedbackMsg, data.email_sent === false && !(data.email_message && data.email_message.includes('no customer email')));
                     } catch (error) {
                         select.value = previousStatus;

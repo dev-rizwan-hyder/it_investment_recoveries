@@ -318,7 +318,7 @@
             {{-- Receiving Notes --}}
             <div class="bg-white p-4 rounded-xl border border-slate-200">
                 <label class="text-[11px] font-bold uppercase text-slate-400 block mb-1">Receiving Notes</label>
-                <div class="text-sm text-slate-700 leading-relaxed font-medium">
+                <div class="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">
                     {{ $entry->receiving_notes ?: 'No receiving notes recorded.' }}
                 </div>
             </div>
@@ -391,7 +391,7 @@
                 <h4 class="text-[14px] font-bold text-indigo-950 uppercase tracking-wider flex items-center gap-2">
                     <i class="fas fa-user-cog text-indigo-600"></i> For Technician use only section
                 </h4>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">Tech Section</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-500 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">Tech Only</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -410,6 +410,9 @@
                         @csrf
                         @method('PATCH')
                         <select name="status" class="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-indigo-500/20 bg-white">
+                            @if ($entry->status && !array_key_exists($entry->status, $repairStatuses))
+                                <option value="{{ $entry->status }}" selected>{{ $entry->status }}</option>
+                            @endif
                             @foreach ($repairStatuses as $statusVal => $statusText)
                                 <option value="{{ $statusVal }}" {{ $entry->status === $statusVal ? 'selected' : '' }}>
                                     {{ $statusText }}
@@ -426,7 +429,7 @@
             {{-- Technician Notes --}}
             <div class="bg-white p-4 rounded-xl border border-indigo-100">
                 <label class="text-[11px] font-bold uppercase text-slate-400 block mb-1">Technician Notes</label>
-                <div class="text-sm text-slate-800 leading-relaxed font-medium">
+                <div class="text-sm text-slate-800 leading-relaxed font-medium whitespace-pre-line">
                     {{ $entry->technician_notes ?: 'No technician notes recorded.' }}
                 </div>
             </div>

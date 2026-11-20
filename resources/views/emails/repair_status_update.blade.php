@@ -75,6 +75,8 @@
         .status-ready { background: #4f46e5; color: #ffffff; }
         .status-pickup { background: #0284c7; color: #ffffff; }
         .status-cancelled { background: #dc2626; color: #ffffff; }
+        .status-receiving { background: #0284c7; color: #ffffff; }
+        .status-processing { background: #d97706; color: #ffffff; }
         .section-box {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -148,6 +150,8 @@
             'ready-for-pickup' => 'status-pickup',
             'ready-for-shipment', 'shipped' => 'status-ready',
             'cancelled' => 'status-cancelled',
+            'receiving' => 'status-receiving',
+            'processing' => 'status-processing',
             default => '',
         };
     @endphp

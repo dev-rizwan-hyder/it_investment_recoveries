@@ -329,8 +329,8 @@ class ItemIntakeController extends Controller
             }
             $pallet->save();
 
-            $status = $isDraft ? RepairEntry::STATUS_DRAFT : ($validated['repair_status'] ?? RepairEntry::STATUS_READY_FOR_PICKUP);
-            $technician = $validated['technician'] ?? ($validated['receiving_employee'] ?? 'N/A');
+            $status = $isDraft ? RepairEntry::STATUS_DRAFT : ($validated['repair_status'] ?? RepairEntry::STATUS_RECEIVING);
+            $technician = !empty($validated['technician']) ? trim($validated['technician']) : null;
             $receivingNotes = $validated['receiving_notes'] ?? '';
             $techNotes = $validated['technician_notes'] ?? '';
             $combinedNotes = trim(($receivingNotes ? "Receiving Notes: $receivingNotes\n" : "") . ($techNotes ? "Tech Notes: $techNotes" : ""));
