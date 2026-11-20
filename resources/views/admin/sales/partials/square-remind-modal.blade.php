@@ -182,7 +182,7 @@
             const num = data.invoiceNumber || '';
             const amt = data.amount || '$0.00';
             const due = data.dueDate || 'upon receipt';
-            message = `Hi ${name},\n\nThis is a friendly reminder from IT INVESTMENT RECOVERIES regarding invoice #${num} for ${amt}, which is due ${due}.\n\nPlease review your invoice and submit payment securely online using the Square payment link provided.\n\nThank you for choosing IT INVESTMENT RECOVERIES!`;
+            message = `Hi ${name},\n\nThis is a friendly reminder from IT INVESTMENT RECOVERIES regarding invoice # ${num} for ${amt}, which is due ${due}.\n\nPlease review your invoice and submit payment securely online using the Square payment link provided.\n\nThank you for choosing IT INVESTMENT RECOVERIES!`;
         }
         messageInput.value = message;
 
@@ -229,7 +229,7 @@
         const due = currentSquareRemindData.dueDate || 'upon receipt';
 
         if (preset === 'friendly') {
-            msgInput.value = `Hi ${name},\n\nThis is a friendly reminder from IT INVESTMENT RECOVERIES regarding invoice #${num} for ${amt}, which is due ${due}.\n\nPlease review your invoice and submit payment securely online using the Square payment link provided.\n\nThank you for choosing IT INVESTMENT RECOVERIES!`;
+            msgInput.value = `Hi ${name},\n\nThis is a friendly reminder from IT INVESTMENT RECOVERIES regarding invoice # ${num} for ${amt}, which is due ${due}.\n\nPlease review your invoice and submit payment securely online using the Square payment link provided.\n\nThank you for choosing IT INVESTMENT RECOVERIES!`;
         } else if (preset === 'urgent') {
             msgInput.value = `Dear ${name},\n\nOur records indicate that invoice #${num} for ${amt} was due on ${due} and currently remains outstanding.\n\nPlease take a moment to submit your payment online through the secure Square payment link provided below.\n\nIf you have already submitted payment or have any questions, please contact us immediately.\n\nThank you,\nIT INVESTMENT RECOVERIES`;
         } else if (preset === 'short') {
