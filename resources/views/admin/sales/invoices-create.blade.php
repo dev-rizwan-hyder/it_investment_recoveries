@@ -346,8 +346,17 @@
                 <select id="payment_method" name="payment_method" required
                     class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 outline-none transition focus:border-blue-400">
                     @foreach($paymentMethods as $value => $label)
-                        <option value="{{ $value }}" {{ old('payment_method', $invoice?->payment_method ?? 'cash') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                        <option value="{{ $value }}" {{ old('payment_method', ($invoice?->payment_method === 'square_card' ? 'square_pos' : ($invoice?->payment_method ?? 'cash'))) === $value ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
+                </select>
+            </div>
+
+            <div class="mt-4 rounded-2xl bg-slate-50 p-4">
+                <label for="payment_type" class="mb-2 block text-xs font-black uppercase tracking-wide text-slate-400">Payment Type</label>
+                <select id="payment_type" name="payment_type"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 outline-none transition focus:border-blue-400">
+                    <option value="in_store" {{ old('payment_type', $invoice?->payment_type ?? 'in_store') === 'in_store' ? 'selected' : '' }}>In store payment</option>
+                    <option value="online_payment" {{ in_array(old('payment_type', $invoice?->payment_type), ['online_payment', 'online']) ? 'selected' : '' }}>online payment</option>
                 </select>
             </div>
 

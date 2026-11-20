@@ -351,6 +351,10 @@
                         <p class="mt-1 font-bold text-slate-800">{{ $invoice->payment_method_label }}</p>
                     </div>
                     <div>
+                        <p class="text-xs font-black uppercase tracking-wide text-slate-400">Payment Type</p>
+                        <p class="mt-1 font-bold text-slate-800">{{ $invoice->payment_type_label }}</p>
+                    </div>
+                    <div>
                         <p class="text-xs font-black uppercase tracking-wide text-slate-400">Created</p>
                         <p class="mt-1 font-bold text-slate-800">{{ $invoice->created_at?->format('M d, Y h:i A') }}</p>
                     </div>

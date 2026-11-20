@@ -302,6 +302,10 @@
                             <span>{{ $invoice->payment_method_label }}</span>
                         </div>
                         <div class="meta-row">
+                            <span>Payment Type</span>
+                            <span>{{ $invoice->payment_type_label }}</span>
+                        </div>
+                        <div class="meta-row">
                             <span>Generated</span>
                             <span>{{ $generatedAt->format('M d, Y h:i A T') }}</span>
                         </div>

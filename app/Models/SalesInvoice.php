@@ -13,7 +13,12 @@ class SalesInvoice extends Model
 
     public const PAYMENT_METHOD_CASH = 'cash';
     public const PAYMENT_METHOD_CHEQUE = 'cheque';
+    public const PAYMENT_METHOD_SQUARE_POS = 'square_pos';
     public const PAYMENT_METHOD_SQUARE_CARD = 'square_card';
+    public const PAYMENT_METHOD_ONLINE = 'online';
+
+    public const PAYMENT_TYPE_IN_STORE = 'in_store';
+    public const PAYMENT_TYPE_ONLINE = 'online_payment';
 
     public const STATUS_UNPAID = 'unpaid';
     public const STATUS_PAID = 'paid';
@@ -24,7 +29,13 @@ class SalesInvoice extends Model
     public const PAYMENT_METHOD_CHOICES = [
         self::PAYMENT_METHOD_CASH => 'Cash',
         self::PAYMENT_METHOD_CHEQUE => 'Cheque',
-        self::PAYMENT_METHOD_SQUARE_CARD => 'Square Card',
+        self::PAYMENT_METHOD_SQUARE_POS => 'Square POS',
+        self::PAYMENT_METHOD_ONLINE => 'Online',
+    ];
+
+    public const PAYMENT_TYPE_CHOICES = [
+        self::PAYMENT_TYPE_IN_STORE => 'In store payment',
+        self::PAYMENT_TYPE_ONLINE => 'online payment',
     ];
 
     public const STATUS_CHOICES = [
@@ -53,6 +64,7 @@ class SalesInvoice extends Model
         'message',
         'picture_paths',
         'payment_method',
+        'payment_type',
         'subtotal',
         'tax_rate',
         'tax_amount',
@@ -100,7 +112,13 @@ class SalesInvoice extends Model
 
     public static function paymentMethodValues(): array
     {
-        return array_keys(self::PAYMENT_METHOD_CHOICES);
+        return [
+            self::PAYMENT_METHOD_CASH,
+            self::PAYMENT_METHOD_CHEQUE,
+            self::PAYMENT_METHOD_SQUARE_POS,
+            self::PAYMENT_METHOD_SQUARE_CARD,
+            self::PAYMENT_METHOD_ONLINE,
+        ];
     }
 
     public static function statusChoices(): array
@@ -115,6 +133,10 @@ class SalesInvoice extends Model
 
     public static function paymentMethodLabel(?string $method): string
     {
+        if ($method === 'square_card' || $method === 'square_pos') {
+            return 'Square POS';
+        }
+
         return self::PAYMENT_METHOD_CHOICES[$method] ?? ucwords(str_replace('_', ' ', (string) $method));
     }
 
@@ -256,14 +278,26 @@ class SalesInvoice extends Model
         return self::statusBadgeClass($this->status);
     }
 
-    public function getPaymentTypeAttribute(): string
+    public function getPaymentTypeAttribute(?string $value = null): string
     {
-        return $this->payment_method === self::PAYMENT_METHOD_SQUARE_CARD ? 'online' : 'in_store';
+        if (!empty($value)) {
+            return $value;
+        }
+
+        $raw = $this->attributes['payment_type'] ?? null;
+        if (!empty($raw)) {
+            return $raw;
+        }
+
+        return in_array($this->payment_method, [self::PAYMENT_METHOD_SQUARE_CARD, self::PAYMENT_METHOD_ONLINE, 'online_payment'])
+            ? self::PAYMENT_TYPE_ONLINE
+            : self::PAYMENT_TYPE_IN_STORE;
     }
 
     public function getPaymentTypeLabelAttribute(): string
     {
-        return $this->payment_type === 'online' ? 'Online payment' : 'In store payment';
+        $type = $this->payment_type;
+        return self::PAYMENT_TYPE_CHOICES[$type] ?? (in_array($type, ['online', 'online_payment']) ? 'online payment' : 'In store payment');
     }
 
     public function hasSquareInvoice(): bool

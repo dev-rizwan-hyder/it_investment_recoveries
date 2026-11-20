@@ -32,7 +32,9 @@ class RepairEntry extends Model
     public const PAYMENT_METHOD_CHOICES = [
         'cash' => 'Cash',
         'cheque' => 'Cheque',
-        'square_card' => 'Square Card',
+        'square_pos' => 'Square POS',
+        'square_card' => 'Square POS',
+        'online' => 'Online',
     ];
 
     public const STATUS_CHOICES = [
