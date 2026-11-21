@@ -396,7 +396,11 @@ class SquareInvoiceService
             );
 
             Mail::html($htmlContent, function ($message) use ($targetEmail, $invoiceNumber) {
+                $fromAddress = config('mail.from.address') ?: 'customerservice@it-investmentrecoveries.com';
+                $fromName = config('mail.from.name') ?: 'IT INVESTMENT RECOVERIES';
                 $message->to($targetEmail)
+                    ->from($fromAddress, $fromName)
+                    ->replyTo('customerservice@it-investmentrecoveries.com', 'IT INVESTMENT RECOVERIES')
                     ->subject("Payment Reminder: Invoice #{$invoiceNumber} - IT INVESTMENT RECOVERIES");
             });
 
@@ -544,8 +548,12 @@ class SquareInvoiceService
                     </tr>
                     <tr>
                         <td style="background-color: #f8fafc; padding: 20px 32px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #64748b;">
-                            <p style="margin: 0 0 4px 0; font-weight: bold; color: #334155;">IT INVESTMENT RECOVERIES</p>
-                            <p style="margin: 0;">Have questions about your invoice? Reply to this email or call us directly.</p>
+                            <p style="margin: 0 0 6px 0; font-weight: bold; color: #334155; font-size: 13px;">IT INVESTMENT RECOVERIES</p>
+                            <p style="margin: 0; line-height: 1.6;">
+                                Have questions about your invoice? Reply to this email, contact us at 
+                                <a href="mailto:customerservice@it-investmentrecoveries.com" style="color: #2563eb; text-decoration: none; font-weight: 600;">customerservice@it-investmentrecoveries.com</a>, 
+                                or call us directly at <a href="tel:+13034724701" style="color: #2563eb; text-decoration: none; font-weight: 600;">+1-303-472-4701</a>.
+                            </p>
                         </td>
                     </tr>
                 </table>

@@ -173,6 +173,11 @@
                     <tr>
                         <td style="background-color: #f8fafc; padding: 22px 32px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #64748b;">
                             <div style="font-weight: 800; color: #334155; margin-bottom: 4px;">IT INVESTMENT RECOVERIES</div>
+                            <div style="margin-top: 6px; line-height: 1.5;">
+                                Have questions about your invoice? Contact us at 
+                                <a href="mailto:customerservice@it-investmentrecoveries.com" style="color: #2563eb; text-decoration: none; font-weight: 600;">customerservice@it-investmentrecoveries.com</a> 
+                                or call us directly at <a href="tel:+13034724701" style="color: #2563eb; text-decoration: none; font-weight: 600;">+1-303-472-4701</a>.
+                            </div>
                             <div style="margin-top: 8px; font-size: 11px; color: #94a3b8;">&copy; {{ date('Y') }} IT Investment Recoveries. All rights reserved.</div>
                         </td>
                     </tr>
