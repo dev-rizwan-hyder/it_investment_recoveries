@@ -96,6 +96,19 @@ class SalesInvoice extends Model
         'square_reminder_count' => 'integer',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function (SalesInvoice $invoice) {
+            if (empty($invoice->invoice_title)) {
+                $invoice->invoice_title = $invoice->invoice_number ?: 'Invoice';
+            }
+        });
+
+        static::saved(function (SalesInvoice $invoice) {
+            $invoice->syncLinkedRepairEntry();
+        });
+    }
+
     public static function generateInvoiceNumber(): string
     {
         $prefix = 'INV-' . now()->format('Ymd') . '-';
@@ -308,6 +321,51 @@ class SalesInvoice extends Model
     public function isSquarePaid(): bool
     {
         return strtoupper((string) $this->square_status) === 'PAID' || $this->status === self::STATUS_PAID;
+    }
+
+    public function isPaid(): bool
+    {
+        return strtolower((string) $this->status) === self::STATUS_PAID
+            || strtoupper((string) $this->square_status) === 'PAID';
+    }
+
+    /**
+     * Synchronize the linked repair entry status if this invoice is paid.
+     */
+    public function syncLinkedRepairEntry(): void
+    {
+        $repairId = $this->repair_entry_id;
+
+        if (!$repairId && !empty($this->message)) {
+            if (preg_match('/Repair Entry #(\d+)/i', $this->message, $m)) {
+                $repairId = (int) $m[1];
+                $this->repair_entry_id = $repairId;
+                $this->saveQuietly();
+            } elseif (preg_match('/Barcode:\s*(REP-[A-Za-z0-9_-]+)/i', $this->message, $m)) {
+                $foundRepair = RepairEntry::where('item_barcode', $m[1])->first();
+                if ($foundRepair) {
+                    $repairId = $foundRepair->id;
+                    $this->repair_entry_id = $repairId;
+                    $this->saveQuietly();
+                }
+            }
+        }
+
+        if (!$repairId) {
+            return;
+        }
+
+        $repair = RepairEntry::find($repairId);
+        if (!$repair) {
+            return;
+        }
+
+        if ($this->isPaid()) {
+            $repair->markAsCompleted(
+                RepairEntry::PAYMENT_STATUS_PAID,
+                $this->payment_method
+            );
+        }
     }
 
     public static function defaultReminderMessage(self $invoice): string

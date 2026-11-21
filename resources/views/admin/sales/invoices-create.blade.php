@@ -59,13 +59,42 @@
                 </span>
                 <div>
                     <p class="font-extrabold text-blue-950">Creating Invoice from Repair Entry #{{ $repair->id }}</p>
-                    <p class="text-xs text-blue-700">Client details, device info, and notes have been automatically pre-filled.</p>
+                    <p class="text-xs text-blue-700">Client details, device info, and notes have been automatically pre-filled. When payment status is marked Paid, this repair intake entry will automatically become Completed.</p>
                 </div>
             </div>
             <a href="{{ route('admin.repair.entries.show', $repair->id) }}"
                 class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-blue-700 shadow-sm transition hover:bg-blue-100 hover:text-blue-900 self-start sm:self-auto">
                 <i class="fas fa-arrow-left mr-1.5 text-[10px]"></i> View Repair Entry
             </a>
+        </div>
+    @endif
+
+    @if(isset($repairEntries) && $repairEntries->isNotEmpty() && !$isEdit)
+        <div class="mb-6 rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 text-xs">
+                        <i class="fas fa-wrench"></i>
+                    </span>
+                    <div>
+                        <label for="select_repair_intake" class="block text-xs font-black uppercase tracking-wide text-slate-700">
+                            Link to Repair Intake Entry
+                        </label>
+                        <p class="text-[11px] text-slate-400">Selecting a repair intake automatically fills customer info, device items, and barcode.</p>
+                    </div>
+                </div>
+                <div class="min-w-[280px]">
+                    <select id="select_repair_intake" onchange="window.location.href = this.value ? ('{{ route('admin.sales.invoices.create') }}?repair_id=' + this.value) : '{{ route('admin.sales.invoices.create') }}';"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-bold text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white">
+                        <option value="">-- No Repair Intake (Standalone Invoice) --</option>
+                        @foreach($repairEntries as $rEntry)
+                            <option value="{{ $rEntry->id }}" {{ (isset($repair) && $repair->id == $rEntry->id) || request('repair_id') == $rEntry->id ? 'selected' : '' }}>
+                                Repair #{{ $rEntry->id }} - {{ $rEntry->customer_name ?: 'No customer' }} ({{ $rEntry->first_item_name }} | {{ $rEntry->status }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
         </div>
     @endif
 
@@ -85,12 +114,11 @@
         @if($isEdit)
             @method('PUT')
         @endif
-        @if(isset($repair) && $repair)
-            <input type="hidden" name="repair_id" value="{{ $repair->id }}">
-        @elseif(request('repair_id'))
-            <input type="hidden" name="repair_id" value="{{ request('repair_id') }}">
-        @elseif(isset($invoice) && $invoice?->repair_entry_id)
-            <input type="hidden" name="repair_id" value="{{ $invoice->repair_entry_id }}">
+        @php
+            $effectiveRepairId = $repair?->id ?? request('repair_id', $invoice?->repair_entry_id);
+        @endphp
+        @if($effectiveRepairId)
+            <input type="hidden" name="repair_id" value="{{ $effectiveRepairId }}">
         @endif
 
         <div class="space-y-6">

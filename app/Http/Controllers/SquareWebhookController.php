@@ -60,6 +60,7 @@ class SquareWebhookController extends Controller
         }
 
         $invoice->update($updateData);
+        $invoice->fresh()?->syncLinkedRepairEntry();
 
         return response()->json(['status' => 'success', 'invoice_number' => $invoice->invoice_number], 200);
     }

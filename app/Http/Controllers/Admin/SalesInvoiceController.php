@@ -122,6 +122,14 @@ class SalesInvoiceController extends Controller
                 }
                 $firstRepairPhoto = $repairPhotos[0] ?? null;
 
+                $salesInvoice = $repair->sales_invoice;
+                $isPaid = (strtolower((string) ($repair->payment_status ?? '')) === RepairEntry::PAYMENT_STATUS_PAID)
+                    || ($salesInvoice && $salesInvoice->isPaid());
+
+                if ($salesInvoice && $salesInvoice->isPaid() && $repair->status !== RepairEntry::STATUS_COMPLETED) {
+                    $salesInvoice->syncLinkedRepairEntry();
+                }
+
                 return [
                     'id' => $repair->id,
                     'row_key' => 'repair-' . $repair->id,
@@ -139,8 +147,8 @@ class SalesInvoiceController extends Controller
                     'address' => $repair->put_away_location ?: ($repair->device_type ?: 'Repair service'),
                     'customer_address' => $repair->put_away_location,
                     'val' => '$' . number_format($total, 2),
-                    'status' => (strtolower((string) ($repair->payment_status ?? '')) === RepairEntry::PAYMENT_STATUS_PAID) ? 'Paid' : 'Unpaid',
-                    'status_class' => (strtolower((string) ($repair->payment_status ?? '')) === RepairEntry::PAYMENT_STATUS_PAID) ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-700',
+                    'status' => $isPaid ? 'Paid' : 'Unpaid',
+                    'status_class' => $isPaid ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-700',
                     'date' => $repair->created_at?->format('m/d/Y'),
                     'date_value' => $repair->created_at?->format('Y-m-d'),
                     'payment_method' => $repair->payment_method,
@@ -151,6 +159,9 @@ class SalesInvoiceController extends Controller
                     'type_label' => self::REPAIR_INVOICE_CATEGORY,
                     'categories' => [self::REPAIR_INVOICE_CATEGORY],
                     'category_label' => self::REPAIR_INVOICE_CATEGORY,
+                    'has_invoice' => !empty($salesInvoice),
+                    'invoice_url' => $salesInvoice ? route('admin.sales.invoices.show', $salesInvoice) : null,
+                    'create_invoice_url' => route('admin.sales.invoices.create', ['repair_id' => $repair->id]),
                     'view_url' => route('admin.repair.entries.show', $repair->id),
                     'edit_url' => route('admin.repair.entries.edit', $repair->id),
                     'print_url' => route('admin.repair.entries.invoice-print', $repair->id) . '?embedded=1',
@@ -289,6 +300,7 @@ class SalesInvoiceController extends Controller
             'statusChoices' => SalesInvoice::statusChoices(),
             'isEdit' => false,
             'repair' => $repair,
+            'repairEntries' => RepairEntry::with(['client', 'user'])->latest('id')->get(),
         ]);
     }
 
@@ -310,7 +322,7 @@ class SalesInvoiceController extends Controller
                 $repairId = (int) $m[1];
             }
 
-            $invoice = SalesInvoice::create([
+            $invoiceData = [
                 'repair_entry_id' => $repairId ?: null,
                 'client_id' => $client?->id,
                 'created_by' => auth()->id(),
@@ -326,7 +338,6 @@ class SalesInvoiceController extends Controller
                 'message' => $validated['message'] ?? null,
                 'picture_paths' => $picturePaths,
                 'payment_method' => $validated['payment_method'],
-                'payment_type' => $validated['payment_type'] ?? SalesInvoice::PAYMENT_TYPE_IN_STORE,
                 'subtotal' => $totals['subtotal'],
                 'tax_rate' => $totals['tax_rate'],
                 'tax_amount' => $totals['tax_amount'],
@@ -337,12 +348,21 @@ class SalesInvoiceController extends Controller
                 'paid_at' => ($validated['status'] ?? null) === SalesInvoice::STATUS_PAID
                     ? now()
                     : null,
-            ]);
+            ];
+
+            if (Schema::hasColumn('sales_invoices', 'payment_type')) {
+                $invoiceData['payment_type'] = $validated['payment_type'] ?? SalesInvoice::PAYMENT_TYPE_IN_STORE;
+            }
+
+            $invoice = SalesInvoice::create($invoiceData);
 
             $invoice->items()->createMany($totals['items']);
 
             return $invoice;
         });
+
+        // Ensure linked repair entry is synchronized if invoice is paid
+        $invoice->syncLinkedRepairEntry();
 
         $shouldSendSquare = $request->input('action') === 'save_and_send_square';
 
@@ -399,11 +419,18 @@ class SalesInvoiceController extends Controller
             'invoiceCategories' => $this->invoiceCategoryOptions(),
             'taxRatePercent' => self::TAX_RATE_PERCENT,
             'isEdit' => true,
+            'repair' => $invoice->repairEntry,
+            'repairEntries' => RepairEntry::with(['client', 'user'])->latest('id')->get(),
         ]);
     }
 
     public function update(Request $request, SalesInvoice $invoice, SquareInvoiceService $squareService)
     {
+        if (!$invoice->exists && $request->route('invoice')) {
+            $routeParam = $request->route('invoice');
+            $invoice = $routeParam instanceof SalesInvoice ? $routeParam : SalesInvoice::findOrFail($routeParam);
+        }
+
         $validated = $this->validateInvoice($request, $invoice);
         $newPicturePaths = $this->storeUploadedPictures($request);
         $existingPicturePaths = collect($invoice->picture_paths ?? [])->filter()->values();
@@ -421,12 +448,15 @@ class SalesInvoiceController extends Controller
             $client = $this->resolveClient($validated, $request);
             $totals = $this->buildInvoiceItems($validated['items']);
             $repairId = $request->input('repair_id', $invoice->repair_entry_id);
+            if (!$repairId && !empty($validated['message']) && preg_match('/Repair Entry #(\d+)/', $validated['message'], $m)) {
+                $repairId = (int) $m[1];
+            }
 
-            $invoice->update([
+            $invoiceUpdateData = [
                 'repair_entry_id' => $repairId ?: $invoice->repair_entry_id,
                 'client_id' => $client?->id,
-                'invoice_number' => $validated['invoice_number'] ?: $invoice->invoice_number,
-                'invoice_title' => $validated['invoice_number'] ?: $invoice->invoice_number,
+                'invoice_number' => (!empty($validated['invoice_number'])) ? $validated['invoice_number'] : $invoice->invoice_number,
+                'invoice_title' => (!empty($validated['invoice_number'])) ? $validated['invoice_number'] : ($invoice->invoice_title ?: $invoice->invoice_number),
                 'service_date' => $validated['service_date'],
                 'due_date' => $validated['due_date'] ?? $validated['service_date'],
                 'customer_name' => $validated['customer_name'],
@@ -437,7 +467,6 @@ class SalesInvoiceController extends Controller
                 'message' => $validated['message'] ?? null,
                 'picture_paths' => $picturePaths,
                 'payment_method' => $validated['payment_method'],
-                'payment_type' => $validated['payment_type'] ?? SalesInvoice::PAYMENT_TYPE_IN_STORE,
                 'subtotal' => $totals['subtotal'],
                 'tax_rate' => $totals['tax_rate'],
                 'tax_amount' => $totals['tax_amount'],
@@ -448,11 +477,20 @@ class SalesInvoiceController extends Controller
                 'paid_at' => ($validated['status'] ?? $invoice->status) === SalesInvoice::STATUS_PAID
                     ? ($invoice->paid_at ?? now())
                     : null,
-            ]);
+            ];
+
+            if (Schema::hasColumn('sales_invoices', 'payment_type')) {
+                $invoiceUpdateData['payment_type'] = $validated['payment_type'] ?? SalesInvoice::PAYMENT_TYPE_IN_STORE;
+            }
+
+            $invoice->update($invoiceUpdateData);
 
             $invoice->items()->delete();
             $invoice->items()->createMany($totals['items']);
         });
+
+        // Ensure linked repair entry is synchronized if invoice is paid
+        $invoice->syncLinkedRepairEntry();
 
         if ($removedPicturePaths->isNotEmpty()) {
             $this->deletePictureFiles($removedPicturePaths->all());
@@ -564,6 +602,7 @@ class SalesInvoiceController extends Controller
     public function syncSquare(SalesInvoice $invoice, SquareInvoiceService $squareService)
     {
         $result = $squareService->syncInvoiceStatus($invoice);
+        $invoice->fresh()?->syncLinkedRepairEntry();
 
         if ($result['success']) {
             return redirect()
@@ -698,6 +737,7 @@ class SalesInvoiceController extends Controller
         }
 
         $rules = [
+            'repair_id' => ['nullable', 'integer', 'exists:repair_entries,id'],
             'client_id' => ['nullable', 'integer', 'exists:clients,id'],
             'create_customer' => ['nullable', 'boolean'],
             'customer_name' => ['required', 'string', 'max:255'],

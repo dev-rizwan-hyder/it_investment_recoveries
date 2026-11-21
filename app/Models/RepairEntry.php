@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RepairStatusUpdated;
 
 class RepairEntry extends Model
 {
@@ -293,6 +296,77 @@ class RepairEntry extends Model
                 $q->orWhere('message', 'like', "%Barcode: {$this->item_barcode}%");
             }
         })->latest('id')->first();
+    }
+
+    /**
+     * Mark this repair entry as completed with paid status.
+     */
+    public function markAsCompleted(string $paymentStatus = self::PAYMENT_STATUS_PAID, ?string $paymentMethod = null): bool
+    {
+        $previousStatus = $this->status;
+        $updateData = [
+            'status' => self::STATUS_COMPLETED,
+            'repair_status' => self::STATUS_COMPLETED,
+            'payment_status' => $paymentStatus,
+        ];
+
+        if ($paymentMethod && empty($this->payment_method)) {
+            $updateData['payment_method'] = $paymentMethod;
+        }
+
+        $this->update($updateData);
+
+        if ($previousStatus !== self::STATUS_COMPLETED) {
+            $this->sendCompletionStatusNotification($previousStatus);
+        }
+
+        return true;
+    }
+
+    /**
+     * Send email notification to customer upon completion.
+     */
+    public function sendCompletionStatusNotification(?string $previousStatus = null): array
+    {
+        $this->loadMissing(['client', 'user', 'pallet.client']);
+        $customerEmail = trim((string) (
+            $this->customer_email
+            ?: ($this->client?->email
+                ?: ($this->user?->email
+                    ?: ($this->pallet?->client?->email ?? '')))
+        ));
+
+        if (empty($customerEmail) && $this->user_id) {
+            $client = Client::find($this->user_id);
+            if ($client && !empty($client->email)) {
+                $customerEmail = trim((string) $client->email);
+            }
+        }
+
+        if (empty($customerEmail) || !filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
+            Log::info('Repair status update email skipped: no valid customer email found', [
+                'repair_id' => $this->id,
+                'status' => $this->status,
+            ]);
+            return ['sent' => false, 'message' => 'No valid customer email'];
+        }
+
+        try {
+            Mail::to($customerEmail)->send(new RepairStatusUpdated($this, $previousStatus));
+            Log::info('Repair status update email sent to customer on invoice completion', [
+                'repair_id' => $this->id,
+                'recipient' => $customerEmail,
+                'status' => $this->status,
+            ]);
+            return ['sent' => true, 'message' => 'Email sent to ' . $customerEmail];
+        } catch (\Throwable $e) {
+            Log::warning('Failed to send repair status update email on invoice completion', [
+                'repair_id' => $this->id,
+                'recipient' => $customerEmail,
+                'error' => $e->getMessage(),
+            ]);
+            return ['sent' => false, 'message' => $e->getMessage()];
+        }
     }
 
     public function getJobNoAttribute(): ?string

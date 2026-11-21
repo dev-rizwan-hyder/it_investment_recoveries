@@ -321,6 +321,19 @@
                                         </button>
                                     </form>
                                 @endif
+                                @if(($invoice['type'] ?? '') === 'repair')
+                                    @if(!empty($invoice['has_invoice']) && !empty($invoice['invoice_url']))
+                                        <a href="{{ $invoice['invoice_url'] }}" title="View Linked Invoice"
+                                            class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white active:scale-90">
+                                            <i class="fas fa-file-invoice text-xs"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ $invoice['create_invoice_url'] }}" title="Create Invoice for this Repair Intake"
+                                            class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-all hover:bg-emerald-600 hover:text-white active:scale-90">
+                                            <i class="fas fa-file-invoice-dollar text-xs"></i>
+                                        </a>
+                                    @endif
+                                @endif
                                 <a href="{{ $invoice['view_url'] }}" title="View"
                                     class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 text-slate-400 transition-all hover:bg-slate-900 hover:text-white active:scale-90">
                                     <i class="fas fa-eye text-xs"></i>

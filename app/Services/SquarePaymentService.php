@@ -20,8 +20,10 @@ class SquarePaymentService
         $environment = env('SQUARE_ENVIRONMENT', 'sandbox');
 
 
+        $token = env('SQUARE_ACCESS_TOKEN') ?: 'sandbox_placeholder_token';
+
         $this->client = new SquareClient(
-            token: env('SQUARE_ACCESS_TOKEN'),
+            token: $token,
             options: [
                 'baseUrl' => $environment === 'production'
                     ? Environments::Production->value

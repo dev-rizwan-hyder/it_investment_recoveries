@@ -42,8 +42,10 @@ class SquareInvoiceService
         $this->environment = env('SQUARE_ENVIRONMENT', 'sandbox');
         $this->locationId = env('SQUARE_LOCATION_ID', '');
 
+        $token = env('SQUARE_ACCESS_TOKEN') ?: 'sandbox_placeholder_token';
+
         $this->client = new SquareClient(
-            token: env('SQUARE_ACCESS_TOKEN'),
+            token: $token,
             options: [
                 'baseUrl' => $this->environment === 'production'
                     ? Environments::Production->value
@@ -214,6 +216,7 @@ class SquareInvoiceService
             }
 
             $invoice->update($updateData);
+            $invoice->fresh()?->syncLinkedRepairEntry();
 
             return [
                 'success' => true,
