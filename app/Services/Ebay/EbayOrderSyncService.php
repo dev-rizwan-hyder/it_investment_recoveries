@@ -119,7 +119,7 @@ class EbayOrderSyncService
      */
     public function getBaseUrl(): string
     {
-        $apiUrl = env('EBAY_API_URL');
+        $apiUrl = config('services.ebay.api_url') ?: env('EBAY_API_URL');
         if (!empty($apiUrl)) {
             return rtrim($apiUrl, '/');
         }
@@ -127,7 +127,7 @@ class EbayOrderSyncService
         if (str_contains($clientId, '-SBX-') || str_starts_with($clientId, 'SBX-')) {
             return 'https://api.sandbox.ebay.com';
         }
-        $env = env('EBAY_ENV');
+        $env = config('services.ebay.mode') ?: env('EBAY_ENV');
         if (!empty($env)) {
             return strtolower($env) === 'production' ? 'https://api.ebay.com' : 'https://api.sandbox.ebay.com';
         }
@@ -208,7 +208,7 @@ class EbayOrderSyncService
             );
         }
 
-        $tokenUrl = env('EBAY_OAUTH_URL') ?: ($this->getBaseUrl() . '/identity/v1/oauth2/token');
+        $tokenUrl = config('services.ebay.oauth_url') ?: env('EBAY_OAUTH_URL') ?: ($this->getBaseUrl() . '/identity/v1/oauth2/token');
 
         // Attempt 1: Refresh without scope (RFC 6749 standard - issues token with all originally granted scopes)
         $response = Http::asForm()

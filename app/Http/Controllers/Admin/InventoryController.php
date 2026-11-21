@@ -1006,9 +1006,9 @@ class InventoryController extends Controller
     {
         set_time_limit(180);
 
-        $seller = trim($request->get('seller') ?: (env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
-        $clientId = env('EBAY_CLIENT_ID', '');
-        $clientSecret = env('EBAY_CLIENT_SECRET', '');
+        $seller = trim($request->get('seller') ?: (config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
+        $clientId = config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID', '');
+        $clientSecret = config('services.ebay.client_secret') ?: env('EBAY_CLIENT_SECRET', '');
         $refreshToken = app(EbayOrderSyncService::class)->getRefreshToken();
 
         if (empty($clientId) || empty($clientSecret)) {
@@ -1197,7 +1197,7 @@ class InventoryController extends Controller
             return response()->json(['success' => false, 'message' => 'Item ID is required.'], 422);
         }
 
-        $seller = trim($request->input('seller') ?: (env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
+        $seller = trim($request->input('seller') ?: (config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
         $title = $request->input('title', 'Untitled eBay Product');
         $price = (float) $request->input('price', 0);
         $condition = $request->input('condition', 'N/A');
@@ -1375,9 +1375,9 @@ class InventoryController extends Controller
     {
         set_time_limit(180);
 
-        $clientId = env('EBAY_CLIENT_ID', '');
-        $clientSecret = env('EBAY_CLIENT_SECRET', '');
-        $seller = trim($request->input('seller') ?: (env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
+        $clientId = config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID', '');
+        $clientSecret = config('services.ebay.client_secret') ?: env('EBAY_CLIENT_SECRET', '');
+        $seller = trim($request->input('seller') ?: (config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
 
         // 1. Items passed directly from frontend (e.g. from the eBay listings modal state)
         $items = $request->input('items');
@@ -1543,8 +1543,8 @@ class InventoryController extends Controller
      */
     private function resolveEbayBaseUrl(string $clientId): array
     {
-        $apiUrl = env('EBAY_API_URL');
-        $env = env('EBAY_ENV');
+        $apiUrl = config('services.ebay.api_url') ?: env('EBAY_API_URL');
+        $env = config('services.ebay.mode') ?: env('EBAY_ENV');
 
         if (!empty($apiUrl)) {
             $baseUrl = rtrim($apiUrl, '/');
@@ -1562,7 +1562,7 @@ class InventoryController extends Controller
             $baseUrl = 'https://api.ebay.com';
         }
 
-        $oauthUrl = env('EBAY_OAUTH_URL') ?: ($baseUrl . '/identity/v1/oauth2/token');
+        $oauthUrl = config('services.ebay.oauth_url') ?: env('EBAY_OAUTH_URL') ?: ($baseUrl . '/identity/v1/oauth2/token');
 
         return [$baseUrl, $isSandbox, $oauthUrl];
     }
@@ -1576,7 +1576,7 @@ class InventoryController extends Controller
     {
         $allEbayItems = [];
         $isSandbox = str_contains($baseUrl, 'sandbox');
-        $oauthUrl = $oauthUrl ?: (env('EBAY_OAUTH_URL') ?: ($baseUrl . '/identity/v1/oauth2/token'));
+        $oauthUrl = $oauthUrl ?: (config('services.ebay.oauth_url') ?: env('EBAY_OAUTH_URL') ?: ($baseUrl . '/identity/v1/oauth2/token'));
         $tradingEndpoint = rtrim($baseUrl, '/') . '/ws/api.dll';
 
         $userToken = null;
@@ -2242,8 +2242,8 @@ class InventoryController extends Controller
             'photo_urls' => [],
         ];
 
-        $clientId = env('EBAY_CLIENT_ID', '');
-        $clientSecret = env('EBAY_CLIENT_SECRET', '');
+        $clientId = config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID', '');
+        $clientSecret = config('services.ebay.client_secret') ?: env('EBAY_CLIENT_SECRET', '');
 
         if (empty($clientId) || empty($clientSecret)) {
             return $details;
@@ -2504,9 +2504,9 @@ class InventoryController extends Controller
         $limit = 10;
         set_time_limit(300); // Allow up to 5 minutes for large catalogs
 
-        $seller = trim($request->get('seller') ?: (env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
-        $clientId = env('EBAY_CLIENT_ID', '');
-        $clientSecret = env('EBAY_CLIENT_SECRET', '');
+        $seller = trim($request->get('seller') ?: (config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME') ?: 'systematictrade'));
+        $clientId = config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID', '');
+        $clientSecret = config('services.ebay.client_secret') ?: env('EBAY_CLIENT_SECRET', '');
         $refreshToken = app(EbayOrderSyncService::class)->getRefreshToken();
 
         if (empty($clientId) || empty($clientSecret)) {

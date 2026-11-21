@@ -48,4 +48,16 @@ return [
         'app_id' => env('SQUARE_APPLICATION_ID'),
     ],
 
+    'ebay' => [
+        'mode' => env('EBAY_ENV', 'production'),
+        'client_id' => env('EBAY_CLIENT_ID', env('CLIENT_ID')),
+        'client_secret' => env('EBAY_CLIENT_SECRET', env('CLIENT_SECRET')),
+        'ru_name' => env('EBAY_RU_NAME', env('RU_NAME')),
+        'seller_username' => env('EBAY_SELLER_USERNAME', 'systematictrade'),
+        'refresh_token' => env('EBAY_REFRESH_TOKEN', env('REFRESH_TOKEN')),
+        'verification_token' => env('EBAY_VERIFICATION_TOKEN'),
+        'oauth_url' => env('EBAY_OAUTH_URL'),
+        'api_url' => env('EBAY_API_URL'),
+    ],
+
 ];

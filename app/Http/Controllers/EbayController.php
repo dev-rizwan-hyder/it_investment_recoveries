@@ -11,17 +11,17 @@ class EbayController extends Controller
 {
     private function getClientId(): string
     {
-        return env('EBAY_CLIENT_ID') ?: env('CLIENT_ID', '');
+        return (string) (config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID') ?: env('CLIENT_ID', ''));
     }
 
     private function getClientSecret(): string
     {
-        return env('EBAY_CLIENT_SECRET') ?: env('CLIENT_SECRET', '');
+        return (string) (config('services.ebay.client_secret') ?: env('EBAY_CLIENT_SECRET') ?: env('CLIENT_SECRET', ''));
     }
 
     private function getRuName(): string
     {
-        return env('EBAY_RU_NAME') ?: env('RU_NAME') ?: url('/ebay/callback');
+        return (string) (config('services.ebay.ru_name') ?: env('EBAY_RU_NAME') ?: env('RU_NAME') ?: url('/ebay/callback'));
     }
 
     private function getRefreshToken(): ?string
@@ -31,7 +31,7 @@ class EbayController extends Controller
 
     private function getBaseUrl(): string
     {
-        $apiUrl = env('EBAY_API_URL');
+        $apiUrl = config('services.ebay.api_url') ?: env('EBAY_API_URL');
         if (!empty($apiUrl)) {
             return rtrim($apiUrl, '/');
         }
@@ -39,7 +39,7 @@ class EbayController extends Controller
         if (str_contains($clientId, '-SBX-') || str_starts_with($clientId, 'SBX-')) {
             return 'https://api.sandbox.ebay.com';
         }
-        $env = env('EBAY_ENV');
+        $env = config('services.ebay.mode') ?: env('EBAY_ENV');
         if (!empty($env)) {
             return strtolower($env) === 'production' ? 'https://api.ebay.com' : 'https://api.sandbox.ebay.com';
         }
@@ -52,7 +52,7 @@ class EbayController extends Controller
         if (str_contains($clientId, '-SBX-') || str_starts_with($clientId, 'SBX-')) {
             return 'https://auth.sandbox.ebay.com';
         }
-        $env = env('EBAY_ENV');
+        $env = config('services.ebay.mode') ?: env('EBAY_ENV');
         if (!empty($env)) {
             return strtolower($env) === 'production' ? 'https://auth.ebay.com' : 'https://auth.sandbox.ebay.com';
         }
@@ -210,7 +210,8 @@ class EbayController extends Controller
     public function browse(Request $request)
     {
         $query = $request->query('q', '');
-        $seller = trim($request->query('seller', env('EBAY_SELLER_USERNAME', Session::get('ebay_seller_username', 'systematictrade'))));
+        $defaultSeller = config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME', Session::get('ebay_seller_username', 'systematictrade'));
+        $seller = trim($request->query('seller', $defaultSeller));
         $limit = (int) $request->query('limit', 24);
         if ($limit <= 0) $limit = 24;
         
@@ -481,7 +482,7 @@ class EbayController extends Controller
             'tokenType' => $tokenType,
             'accountConnected' => $accountConnected,
             'authenticatedUser' => $authenticatedUser,
-            'expectedSeller' => env('EBAY_SELLER_USERNAME', 'systematictrade'),
+            'expectedSeller' => config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME', 'systematictrade'),
             'notice' => $notice,
             'error' => $error,
             'rawResponse' => $rawResponse,
@@ -558,7 +559,7 @@ class EbayController extends Controller
         $syncService = app(EbayOrderSyncService::class);
         $userInfo = $syncService->fetchAuthenticatedUser($newAccessToken);
         $actualUserId = $userInfo['userId'] ?? null;
-        $expectedSeller = env('EBAY_SELLER_USERNAME', 'systematictrade');
+        $expectedSeller = config('services.ebay.seller_username') ?: env('EBAY_SELLER_USERNAME', 'systematictrade');
 
         // CASE 1: Verification failed (API error, invalid XML, or missing UserID)
         // Existing tokens are preserved
