@@ -304,6 +304,41 @@
                         </select>
                     </div>
 
+                    <!-- Category -->
+                    <div>
+                        <label for="add_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Category</label>
+                        <select id="add_category" name="category" onchange="onCategoryChange('add')"
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700">
+                            <option value="">Select Category</option>
+                            @if (isset($categories))
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Sub Category -->
+                    <div>
+                        <label for="add_sub_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Sub Category</label>
+                        <select id="add_sub_category" name="sub_category" onchange="onSubCategoryChange('add')" disabled
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                            <option value="">Select Sub Category</option>
+                        </select>
+                    </div>
+
+                    <!-- Sub Sub Category -->
+                    <div class="md:col-span-2">
+                        <label for="add_sub_sub_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Sub Sub Category</label>
+                        <select id="add_sub_sub_category" name="sub_sub_category" disabled
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                            <option value="">Select Sub Sub Category</option>
+                        </select>
+                    </div>
+
                     <!-- Location -->
                     <div>
                         <label for="add_location"
@@ -375,7 +410,6 @@
                             <option value="">Select Person</option>
                             <option value="Abid">Abid</option>
                             <option value="Junaid">Junaid</option>
-                            <option value="Moses">Moses</option>
                         </select>
                     </div>
 
@@ -562,6 +596,41 @@
                         </select>
                     </div>
 
+                    <!-- Category -->
+                    <div>
+                        <label for="edit_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Category</label>
+                        <select id="edit_category" name="category" onchange="onCategoryChange('edit')"
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700">
+                            <option value="">Select Category</option>
+                            @if (isset($categories))
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Sub Category -->
+                    <div>
+                        <label for="edit_sub_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Sub Category</label>
+                        <select id="edit_sub_category" name="sub_category" onchange="onSubCategoryChange('edit')" disabled
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                            <option value="">Select Sub Category</option>
+                        </select>
+                    </div>
+
+                    <!-- Sub Sub Category -->
+                    <div class="md:col-span-2">
+                        <label for="edit_sub_sub_category"
+                            class="block text-xs uppercase font-bold tracking-wider text-slate-600 mb-2">Sub Sub Category</label>
+                        <select id="edit_sub_sub_category" name="sub_sub_category" disabled
+                            class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm outline-none focus:border-indigo-500 transition-all font-semibold text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                            <option value="">Select Sub Sub Category</option>
+                        </select>
+                    </div>
+
                     <!-- Location -->
                     <div>
                         <label for="edit_location"
@@ -633,7 +702,6 @@
                             <option value="">Select Person</option>
                             <option value="Abid">Abid</option>
                             <option value="Junaid">Junaid</option>
-                            <option value="Moses">Moses</option>
                         </select>
                     </div>
 
@@ -1125,10 +1193,142 @@
             let debounceTimer = null;
 
             // ==========================================
+            //         CATEGORY DROPDOWN LOGIC
+            // ==========================================
+            window.onCategoryChange = async (type, preselectedSub = null, preselectedSubSub = null) => {
+                const catSelect = document.getElementById(`${type}_category`);
+                const subSelect = document.getElementById(`${type}_sub_category`);
+                const subSubSelect = document.getElementById(`${type}_sub_sub_category`);
+
+                if (!subSelect) return;
+                subSelect.innerHTML = '<option value="">Select Sub Category</option>';
+                subSelect.disabled = true;
+                if (subSubSelect) {
+                    subSubSelect.innerHTML = '<option value="">Select Sub Sub Category</option>';
+                    subSubSelect.disabled = true;
+                }
+
+                if (!catSelect || !catSelect.value) return;
+
+                const selectedOpt = catSelect.options[catSelect.selectedIndex];
+                const catId = selectedOpt?.getAttribute('data-id') || catSelect.value;
+
+                try {
+                    const response = await fetch(`{{ route('admin.items-lot.sub-categories') }}?parent_id=${encodeURIComponent(catId)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+                        subSelect.disabled = false;
+                        let matchedSubId = null;
+                        data.categories.forEach(sub => {
+                            const opt = document.createElement('option');
+                            opt.value = sub.name;
+                            opt.setAttribute('data-id', sub.id);
+                            opt.textContent = sub.name;
+                            if (preselectedSub && (preselectedSub === sub.name || preselectedSub == sub.id)) {
+                                opt.selected = true;
+                                matchedSubId = sub.id;
+                            }
+                            subSelect.appendChild(opt);
+                        });
+                        if (preselectedSub && !matchedSubId) {
+                            const opt = document.createElement('option');
+                            opt.value = preselectedSub;
+                            opt.textContent = preselectedSub;
+                            opt.selected = true;
+                            subSelect.appendChild(opt);
+                        }
+                        if (matchedSubId || preselectedSub) {
+                            await onSubCategoryChange(type, preselectedSubSub);
+                        }
+                    } else if (preselectedSub) {
+                        subSelect.disabled = false;
+                        const opt = document.createElement('option');
+                        opt.value = preselectedSub;
+                        opt.textContent = preselectedSub;
+                        opt.selected = true;
+                        subSelect.appendChild(opt);
+                    }
+                } catch (e) {
+                    console.error('Error loading subcategories:', e);
+                }
+            };
+
+            window.onSubCategoryChange = async (type, preselectedSubSub = null) => {
+                const subSelect = document.getElementById(`${type}_sub_category`);
+                const subSubSelect = document.getElementById(`${type}_sub_sub_category`);
+
+                if (!subSubSelect) return;
+                subSubSelect.innerHTML = '<option value="">Select Sub Sub Category</option>';
+                subSubSelect.disabled = true;
+
+                if (!subSelect || !subSelect.value) return;
+
+                const selectedOpt = subSelect.options[subSelect.selectedIndex];
+                const subId = selectedOpt?.getAttribute('data-id') || subSelect.value;
+
+                try {
+                    const response = await fetch(`{{ route('admin.items-lot.sub-categories') }}?parent_id=${encodeURIComponent(subId)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+                        subSubSelect.disabled = false;
+                        let matchedSubSub = false;
+                        data.categories.forEach(subSub => {
+                            const opt = document.createElement('option');
+                            opt.value = subSub.name;
+                            opt.setAttribute('data-id', subSub.id);
+                            opt.textContent = subSub.name;
+                            if (preselectedSubSub && (preselectedSubSub === subSub.name || preselectedSubSub == subSub.id)) {
+                                opt.selected = true;
+                                matchedSubSub = true;
+                            }
+                            subSubSelect.appendChild(opt);
+                        });
+                        if (preselectedSubSub && !matchedSubSub) {
+                            const opt = document.createElement('option');
+                            opt.value = preselectedSubSub;
+                            opt.textContent = preselectedSubSub;
+                            opt.selected = true;
+                            subSubSelect.appendChild(opt);
+                        }
+                    } else if (preselectedSubSub) {
+                        subSubSelect.disabled = false;
+                        const opt = document.createElement('option');
+                        opt.value = preselectedSubSub;
+                        opt.textContent = preselectedSubSub;
+                        opt.selected = true;
+                        subSubSelect.appendChild(opt);
+                    }
+                } catch (e) {
+                    console.error('Error loading sub-subcategories:', e);
+                }
+            };
+
+            // ==========================================
             //         MODAL ACTIONS
             // ==========================================
             window.openAddProductModal = () => {
                 document.getElementById('addProductForm').reset();
+                if (document.getElementById('add_category')) {
+                    document.getElementById('add_category').value = '';
+                }
+                if (document.getElementById('add_sub_category')) {
+                    document.getElementById('add_sub_category').innerHTML = '<option value="">Select Sub Category</option>';
+                    document.getElementById('add_sub_category').disabled = true;
+                }
+                if (document.getElementById('add_sub_sub_category')) {
+                    document.getElementById('add_sub_sub_category').innerHTML = '<option value="">Select Sub Sub Category</option>';
+                    document.getElementById('add_sub_sub_category').disabled = true;
+                }
                 document.getElementById('add-previews-grid').innerHTML = '';
                 document.getElementById('add-images-status-text').textContent = '0 selected';
                 document.getElementById('add-images-status-text').className =
@@ -1161,6 +1361,28 @@
                 document.getElementById('edit_folder_name').value = product.folder_name;
                 document.getElementById('edit_condition').value = product.condition;
                 document.getElementById('edit_folder_type').value = product.folder_type;
+
+                const catVal = product.category || '';
+                const subCatVal = product.sub_category || '';
+                const subSubCatVal = product.sub_sub_category || '';
+
+                const catSelect = document.getElementById('edit_category');
+                if (catSelect) {
+                    catSelect.value = catVal;
+                    if (catVal && catSelect.selectedIndex <= 0) {
+                        let exists = Array.from(catSelect.options).some(o => o.value === catVal);
+                        if (!exists) {
+                            const opt = document.createElement('option');
+                            opt.value = catVal;
+                            opt.textContent = catVal;
+                            opt.selected = true;
+                            catSelect.appendChild(opt);
+                        } else {
+                            catSelect.value = catVal;
+                        }
+                    }
+                    window.onCategoryChange('edit', subCatVal, subSubCatVal);
+                }
                 document.getElementById('edit_location').value = product.location;
                 document.getElementById('edit_quantity').value = product.quantity;
                 document.getElementById('edit_notes').value = product.notes;

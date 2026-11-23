@@ -9,6 +9,7 @@ class InventoryManager {
             subCategoryFilter: "",
             subSubCategoryFilter: "",
             palletFilter: "",
+            dateFilter: "",
         };
         this.selectedItem = null;
         this.selectedItemIds = new Set();
@@ -50,6 +51,7 @@ class InventoryManager {
         this.subCategoryFilter = $("#sub-category-filter");
         this.subSubCategoryFilter = $("#sub-sub-category-filter");
         this.palletFilter = $("#pallet-filter");
+        this.dateFilter = $("#date-filter");
         this.tableBody = $("#items-table-body");
         this.paginationContainer = $("#pagination-container");
         this.statsContainer = $("#stats-container");
@@ -116,8 +118,34 @@ class InventoryManager {
             this.loadData();
         });
 
+        this.dateFilter.on("change", (e) => {
+            this.resetSelection();
+            this.filters.dateFilter = this.dateFilter.val();
+            this.currentPage = 1;
+            this.loadData();
+        });
+
         this.refreshBtn.on("click", (e) => {
             this.resetSelection();
+            this.searchInput.val("");
+            this.statusFilter.val("");
+            this.intakeFilter.val("");
+            this.categoryFilter.val("");
+            this.subCategoryFilter.html('<option value="">All Sub Categories</option>').val("").prop("disabled", true);
+            this.subSubCategoryFilter.html('<option value="">All Sub Sub Categories</option>').val("").prop("disabled", true);
+            this.palletFilter.val("");
+            if (this.dateFilter) this.dateFilter.val("");
+            this.filters = {
+                search: "",
+                statusFilter: "",
+                intakeFilter: "",
+                categoryFilter: "",
+                subCategoryFilter: "",
+                subSubCategoryFilter: "",
+                palletFilter: "",
+                dateFilter: "",
+            };
+            this.currentPage = 1;
             this.loadData();
             this.loadStats();
         });
@@ -278,6 +306,7 @@ class InventoryManager {
             subCategoryFilter: this.filters.subCategoryFilter,
             subSubCategoryFilter: this.filters.subSubCategoryFilter,
             palletFilter: this.filters.palletFilter,
+            dateFilter: this.filters.dateFilter,
             page: this.currentPage,
             _t: Date.now(),
         };
@@ -418,6 +447,24 @@ class InventoryManager {
             </button>`;
         }
 
+        // Determine intake type and badge style
+        let intakeType = item.intake_type || "E-commerce";
+        const isEbay = (item.intake_type === "eBay" || item.intake_type === "Ebay" || item.intake_type === "Ebay Product" || item.intake_type === "Denver" || (item.barcode && item.barcode.startsWith("v1|")));
+        if (isEbay) {
+            intakeType = item.sync_status == 1 ? "Denver" : "eBay";
+        }
+
+        let badgeClass = "bg-indigo-50 text-indigo-600 border-indigo-100";
+        if (intakeType === "Denver") {
+            badgeClass = "bg-purple-50 text-purple-700 border-purple-200 font-extrabold";
+        } else if (intakeType === "eBay" || intakeType === "Ebay") {
+            badgeClass = "bg-blue-50 text-blue-700 border-blue-200 font-extrabold";
+        } else if (intakeType === "Refurbishing") {
+            badgeClass = "bg-amber-50 text-amber-600 border-amber-100";
+        } else if (intakeType === "Universal Waste") {
+            badgeClass = "bg-emerald-50 text-emerald-600 border-emerald-100";
+        }
+
         const isSelected = this.selectedItemIds.has(Number(item.id));
 
         return `
@@ -438,9 +485,8 @@ class InventoryManager {
                 </td>
                 <td class="px-4 py-4 text-center"><span class="text-[11px] font-black uppercase text-slate-500" title="${categoryDisplay}">${categoryDisplay}</span></td>
                 <td class="px-4 py-4 text-center">
-                    <span class="px-2 py-0.5 rounded-md text-[9px] font-black uppercase border
-                        ${item.intake_type == "Refurbishing" ? "bg-amber-50 text-amber-600 border-amber-100" : item.intake_type == "Universal Waste" ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-indigo-50 text-indigo-600 border-indigo-100"}">
-                        ${item.intake_type || "E-commerce"}
+                    <span class="px-2 py-0.5 rounded-md text-[9px] font-black uppercase border ${badgeClass}">
+                        ${intakeType}
                     </span>
                 </td>
                 <td class="px-4 py-4 text-center flex items-center justify-center">${repairPhotoHtml}</td>
@@ -2008,6 +2054,7 @@ class InventoryManager {
             subCategoryFilter: this.filters.subCategoryFilter,
             subSubCategoryFilter: this.filters.subSubCategoryFilter,
             palletFilter: this.filters.palletFilter,
+            dateFilter: this.filters.dateFilter,
         });
 
         window.location.href = `${baseUrl}/export-csv?${params.toString()}`;

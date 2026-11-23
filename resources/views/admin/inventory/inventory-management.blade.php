@@ -107,60 +107,106 @@
             </div>
         </div>
 
-        {{-- 3. Filters Section --}}
-        <div class="flex flex-wrap gap-2 mb-6">
-            <div class="relative flex-grow max-w-sm">
-                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                <input id="search-input" type="text" placeholder="Search by name, eBay link / Item ID..."
-                    class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-400 shadow-sm">
+        {{-- 3. Filters Section (Professionally Aligned) --}}
+        <div class="bg-white rounded-xl border border-slate-200/90 p-4 shadow-sm mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-12 gap-3 items-end">
+                {{-- 1. Category --}}
+                <div class="xl:col-span-2">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group text-blue-500 text-[10px]"></i> Category
+                    </label>
+                    <select id="category-filter"
+                        class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-3 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs truncate">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                {{-- 2. Sub Category --}}
+                <div class="xl:col-span-2">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-sitemap text-blue-500 text-[10px]"></i> Sub Category
+                    </label>
+                    <select id="sub-category-filter" disabled
+                        class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-3 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs disabled:bg-slate-100/70 disabled:text-slate-400 disabled:cursor-not-allowed truncate">
+                        <option value="">All Sub Categories</option>
+                    </select>
+                </div>
+
+                {{-- 3. Sub Sub Category --}}
+                <div class="xl:col-span-2">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-folder-tree text-blue-500 text-[10px]"></i> Sub Sub Category
+                    </label>
+                    <select id="sub-sub-category-filter" disabled
+                        class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-3 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs disabled:bg-slate-100/70 disabled:text-slate-400 disabled:cursor-not-allowed truncate">
+                        <option value="">All Sub Sub Categories</option>
+                    </select>
+                </div>
+
+                {{-- 4. Search field --}}
+                <div class="xl:col-span-2 sm:col-span-2">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fas fa-search text-blue-500 text-[10px]"></i> Search Item
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input id="search-input" type="text" placeholder="Name, barcode, serial, link..."
+                            class="w-full h-[40px] pl-8 pr-3 bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 rounded-lg text-xs font-semibold outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-xs text-slate-700">
+                    </div>
+                </div>
+
+                {{-- 5. Intake Type (Both, eBay, Denver only) --}}
+                <div class="xl:col-span-1">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-box-open text-blue-500 text-[10px]"></i> Intake
+                    </label>
+                    <select id="intake-filter"
+                        class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-2 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs">
+                        <option value="">Both</option>
+                        <option value="eBay">eBay</option>
+                        <option value="Denver">Denver</option>
+                    </select>
+                </div>
+
+                {{-- 6. Statuses --}}
+                <div class="xl:col-span-1">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-tag text-blue-500 text-[10px]"></i> Status
+                    </label>
+                    <select id="status-filter"
+                        class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-2 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs">
+                        <option value="">All Statuses</option>
+                        <option value="In Stock">IN STOCK</option>
+                        <option value="LIVE ONLINE">LIVE ONLINE</option>
+                        <option value="Recieved">RECEIVED</option>
+                        <option value="Sold">SOLD</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>
+                </div>
+
+                {{-- 7. Search by Date + Reset Button --}}
+                <div class="xl:col-span-2 flex items-end gap-2">
+                    <div class="flex-1">
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                            <i class="fa-regular fa-calendar text-blue-500 text-[10px]"></i> Date
+                        </label>
+                        <input id="date-filter" type="date"
+                            class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-2.5 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs">
+                    </div>
+                    <button id="refresh-btn" type="button" title="Reset all filters"
+                        class="h-[40px] w-[40px] shrink-0 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 rounded-lg flex items-center justify-center transition-all border border-slate-200">
+                        <i class="fas fa-redo-alt text-xs"></i>
+                    </button>
+                </div>
+
+                {{-- Hidden Pallet Filter kept for DOM compatibility --}}
+                <select id="pallet-filter" class="hidden">
+                    <option value="">All Pallets</option>
+                    @foreach ($pallets_list as $pallet)
+                        <option value="{{ $pallet->barcode_number }}">{{ $pallet->barcode_number }}</option>
+                    @endforeach
+                </select>
             </div>
-
-            <select id="status-filter"
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px]">
-                <option value="">All Statuses</option>
-                <option value="Recieved">RECEIVED</option>
-                <option value="In Stock">IN STOCK</option>
-                <option value="LIVE ONLINE">LIVE ONLINE</option>
-                <option value="Sold">SOLD</option>
-                <option value="COMPLETED">COMPLETED</option>
-            </select>
-
-            <select id="intake-filter"
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[160px]">
-                <option value="">All Intake Types</option>
-                <option value="E-commerce">E-commerce</option>
-                <option value="Refurbishing">Refurbishing</option>
-                <option value="Universal Waste">Universal Waste</option>
-                <option value="eBay">eBay</option>
-            </select>
-
-            <select id="pallet-filter"
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px]">
-                <option value="">All Pallets</option>
-                @foreach ($pallets_list as $pallet)
-                    <option value="{{ $pallet->barcode_number }}">{{ $pallet->barcode_number }}</option>
-                @endforeach
-            </select>
-
-            <select id="category-filter"
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px]">
-                <option value="">All Categories</option>
-            </select>
-
-            <select id="sub-category-filter" disabled
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px] disabled:bg-slate-100 disabled:cursor-not-allowed">
-                <option value="">All Sub Categories</option>
-            </select>
-
-            <select id="sub-sub-category-filter" disabled
-                class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-[12px] font-bold text-slate-600 outline-none shadow-sm min-w-[140px] disabled:bg-slate-100 disabled:cursor-not-allowed">
-                <option value="">All Sub Sub Categories</option>
-            </select>
-
-            <button id="refresh-btn"
-                class="bg-slate-100 p-2.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-200">
-                <i class="fas fa-redo-alt text-xs"></i>
-            </button>
         </div>
 
         {{-- 4. Main Table --}}

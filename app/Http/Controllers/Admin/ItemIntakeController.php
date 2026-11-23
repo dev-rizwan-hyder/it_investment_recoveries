@@ -218,6 +218,18 @@ class ItemIntakeController extends Controller
                     'categories' => [],
                 ]);
             }
+
+            if (!is_numeric($parentId)) {
+                $parent = Category::where('name', $parentId)->first();
+                $parentId = $parent ? $parent->id : null;
+            }
+
+            if (!$parentId) {
+                return response()->json([
+                    'success' => true,
+                    'categories' => [],
+                ]);
+            }
             
             $subCategories = Category::where('parent_id', $parentId)->orderBy('name')->get();
             return response()->json([
@@ -661,6 +673,9 @@ class ItemIntakeController extends Controller
                     'category' => $request->category,
                     'sub_category' => $request->sub_category ?? null,
                     'sub_sub_category' => $request->sub_sub_category ?? null,
+                    'category_id' => is_numeric($request->main_category) ? (int)$request->main_category : null,
+                    'sub_category_id' => is_numeric($request->sub_category) ? (int)$request->sub_category : null,
+                    'sub_sub_category_id' => is_numeric($request->sub_sub_category) ? (int)$request->sub_sub_category : null,
                     'condition' => $request->condition,
                     'estimated_value' => (float) ($request->estimated_value ?? 0),
                     'weight' => $enteredWeight,
@@ -743,6 +758,9 @@ class ItemIntakeController extends Controller
                             'folder_name' => $folderName,
                             'condition' => $request->condition ?? 'New',
                             'folder_type' => $request->folder_type ?? 'Ebay',
+                            'category' => $request->category ?? '',
+                            'sub_category' => $request->sub_category ?? '',
+                            'sub_sub_category' => $request->sub_sub_category ?? '',
                             'location' => trim($request->put_away_location ?? $request->location ?? ''),
                             'quantity' => (int) $enteredQuantity,
                             'weight' => (float) $enteredWeight,
@@ -752,6 +770,8 @@ class ItemIntakeController extends Controller
                             'notes' => trim($request->notes ?? ''),
                             'marked' => 'remaining',
                             'user' => trim($request->ebay_person ?? $request->intake_employee ?? $request->receiving_employee ?? ''),
+                            'person' => trim($request->ebay_person ?? ''),
+                            'intake_employee' => trim($request->intake_employee ?? ''),
                             'ebay_link' => trim($request->ebay_link ?? ''),
                             'website_link' => trim($request->website_link ?? ''),
                             'social_media_1' => trim($request->social_media_1 ?? ''),

@@ -216,48 +216,76 @@
             {{-- Item Details Header & Fields --}}
             <h3 class="text-[18px] font-bold text-[#1e293b] mb-6 pt-4 border-t border-slate-100">Item Details</h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 md:gap-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 md:gap-y-6">
                 <div id="standard-item-fields" class="contents">
-                    <div class="space-y-1 md:space-y-2 hidden" id="ebay-folder-type-wrapper">
+                    {{-- 1. Folder Type * --}}
+                    <div class="space-y-1 md:space-y-2 hidden col-span-1 md:col-span-2 lg:col-span-3" id="ebay-folder-type-wrapper">
                         <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Folder Type *</label>
-                        <select name="folder_type" id="ebay-folder-type-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none">
+                        <select name="folder_type" id="ebay-folder-type-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all">
                             <option value="Ebay">Ebay</option>
                             <option value="Denver">Denver</option>
                             <option value="Both">Both</option>
                         </select>
                     </div>
-                    <div class="space-y-1 md:space-y-2 hidden" id="ebay-person-field-wrapper">
-                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Person</label>
-                        <select name="ebay_person" id="ebay-person-input" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none">
-                            <option value="">Select Person</option>
-                            <option value="Abid">Abid</option>
-                            <option value="Junaid">Junaid</option>
-                        </select>
+
+                    {{-- 2. Categories, Sub Categories, Sub Sub Categories (data from DB) --}}
+                    <div id="category-selection-wrapper" class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-1 md:space-y-2">
+                            <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Category *</label>
+                            <select name="main_category" id="main-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all">
+                                <option value="">Select Main Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="space-y-1 md:space-y-2">
+                            <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Sub Category</label>
+                            <select name="sub_category" id="sub-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all" disabled>
+                                <option value="">Select Sub Category</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1 md:space-y-2">
+                            <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Sub Sub Category</label>
+                            <select name="sub_sub_category" id="sub-sub-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all" disabled>
+                                <option value="">Select Sub Sub Category</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="space-y-1 md:space-y-2">
+                    <input type="hidden" name="category" id="category-final" value="">
+
+                    {{-- 3. Description * --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1 md:col-span-1 lg:col-span-2">
                         <label id="item-name-label" class="text-[12px] md:text-[13px] font-bold text-[#475569]">Description *</label>
-                        <input type="text" name="item_name" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] bg-slate-50" placeholder="Product description / title">
+                        <input type="text" name="item_name" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all" placeholder="Product description / title">
                     </div>
+
+                    {{-- Brand * & Model * (Hidden for Refurb, shown for other intake types) --}}
                     <div class="space-y-1 md:space-y-2" id="brand-wrapper">
                         <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Brand *</label>
-                        <input type="text" name="brand" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] bg-slate-50">
+                        <input type="text" name="brand" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
                     </div>
                     <div class="space-y-1 md:space-y-2" id="model-wrapper">
                         <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Model *</label>
-                        <input type="text" name="model" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] bg-slate-50">
+                        <input type="text" name="model" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
                     </div>
-                    <div class="space-y-1 md:space-y-2" id="serial-number-wrapper">
+
+                    {{-- 4. Serial Number (with option to print serial number) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1 md:col-span-1 lg:col-span-1" id="serial-number-wrapper">
                         <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Serial Number</label>
                         
-                        {{-- Default Single Serial Input with Camera Scan and Auto Generate --}}
+                        {{-- Default Single Serial Input with Camera Scan, Auto Generate, and Print --}}
                         <div id="single-serial-container" class="space-y-2">
-                            <div class="flex gap-2">
-                                <input type="text" name="serial_number" id="serial-number-field" class="form-input flex-1 p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] bg-slate-50" placeholder="Serial Number">
-                                <button type="button" id="ebay-scan-serial-btn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap" title="Scan Serial Number from Camera">
-                                    <i class="fas fa-camera text-blue-600"></i> Scan Camera
+                            <div class="flex flex-wrap sm:flex-nowrap gap-1.5 sm:gap-2">
+                                <input type="text" name="serial_number" id="serial-number-field" class="form-input flex-1 min-w-[120px] p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all" placeholder="Serial Number">
+                                <button type="button" id="ebay-scan-serial-btn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 whitespace-nowrap" title="Scan Serial Number from Camera">
+                                    <i class="fas fa-camera text-blue-600"></i> Scan
                                 </button>
-                                <button type="button" id="ebay-generate-serial-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap" title="Generate Random Serial Number">
-                                    <i class="fas fa-magic"></i> Generate
+                                <button type="button" id="ebay-generate-serial-btn" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 whitespace-nowrap" title="Generate Random Serial Number">
+                                    <i class="fas fa-magic"></i> Gen
+                                </button>
+                                <button type="button" id="ebay-print-serial-btn" class="bg-slate-800 hover:bg-black text-white px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 whitespace-nowrap shadow-sm hover:shadow active:scale-95" title="Print Serial Number Label">
+                                    <i class="fas fa-print text-amber-400"></i> Print
                                 </button>
                             </div>
                         </div>
@@ -290,14 +318,67 @@
                         </div>
                     </div>
 
-                    <div class="space-y-1 md:space-y-2" id="put-away-location-wrapper">
+                    {{-- 5. Location --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1" id="put-away-location-wrapper">
                         <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Location</label>
-                        <input type="text" name="put_away_location" placeholder="e.g. Warehouse A, Shelf 2" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] bg-slate-50">
+                        <input type="text" name="put_away_location" placeholder="e.g. Warehouse A, Shelf 2" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                    </div>
+
+                    {{-- 6. Condition * --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Condition *</label>
+                        <select name="condition" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all">
+                            <option value="">Select condition</option>
+                            <option value="New">New</option>
+                            <option value="Used">Used</option>
+                            <option value="Refurbished">Refurbished</option>
+                            <option value="Open Box">Open Box</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Damaged">Damaged</option>
+                        </select>
+                    </div>
+
+                    {{-- 7. Value ($) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Value ($)</label>
+                        <input type="number" name="estimated_value" step="0.01" placeholder="0.00" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                    </div>
+
+                    {{-- 8. Weight (lbs) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Weight (lbs)</label>
+                        <input type="number" name="weight" step="0.01" placeholder="0.00" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                        <p id="weight-remaining-text" class="text-[11px] text-[#64748b] font-medium">Remaining Weight: -- lbs</p>
+                    </div>
+
+                    {{-- 9. Quantity --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Quantity</label>
+                        <input type="number" name="quantity" placeholder="1" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                        <p id="quantity-remaining-text" class="text-[11px] text-[#64748b] font-medium">Remaining Quantity: --</p>
+                    </div>
+
+                    {{-- 10. eBay Link (Shown for Refurb) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1 hidden" id="ebay-link-wrapper">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">eBay Link</label>
+                        <input type="url" name="ebay_link" placeholder="https://www.ebay.com/itm/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                    </div>
+
+                    {{-- 11. Website Link (Shown for Refurb) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1 hidden" id="website-link-wrapper">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Website Link</label>
+                        <input type="url" name="website_link" placeholder="https://denverdiscountcomputers.com/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
+                    </div>
+
+                    {{-- 12. Social Media Link (Shown for Refurb) --}}
+                    <div class="space-y-1 md:space-y-2 col-span-1 md:col-span-1 lg:col-span-2 hidden" id="social-media-link-wrapper">
+                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Social Media Link</label>
+                        <input type="url" name="social_media_1" placeholder="https://facebook.com/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none focus:border-[#2563eb] focus:bg-white bg-slate-50 transition-all">
                     </div>
                 </div>
 
                 <!-- Data Destruction Items Dynamic Section -->
-                <div id="data-destruction-items-section" class="hidden col-span-1 md:col-span-2 space-y-6 mb-6">
+                <div id="data-destruction-items-section" class="hidden col-span-1 md:col-span-2 lg:col-span-3 space-y-6 mb-6">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                         <h4 class="text-[15px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
                             <i id="dd-items-header-icon" class="fas fa-list text-red-500"></i> <span id="dd-items-header-text">Data Destruction Items</span>
@@ -311,90 +392,22 @@
                         <i class="fas fa-plus text-blue-600"></i> Add Another Item
                     </button>
                 </div>
-
-                <div id="category-selection-wrapper" class="space-y-4">
-                    <div class="space-y-1 md:space-y-2">
-                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Category *</label>
-                        <select name="main_category" id="main-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none">
-                            <option value="">Select Main Category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="space-y-1 md:space-y-2">
-                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Sub Category</label>
-                        <select name="sub_category" id="sub-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none" disabled>
-                            <option value="">Select Sub Category</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1 md:space-y-2">
-                        <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Sub Sub Category</label>
-                        <select name="sub_sub_category" id="sub-sub-category-select" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none" disabled>
-                            <option value="">Select Sub Sub Category</option>
-                        </select>
-                    </div>
-                </div>
-                <input type="hidden" name="category" id="category-final" value="">
-
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Condition *</label>
-                    <select name="condition" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none">
-                        <option value="">Select condition</option>
-                        <option value="New">New</option>
-                        <option value="Used">Used</option>
-                        <option value="Refurbished">Refurbished</option>
-                        <option value="Open Box">Open Box</option>
-                        <option value="Poor">Poor</option>
-                        <option value="Damaged">Damaged</option>
-                    </select>
-                </div>
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Value ($)</label>
-                    <input type="number" name="estimated_value" step="0.01" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                </div>
-
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Weight (lbs)</label>
-                    <input type="number" name="weight" step="0.01" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                    <p id="weight-remaining-text" class="text-[11px] text-[#64748b] font-medium">Remaining Weight: -- lbs</p>
-                </div>
-
-                {{-- Quantity placed directly after Weight field --}}
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Quantity</label>
-                    <input type="number" name="quantity" class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                    <p id="quantity-remaining-text" class="text-[11px] text-[#64748b] font-medium">Remaining Quantity: --</p>
-                </div>
-            </div>
-
-            <!-- eBay Product Extra Links Section -->
-            <div id="ebay-links-section" class="hidden col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-slate-100 pt-4 mt-4">
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">eBay Link</label>
-                    <input type="url" name="ebay_link" placeholder="https://www.ebay.com/itm/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                </div>
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Website Link</label>
-                    <input type="url" name="website_link" placeholder="https://denverdiscountcomputers.com/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                </div>
-                <div class="space-y-1 md:space-y-2">
-                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Social Media Link</label>
-                    <input type="url" name="social_media_1" placeholder="https://facebook.com/..." class="form-input w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50">
-                </div>
             </div>
 
             <div id="selected-pallet-summary" class="mt-3 hidden rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-[12px] text-blue-900 font-semibold">
                 Selected Pallet Remaining: <span id="selected-pallet-remaining-summary">--</span>
             </div>
 
+            {{-- 13. Notes --}}
             <div class="mt-4 md:mt-6 space-y-2">
                 <label class="text-[13px] font-bold text-[#475569]">Notes</label>
-                <textarea name="notes" rows="3" class="form-input w-full p-4 border border-[#e2e8f0] rounded-xl text-[14px] outline-none resize-none bg-slate-50"></textarea>
+                <textarea name="notes" rows="3" placeholder="Enter notes or additional details..." class="form-input w-full p-4 border border-[#e2e8f0] rounded-xl text-[14px] outline-none resize-none bg-slate-50 focus:border-[#2563eb] focus:bg-white transition-all"></textarea>
             </div>
 
-            <div class="mt-4 md:mt-6">
-                <div class="space-y-1 md:space-y-2 max-w-md relative" id="intake-employee-wrapper">
+            {{-- 14. Intake Employee & 15. Person --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
+                {{-- Intake Employee --}}
+                <div class="space-y-1 md:space-y-2 relative" id="intake-employee-wrapper">
                     <label id="intake-employee-label" class="text-[12px] md:text-[13px] font-bold text-[#475569]">Intake Employee</label>
                     <div class="relative">
                         <input type="text" name="intake_employee" id="intake-employee-select" autocomplete="off" class="form-input w-full p-3 pr-10 border border-[#e2e8f0] rounded-xl text-[14px] outline-none bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" placeholder="Enter or select intake employee name...">
@@ -413,6 +426,16 @@
                             @endif
                         </div>
                     </div>
+                </div>
+
+                {{-- Person (shown for Refurb/E-commerce intake) --}}
+                <div class="space-y-1 md:space-y-2 hidden" id="ebay-person-field-wrapper">
+                    <label class="text-[12px] md:text-[13px] font-bold text-[#475569]">Person</label>
+                    <select name="ebay_person" id="ebay-person-input" class="form-select w-full p-3 border border-[#e2e8f0] rounded-xl text-[14px] bg-slate-50 outline-none focus:border-[#2563eb] focus:bg-white transition-all">
+                        <option value="">Select Person</option>
+                        <option value="Abid">Abid</option>
+                        <option value="Junaid">Junaid</option>
+                    </select>
                 </div>
             </div>
 
@@ -1059,6 +1082,7 @@
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <script>
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INTAKE_API = "{{ route('admin.items-lot.generate-barcode') }}";

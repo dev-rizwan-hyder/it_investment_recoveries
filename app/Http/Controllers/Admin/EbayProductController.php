@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use App\Store\Models\Category;
 
 class EbayProductController extends Controller
 {
@@ -53,6 +54,9 @@ class EbayProductController extends Controller
                         $product['location'] ?? '',
                         $product['folder_type'] ?? 'Ebay',
                         $product['user'] ?? '',
+                        $product['category'] ?? '',
+                        $product['sub_category'] ?? '',
+                        $product['sub_sub_category'] ?? '',
                     ]));
                 }
                 return str_contains($haystack, $needle);
@@ -231,6 +235,7 @@ class EbayProductController extends Controller
             'dateRange' => $dateRange,
             'startDate' => $startDate,
             'endDate' => $endDate,
+            'categories' => Category::whereNull('parent_id')->orderBy('name')->get(),
         ]);
     }
 
@@ -566,6 +571,9 @@ class EbayProductController extends Controller
             'estimated_value' => ['nullable', 'numeric'],
             'temp_ids' => ['nullable', 'array'],
             'temp_ids.*' => ['string'],
+            'category' => ['nullable', 'string', 'max:255'],
+            'sub_category' => ['nullable', 'string', 'max:255'],
+            'sub_sub_category' => ['nullable', 'string', 'max:255'],
             'ebay_link' => ['nullable', 'string', 'max:2048'],
             'website_link' => ['nullable', 'string', 'max:2048'],
             'social_media_1' => ['nullable', 'string', 'max:2048'],
@@ -640,6 +648,9 @@ class EbayProductController extends Controller
             'weight' => $data['weight'] ?? '',
             'value' => $data['value'] ?? $data['estimated_value'] ?? '',
             'estimated_value' => $data['value'] ?? $data['estimated_value'] ?? '',
+            'category' => $this->resolveCategoryName($data['category'] ?? ''),
+            'sub_category' => $this->resolveCategoryName($data['sub_category'] ?? ''),
+            'sub_sub_category' => $this->resolveCategoryName($data['sub_sub_category'] ?? ''),
             'ebay_link' => trim($data['ebay_link'] ?? ''),
             'website_link' => trim($data['website_link'] ?? ''),
             'social_media_1' => trim($data['social_media_1'] ?? ''),
@@ -688,6 +699,9 @@ class EbayProductController extends Controller
             'weight' => ['nullable', 'numeric'],
             'value' => ['nullable', 'numeric'],
             'estimated_value' => ['nullable', 'numeric'],
+            'category' => ['nullable', 'string', 'max:255'],
+            'sub_category' => ['nullable', 'string', 'max:255'],
+            'sub_sub_category' => ['nullable', 'string', 'max:255'],
             'ebay_link' => ['nullable', 'string', 'max:2048'],
             'website_link' => ['nullable', 'string', 'max:2048'],
             'social_media_1' => ['nullable', 'string', 'max:2048'],
@@ -718,6 +732,19 @@ class EbayProductController extends Controller
         $metadata['user'] = $data['user'] ?? '';
         $metadata['serial_number'] = trim($data['serial_number'] ?? '');
         $metadata['weight'] = $data['weight'] ?? '';
+        if (array_key_exists('value', $data) || array_key_exists('estimated_value', $data)) {
+            $metadata['value'] = $data['value'] ?? $data['estimated_value'] ?? '';
+            $metadata['estimated_value'] = $metadata['value'];
+        }
+        if (array_key_exists('category', $data)) {
+            $metadata['category'] = $this->resolveCategoryName($data['category'] ?? '');
+        }
+        if (array_key_exists('sub_category', $data)) {
+            $metadata['sub_category'] = $this->resolveCategoryName($data['sub_category'] ?? '');
+        }
+        if (array_key_exists('sub_sub_category', $data)) {
+            $metadata['sub_sub_category'] = $this->resolveCategoryName($data['sub_sub_category'] ?? '');
+        }
         $metadata['ebay_link'] = trim($data['ebay_link'] ?? '');
         $metadata['website_link'] = trim($data['website_link'] ?? '');
         $metadata['social_media_1'] = trim($data['social_media_1'] ?? '');
@@ -1305,6 +1332,9 @@ class EbayProductController extends Controller
             'weight' => $metadata['weight'] ?? '',
             'value' => $metadata['value'] ?? $metadata['estimated_value'] ?? '',
             'estimated_value' => $metadata['value'] ?? $metadata['estimated_value'] ?? '',
+            'category' => $metadata['category'] ?? '',
+            'sub_category' => $metadata['sub_category'] ?? '',
+            'sub_sub_category' => $metadata['sub_sub_category'] ?? '',
             'ebay_link' => $metadata['ebay_link'] ?? '',
             'website_link' => $metadata['website_link'] ?? '',
             'social_media_1' => $metadata['social_media_1'] ?? '',
@@ -1320,6 +1350,17 @@ class EbayProductController extends Controller
             'updated_at_denver' => $this->formatDenverTimestamp($updatedAt),
             'path' => $directory,
         ];
+    }
+
+    private function resolveCategoryName($val): string
+    {
+        if (empty($val)) return '';
+        $val = trim((string) $val);
+        if (is_numeric($val)) {
+            $cat = Category::find($val);
+            return $cat ? $cat->name : $val;
+        }
+        return $val;
     }
 
     private function statsForProducts(array $products): array

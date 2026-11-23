@@ -43,6 +43,7 @@ class InventoryController extends Controller
             $intakeFilter = $request->get('intakeFilter', '');
             $categoryFilter = $request->get('categoryFilter', '');
             $palletFilter = $request->get('palletFilter', '');
+            $dateFilter = $request->get('dateFilter', '');
             $page = $request->get('page', 1);
 
             $query = Inventory::query();
@@ -81,7 +82,30 @@ class InventoryController extends Controller
             }
 
             if ($intakeFilter) {
-                $query->where('intake_type', $intakeFilter);
+                if (strtolower($intakeFilter) === 'denver') {
+                    $query->where(function ($q) {
+                        $q->where('intake_type', 'Denver')
+                          ->orWhere(function ($sub) {
+                              $sub->whereIn('intake_type', ['eBay', 'Ebay', 'Ebay Product'])
+                                  ->where('sync_status', 1);
+                          });
+                    });
+                } elseif (strtolower($intakeFilter) === 'ebay') {
+                    $query->where(function ($q) {
+                        $q->whereIn('intake_type', ['eBay', 'Ebay'])
+                          ->where(function ($sub) {
+                              $sub->whereNull('sync_status')
+                                  ->orWhere('sync_status', '!=', 1);
+                          });
+                    });
+                } elseif (strtolower($intakeFilter) === 'both') {
+                    $query->where(function ($q) {
+                        $q->where('intake_type', 'Denver')
+                          ->orWhereIn('intake_type', ['eBay', 'Ebay', 'Ebay Product']);
+                    });
+                } else {
+                    $query->where('intake_type', $intakeFilter);
+                }
             }
 
             if ($categoryFilter) {
@@ -98,6 +122,10 @@ class InventoryController extends Controller
 
             if ($palletFilter) {
                 $query->where('pallet_number', $palletFilter);
+            }
+
+            if ($dateFilter) {
+                $query->whereDate('created_at', $dateFilter);
             }
 
             $perPage = 15;
@@ -686,6 +714,14 @@ class InventoryController extends Controller
             $item->sync_status = 1;
             $item->status = 'In Stock';
             $item->synced_at = now();
+
+            // When product fetched from eBay is synced to store, intake type becomes Denver
+            $isEbay = in_array(strtolower($item->intake_type ?? ''), ['ebay', 'ebay product', 'e-commerce', 'ecommerce', 'denver', ''])
+                || str_starts_with((string) $item->barcode, 'v1|');
+            if ($isEbay) {
+                $item->intake_type = 'Denver';
+            }
+
             $item->save();
 
             \Log::info("Item synced to store", [
@@ -693,6 +729,7 @@ class InventoryController extends Controller
                 'barcode' => $item->barcode,
                 'name' => $item->name,
                 'status' => $item->status,
+                'intake_type' => $item->intake_type,
             ]);
 
             return response()->json([
@@ -724,6 +761,7 @@ class InventoryController extends Controller
             $intakeFilter = $request->get('intakeFilter', '');
             $categoryFilter = $request->get('categoryFilter', '');
             $palletFilter = $request->get('palletFilter', '');
+            $dateFilter = $request->get('dateFilter', '');
 
             $query = Inventory::query();
 
@@ -738,8 +776,32 @@ class InventoryController extends Controller
 
             if ($statusFilter)
                 $query->where('status', $statusFilter);
-            if ($intakeFilter)
-                $query->where('intake_type', $intakeFilter);
+            if ($intakeFilter) {
+                if (strtolower($intakeFilter) === 'denver') {
+                    $query->where(function ($q) {
+                        $q->where('intake_type', 'Denver')
+                          ->orWhere(function ($sub) {
+                              $sub->whereIn('intake_type', ['eBay', 'Ebay', 'Ebay Product'])
+                                  ->where('sync_status', 1);
+                          });
+                    });
+                } elseif (strtolower($intakeFilter) === 'ebay') {
+                    $query->where(function ($q) {
+                        $q->whereIn('intake_type', ['eBay', 'Ebay'])
+                          ->where(function ($sub) {
+                              $sub->whereNull('sync_status')
+                                  ->orWhere('sync_status', '!=', 1);
+                          });
+                    });
+                } elseif (strtolower($intakeFilter) === 'both') {
+                    $query->where(function ($q) {
+                        $q->where('intake_type', 'Denver')
+                          ->orWhereIn('intake_type', ['eBay', 'Ebay', 'Ebay Product']);
+                    });
+                } else {
+                    $query->where('intake_type', $intakeFilter);
+                }
+            }
             if ($categoryFilter)
                 $query->where('category', $categoryFilter);
             if ($request->filled('subCategoryFilter'))
@@ -748,6 +810,8 @@ class InventoryController extends Controller
                 $query->where('sub_sub_category', $request->get('subSubCategoryFilter'));
             if ($palletFilter)
                 $query->where('pallet_number', $palletFilter);
+            if ($dateFilter)
+                $query->whereDate('created_at', $dateFilter);
 
             $items = $query->get();
 
@@ -1088,6 +1152,8 @@ class InventoryController extends Controller
             // Fetch existing inventory items mapped by barcode (eBay itemId)
             $existingInventory = Inventory::whereIn('barcode', array_keys($allEbayItems))
                 ->orWhere('intake_type', 'eBay')
+                ->orWhere('intake_type', 'Denver')
+                ->orWhere('barcode', 'LIKE', 'v1|%')
                 ->get();
 
             $existingMap = [];
@@ -1296,6 +1362,7 @@ class InventoryController extends Controller
                         'put_away_location' => $putAwayLocation ?: $existing->put_away_location,
                         'weight' => $pWeight ?: $existing->weight,
                         'notes' => $notes ?: $existing->notes,
+                        'intake_type' => ((int) ($existing->sync_status ?? 0) === 1) ? 'Denver' : 'eBay',
                     ]);
 
                     InventoryShippingRate::updateOrCreate(
@@ -1449,6 +1516,7 @@ class InventoryController extends Controller
         // 5. Query all synced inventory items
         $syncedInventory = Inventory::where(function ($q) {
             $q->where('intake_type', 'eBay')
+              ->orWhere('intake_type', 'Denver')
               ->orWhere('barcode', 'LIKE', 'v1|%');
         })->get();
 
@@ -2610,8 +2678,10 @@ class InventoryController extends Controller
                         'status' => $ebayQty > 0 ? 'In Stock' : 'Sold',
                     ];
 
+                    $isSynced = (int) ($existing->sync_status ?? 0) === 1;
                     $updateData = [
                         'quantity' => $ebayQty,
+                        'intake_type' => $isSynced ? 'Denver' : 'eBay',
                     ];
 
                     $newPrice = $ebayItem['price']['value'] ?? null;
@@ -2735,7 +2805,11 @@ class InventoryController extends Controller
 
                 // 4. Detect sold items: eBay inventory items NOT in active listings
                 if (!$checkOnly && !empty($activeEbayIds)) {
-                    $ebayInventoryItems = Inventory::where('intake_type', 'eBay')
+                    $ebayInventoryItems = Inventory::where(function ($q) {
+                        $q->where('intake_type', 'eBay')
+                          ->orWhere('intake_type', 'Denver')
+                          ->orWhere('barcode', 'LIKE', 'v1|%');
+                    })
                         ->where('status', '!=', 'Sold')
                         ->whereNotNull('barcode')
                         ->where('barcode', '!=', '')

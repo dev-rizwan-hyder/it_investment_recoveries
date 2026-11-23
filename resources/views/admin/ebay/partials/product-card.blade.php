@@ -26,6 +26,9 @@
         'quantity' => $product['quantity'],
         'notes' => $product['notes'],
         'folder_type' => $product['folder_type'],
+        'category' => $product['category'] ?? '',
+        'sub_category' => $product['sub_category'] ?? '',
+        'sub_sub_category' => $product['sub_sub_category'] ?? '',
         'marked' => $product['marked'],
         'user' => $product['user'] ?? '',
         'serial_number' => $product['serial_number'] ?? '',
@@ -96,6 +99,26 @@
                 <i class="fa-regular fa-folder text-[10px]"></i>
                 {{ $folderType }}
             </span>
+
+            @if (!empty($product['category']))
+                @php
+                    $fullCategoryPath = $product['category'];
+                    if (!empty($product['sub_category'])) {
+                        $fullCategoryPath .= ' > ' . $product['sub_category'];
+                    }
+                    if (!empty($product['sub_sub_category'])) {
+                        $fullCategoryPath .= ' > ' . $product['sub_sub_category'];
+                    }
+                @endphp
+                <span class="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 shadow-xs" title="Category: {{ $fullCategoryPath }}">
+                    <i class="fa-solid fa-layer-group text-[10px]"></i>
+                    {{ $product['category'] }}
+                    @if (!empty($product['sub_category']))
+                        <span class="text-[10px] text-emerald-400 font-normal">/</span>
+                        <span class="text-[11px] font-semibold text-emerald-600">{{ $product['sub_category'] }}</span>
+                    @endif
+                </span>
+            @endif
 
             @if ($markedStatus === 'ebay' || $markedStatus === 'abid')
                 <span class="inline-flex items-center gap-1 rounded-full border border-amber-250 bg-amber-100/70 px-2.5 py-0.5 text-xs font-bold text-amber-700 shadow-sm">
@@ -171,7 +194,11 @@
     </div>
 
     {{-- ── Metadata Grid ── --}}
-    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-500">
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-500">
+        <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Category</span>
+            <span class="mt-1 block font-bold text-slate-700 truncate" title="{{ !empty($product['category']) ? $product['category'] . (!empty($product['sub_category']) ? ' > ' . $product['sub_category'] : '') . (!empty($product['sub_sub_category']) ? ' > ' . $product['sub_sub_category'] : '') : '-' }}">{{ $product['category'] ?: '-' }}</span>
+        </div>
         <div>
             <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Condition</span>
             <span class="mt-1 block font-bold text-slate-700">{{ $product['condition'] }}</span>

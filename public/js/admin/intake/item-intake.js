@@ -327,6 +327,16 @@ class ItemIntakeManager {
             });
         }
 
+        const ebayPrintSerialBtn = document.getElementById("ebay-print-serial-btn");
+        if (ebayPrintSerialBtn) {
+            ebayPrintSerialBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (typeof this.printSerialLabel === "function") {
+                    this.printSerialLabel();
+                }
+            });
+        }
+
         // Setup multiple serials event listeners
         const addSerialBtn = document.getElementById("add-serial-btn");
         if (addSerialBtn) {
@@ -529,6 +539,9 @@ class ItemIntakeManager {
             const ebayFolderTypeWrapper = document.getElementById("ebay-folder-type-wrapper");
             const ebayPersonFieldWrapper = document.getElementById("ebay-person-field-wrapper");
             const ebayLinksSection = document.getElementById("ebay-links-section");
+            const ebayLinkWrapper = document.getElementById("ebay-link-wrapper");
+            const websiteLinkWrapper = document.getElementById("website-link-wrapper");
+            const socialMediaLinkWrapper = document.getElementById("social-media-link-wrapper");
             const categorySelectionWrapper = document.getElementById("category-selection-wrapper");
             const brandWrapper = document.getElementById("brand-wrapper");
             const modelWrapper = document.getElementById("model-wrapper");
@@ -539,6 +552,9 @@ class ItemIntakeManager {
             if (ebayFolderTypeWrapper) ebayFolderTypeWrapper.classList.add("hidden");
             if (ebayPersonFieldWrapper) ebayPersonFieldWrapper.classList.add("hidden");
             if (ebayLinksSection) ebayLinksSection.classList.add("hidden");
+            if (ebayLinkWrapper) ebayLinkWrapper.classList.add("hidden");
+            if (websiteLinkWrapper) websiteLinkWrapper.classList.add("hidden");
+            if (socialMediaLinkWrapper) socialMediaLinkWrapper.classList.add("hidden");
             if (categorySelectionWrapper) categorySelectionWrapper.classList.remove("hidden");
             if (brandWrapper) brandWrapper.classList.remove("hidden");
             if (modelWrapper) modelWrapper.classList.remove("hidden");
@@ -957,14 +973,15 @@ class ItemIntakeManager {
             return text.startsWith('Select ') ? '' : text;
         };
         const isMultiItemIntake = (this.intakeType === "Data Destruction Intake" || this.intakeType === "IT Assets Intake");
+        const selectedMainCategoryText = getSelectedText(document.querySelector('#main-category-select'));
         const formInputs = {
             item_name: isMultiItemIntake ? "" : document.querySelector('input[name="item_name"]').value,
             brand: isMultiItemIntake ? "" : document.querySelector('input[name="brand"]').value,
             model: isMultiItemIntake ? "" : document.querySelector('input[name="model"]').value,
             serial_number: isMultiItemIntake ? "" : document.querySelector('input[name="serial_number"]').value,
             category: (this.intakeType === "eBay Product Intake" || this.intakeType === "eBay Product")
-                ? (mainCategoryOption?.textContent.trim() || (categoryFinalElement ? categoryFinalElement.value.trim() : '') || 'eBay Product')
-                : (mainCategoryOption?.textContent.trim() || (categoryFinalElement ? categoryFinalElement.value.trim() : '')),
+                ? (selectedMainCategoryText || (categoryFinalElement ? categoryFinalElement.value.trim() : '') || 'eBay Product')
+                : (selectedMainCategoryText || (categoryFinalElement ? categoryFinalElement.value.trim() : '')),
             sub_category: getSelectedText(subCategorySelect),
             sub_sub_category: getSelectedText(subSubCategorySelect),
             condition: document.querySelector('select[name="condition"]').value,
@@ -1024,6 +1041,10 @@ class ItemIntakeManager {
         }
 
         formData.append("category", formInputs.category);
+        const mainCatSelect = document.querySelector('#main-category-select');
+        if (mainCatSelect && mainCatSelect.value) {
+            formData.append("main_category", mainCatSelect.value);
+        }
         formData.append("sub_category", formInputs.sub_category);
         formData.append("sub_sub_category", formInputs.sub_sub_category);
         formData.append("condition", formInputs.condition);

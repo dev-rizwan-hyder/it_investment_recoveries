@@ -15,6 +15,9 @@
         const ebayFolderTypeWrapper = document.getElementById("ebay-folder-type-wrapper");
         const ebayPersonFieldWrapper = document.getElementById("ebay-person-field-wrapper");
         const ebayLinksSection = document.getElementById("ebay-links-section");
+        const ebayLinkWrapper = document.getElementById("ebay-link-wrapper");
+        const websiteLinkWrapper = document.getElementById("website-link-wrapper");
+        const socialMediaLinkWrapper = document.getElementById("social-media-link-wrapper");
         const categorySelectionWrapper = document.getElementById("category-selection-wrapper");
         const brandWrapper = document.getElementById("brand-wrapper");
         const modelWrapper = document.getElementById("model-wrapper");
@@ -25,12 +28,164 @@
         if (ebayFolderTypeWrapper) ebayFolderTypeWrapper.classList.remove("hidden");
         if (ebayPersonFieldWrapper) ebayPersonFieldWrapper.classList.remove("hidden");
         if (ebayLinksSection) ebayLinksSection.classList.remove("hidden");
-        if (categorySelectionWrapper) categorySelectionWrapper.classList.add("hidden");
+        if (ebayLinkWrapper) ebayLinkWrapper.classList.remove("hidden");
+        if (websiteLinkWrapper) websiteLinkWrapper.classList.remove("hidden");
+        if (socialMediaLinkWrapper) socialMediaLinkWrapper.classList.remove("hidden");
+        if (categorySelectionWrapper) {
+            categorySelectionWrapper.classList.remove("hidden");
+            const mainCatSelect = document.getElementById("main-category-select");
+            if (mainCatSelect && mainCatSelect.options.length <= 1 && typeof this.loadCategories === "function") {
+                this.loadCategories();
+            }
+        }
         if (brandWrapper) brandWrapper.classList.add("hidden");
         if (modelWrapper) modelWrapper.classList.add("hidden");
         if (intakeEmployeeWrapper) intakeEmployeeWrapper.classList.remove("hidden");
         if (itemNameLabel) itemNameLabel.textContent = "Description *";
         if (cameraBtnWrapper) cameraBtnWrapper.classList.remove("hidden");
+    };
+
+    ItemIntakeManager.prototype.printSerialLabel = function () {
+        const serialField = document.getElementById("serial-number-field");
+        const serial = (serialField ? serialField.value : "").trim();
+        if (!serial) {
+            alert("Please enter or generate a serial number first before printing.");
+            if (serialField) serialField.focus();
+            return;
+        }
+
+        const printWindow = window.open("", "_blank", "height=300,width=480");
+        if (!printWindow) {
+            alert("Popup blocked! Please allow popups for this site to print.");
+            return;
+        }
+
+        const safeSerial = serial.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+
+        printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Serial Barcode - ${safeSerial}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .serial-print-card {
+            background: #fff;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            max-width: 3.5in;
+        }
+        .barcode-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .barcode-container svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        .print-actions {
+            margin-top: 16px;
+            text-align: center;
+        }
+        .print-actions button {
+            background: #0f172a;
+            color: #fff;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .print-actions button:hover {
+            background: #2563eb;
+        }
+        @page {
+            size: auto;
+            margin: 0;
+        }
+        @media print {
+            html, body {
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .serial-print-card {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 2px !important;
+                border-radius: 0 !important;
+                margin: 0 auto !important;
+                page-break-inside: avoid !important;
+                max-width: 100% !important;
+            }
+            .print-actions {
+                display: none !important;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+</head>
+<body>
+    <div class="serial-print-card">
+        <div class="barcode-container">
+            <svg id="serial-barcode-svg"></svg>
+        </div>
+    </div>
+    <div class="print-actions">
+        <button onclick="window.print()">Print Serial Barcode</button>
+    </div>
+    <script>
+        window.onload = function() {
+            try {
+                if (window.JsBarcode) {
+                    JsBarcode("#serial-barcode-svg", "${safeSerial}", {
+                        format: "CODE128",
+                        width: 2,
+                        height: 52,
+                        displayValue: true,
+                        font: "monospace",
+                        fontSize: 14,
+                        fontOptions: "bold",
+                        textMargin: 4,
+                        margin: 4
+                    });
+                }
+            } catch(err) {
+                console.error("Barcode render error:", err);
+            }
+            setTimeout(function() {
+                window.print();
+            }, 300);
+        };
+    <\/script>
+</body>
+</html>`);
+        printWindow.document.close();
     };
 
     ItemIntakeManager.prototype.scanSerialFromCamera = function () {
