@@ -110,7 +110,19 @@
         {{-- 3. Filters Section (Professionally Aligned) --}}
         <div class="bg-white rounded-xl border border-slate-200/90 p-4 shadow-sm mb-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-12 gap-3 items-end">
-                {{-- 1. Category --}}
+                {{-- 1. Search field --}}
+                <div class="xl:col-span-2 sm:col-span-2">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                        <i class="fas fa-search text-blue-500 text-[10px]"></i> Search Item
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input id="search-input" type="text" placeholder="Name, barcode, serial, link..."
+                            class="w-full h-[40px] pl-8 pr-3 bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 rounded-lg text-xs font-semibold outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-xs text-slate-700">
+                    </div>
+                </div>
+
+                {{-- 2. Category --}}
                 <div class="xl:col-span-2">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
                         <i class="fa-solid fa-layer-group text-blue-500 text-[10px]"></i> Category
@@ -121,7 +133,7 @@
                     </select>
                 </div>
 
-                {{-- 2. Sub Category --}}
+                {{-- 3. Sub Category --}}
                 <div class="xl:col-span-2">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
                         <i class="fa-solid fa-sitemap text-blue-500 text-[10px]"></i> Sub Category
@@ -132,7 +144,7 @@
                     </select>
                 </div>
 
-                {{-- 3. Sub Sub Category --}}
+                {{-- 4. Sub Sub Category --}}
                 <div class="xl:col-span-2">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
                         <i class="fa-solid fa-folder-tree text-blue-500 text-[10px]"></i> Sub Sub Category
@@ -141,18 +153,6 @@
                         class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-3 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs disabled:bg-slate-100/70 disabled:text-slate-400 disabled:cursor-not-allowed truncate">
                         <option value="">All Sub Sub Categories</option>
                     </select>
-                </div>
-
-                {{-- 4. Search field --}}
-                <div class="xl:col-span-2 sm:col-span-2">
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
-                        <i class="fas fa-search text-blue-500 text-[10px]"></i> Search Item
-                    </label>
-                    <div class="relative">
-                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                        <input id="search-input" type="text" placeholder="Name, barcode, serial, link..."
-                            class="w-full h-[40px] pl-8 pr-3 bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 rounded-lg text-xs font-semibold outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-xs text-slate-700">
-                    </div>
                 </div>
 
                 {{-- 5. Intake Type (Both, eBay, Denver only) --}}
