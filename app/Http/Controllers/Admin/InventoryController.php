@@ -218,6 +218,7 @@ class InventoryController extends Controller
             }
 
             $createInvoiceUrl = route('admin.sales.invoices.create', ['inventory_id' => $item->id]);
+            $storeProductUrl = 'https://denverdiscountcomputers.com/product/' . $item->id;
 
             return response()->json([
                 'success' => true,
@@ -225,6 +226,7 @@ class InventoryController extends Controller
                 'has_invoice' => !empty($invoiceData),
                 'invoice' => $invoiceData,
                 'create_invoice_url' => $createInvoiceUrl,
+                'store_product_url' => $storeProductUrl,
             ]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -781,9 +783,12 @@ class InventoryController extends Controller
                 'intake_type' => $item->intake_type,
             ]);
 
+            $storeProductUrl = 'https://denverdiscountcomputers.com/product/' . $item->id;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Item synced to store successfully!',
+                'store_product_url' => $storeProductUrl,
                 'item' => $item->fresh()
             ]);
         } catch (\Exception $e) {

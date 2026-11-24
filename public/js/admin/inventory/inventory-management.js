@@ -440,11 +440,12 @@ class InventoryManager {
         if (item.sync_status == 1) {
             rowBgClass = "bg-emerald-50/60 hover:bg-emerald-50/80 border-l-4 border-emerald-500";
             syncButtonDisabled = "disabled";
-            syncButtonHtml = `<button disabled
-                class="w-8 h-8 shrink-0 bg-emerald-50 text-emerald-600 border border-emerald-200/80 rounded-lg flex items-center justify-center cursor-default shadow-xs"
-                title="Already Synced to Store">
+            const storeUrl = `https://denverdiscountcomputers.com/product/${item.id}`;
+            syncButtonHtml = `<a href="${storeUrl}" target="_blank"
+                class="w-8 h-8 shrink-0 bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200/80 rounded-lg flex items-center justify-center shadow-xs transition-all active:scale-95"
+                title="Synced to Store - View on denverdiscountcomputers.com">
                 <i class="fas fa-check text-[11px] font-bold"></i>
-            </button>`;
+            </a>`;
         }
 
         // Determine intake type and badge style
@@ -1615,8 +1616,8 @@ class InventoryManager {
             if (data.success) {
                 this.loadData(); // Refresh table to show new sync date/status
 
-                // Show sync success modal with product link
-                const storeProductUrl = window.location.origin + "/product/" + itemId;
+                // Show sync success modal with product link (denverdiscountcomputers.com)
+                const storeProductUrl = data.store_product_url || `https://denverdiscountcomputers.com/product/${itemId}`;
                 $("#sync-store-link").text(storeProductUrl).attr("href", storeProductUrl);
 
                 // Reset Copy button status
@@ -1666,6 +1667,14 @@ class InventoryManager {
             $("#detail-header-intake").text(item.intake_type).removeClass("hidden");
         } else {
             $("#detail-header-intake").addClass("hidden");
+        }
+
+        // Store Front Link if synced
+        if (item.sync_status == 1) {
+            const storeUrl = item.store_product_url || `https://denverdiscountcomputers.com/product/${item.id}`;
+            $("#detail-header-store-link").attr("href", storeUrl).removeClass("hidden").addClass("inline-flex");
+        } else {
+            $("#detail-header-store-link").addClass("hidden").removeClass("inline-flex");
         }
 
         // Invoice header actions & Column 2 card & footer actions

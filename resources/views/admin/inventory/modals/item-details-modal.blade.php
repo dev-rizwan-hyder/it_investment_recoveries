@@ -14,6 +14,11 @@
                         <h2 class="text-sm font-black text-slate-900 tracking-tight leading-none uppercase">Inventory Details</h2>
                         <span class="text-[10px] bg-blue-50 text-blue-600 font-black px-2 py-0.5 rounded uppercase tracking-wider">Barcode: <span id="detail-barcode"></span></span>
                         <span id="detail-header-intake" class="hidden text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded uppercase"></span>
+                        <a id="detail-header-store-link" href="#" target="_blank" class="hidden text-[10px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-black px-2 py-0.5 rounded uppercase tracking-wider items-center gap-1 transition-all" title="View product on Denver Discount Computers">
+                            <i class="fas fa-store text-[9px]"></i>
+                            <span>Store Front</span>
+                            <i class="fas fa-external-link-alt text-[8px]"></i>
+                        </a>
                     </div>
                     <p id="detail-name-label" class="text-xs font-semibold text-slate-500 truncate max-w-2xl mt-0.5"></p>
                 </div>

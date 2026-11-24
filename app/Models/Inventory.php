@@ -98,4 +98,12 @@ class Inventory extends Model
     {
         return $this->hasMany(\App\Models\SalesInvoiceItem::class, 'inventory_id');
     }
+
+    /**
+     * Store product public URL on Denver Discount Computers
+     */
+    public function getStoreProductUrlAttribute(): string
+    {
+        return 'https://denverdiscountcomputers.com/product/' . $this->id;
+    }
 }

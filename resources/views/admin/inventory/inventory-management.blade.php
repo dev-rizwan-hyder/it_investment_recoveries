@@ -272,7 +272,7 @@
             <p class="text-slate-500 text-sm mb-4">The item is now live on the store front.</p>
 
             <div class="bg-slate-50 rounded-xl border border-slate-100 p-3 mb-6 flex items-center justify-between gap-2 text-left">
-                <a id="sync-store-link" href="#" target="_blank" class="text-xs font-bold text-blue-600 break-all hover:text-blue-800 hover:underline">http://127.0.0.1:8000/product/128</a>
+                <a id="sync-store-link" href="#" target="_blank" class="text-xs font-bold text-blue-600 break-all hover:text-blue-800 hover:underline">https://denverdiscountcomputers.com/product/128</a>
                 <button type="button" id="copy-sync-link-btn" onclick="copySyncLink()"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 shrink-0">
                     <i class="fas fa-copy"></i> Copy
