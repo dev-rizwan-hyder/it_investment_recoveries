@@ -1228,8 +1228,8 @@ class InventoryController extends Controller
                 'environment' => $isSandbox ? 'Sandbox' : 'Production',
             ];
 
-            // Cache successful results for 10 minutes
-            \Illuminate\Support\Facades\Cache::put($cacheKey, $responseData, 600);
+            // Cache successful results for 2 hours (can be refreshed on demand with refresh=1)
+            \Illuminate\Support\Facades\Cache::put($cacheKey, $responseData, 7200);
 
             return response()->json($responseData);
         } catch (\Throwable $e) {
@@ -1415,6 +1415,33 @@ class InventoryController extends Controller
 
                 return $newRecord;
             });
+
+            // Update item in eBay listings cache if cached
+            try {
+                $clientId = config('services.ebay.client_id') ?: env('EBAY_CLIENT_ID', '');
+                [$baseUrl] = $this->resolveEbayBaseUrl($clientId);
+                $cacheKey = 'ebay_listings_v3_' . md5($seller . $baseUrl);
+                $cached = \Illuminate\Support\Facades\Cache::get($cacheKey);
+                if ($cached && !empty($cached['items']) && is_array($cached['items'])) {
+                    $rawNum = preg_match('/(\d{9,14})/', (string) $itemId, $m) ? $m[1] : (string) $itemId;
+                    foreach ($cached['items'] as &$cItem) {
+                        $cId = (string) ($cItem['itemId'] ?? '');
+                        if ($cId === (string) $itemId || $cId === $rawNum || $cId === "v1|{$rawNum}|0") {
+                            $cItem['is_synced'] = true;
+                            $cItem['inventory_status'] = 'In Stock';
+                            $cItem['inventory_id'] = $inventoryRecord->id;
+                            $cItem['quantity'] = $inventoryRecord->quantity;
+                            break;
+                        }
+                    }
+                    unset($cItem);
+                    $cached['synced_count'] = count(array_filter($cached['items'], fn($i) => !empty($i['is_synced'])));
+                    $cached['unsynced_count'] = count($cached['items']) - $cached['synced_count'];
+                    \Illuminate\Support\Facades\Cache::put($cacheKey, $cached, 7200);
+                }
+            } catch (\Throwable $ce) {
+                \Log::warning('Failed to update eBay cache after sync: ' . $ce->getMessage());
+            }
 
             return response()->json([
                 'success' => true,

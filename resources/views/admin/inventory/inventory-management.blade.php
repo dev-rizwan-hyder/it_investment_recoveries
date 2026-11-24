@@ -597,6 +597,29 @@
                 </div>
             </div>
 
+            {{-- Modal Pagination Bar --}}
+            <div id="ebay-popup-pagination" class="hidden px-6 py-3 bg-white border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-3 shrink-0 text-xs">
+                <div class="flex items-center gap-3">
+                    <span id="ebay-pagination-info" class="text-slate-600 font-bold text-xs">
+                        Showing <span class="text-slate-900 font-black">1–20</span> of <span class="text-slate-900 font-black">0</span> listings
+                    </span>
+                    <div class="flex items-center gap-1.5 text-slate-500 font-semibold text-xs border-l border-slate-200 pl-3">
+                        <label for="ebay-per-page-select">Per page:</label>
+                        <select id="ebay-per-page-select" onchange="changeEbayPageSize(this.value)"
+                            class="bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-bold text-slate-700 outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-200 transition-all cursor-pointer shadow-xs">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1" id="ebay-pagination-controls">
+                    {{-- Populated dynamically via renderEbayCurrentPage --}}
+                </div>
+            </div>
+
             {{-- Modal Footer --}}
             <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-between bg-slate-50 shrink-0 text-xs">
                 <div class="text-slate-500 font-semibold flex items-center gap-2">
@@ -623,8 +646,13 @@
             const syncSingleEbayUrl = "{{ route('admin.inventory.sync-single-ebay') }}";
             const matchEbayQuantitiesUrl = "{{ route('admin.inventory.match-ebay-quantities') }}";
 
-            // eBay Modal State
+            // eBay Modal State & Pagination
             window.ebayModalItems = [];
+            window.ebayPagination = {
+                currentPage: 1,
+                pageSize: 20,
+                filteredItems: [],
+            };
 
             // Bind top action buttons
             document.getElementById('fetch-ebay-btn').addEventListener('click', openEbayListingsModal);
@@ -632,7 +660,11 @@
             function openEbayListingsModal() {
                 const modal = document.getElementById('ebayListingsModal');
                 modal.classList.remove('hidden');
-                loadEbayListingsModal();
+                if (window.ebayModalItems && window.ebayModalItems.length > 0) {
+                    renderEbayCurrentPage();
+                } else {
+                    loadEbayListingsModal();
+                }
             }
 
             function closeEbayListingsModal() {
@@ -645,10 +677,12 @@
                 const empty = document.getElementById('ebay-popup-empty');
                 const list = document.getElementById('ebay-popup-listings-list');
                 const searchInput = document.getElementById('ebay-popup-search');
+                const paginationBar = document.getElementById('ebay-popup-pagination');
 
                 loading.classList.remove('hidden');
                 error.classList.add('hidden');
                 empty.classList.add('hidden');
+                if (paginationBar) paginationBar.classList.add('hidden');
                 list.innerHTML = '';
                 if (searchInput) searchInput.value = '';
                 document.getElementById('clear-popup-search').classList.add('hidden');
@@ -680,13 +714,15 @@
 
                     if (data.success && Array.isArray(data.items)) {
                         window.ebayModalItems = data.items;
+                        window.ebayPagination.filteredItems = data.items;
+                        window.ebayPagination.currentPage = 1;
                         window.ebayModalNotice = data.notice || '';
                         window.ebayModalReasons = data.reasons || [];
                         if (data.seller && document.getElementById('ebay-seller-name')) {
                             document.getElementById('ebay-seller-name').textContent = data.seller;
                         }
-                        renderEbayPopupListings(window.ebayModalItems);
                         updateEbayPopupStats(data.total_count, data.synced_count, data.unsynced_count);
+                        renderEbayCurrentPage();
                     } else {
                         error.classList.remove('hidden');
                         const reasonList = (data.reasons && data.reasons.length > 0)
@@ -739,20 +775,195 @@
 
                 if (!window.ebayModalItems) return;
 
-                const filtered = window.ebayModalItems.filter(item => {
-                    const title = (item.title || '').toLowerCase();
-                    const itemId = (item.itemId || '').toLowerCase();
-                    const category = (item.category || '').toLowerCase();
-                    return title.includes(query) || itemId.includes(query) || category.includes(query);
-                });
+                if (!query) {
+                    window.ebayPagination.filteredItems = window.ebayModalItems;
+                } else {
+                    window.ebayPagination.filteredItems = window.ebayModalItems.filter(item => {
+                        const title = (item.title || '').toLowerCase();
+                        const itemId = (item.itemId || '').toLowerCase();
+                        const category = (item.category || '').toLowerCase();
+                        const loc = (item.put_away_location || '').toLowerCase();
+                        return title.includes(query) || itemId.includes(query) || category.includes(query) || loc.includes(query);
+                    });
+                }
 
-                renderEbayPopupListings(filtered);
+                window.ebayPagination.currentPage = 1;
+                renderEbayCurrentPage();
             }
 
             function clearPopupSearch() {
                 const searchInput = document.getElementById('ebay-popup-search');
                 if (searchInput) searchInput.value = '';
                 filterEbayPopupListings();
+            }
+
+            function changeEbayPageSize(size) {
+                window.ebayPagination.pageSize = parseInt(size, 10) || 20;
+                window.ebayPagination.currentPage = 1;
+                renderEbayCurrentPage();
+            }
+
+            function goToEbayPage(page) {
+                const totalItems = (window.ebayPagination.filteredItems || []).length;
+                const pageSize = window.ebayPagination.pageSize || 20;
+                const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+                const target = Math.max(1, Math.min(parseInt(page, 10) || 1, totalPages));
+
+                window.ebayPagination.currentPage = target;
+                renderEbayCurrentPage(true);
+            }
+
+            function renderEbayCurrentPage(scrollToTop = false) {
+                const allFiltered = window.ebayPagination.filteredItems || [];
+                const totalItems = allFiltered.length;
+                const pageSize = window.ebayPagination.pageSize || 20;
+                const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+                if (window.ebayPagination.currentPage > totalPages) {
+                    window.ebayPagination.currentPage = totalPages;
+                }
+                if (window.ebayPagination.currentPage < 1) {
+                    window.ebayPagination.currentPage = 1;
+                }
+
+                const currentPage = window.ebayPagination.currentPage;
+                const paginationBar = document.getElementById('ebay-popup-pagination');
+                const infoEl = document.getElementById('ebay-pagination-info');
+                const controlsEl = document.getElementById('ebay-pagination-controls');
+
+                if (totalItems === 0) {
+                    if (paginationBar) paginationBar.classList.add('hidden');
+                    renderEbayPopupListings([]);
+                    return;
+                }
+
+                if (paginationBar) paginationBar.classList.remove('hidden');
+
+                const startIndex = (currentPage - 1) * pageSize;
+                const endIndex = Math.min(startIndex + pageSize, totalItems);
+                const pageItems = allFiltered.slice(startIndex, endIndex);
+
+                if (infoEl) {
+                    infoEl.innerHTML = `Showing <span class="text-slate-900 font-black">${startIndex + 1}–${endIndex}</span> of <span class="text-slate-900 font-black">${totalItems}</span> listings <span class="text-slate-400 font-normal">(Page ${currentPage} of ${totalPages})</span>`;
+                }
+
+                if (controlsEl) {
+                    let html = '';
+
+                    // First page button
+                    if (currentPage > 2 && totalPages > 5) {
+                        html += `
+                            <button type="button" onclick="goToEbayPage(1)" title="First Page"
+                                class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold text-xs transition-all shadow-xs">
+                                <i class="fas fa-angle-double-left"></i>
+                            </button>
+                        `;
+                    }
+
+                    // Prev button
+                    if (currentPage > 1) {
+                        html += `
+                            <button type="button" onclick="goToEbayPage(${currentPage - 1})"
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all shadow-xs flex items-center gap-1.5">
+                                <i class="fas fa-chevron-left text-[10px]"></i> Prev
+                            </button>
+                        `;
+                    } else {
+                        html += `
+                            <button type="button" disabled
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-300 font-bold text-xs cursor-not-allowed flex items-center gap-1.5">
+                                <i class="fas fa-chevron-left text-[10px]"></i> Prev
+                            </button>
+                        `;
+                    }
+
+                    // Numeric buttons
+                    const maxButtons = 5;
+                    let startPage = Math.max(1, currentPage - 2);
+                    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+                    if (endPage - startPage < maxButtons - 1) {
+                        startPage = Math.max(1, endPage - maxButtons + 1);
+                    }
+
+                    if (startPage > 1) {
+                        html += `
+                            <button type="button" onclick="goToEbayPage(1)"
+                                class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all shadow-xs">
+                                1
+                            </button>
+                        `;
+                        if (startPage > 2) {
+                            html += `<span class="px-1 text-slate-400 font-bold text-xs select-none">...</span>`;
+                        }
+                    }
+
+                    for (let p = startPage; p <= endPage; p++) {
+                        if (p === currentPage) {
+                            html += `
+                                <button type="button"
+                                    class="w-8 h-8 rounded-lg border border-orange-500 bg-orange-500 text-white font-black text-xs shadow-sm shadow-orange-200">
+                                    ${p}
+                                </button>
+                            `;
+                        } else {
+                            html += `
+                                <button type="button" onclick="goToEbayPage(${p})"
+                                    class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all shadow-xs">
+                                    ${p}
+                                </button>
+                            `;
+                        }
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            html += `<span class="px-1 text-slate-400 font-bold text-xs select-none">...</span>`;
+                        }
+                        html += `
+                            <button type="button" onclick="goToEbayPage(${totalPages})"
+                                class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all shadow-xs">
+                                ${totalPages}
+                            </button>
+                        `;
+                    }
+
+                    // Next button
+                    if (currentPage < totalPages) {
+                        html += `
+                            <button type="button" onclick="goToEbayPage(${currentPage + 1})"
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all shadow-xs flex items-center gap-1.5">
+                                Next <i class="fas fa-chevron-right text-[10px]"></i>
+                            </button>
+                        `;
+                    } else {
+                        html += `
+                            <button type="button" disabled
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-300 font-bold text-xs cursor-not-allowed flex items-center gap-1.5">
+                                Next <i class="fas fa-chevron-right text-[10px]"></i>
+                            </button>
+                        `;
+                    }
+
+                    // Last page button
+                    if (currentPage < totalPages - 1 && totalPages > 5) {
+                        html += `
+                            <button type="button" onclick="goToEbayPage(${totalPages})" title="Last Page"
+                                class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold text-xs transition-all shadow-xs">
+                                <i class="fas fa-angle-double-right"></i>
+                            </button>
+                        `;
+                    }
+
+                    controlsEl.innerHTML = html;
+                }
+
+                // Render page slice
+                renderEbayPopupListings(pageItems);
+
+                if (scrollToTop) {
+                    const scrollArea = document.getElementById('ebay-modal-scroll-area');
+                    if (scrollArea) scrollArea.scrollTop = 0;
+                }
             }
 
             function renderEbayPopupListings(items) {
@@ -832,7 +1043,7 @@
                             
                             {{-- Image Preview --}}
                             <div class="w-24 h-24 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-100 relative group/img cursor-pointer" onclick='openGallery(${JSON.stringify(item.photo_urls && item.photo_urls.length > 0 ? item.photo_urls : [imgSrc])})' title="Click to view photos">
-                                <img src="${imgSrc}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.src='/images/placeholder.png'">
+                                <img src="${imgSrc}" alt="${item.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='/images/placeholder.png'">
                                 ${isSynced ? '<span class="absolute top-1 left-1 bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow"><i class="fas fa-check"></i> SYNCED</span>' : ''}
                                 ${(item.photo_urls && item.photo_urls.length > 1) ? `<span class="absolute bottom-1 right-1 bg-slate-900/80 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow backdrop-blur-sm"><i class="fas fa-images mr-0.5"></i> ${item.photo_urls.length}</span>` : ''}
                             </div>
