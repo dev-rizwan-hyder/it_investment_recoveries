@@ -115,4 +115,9 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS', env('MAIL_FROM_ADDRESS', 'customerservice@it-investmentrecoveries.com')),
+        'name' => env('MAIL_TO_NAME', env('MAIL_FROM_NAME', 'IT Investment Recoveries')),
+    ],
+
 ];
