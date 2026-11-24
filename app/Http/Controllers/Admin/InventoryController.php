@@ -8,6 +8,8 @@ use App\Models\InventoryShippingRate;
 use App\Models\Pallet;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\SalesInvoice;
+use App\Models\SalesInvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -173,9 +175,56 @@ class InventoryController extends Controller
         try {
             $item = Inventory::with('shippingRates')->findOrFail($id);
 
+            // Find any existing sales invoice linked to this inventory item
+            $invoiceItem = SalesInvoiceItem::with('invoice')
+                ->where('inventory_id', $item->id)
+                ->whereHas('invoice')
+                ->latest('id')
+                ->first();
+
+            $invoice = $invoiceItem?->invoice;
+
+            // Fallback: check if invoice message or item description contains barcode
+            if (!$invoice && !empty($item->barcode)) {
+                $invoiceItemFallback = SalesInvoiceItem::with('invoice')
+                    ->where('description', 'LIKE', '%' . $item->barcode . '%')
+                    ->whereHas('invoice')
+                    ->latest('id')
+                    ->first();
+                $invoice = $invoiceItemFallback?->invoice;
+
+                if (!$invoice) {
+                    $invoice = SalesInvoice::where('message', 'LIKE', '%' . $item->barcode . '%')
+                        ->latest('id')
+                        ->first();
+                }
+            }
+
+            $invoiceData = null;
+            if ($invoice) {
+                $statusBadgeClass = SalesInvoice::STATUS_BADGE_CLASSES[$invoice->status] ?? 'bg-slate-100 text-slate-700';
+                $invoiceData = [
+                    'id' => $invoice->id,
+                    'invoice_number' => $invoice->invoice_number,
+                    'status' => $invoice->status,
+                    'status_label' => ucfirst($invoice->status),
+                    'status_badge_class' => $statusBadgeClass,
+                    'total' => (float) $invoice->total,
+                    'customer_name' => $invoice->customer_name,
+                    'service_date' => $invoice->service_date ? $invoice->service_date->format('Y-m-d') : ($invoice->created_at ? $invoice->created_at->format('Y-m-d') : null),
+                    'print_url' => route('admin.sales.invoices.print', $invoice->id) . '?embedded=1',
+                    'view_url' => route('admin.sales.invoices.show', $invoice->id),
+                ];
+            }
+
+            $createInvoiceUrl = route('admin.sales.invoices.create', ['inventory_id' => $item->id]);
+
             return response()->json([
                 'success' => true,
-                'item' => $item
+                'item' => $item,
+                'has_invoice' => !empty($invoiceData),
+                'invoice' => $invoiceData,
+                'create_invoice_url' => $createInvoiceUrl,
             ]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Inventory;
 use App\Models\RepairEntry;
 use App\Models\SalesInvoice;
 use App\Models\SalesInvoiceItem;
@@ -184,7 +185,9 @@ class SalesInvoiceController extends Controller
     public function create(Request $request)
     {
         $repairId = $request->query('repair_id');
+        $inventoryId = $request->query('inventory_id') ?: $request->query('item_id');
         $repair = null;
+        $inventory = null;
         $prefilledInvoice = null;
         $prefilledItems = [];
 
@@ -286,6 +289,95 @@ class SalesInvoiceController extends Controller
                     'picture_paths' => $photos,
                 ]);
             }
+        } elseif ($inventoryId) {
+            $inventory = Inventory::find($inventoryId);
+            if ($inventory) {
+                // Find matching client
+                $clientId = null;
+                if (!empty($inventory->customer_email)) {
+                    $clientId = Client::where('email', $inventory->customer_email)->value('id');
+                } elseif (!empty($inventory->customer_phone)) {
+                    $clientId = Client::where('phone', $inventory->customer_phone)->value('id');
+                }
+
+                $customerName = '';
+                $customerEmail = $inventory->customer_email ?: '';
+                $customerPhone = $inventory->customer_phone ?: '';
+                $customerCompany = '';
+                $customerAddress = $inventory->put_away_location ?: '';
+
+                if ($clientId) {
+                    $matchedClient = Client::find($clientId);
+                    if ($matchedClient) {
+                        $customerName = $matchedClient->name;
+                        $customerEmail = $customerEmail ?: ($matchedClient->email ?? '');
+                        $customerPhone = $customerPhone ?: ($matchedClient->phone ?? '');
+                        $customerCompany = $matchedClient->company ?? '';
+                        $customerAddress = $matchedClient->address ?: $customerAddress;
+                    }
+                }
+
+                // Photos
+                $photos = [];
+                if (!empty($inventory->photos_paths) && is_array($inventory->photos_paths)) {
+                    $photos = array_values(array_filter($inventory->photos_paths));
+                }
+                if (empty($photos) && !empty($inventory->repair_photos) && is_array($inventory->repair_photos)) {
+                    $photos = array_values(array_filter($inventory->repair_photos));
+                }
+
+                $cleanStr = fn ($val) => (!empty($val) && !in_array(strtolower(trim((string)$val)), ['undefined', 'null', 'n/a', '-'])) ? trim((string)$val) : null;
+                $sn = $cleanStr($inventory->serial_number);
+                $brand = $cleanStr($inventory->brand);
+                $model = $cleanStr($inventory->model);
+                $condition = $cleanStr($inventory->condition_status);
+                $barcode = $cleanStr($inventory->barcode);
+
+                $descParts = array_filter([
+                    $inventory->name,
+                    $brand ? "Brand: {$brand}" : null,
+                    $model ? "Model: {$model}" : null,
+                    $sn ? "SN: {$sn}" : null,
+                    $barcode ? "Barcode: {$barcode}" : null,
+                    $condition ? "Condition: {$condition}" : null,
+                ]);
+                $desc = !empty($descParts) ? implode(' | ', $descParts) : ($inventory->name ?: 'Inventory Item');
+
+                $category = $inventory->category ?: ($inventory->device_type ?: 'Product Sale');
+                $unitPrice = (float) ($inventory->price > 0 ? $inventory->price : ($inventory->estimated_value > 0 ? $inventory->estimated_value : 0));
+
+                $prefilledItems[] = [
+                    'inventory_id' => $inventory->id,
+                    'invoice_category' => $category,
+                    'description' => $desc,
+                    'quantity' => 1,
+                    'unit_price' => $unitPrice,
+                    'taxable' => true,
+                ];
+
+                $message = "Inventory Item #{$inventory->id}";
+                if ($inventory->barcode) {
+                    $message .= " | Barcode: {$inventory->barcode}";
+                }
+                if ($inventory->notes) {
+                    $message .= "\n" . $inventory->notes;
+                }
+
+                $prefilledInvoice = new SalesInvoice([
+                    'client_id' => $clientId,
+                    'customer_name' => $customerName,
+                    'customer_email' => $customerEmail,
+                    'customer_phone' => $customerPhone,
+                    'customer_company' => $customerCompany,
+                    'customer_address' => $customerAddress,
+                    'service_date' => now()->format('Y-m-d'),
+                    'due_date' => now()->format('Y-m-d'),
+                    'payment_method' => SalesInvoice::PAYMENT_METHOD_CASH,
+                    'message' => $message,
+                    'status' => SalesInvoice::STATUS_UNPAID,
+                    'picture_paths' => $photos,
+                ]);
+            }
         }
 
         return view('admin.sales.invoices-create', [
@@ -300,6 +392,7 @@ class SalesInvoiceController extends Controller
             'statusChoices' => SalesInvoice::statusChoices(),
             'isEdit' => false,
             'repair' => $repair,
+            'inventory' => $inventory,
             'repairEntries' => RepairEntry::with(['client', 'user'])->latest('id')->get(),
         ]);
     }
@@ -316,7 +409,8 @@ class SalesInvoiceController extends Controller
 
         $invoice = DB::transaction(function () use ($validated, $request, $picturePaths, $invoiceNumber) {
             $client = $this->resolveClient($validated, $request);
-            $totals = $this->buildInvoiceItems($validated['items']);
+            $invId = !empty($validated['inventory_id']) ? (int) $validated['inventory_id'] : ($request->input('inventory_id') ? (int) $request->input('inventory_id') : null);
+            $totals = $this->buildInvoiceItems($validated['items'], $invId);
             $repairId = $request->input('repair_id');
             if (!$repairId && !empty($validated['message']) && preg_match('/Repair Entry #(\d+)/', $validated['message'], $m)) {
                 $repairId = (int) $m[1];
@@ -400,9 +494,45 @@ class SalesInvoiceController extends Controller
 
     public function show(SalesInvoice $invoice)
     {
-        $invoice->load(['client', 'creator', 'items']);
+        $invoice->load(['client', 'creator', 'items.inventory', 'repairEntry.client', 'repairEntry.user']);
 
-        return view('admin.sales.invoices-show', compact('invoice'));
+        // Check if any item has linked inventory, or fallback from message/barcode
+        $linkedInventory = $invoice->items->pluck('inventory')->filter()->first();
+        if (!$linkedInventory && !empty($invoice->message)) {
+            if (preg_match('/Inventory Item #(\d+)/i', $invoice->message, $m)) {
+                $linkedInventory = Inventory::find((int) $m[1]);
+            } elseif (preg_match('/Barcode:\s*([^\s\|]+)/i', $invoice->message, $m)) {
+                $linkedInventory = Inventory::where('barcode', trim($m[1]))->first();
+            }
+        }
+        if (!$linkedInventory) {
+            foreach ($invoice->items as $item) {
+                if (preg_match('/Barcode:\s*([^\s\|]+)/i', $item->description, $m)) {
+                    $linkedInventory = Inventory::where('barcode', trim($m[1]))->first();
+                    if ($linkedInventory) break;
+                }
+            }
+        }
+
+        return view('admin.sales.invoices-show', compact('invoice', 'linkedInventory'));
+    }
+
+    public function toggleStatus(SalesInvoice $invoice)
+    {
+        $newStatus = $invoice->status === SalesInvoice::STATUS_PAID
+            ? SalesInvoice::STATUS_UNPAID
+            : SalesInvoice::STATUS_PAID;
+
+        $invoice->status = $newStatus;
+        $invoice->paid_at = $newStatus === SalesInvoice::STATUS_PAID ? now() : null;
+        $invoice->save();
+
+        $invoice->syncLinkedRepairEntry();
+
+        $statusText = ucfirst($newStatus);
+        return redirect()
+            ->route('admin.sales.invoices.show', $invoice)
+            ->with('success', "Invoice {$invoice->invoice_number} has been marked as {$statusText}.");
     }
 
     public function edit(SalesInvoice $invoice)
@@ -446,7 +576,8 @@ class SalesInvoiceController extends Controller
 
         DB::transaction(function () use ($validated, $request, $invoice, $picturePaths) {
             $client = $this->resolveClient($validated, $request);
-            $totals = $this->buildInvoiceItems($validated['items']);
+            $invId = !empty($validated['inventory_id']) ? (int) $validated['inventory_id'] : ($request->input('inventory_id') ? (int) $request->input('inventory_id') : null);
+            $totals = $this->buildInvoiceItems($validated['items'], $invId);
             $repairId = $request->input('repair_id', $invoice->repair_entry_id);
             if (!$repairId && !empty($validated['message']) && preg_match('/Repair Entry #(\d+)/', $validated['message'], $m)) {
                 $repairId = (int) $m[1];
@@ -738,6 +869,7 @@ class SalesInvoiceController extends Controller
 
         $rules = [
             'repair_id' => ['nullable', 'integer', 'exists:repair_entries,id'],
+            'inventory_id' => ['nullable', 'integer', 'exists:inventories,id'],
             'client_id' => ['nullable', 'integer', 'exists:clients,id'],
             'create_customer' => ['nullable', 'boolean'],
             'customer_name' => ['required', 'string', 'max:255'],
@@ -755,6 +887,7 @@ class SalesInvoiceController extends Controller
             'pictures' => ['nullable', 'array'],
             'pictures.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,bmp,svg,pdf,doc,docx,xls,xlsx,csv,txt,zip,rar', 'max:20480'],
             'items' => ['required', 'array', 'min:1'],
+            'items.*.inventory_id' => ['nullable', 'integer'],
             'items.*.invoice_category' => ['required', 'string', 'max:255'],
             'items.*.description' => ['required', 'string', 'max:500'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
@@ -884,7 +1017,7 @@ class SalesInvoiceController extends Controller
         }
     }
 
-    private function buildInvoiceItems(array $items): array
+    private function buildInvoiceItems(array $items, ?int $fallbackInventoryId = null): array
     {
         $invoiceItems = [];
         $subtotal = 0;
@@ -905,8 +1038,10 @@ class SalesInvoiceController extends Controller
             $subtotal += $lineSubtotal;
             $taxAmount += $lineTax;
 
+            $invId = !empty($itemData['inventory_id']) ? (int) $itemData['inventory_id'] : $fallbackInventoryId;
+
             $invoiceItems[] = [
-                'inventory_id' => null,
+                'inventory_id' => $invId,
                 'invoice_category' => $invoiceCategory,
                 'product_name' => $invoiceCategory ?: $description,
                 'description' => $description,

@@ -21,6 +21,7 @@
             $formItems = $prefilledItems;
         } elseif ($invoice && $invoice->relationLoaded('items')) {
             $formItems = $invoice->items->map(fn ($item) => [
+                'inventory_id' => $item->inventory_id,
                 'invoice_category' => $item->invoice_category ?: $item->product_name,
                 'description' => $item->description,
                 'quantity' => $item->quantity,
@@ -65,6 +66,24 @@
             <a href="{{ route('admin.repair.entries.show', $repair->id) }}"
                 class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-blue-700 shadow-sm transition hover:bg-blue-100 hover:text-blue-900 self-start sm:self-auto">
                 <i class="fas fa-arrow-left mr-1.5 text-[10px]"></i> View Repair Entry
+            </a>
+        </div>
+    @endif
+
+    @if(isset($inventory) && $inventory)
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 shadow-sm">
+            <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-500/20">
+                    <i class="fas fa-boxes-stacked"></i>
+                </span>
+                <div>
+                    <p class="font-extrabold text-emerald-950">Creating Invoice for Inventory Item #{{ $inventory->id }}: {{ $inventory->name }}</p>
+                    <p class="text-xs text-emerald-700">Barcode: <span class="font-mono font-bold">{{ $inventory->barcode ?: 'N/A' }}</span> | Pricing, specifications, and details have been automatically pre-filled.</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.inventory.index') }}"
+                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 hover:text-emerald-900 self-start sm:self-auto">
+                <i class="fas fa-arrow-left mr-1.5 text-[10px]"></i> Back to Inventory
             </a>
         </div>
     @endif
@@ -119,6 +138,12 @@
         @endphp
         @if($effectiveRepairId)
             <input type="hidden" name="repair_id" value="{{ $effectiveRepairId }}">
+        @endif
+        @php
+            $effectiveInventoryId = $inventory?->id ?? request('inventory_id', request('item_id'));
+        @endphp
+        @if($effectiveInventoryId)
+            <input type="hidden" name="inventory_id" value="{{ $effectiveInventoryId }}">
         @endif
 
         <div class="space-y-6">
@@ -709,6 +734,7 @@
             row.className = 'rounded-2xl border border-slate-100 bg-slate-50 p-4';
             row.dataset.lineItem = 'true';
             row.innerHTML = `
+                <input type="hidden" name="items[${index}][inventory_id]" value="${item.inventory_id || ''}">
                 <div class="mb-4 flex items-center justify-between">
                     <p class="text-sm font-black text-slate-700">Item <span data-line-number></span></p>
                     <button type="button" data-remove-line class="rounded-lg bg-white px-3 py-2 text-xs font-black text-red-400 transition hover:bg-red-50 hover:text-red-600">

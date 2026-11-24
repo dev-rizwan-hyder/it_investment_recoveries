@@ -93,4 +93,9 @@ class Inventory extends Model
     {
         return $this->hasMany(\App\Models\InventoryShippingRate::class, 'inventory_id');
     }
+
+    public function invoiceItems()
+    {
+        return $this->hasMany(\App\Models\SalesInvoiceItem::class, 'inventory_id');
+    }
 }

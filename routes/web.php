@@ -578,6 +578,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/sales/invoices/{invoice}/edit', [SalesInvoiceController::class, 'edit'])->name('sales.invoices.edit');
         Route::put('/sales/invoices/{invoice}', [SalesInvoiceController::class, 'update'])->name('sales.invoices.update');
         Route::get('/sales/invoices/{invoice}/print', [SalesInvoiceController::class, 'printInvoice'])->name('sales.invoices.print');
+        Route::post('/sales/invoices/{invoice}/toggle-status', [SalesInvoiceController::class, 'toggleStatus'])->name('sales.invoices.toggle-status');
         Route::post('/sales/invoices/{invoice}/send-square', [SalesInvoiceController::class, 'sendSquare'])->name('sales.invoices.send-square');
         Route::post('/sales/invoices/{invoice}/sync-square', [SalesInvoiceController::class, 'syncSquare'])->name('sales.invoices.sync-square');
         Route::post('/sales/invoices/{invoice}/cancel-square', [SalesInvoiceController::class, 'cancelSquare'])->name('sales.invoices.cancel-square');

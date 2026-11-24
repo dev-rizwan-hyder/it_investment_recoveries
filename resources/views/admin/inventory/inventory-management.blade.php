@@ -212,7 +212,7 @@
         {{-- 4. Main Table --}}
         <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm">
             <div class="overflow-x-auto cursor-grab select-none active:cursor-grabbing" id="table-scroll-container">
-                <table class="w-full text-left border-collapse min-w-[1250px] table-fixed">
+                <table class="w-full text-left border-collapse min-w-[1360px] table-fixed">
                     <thead class="bg-slate-50/50 border-b border-slate-100">
                         <tr class="text-[10px] uppercase font-black text-slate-400 tracking-[0.1em]">
                             <th class="px-3 py-5 w-14 text-center">
@@ -231,7 +231,7 @@
                             <th class="px-4 py-5 w-28">Price</th>
                             <th class="px-4 py-5 w-28 text-center">Date</th>
                             <th class="px-4 py-5 w-32 text-center">Sell</th>
-                            <th class="px-4 py-5 w-32 text-right">Actions</th>
+                            <th class="px-3 py-5 w-[215px] text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50" id="items-table-body">

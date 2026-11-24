@@ -432,18 +432,18 @@ class InventoryManager {
         let rowBgClass = "hover:bg-slate-50/50";
         let syncButtonDisabled = "";
         let syncButtonHtml = `<button onclick="inventoryManager.syncIndividualItem(${item.id})"
-            class="group h-9 w-9 bg-blue-50 text-blue-600 rounded-xl transition-all hover:bg-blue-600 hover:text-white flex items-center justify-center active:scale-90"
+            class="group w-8 h-8 shrink-0 bg-blue-50/80 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-200/80 rounded-lg transition-all flex items-center justify-center shadow-xs active:scale-95"
             title="Sync to Store">
-            <i class="fas fa-sync-alt text-xs group-hover:rotate-180 duration-500"></i>
+            <i class="fas fa-sync-alt text-[11px] group-hover:rotate-180 duration-500"></i>
         </button>`;
 
         if (item.sync_status == 1) {
             rowBgClass = "bg-emerald-50/60 hover:bg-emerald-50/80 border-l-4 border-emerald-500";
             syncButtonDisabled = "disabled";
             syncButtonHtml = `<button disabled
-                class="group h-9 w-9 bg-emerald-100 text-emerald-600 rounded-xl transition-all flex items-center justify-center cursor-default"
+                class="w-8 h-8 shrink-0 bg-emerald-50 text-emerald-600 border border-emerald-200/80 rounded-lg flex items-center justify-center cursor-default shadow-xs"
                 title="Already Synced to Store">
-                <i class="fas fa-check text-xs font-bold"></i>
+                <i class="fas fa-check text-[11px] font-bold"></i>
             </button>`;
         }
 
@@ -510,33 +510,34 @@ class InventoryManager {
                         <i class="fas fa-shopping-cart mr-1"></i> Sell
                     </button>
                 </td>
-                <td class="px-4 py-3">
-                    <div class="flex flex-row items-center justify-end gap-1.5">
-    ${syncButtonHtml}
+                <td class="px-3 py-3 text-right">
+                    <div class="inline-flex items-center justify-end gap-1.5 shrink-0">
+                        ${syncButtonHtml}
 
-    <button data-action="showDetails" data-item-id="${item.id}"
-        class="h-9 w-9 bg-slate-50 text-slate-400 rounded-xl transition-all hover:bg-slate-900 hover:text-white flex items-center justify-center active:scale-90"
-        title="View Details">
-        <i class="fas fa-eye text-xs"></i>
-    </button>
+                        <button data-action="showDetails" data-item-id="${item.id}"
+                            class="w-8 h-8 shrink-0 bg-slate-50 hover:bg-slate-700 text-slate-500 hover:text-white border border-slate-200 rounded-lg transition-all flex items-center justify-center shadow-xs active:scale-95"
+                            title="View Details">
+                            <i class="fas fa-eye text-[11px]"></i>
+                        </button>
 
-    <button data-action="editItem" data-item-id="${item.id}"
-        class="h-9 w-9 bg-emerald-50 text-emerald-600 rounded-xl transition-all hover:bg-emerald-600 hover:text-white flex items-center justify-center active:scale-90"
-        title="Edit Item">
-        <i class="fas fa-edit text-xs"></i>
-    </button>
+                        <button data-action="editItem" data-item-id="${item.id}"
+                            class="w-8 h-8 shrink-0 bg-teal-50 hover:bg-teal-600 text-teal-600 hover:text-white border border-teal-200 rounded-lg transition-all flex items-center justify-center shadow-xs active:scale-95"
+                            title="Edit Item">
+                            <i class="fas fa-pen text-[11px]"></i>
+                        </button>
 
-    <button data-action="deleteItem" data-item-id="${item.id}"
-        class="h-9 w-9 bg-red-50 text-red-400 rounded-xl transition-all hover:bg-red-500 hover:text-white flex items-center justify-center active:scale-90"
-        title="Delete Item">
-        <i class="fas fa-trash text-xs"></i>
-    </button>
-    <button data-action="printLabel" data-item-id="${item.id}"
-        class="h-9 w-9 bg-amber-50 text-amber-600 rounded-xl transition-all hover:bg-amber-600 hover:text-white flex items-center justify-center active:scale-90"
-        title="Print Label">
-        <i class="fas fa-print text-xs"></i>
-    </button>
-</div>
+                        <button data-action="deleteItem" data-item-id="${item.id}"
+                            class="w-8 h-8 shrink-0 bg-rose-50 hover:bg-rose-600 text-rose-500 hover:text-white border border-rose-200 rounded-lg transition-all flex items-center justify-center shadow-xs active:scale-95"
+                            title="Delete Item">
+                            <i class="fas fa-trash-alt text-[11px]"></i>
+                        </button>
+
+                        <button data-action="printLabel" data-item-id="${item.id}"
+                            class="w-8 h-8 shrink-0 bg-amber-50 hover:bg-amber-600 text-amber-600 hover:text-white border border-amber-200 rounded-lg transition-all flex items-center justify-center shadow-xs active:scale-95"
+                            title="Print Label">
+                            <i class="fas fa-print text-[11px]"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -1585,7 +1586,8 @@ class InventoryManager {
             success: (response) => {
                 if (response.success) {
                     this.selectedItem = response.item;
-                    this.populateDetailsModal(response.item);
+                    const createUrl = response.create_invoice_url || `/admin/sales/invoices/create?inventory_id=${itemId}`;
+                    this.populateDetailsModal(response.item, response.invoice, createUrl);
                     $("#itemDetailsModal").removeClass("hidden");
                 }
             },
@@ -1652,36 +1654,193 @@ class InventoryManager {
         }
     }
 
-    populateDetailsModal(item) {
-        $("#detail-category").text(item.category);
-        $("#detail-name").text(item.name);
-        $("#detail-brand-model").text(this.formatDetailValue(this.getBrandModelDisplay(item)));
-        $("#detail-status").text(item.status || "Pending");
-        $("#detail-intake-details").html(this.renderInventoryIntakeDetails(item));
-        $("#detail-parcel-details").html(this.renderParcelDetails(item));
+    populateDetailsModal(item, invoice = null, createInvoiceUrl = null) {
+        if (!item) return;
+
+        const effectiveCreateUrl = createInvoiceUrl || `/admin/sales/invoices/create?inventory_id=${item.id}`;
+
+        // Header
+        $("#detail-barcode").text(item.barcode || "N/A");
+        $("#detail-name-label").text(item.name || "Untitled Item");
+        if (item.intake_type) {
+            $("#detail-header-intake").text(item.intake_type).removeClass("hidden");
+        } else {
+            $("#detail-header-intake").addClass("hidden");
+        }
+
+        // Invoice header actions & Column 2 card & footer actions
+        if (invoice) {
+            // Header actions: Print button and View button
+            $("#detail-header-invoice-actions").html(`
+                <a href="${invoice.print_url}" target="_blank"
+                    class="h-8 px-2.5 sm:px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
+                    title="Print Invoice #${invoice.invoice_number}">
+                    <i class="fas fa-print text-xs"></i>
+                    <span class="hidden sm:inline">Print #${invoice.invoice_number}</span>
+                </a>
+                <a href="${invoice.view_url}" target="_blank"
+                    class="h-8 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all"
+                    title="View Full Invoice #${invoice.invoice_number}">
+                    <i class="fas fa-file-invoice text-xs"></i>
+                </a>
+            `);
+
+            // Column 2 invoice card badge
+            $("#detail-invoice-status-badge")
+                .text(invoice.status_label || invoice.status)
+                .attr("class", `text-[10px] font-black px-2 py-0.5 rounded uppercase ${invoice.status_badge_class || 'bg-emerald-100 text-emerald-700'}`)
+                .removeClass("hidden");
+
+            // Column 2 invoice card content
+            $("#detail-invoice-content").html(`
+                <div class="bg-white border border-slate-200 rounded-lg p-2.5 space-y-1.5">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-bold uppercase text-[10px]">Invoice #</span>
+                        <span class="font-black text-slate-900">${invoice.invoice_number}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-bold uppercase text-[10px]">Total</span>
+                        <span class="font-black text-emerald-600">$${Number(invoice.total || 0).toFixed(2)}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-bold uppercase text-[10px]">Date</span>
+                        <span class="font-semibold text-slate-700">${invoice.service_date || '-'}</span>
+                    </div>
+                    ${invoice.customer_name ? `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-bold uppercase text-[10px]">Customer</span>
+                        <span class="font-semibold text-slate-700 truncate max-w-[140px]">${invoice.customer_name}</span>
+                    </div>` : ''}
+                    <div class="pt-2 border-t border-slate-100 flex items-center gap-1.5">
+                        <a href="${invoice.print_url}" target="_blank"
+                            class="flex-1 py-1.5 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs active:scale-95">
+                            <i class="fas fa-print text-[11px]"></i> Print Invoice
+                        </a>
+                        <a href="${invoice.view_url}" target="_blank"
+                            class="py-1.5 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1 transition-all">
+                            <i class="fas fa-external-link-alt text-[10px]"></i> View
+                        </a>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-0.5">
+                    <a href="${effectiveCreateUrl}"
+                        class="text-[10px] font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                        <i class="fas fa-plus text-[9px]"></i> Create Another Invoice
+                    </a>
+                </div>
+            `);
+
+            // Footer invoice actions
+            $("#detail-footer-invoice-actions").html(`
+                <a href="${invoice.print_url}" target="_blank"
+                    class="px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-[11px] font-black hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fas fa-print text-xs"></i>
+                    <span>Print Invoice</span>
+                </a>
+            `);
+        } else {
+            // Header actions: Create invoice button
+            $("#detail-header-invoice-actions").html(`
+                <a href="${effectiveCreateUrl}"
+                    class="h-8 px-2.5 sm:px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
+                    title="Create Invoice for this item">
+                    <i class="fas fa-file-invoice-dollar text-xs"></i>
+                    <span class="hidden sm:inline">Create Invoice</span>
+                </a>
+            `);
+
+            // Column 2 invoice card badge: hidden
+            $("#detail-invoice-status-badge").addClass("hidden");
+
+            // Column 2 invoice card content
+            $("#detail-invoice-content").html(`
+                <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-center space-y-2">
+                    <p class="text-xs text-slate-500 font-medium">No invoice created for this product yet.</p>
+                    <a href="${effectiveCreateUrl}"
+                        class="inline-flex items-center justify-center gap-1.5 w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs active:scale-95">
+                        <i class="fas fa-plus text-[10px]"></i> Create Invoice Now
+                    </a>
+                </div>
+            `);
+
+            // Footer invoice actions
+            $("#detail-footer-invoice-actions").html(`
+                <a href="${effectiveCreateUrl}"
+                    class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-[11px] font-black hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fas fa-file-invoice-dollar text-xs"></i>
+                    <span>Create Invoice</span>
+                </a>
+            `);
+        }
+
+        // Column 1: Device & Customer
+        $("#detail-technician").text(item.technician || "-");
+        $("#detail-customer-phone").text(item.customer_phone || "-");
+        $("#detail-customer-email").text(item.customer_email || "-");
+        $("#detail-device-type").text(item.device_type || "-");
+        $("#detail-operating-system").text(item.operating_system || "-");
+        $("#detail-brand-model").text(this.getBrandModelDisplay(item) || "-");
+        $("#detail-device-specs").text(item.device_specs || "-");
+
+        // Status badge
+        const status = (item.status || "In Stock").toUpperCase();
+        let statusClass = "bg-slate-100 text-slate-700";
+        if (status === "LIVE ONLINE") statusClass = "bg-blue-50 text-blue-700 border border-blue-200";
+        else if (status === "COMPLETED") statusClass = "bg-purple-50 text-purple-700 border border-purple-200";
+        else if (status === "IN STOCK") statusClass = "bg-emerald-50 text-emerald-700 border border-emerald-200";
+        $("#detail-status").text(item.status || "In Stock").attr("class", `px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider ${statusClass}`);
+
+        $("#detail-put-away-location").text(item.put_away_location || "-");
+
+        // Column 2: Category, Stock & Parcel Dimensions
+        $("#detail-category").text(item.category || "-");
+        $("#detail-sub-category").text(item.sub_category || "-");
+        $("#detail-sub-sub-category").text(item.sub_sub_category || "-");
+
+        const priceVal = parseFloat(item.price ?? item.estimated_value ?? 0);
+        $("#detail-price").text(`$${isNaN(priceVal) ? "0.00" : priceVal.toFixed(2)}`);
+        $("#detail-pallet-number").text(item.pallet_number || "-- No Pallet --");
+
+        const qty = parseInt(item.quantity, 10) || 0;
+        const reuseQty = parseInt(item.reuse_quantity, 10) || 0;
+        const remaining = Math.max(0, qty - reuseQty);
+        $("#detail-quantity").text(qty);
+        $("#detail-remaining-display").text(`${remaining} items`);
+
+        // Parcel Dimensions
+        const rate = this.getParcelRate(item);
+        $("#detail-parcel-length").text(rate?.parcel_length ? `${rate.parcel_length}` : "-");
+        $("#detail-parcel-width").text(rate?.parcel_width ? `${rate.parcel_width}` : "-");
+        $("#detail-parcel-height").text(rate?.parcel_height ? `${rate.parcel_height}` : "-");
+        $("#detail-parcel-weight").text(rate?.parcel_weight ? `${rate.parcel_weight}` : "-");
+
+        // Column 3: Notes & Photos
+        $("#detail-notes").text(item.notes || "No notes provided for this item.");
 
         const photos = this.getAllPhotosArray(item);
+        $("#detail-repair-photo-count").text(`(${photos.length})`);
+
         const photoGallery = photos.length > 0
             ? photos.map((path) => `
-                <div class="aspect-square rounded-[1.5rem] overflow-hidden border border-slate-50 group shadow-sm">
-                    <img src="${getImageUrl(path)}" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" onerror="this.src='/images/placeholder.png'">
+                <div class="relative w-20 h-20 group rounded-xl overflow-hidden border border-slate-200 shadow-xs cursor-pointer shrink-0"
+                    onclick='openGallery(${JSON.stringify(photos)})' title="Click to view photos">
+                    <img src="${getImageUrl(path)}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" onerror="this.src='/images/placeholder.png'">
+                    <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/25 transition-all flex items-center justify-center">
+                        <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs drop-shadow"></i>
+                    </div>
                 </div>
             `).join("")
             : `
-                <div class="col-span-2 aspect-video bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center text-slate-300">
-                    <i class="fas fa-camera text-4xl mb-3"></i>
-                    <p class="text-[10px] font-black uppercase tracking-widest">No Media Uploaded</p>
+                <div class="w-full py-8 text-center text-slate-300">
+                    <i class="fas fa-images text-2xl mb-1.5 opacity-50"></i>
+                    <p class="text-[10px] font-bold uppercase tracking-wider">No photos attached</p>
                 </div>
             `;
-        $("#detail-repair-photo-count").text(`(${photos.length})`);
         $("#detail-repair-photos").html(photoGallery);
 
-        if (item.notes) {
-            $("#detail-notes").text(item.notes);
-            $("#detail-notes-section").removeClass("hidden");
-        } else {
-            $("#detail-notes-section").addClass("hidden");
-        }
+        // Footer details
+        $("#detail-footer-intake").text(item.intake_type || "Standard");
+        $("#detail-footer-date").text(item.created_at ? new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-");
     }
 
     editItem(itemId) {
