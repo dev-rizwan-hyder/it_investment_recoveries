@@ -662,9 +662,8 @@ Route::post('/contact-us', function (\Illuminate\Http\Request $request) {
         ]);
         $validated['form_type'] = 'general';
     }
-    $recipient = config('mail.to.address')
-        ?: config('mail.from.address')
-        ?: env('MAIL_TO_ADDRESS', env('MAIL_FROM_ADDRESS', 'customerservice@it-investmentrecoveries.com'));
+    $recipient = env('MAIL_TO_ADDRESS')
+        ?: (config('mail.from.address') ?: 'customerservice@it-investmentrecoveries.com');
 
     try {
         Mail::to($recipient)->send(new InquiryMail($validated));
