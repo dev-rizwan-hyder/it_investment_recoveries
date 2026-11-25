@@ -29,7 +29,7 @@
 			<p>Thank you.</p>
 			<p>Visit our website to see exciting offers and Order Updates.</p>
 			<p style="margin: 24px 0;">
-				<a href="{{ route('store.index') }}"
+				<a href="{{ \Illuminate\Support\Facades\Route::has('store.index') ? route('store.index') : url('/') }}"
 					style="display: inline-block; background-color: #0071e3; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none;">
 					Visit Our Website
 				</a>

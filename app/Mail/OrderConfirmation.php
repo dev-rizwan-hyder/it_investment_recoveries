@@ -26,7 +26,10 @@ class OrderConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->from('info@denverdiscountcomputers.com', 'Denver Discount Computers')
+        $fromAddress = config('mail.from.address') ?: (config('mail.mailers.smtp.username') ?: 'customerservice@it-investmentrecoveries.com');
+        $fromName = config('mail.from.name') ?: 'Denver Discount Computers';
+
+        return $this->from($fromAddress, $fromName)
             ->subject('Your Denver Discount Computers Order Confirmation #' . $this->order->order_number)
             ->view('emails.order_confirmation');
     }

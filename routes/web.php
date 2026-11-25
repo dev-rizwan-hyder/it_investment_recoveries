@@ -6,6 +6,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::redirect('/store', '/')->name('store.index');
+
 Route::get('/about-us', function () {
     return view('about');
 })->name('about');

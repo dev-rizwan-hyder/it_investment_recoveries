@@ -234,9 +234,7 @@
             </p>
 
             <div style="text-align: center; margin-top: 16px;">
-                @if(\Illuminate\Support\Facades\Route::has('store.index'))
-                    <a href="{{ route('store.index') }}" class="btn-website">Visit Our Website</a>
-                @endif
+                <a href="{{ \Illuminate\Support\Facades\Route::has('store.index') ? route('store.index') : url('/') }}" class="btn-website">Visit Our Website</a>
             </div>
         </div>
 

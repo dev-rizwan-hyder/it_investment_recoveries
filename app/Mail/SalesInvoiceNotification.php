@@ -26,8 +26,8 @@ class SalesInvoiceNotification extends Mailable
      */
     public function build()
     {
-        $fromAddress = config('mail.from.address', 'info@denverdiscountcomputers.com');
-        $fromName = config('mail.from.name', 'Denver Discount Computers');
+        $fromAddress = config('mail.from.address') ?: (config('mail.mailers.smtp.username') ?: 'customerservice@it-investmentrecoveries.com');
+        $fromName = config('mail.from.name') ?: 'IT Investment Recoveries';
         $subject = 'Invoice #' . $this->invoice->invoice_number . ' - ' . $fromName;
 
         $email = $this->from($fromAddress, $fromName)
