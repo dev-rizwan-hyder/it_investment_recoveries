@@ -209,10 +209,10 @@ class EbayInventorySyncService
         $targetQuantity = $availableQuantity;
 
         // Ensure status reflects stock state
-        if ($targetQuantity === 0 && $inventory->status !== 'Sold') {
-            $inventory->status = 'Sold';
+        if ($targetQuantity === 0 && $inventory->status !== 'Out of Stock') {
+            $inventory->status = 'Out of Stock';
             $inventory->save();
-        } elseif ($targetQuantity > 0 && $inventory->status === 'Sold') {
+        } elseif ($targetQuantity > 0 && in_array($inventory->status, ['Sold', 'Out of Stock'], true)) {
             $inventory->status = 'In Stock';
             $inventory->save();
         }

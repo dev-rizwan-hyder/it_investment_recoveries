@@ -917,10 +917,10 @@ class EbayOrderSyncService
                     // Compute available quantity: quantity - reuse_quantity
                     $availableQty = max(0, $newQty - (int) ($inventory->reuse_quantity ?? 0));
 
-                    // Rule: Mark products as Sold only when available quantity reaches zero
+                    // Rule: Mark products as Out of Stock when available quantity reaches zero
                     if ($availableQty === 0) {
-                        $inventory->status = 'Sold';
-                    } elseif ($inventory->status === 'Sold') {
+                        $inventory->status = 'Out of Stock';
+                    } elseif (in_array($inventory->status, ['Sold', 'Out of Stock'], true)) {
                         $inventory->status = 'In Stock';
                     }
 
@@ -1054,7 +1054,7 @@ class EbayOrderSyncService
 
                     // Re-calculate available quantity
                     $availableQty = max(0, $newQty - (int) ($inventory->reuse_quantity ?? 0));
-                    if ($availableQty > 0 && $inventory->status === 'Sold') {
+                    if ($availableQty > 0 && in_array($inventory->status, ['Sold', 'Out of Stock'], true)) {
                         $inventory->status = 'In Stock';
                     }
 
@@ -1230,7 +1230,7 @@ class EbayOrderSyncService
                 $before = (int) $inventory->quantity;
                 $after = max(0, $before - $qty);
                 $availableAfter = max(0, $after - (int) ($inventory->reuse_quantity ?? 0));
-                $newStatus = $availableAfter === 0 ? 'Sold' : 'In Stock';
+                $newStatus = $availableAfter === 0 ? 'Out of Stock' : 'In Stock';
 
                 $deductions[] = [
                     'inventory_id' => $inventory->id,

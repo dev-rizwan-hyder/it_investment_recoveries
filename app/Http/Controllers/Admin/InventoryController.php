@@ -80,7 +80,7 @@ class InventoryController extends Controller
             }
 
             if ($statusFilter) {
-                $query->where('status', $statusFilter);
+                $query->whereRaw('LOWER(status) = ?', [strtolower($statusFilter)]);
             }
 
             if ($intakeFilter) {
@@ -276,7 +276,7 @@ class InventoryController extends Controller
                 'device_type' => 'nullable|string|max:255',
                 'brand_category' => 'nullable|string|max:255',
                 'price' => 'nullable|numeric|min:0',
-                'status' => 'nullable|string|max:255',
+                'status' => ['nullable', 'string', Rule::in(['In Stock', 'Out of Stock'])],
                 'lot_info' => 'nullable|string|max:255',
                 'pallet_info' => 'nullable|string|max:255',
                 'device_specs' => 'nullable|string',
@@ -313,6 +313,11 @@ class InventoryController extends Controller
                     'success' => false,
                     'message' => 'Reuse quantity cannot exceed total quantity!'
                 ], 422);
+            }
+
+            $reuseQty = (int) ($validated['reuse_quantity'] ?? $item->reuse_quantity ?? 0);
+            if (max(0, $netQty - $reuseQty) <= 0) {
+                $validated['status'] = 'Out of Stock';
             }
 
             // Handle new photos (inventory photos)
@@ -458,9 +463,13 @@ class InventoryController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
+        $validated = $request->validate([
+            'status' => ['required', 'string', Rule::in(['In Stock', 'Out of Stock'])],
+        ]);
+
         try {
             $item = Inventory::findOrFail($id);
-            $newStatus = $request->get('status');
+            $newStatus = $validated['status'];
 
             $item->update(['status' => $newStatus]);
 
@@ -828,8 +837,9 @@ class InventoryController extends Controller
                 });
             }
 
-            if ($statusFilter)
-                $query->where('status', $statusFilter);
+            if ($statusFilter) {
+                $query->whereRaw('LOWER(status) = ?', [strtolower($statusFilter)]);
+            }
             if ($intakeFilter) {
                 if (strtolower($intakeFilter) === 'denver') {
                     $query->where(function ($q) {
@@ -1027,8 +1037,8 @@ class InventoryController extends Controller
                     'user_id' => auth()->id(),
                     'order_number' => $orderNumber,
                     'customer_name' => $validated['customer_name'],
-                    'customer_email' => $validated['customer_email'],
-                    'customer_phone' => $validated['customer_phone'],
+                    'customer_email' => $validated['customer_email'] ?? '',
+                    'customer_phone' => $validated['customer_phone'] ?? '',
                     'status' => $validated['order_status'],
                     'fulfillment_type' => 'store_pickup',
                     'shipping_address' => 'Store Pickup',
@@ -1627,7 +1637,7 @@ class InventoryController extends Controller
                     $oldQty = (int) $inv->quantity;
                     $newQty = (int) $matchedEntry['quantity'];
                     $oldStatus = $inv->status;
-                    $newStatus = $newQty > 0 ? 'In Stock' : 'Sold';
+                    $newStatus = $newQty > 0 ? 'In Stock' : 'Out of Stock';
 
                     $updates = [];
                     if ($oldQty !== $newQty) {
@@ -1655,10 +1665,10 @@ class InventoryController extends Controller
                     }
                 } elseif ($markUnmatchedAsSold) {
                     // Item was in eBay inventory but is NOT in active eBay listings (ended/sold on eBay)
-                    if ($inv->status !== 'Sold' || (int) $inv->quantity > 0) {
+                    if ($inv->status !== 'Out of Stock' || (int) $inv->quantity > 0) {
                         $inv->update([
                             'quantity' => 0,
-                            'status' => 'Sold',
+                            'status' => 'Out of Stock',
                         ]);
                         $soldCount++;
                         $changedCount++;
@@ -1668,7 +1678,7 @@ class InventoryController extends Controller
                             'barcode' => $inv->barcode,
                             'old_qty' => (int) $inv->quantity,
                             'new_qty' => 0,
-                            'status' => 'Sold',
+                            'status' => 'Out of Stock',
                         ];
                     }
                 }
@@ -2756,7 +2766,7 @@ class InventoryController extends Controller
                         'old_qty' => $oldQty,
                         'new_qty' => $ebayQty,
                         'changed' => $oldQty !== $ebayQty,
-                        'status' => $ebayQty > 0 ? 'In Stock' : 'Sold',
+                        'status' => $ebayQty > 0 ? 'In Stock' : 'Out of Stock',
                     ];
 
                     $isSynced = (int) ($existing->sync_status ?? 0) === 1;
@@ -2771,7 +2781,7 @@ class InventoryController extends Controller
                         $updateData['estimated_value'] = $newPrice;
                     }
                     if ($ebayQty === 0) {
-                        $updateData['status'] = 'Sold';
+                        $updateData['status'] = 'Out of Stock';
                     } elseif ($existing->status === 'Sold' || $existing->status === 'Out of Stock') {
                         $updateData['status'] = 'In Stock';
                     }
@@ -2891,7 +2901,7 @@ class InventoryController extends Controller
                           ->orWhere('intake_type', 'Denver')
                           ->orWhere('barcode', 'LIKE', 'v1|%');
                     })
-                        ->where('status', '!=', 'Sold')
+                        ->whereNotIn('status', ['Sold', 'Out of Stock'])
                         ->whereNotNull('barcode')
                         ->where('barcode', '!=', '')
                         ->get();
@@ -2899,7 +2909,7 @@ class InventoryController extends Controller
                     foreach ($ebayInventoryItems as $invItem) {
                         if (!in_array($invItem->barcode, $activeEbayIds)) {
                             $invItem->update([
-                                'status' => 'Sold',
+                                'status' => 'Out of Stock',
                                 'quantity' => 0,
                             ]);
                             $soldUpdated++;

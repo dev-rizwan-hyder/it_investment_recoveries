@@ -58,6 +58,19 @@ class Inventory extends Model
         'quantity' => 'integer',          
     ];
 
+    protected static function booted(): void
+    {
+        static::saving(function (Inventory $inventory) {
+            $quantity = (int) ($inventory->quantity ?? 0);
+            $reuseQuantity = (int) ($inventory->reuse_quantity ?? 0);
+            $availableQuantity = max(0, $quantity - $reuseQuantity);
+
+            if ($availableQuantity <= 0 && (!$inventory->exists || $inventory->isDirty('quantity') || $inventory->isDirty('reuse_quantity'))) {
+                $inventory->status = 'Out of Stock';
+            }
+        });
+    }
+
     public function getAvailableQuantityAttribute()
     {
         return max(0, (int) ($this->quantity ?? 0) - (int) ($this->reuse_quantity ?? 0));

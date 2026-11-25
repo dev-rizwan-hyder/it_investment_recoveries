@@ -50,7 +50,11 @@ class EbayProductController extends Controller
                 } else {
                     $haystack = strtolower(implode(' ', [
                         $product['folder_name'] ?? '',
+                        $product['product_no'] ?? '',
+                        '#' . ($product['product_no'] ?? ''),
+                        'product #' . ($product['product_no'] ?? ''),
                         $product['folder'] ?? '',
+                        $product['serial_number'] ?? '',
                         $product['location'] ?? '',
                         $product['folder_type'] ?? 'Ebay',
                         $product['user'] ?? '',
@@ -656,6 +660,7 @@ class EbayProductController extends Controller
             'social_media_1' => trim($data['social_media_1'] ?? ''),
             'social_media_2' => trim($data['social_media_2'] ?? ''),
             'social_media_3' => trim($data['social_media_3'] ?? ''),
+            'product_no' => self::getNextProductNo(),
             'images' => $images,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
@@ -843,6 +848,72 @@ class EbayProductController extends Controller
         return response()->json([
             'success' => true,
             'blinking' => $newBlinking,
+            'html' => view('admin.ebay.partials.product-card', ['product' => $product])->render(),
+            'stats' => $this->fastStats(),
+        ]);
+    }
+
+    /**
+     * Send product issue alert email to Sal and update blinking status.
+     */
+    public function sendIssueAlert(Request $request, string $folder)
+    {
+        $folderPath = $this->basePath() . DIRECTORY_SEPARATOR . basename($folder);
+        if (!File::isDirectory($folderPath)) {
+            return response()->json(['success' => false, 'message' => 'Product folder not found.'], 404);
+        }
+
+        $metadataPath = $folderPath . DIRECTORY_SEPARATOR . 'metadata.json';
+        $metadata = [];
+        if (File::isFile($metadataPath)) {
+            $metadata = json_decode(File::get($metadataPath), true) ?: [];
+        }
+
+        $recipient = trim((string) $request->input('recipient', 'sal@it-investmentrecoveries.com'));
+        if (empty($recipient)) {
+            $recipient = 'sal@it-investmentrecoveries.com';
+        }
+
+        $issueMessage = trim((string) $request->input('message', ''));
+        $subject = trim((string) $request->input('subject', ''));
+        $setBlinking = $request->has('blinking')
+            ? filter_var($request->input('blinking'), FILTER_VALIDATE_BOOLEAN)
+            : true;
+
+        $metadata['blinking'] = $setBlinking;
+        if (!empty($issueMessage)) {
+            $metadata['last_issue_message'] = $issueMessage;
+        }
+        $metadata['last_alert_sent_at'] = $this->denverNow()->toIso8601String();
+        $metadata['updated_at'] = $this->denverNow()->toIso8601String();
+
+        $this->writeMetadata($folderPath, $metadata);
+
+        $product = $this->productFromDirectory($folderPath);
+
+        $reporterName = auth()->user()?->name ?? 'Admin Staff';
+        $mailSuccess = false;
+        $mailError = null;
+
+        try {
+            \Illuminate\Support\Facades\Mail::to($recipient)->send(
+                new \App\Mail\EbayProductIssueAlert($product, $issueMessage, $subject, $reporterName)
+            );
+            $mailSuccess = true;
+        } catch (\Throwable $e) {
+            \Log::error("Failed to send issue alert email for eBay product {$folder}: " . $e->getMessage());
+            $mailError = $e->getMessage();
+        }
+
+        return response()->json([
+            'success' => true,
+            'mail_sent' => $mailSuccess,
+            'mail_error' => $mailError,
+            'message' => $mailSuccess
+                ? "Issue alert email sent to {$recipient} successfully!"
+                : "Alert style updated! (Note: email notification encountered: {$mailError})",
+            'blinking' => $metadata['blinking'],
+            'product' => $product,
             'html' => view('admin.ebay.partials.product-card', ['product' => $product])->render(),
             'stats' => $this->fastStats(),
         ]);
@@ -1157,7 +1228,7 @@ class EbayProductController extends Controller
 
         $inventoryItem->quantity = 0;
         $inventoryItem->reuse_quantity = 0;
-        $inventoryItem->status = 'Sold';
+        $inventoryItem->status = 'Out of Stock';
         $inventoryItem->save();
 
         // Save sold status and timestamp to metadata
@@ -1235,6 +1306,23 @@ class EbayProductController extends Controller
     private function basePath(): string
     {
         return public_path(self::BASE_DIR);
+    }
+
+    public static function getNextProductNo(): int
+    {
+        $base = public_path(self::BASE_DIR);
+        $maxNo = 2000;
+        if (File::isDirectory($base)) {
+            foreach (File::directories($base) as $dir) {
+                $mp = $dir . DIRECTORY_SEPARATOR . 'metadata.json';
+                if (!File::isFile($mp)) continue;
+                $d = json_decode(File::get($mp), true);
+                if (!empty($d['product_no']) && is_numeric($d['product_no'])) {
+                    $maxNo = max($maxNo, (int) $d['product_no']);
+                }
+            }
+        }
+        return $maxNo + 1;
     }
 
     private function writeMetadata(string $folderPath, array $metadata): void
@@ -1316,8 +1404,22 @@ class EbayProductController extends Controller
 
         $displayName = $metadata['folder_name'] ?? Str::headline(str_replace(['_', '-'], ' ', $folder));
 
+        $productNo = $metadata['product_no'] ?? null;
+        if (!$productNo) {
+            if (!empty($metadata['inventory_id'])) {
+                $productNo = (string) $metadata['inventory_id'];
+            } elseif (!empty($metadata['website_link']) && preg_match('/\/product\/(\d+)/', $metadata['website_link'], $matches)) {
+                $productNo = (string) $matches[1];
+            } else {
+                $productNo = (string) self::getNextProductNo();
+                $metadata['product_no'] = $productNo;
+                $this->writeMetadata($directory, $metadata);
+            }
+        }
+
         return [
             'folder' => $folder,
+            'product_no' => $productNo,
             'product_name' => $displayName,
             'folder_name' => $metadata['folder_name'] ?? $displayName,
             'condition' => $metadata['condition'] ?? 'New',

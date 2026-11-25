@@ -177,10 +177,7 @@
                         class="w-full h-[40px] bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-2 text-xs font-semibold text-slate-700 outline-none transition-all shadow-xs">
                         <option value="">All Statuses</option>
                         <option value="In Stock">IN STOCK</option>
-                        <option value="LIVE ONLINE">LIVE ONLINE</option>
-                        <option value="Recieved">RECEIVED</option>
-                        <option value="Sold">SOLD</option>
-                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="Out of Stock">OUT OF STOCK</option>
                     </select>
                 </div>
 

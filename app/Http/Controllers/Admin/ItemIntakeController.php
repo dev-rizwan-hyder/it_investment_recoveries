@@ -708,7 +708,7 @@ class ItemIntakeController extends Controller
                     $itemData['status'] = 'Draft';
                 }
 
-                $targetModel::create($itemData);
+                $createdInventoryItem = $targetModel::create($itemData);
 
                 if (!empty($selectedPalletNumber) && !$savedAsDraft) {
                     app(\App\Services\PalletCompletionService::class)->syncForPallet($selectedPalletNumber);
@@ -755,6 +755,8 @@ class ItemIntakeController extends Controller
 
                         $metadata = [
                             'folder' => $folder,
+                            'product_no' => $createdInventoryItem->id,
+                            'inventory_id' => $createdInventoryItem->id,
                             'folder_name' => $folderName,
                             'condition' => $request->condition ?? 'New',
                             'folder_type' => $request->folder_type ?? 'Ebay',

@@ -77,12 +77,17 @@
 
 <div id="product-card-{{ $product['folder'] }}"
      data-folder="{{ $product['folder'] }}"
+     data-product-no="{{ $product['product_no'] ?? '' }}"
      class="product-card rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:shadow-md {{ $cardStyleClass }}"
      @if($isBlinking) style="animation: blinkRedFolder 0.5s infinite ease-in-out !important; background-color: #dc2626 !important; border-color: #991b1b !important;" @endif>
 
     {{-- ── Header: title + badges only ── --}}
     <div class="min-w-0">
         <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-slate-900 text-white px-2.5 py-0.5 text-xs font-black tracking-wide shadow-xs shrink-0" title="Product Number">
+                #{{ $product['product_no'] ?? 'N/A' }}
+            </span>
+
             <h3 class="min-w-0 break-words text-base font-extrabold text-slate-900 sm:text-lg tracking-tight">
                 {{ $product['product_name'] }}
             </h3>
@@ -403,10 +408,20 @@
             <i class="fa-solid fa-check-double text-[10px]"></i> {{ $toggleBtnLabel }}
         </button>
 
-        {{-- Toggle Blinking Red Alert --}}
+        {{-- Toggle Blinking Red Alert & Issue Email Modal --}}
         <button type="button"
-                title="{{ $isBlinking ? 'Remove Blinking Red Alert Style' : 'Toggle Blinking Red Alert Style' }}"
-                onclick="toggleBlinkingRedCard(this, '{{ $product['folder'] }}')"
+                title="{{ $isBlinking ? 'Active Red Alert - Click to send issue email to Sal or remove alert' : 'Report Issue & Send Alert to Sal' }}"
+                data-folder="{{ $product['folder'] }}"
+                data-product-no="{{ $product['product_no'] ?? '' }}"
+                data-product-name="{{ $product['product_name'] ?? '' }}"
+                data-category="{{ $product['category'] ?? '' }}"
+                data-location="{{ $product['location'] ?? '' }}"
+                data-serial="{{ $product['serial_number'] ?? '' }}"
+                data-quantity="{{ $product['quantity'] ?? '1' }}"
+                data-user="{{ $product['user'] ?? '' }}"
+                data-blinking="{{ $isBlinking ? '1' : '0' }}"
+                data-image="{{ !empty($downloadImages[0]['url']) ? $downloadImages[0]['url'] : '' }}"
+                onclick="openProductAlertModal(this)"
                 class="btn-blink-toggle w-8 h-8 inline-flex items-center justify-center rounded-lg border transition-all shadow-sm {{ $isBlinking ? 'border-red-700 bg-red-600 text-white hover:bg-red-700 ring-2 ring-red-400' : 'border-red-200 text-red-500 bg-red-50/60 hover:bg-red-600 hover:text-white hover:border-red-600' }}">
             <i class="fa-solid fa-bell text-[11px] {{ $isBlinking ? 'animate-bounce' : '' }}"></i>
         </button>

@@ -51,5 +51,6 @@
     ],
     "created_at": "2026-10-13T00:07:45+00:00",
     "updated_at": "2026-10-16T14:42:35-06:00",
-    "inventory_id": 774
+    "inventory_id": 774,
+    "product_no": 774
 }

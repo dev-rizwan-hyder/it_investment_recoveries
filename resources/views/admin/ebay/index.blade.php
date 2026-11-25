@@ -820,6 +820,7 @@
     <!-- ================= ADD TO INVENTORY MODAL ================= -->
     @include('admin.intake.modals.add-to-inventory-modal')
     @include('admin.intake.modals.partials.gallery-modal')
+    @include('admin.ebay.partials.product-issue-alert-modal')
 
     <!-- ================= IMAGE SEARCH MODAL ================= -->
     <div id="imageSearchModal" class="fixed inset-0 z-[120] hidden overflow-y-auto bg-slate-900/60 backdrop-blur-md transition-opacity">
@@ -996,6 +997,156 @@
                 const currentCard = document.getElementById(`product-card-${folder}`);
                 const finalBtn = currentCard ? currentCard.querySelector('.btn-blink-toggle') : btn;
                 if (finalBtn) finalBtn.disabled = false;
+            }
+        };
+
+        // Product Issue Alert Email Modal functions
+        window.openProductAlertModal = function(btn) {
+            if (!btn) return;
+            const folder = btn.dataset.folder;
+            const productNo = btn.dataset.productNo || 'N/A';
+            const productName = btn.dataset.productName || 'Product';
+            const category = btn.dataset.category || '-';
+            const location = btn.dataset.location || '-';
+            const serial = btn.dataset.serial || '-';
+            const quantity = btn.dataset.quantity || '1';
+            const isBlinking = btn.dataset.blinking === '1';
+            const imageUrl = btn.dataset.image;
+
+            document.getElementById('alert-modal-folder').value = folder;
+            document.getElementById('alert-modal-product-no-badge').textContent = '#' + productNo;
+            document.getElementById('alert-modal-product-title').textContent = productName;
+            document.getElementById('alert-modal-category').textContent = category;
+            document.getElementById('alert-modal-location').textContent = location;
+            document.getElementById('alert-modal-serial').textContent = serial;
+            document.getElementById('alert-modal-quantity').textContent = quantity;
+
+            // Thumbnail preview
+            const thumbImg = document.getElementById('alert-modal-thumb');
+            const thumbFallback = document.getElementById('alert-modal-thumb-fallback');
+            if (imageUrl) {
+                thumbImg.src = imageUrl;
+                thumbImg.classList.remove('hidden');
+                thumbFallback.classList.add('hidden');
+            } else {
+                thumbImg.classList.add('hidden');
+                thumbFallback.classList.remove('hidden');
+            }
+
+            // Form defaults
+            document.getElementById('alert-modal-recipient').value = 'sal@it-investmentrecoveries.com';
+            document.getElementById('alert-modal-subject').value = `[Product Issue Alert] Product #${productNo} - ${productName}`;
+            document.getElementById('alert-modal-message').value = 
+`Item has an issue requiring attention:
+- Product No: #${productNo}
+- Title: ${productName}
+- Location: ${location}
+- Serial Number: ${serial}
+- Quantity: ${quantity}
+
+Issue Details:
+`;
+
+            const blinkCheck = document.getElementById('alert-modal-set-blinking');
+            const clearBtn = document.getElementById('alert-modal-clear-blink-btn');
+            blinkCheck.checked = true;
+            if (isBlinking) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('productIssueAlertModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                const msgBox = document.getElementById('alert-modal-message');
+                if (msgBox) {
+                    msgBox.focus();
+                    msgBox.setSelectionRange(msgBox.value.length, msgBox.value.length);
+                }
+            }, 100);
+        };
+
+        window.closeProductAlertModal = function() {
+            const modal = document.getElementById('productIssueAlertModal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        };
+
+        window.clearBlinkFromModal = async function() {
+            const folder = document.getElementById('alert-modal-folder').value;
+            if (!folder) return;
+            closeProductAlertModal();
+            await window.toggleBlinkingRedCard(null, folder);
+        };
+
+        window.submitProductAlertEmail = async function() {
+            const folder = document.getElementById('alert-modal-folder').value;
+            const recipient = document.getElementById('alert-modal-recipient').value.trim();
+            const subject = document.getElementById('alert-modal-subject').value.trim();
+            const message = document.getElementById('alert-modal-message').value.trim();
+            const blinking = document.getElementById('alert-modal-set-blinking').checked;
+
+            if (!folder) {
+                alert('Missing folder identifier.');
+                return;
+            }
+            if (!message) {
+                alert('Please enter issue details.');
+                document.getElementById('alert-modal-message').focus();
+                return;
+            }
+
+            const submitBtn = document.getElementById('alert-modal-submit-btn');
+            const submitText = document.getElementById('alert-modal-submit-text');
+            const originalText = submitText.textContent;
+            submitBtn.disabled = true;
+            submitText.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Sending...';
+
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
+
+            try {
+                const response = await fetch(`/admin/ebay-products/${encodeURIComponent(folder)}/send-issue-alert`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        recipient: recipient,
+                        subject: subject,
+                        message: message,
+                        blinking: blinking
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    const currentCard = document.getElementById(`product-card-${folder}`);
+                    if (currentCard && data.html) {
+                        currentCard.outerHTML = data.html;
+                    }
+                    closeProductAlertModal();
+                    if (window.showNotification) {
+                        showNotification(data.message, 'success');
+                    } else {
+                        alert(data.message);
+                    }
+                } else {
+                    throw new Error(data.message || 'Failed to send alert email.');
+                }
+            } catch (err) {
+                console.error('Error sending issue alert:', err);
+                alert('Error: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitText.textContent = originalText;
             }
         };
 

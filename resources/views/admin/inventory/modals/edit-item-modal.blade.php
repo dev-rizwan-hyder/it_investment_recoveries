@@ -79,9 +79,8 @@
                         <div class="space-y-0.5">
                             <label class="text-[9px] font-bold uppercase text-slate-400 tracking-wider">Status</label>
                             <select id="edit-status" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-semibold outline-none cursor-pointer focus:border-blue-400">
-                                <option value="Completed">Completed</option>
-                                <option value="Live Online">Live Online</option>
-                                <option value="In Stock">In-stock</option>
+                                <option value="In Stock">IN STOCK</option>
+                                <option value="Out of Stock">OUT OF STOCK</option>
                             </select>
                         </div>
                         <div class="space-y-0.5">

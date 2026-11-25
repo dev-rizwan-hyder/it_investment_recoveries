@@ -607,6 +607,7 @@ Route::middleware('auth')->group(function () {
             Route::patch('/{folder}', 'update')->name('update');
             Route::patch('/{folder}/toggle-mark', 'toggleMark')->name('toggle-mark');
             Route::match(['post', 'patch'], '/{folder}/toggle-blink', 'toggleBlink')->name('toggle-blink');
+            Route::post('/{folder}/send-issue-alert', 'sendIssueAlert')->name('send-issue-alert');
             Route::post('/{folder}/mark-sold', 'markAsSold')->name('mark-sold');
             Route::delete('/{folder}/inventory', 'destroyInventory')->name('inventory.destroy');
             Route::delete('/{folder}', 'destroy')->name('destroy');

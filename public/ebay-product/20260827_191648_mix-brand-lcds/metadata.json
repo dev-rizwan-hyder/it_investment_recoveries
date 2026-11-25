@@ -55,5 +55,6 @@
     ],
     "created_at": "2026-08-27T19:16:50+00:00",
     "updated_at": "2026-11-03T12:24:57-07:00",
-    "inventory_id": 1250
+    "inventory_id": 1250,
+    "product_no": 1250
 }

@@ -229,7 +229,7 @@ class InventoryManager {
         });
 
         // Quantity calculation
-        $("#edit-quantity").on("change", (e) => {
+        $("#edit-quantity").on("input change", () => {
             this.updateQuantityCalculation();
         });
 
@@ -467,6 +467,9 @@ class InventoryManager {
         }
 
         const isSelected = this.selectedItemIds.has(Number(item.id));
+        const normalizedStatus = (item.status || "").toUpperCase();
+        const isOutOfStock = normalizedStatus === "OUT OF STOCK";
+        const isInStock = normalizedStatus === "IN STOCK";
 
         return `
             <tr class="transition-colors text-[13px] text-slate-700 ${rowBgClass}" data-item-id="${item.id}" data-sync-status="${item.sync_status}">
@@ -494,12 +497,9 @@ class InventoryManager {
                 <td class="px-4 py-4 text-center"><span class="font-black text-slate-800">${netQuantity}</span></td>
                 <td class="px-4 py-4 text-center min-w-[150px]">
                     <select data-action="updateStatus" data-item-id="${item.id}" class="w-full px-3 py-1.5 rounded-lg text-[10px] font-black uppercase border-none cursor-pointer shadow-sm
-                        ${item.status.toUpperCase() == "LIVE ONLINE" ? "bg-blue-600 text-white" : ""}
-                        ${item.status.toUpperCase() == "COMPLETED" ? "bg-purple-500 text-white" : ""}
-                        ${item.status.toUpperCase() == "IN STOCK" ? "bg-slate-700 text-white" : ""}">
-                        <option value="COMPLETED" ${item.status.toUpperCase() == "COMPLETED" ? "selected" : ""}>COMPLETED</option>
-                        <option value="LIVE ONLINE" ${item.status.toUpperCase() == "LIVE ONLINE" ? "selected" : ""}>LIVE ONLINE</option>
-                        <option value="In Stock" ${item.status.toUpperCase() == "IN STOCK" ? "selected" : ""}>IN STOCK</option>
+                        ${isOutOfStock ? "bg-rose-600 text-white" : "bg-slate-700 text-white"}">
+                        <option value="In Stock" ${isInStock ? "selected" : ""}>IN STOCK</option>
+                        <option value="Out of Stock" ${isOutOfStock ? "selected" : ""}>OUT OF STOCK</option>
                     </select>
                 </td>
                 <td class="px-4 py-4 font-black text-slate-900 text-sm">$${parseFloat(item.price || 0).toFixed(2)}</td>
@@ -1794,8 +1794,7 @@ class InventoryManager {
         // Status badge
         const status = (item.status || "In Stock").toUpperCase();
         let statusClass = "bg-slate-100 text-slate-700";
-        if (status === "LIVE ONLINE") statusClass = "bg-blue-50 text-blue-700 border border-blue-200";
-        else if (status === "COMPLETED") statusClass = "bg-purple-50 text-purple-700 border border-purple-200";
+        if (status === "OUT OF STOCK") statusClass = "bg-rose-50 text-rose-700 border border-rose-200";
         else if (status === "IN STOCK") statusClass = "bg-emerald-50 text-emerald-700 border border-emerald-200";
         $("#detail-status").text(item.status || "In Stock").attr("class", `px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider ${statusClass}`);
 
@@ -1883,7 +1882,8 @@ class InventoryManager {
         $("#edit-customer-email").val(item.customer_email || "");
         $("#edit-device-type").val(item.device_type || "");
         $("#edit-price").val(parseFloat(item.price || item.estimated_value || 0).toFixed(2));
-        $("#edit-status").val(item.status || "");
+        const normalizedEditStatus = (item.status || "").toUpperCase() === "OUT OF STOCK" ? "Out of Stock" : "In Stock";
+        $("#edit-status").val(normalizedEditStatus);
         $("#edit-brand-category").val(item.brand_category || item.brand || "");
         $("#edit-device-specs").val(item.device_specs || "");
         $("#edit-operating-system").val(item.operating_system || "");
@@ -2065,11 +2065,14 @@ class InventoryManager {
     }
 
     updateQuantityCalculation() {
-        const quantity = parseInt($("#edit-quantity").val()) || 0;
+        const quantity = parseInt($("#edit-quantity").val(), 10) || 0;
         const reuseQuantity = parseInt(this.selectedItem?.reuse_quantity, 10) || 0;
         const remaining = Math.max(0, quantity - reuseQuantity);
         $("#edit-remaining-display").val(`${remaining} items`);
         $("#edit-remaining-items").text(`${remaining} items`);
+        if (remaining <= 0) {
+            $("#edit-status").val("Out of Stock");
+        }
     }
 
     updateWeightCalculation() {
@@ -2200,6 +2203,12 @@ class InventoryManager {
     }
 
     updateStatus(itemId, newStatus) {
+        const $select = $(`[data-action="updateStatus"][data-item-id="${itemId}"]`);
+        const isOutOfStock = (newStatus || "").toUpperCase() === "OUT OF STOCK";
+        $select
+            .removeClass("bg-rose-600 bg-slate-700")
+            .addClass(isOutOfStock ? "bg-rose-600" : "bg-slate-700");
+
         $.ajax({
             url: `${baseUrl}/${itemId}/status`,
             type: "POST",

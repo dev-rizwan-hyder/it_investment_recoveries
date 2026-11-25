@@ -25,5 +25,6 @@
     ],
     "created_at": "2026-09-07T14:47:06-06:00",
     "updated_at": "2026-09-09T12:22:02-06:00",
-    "inventory_id": 640
+    "inventory_id": 640,
+    "product_no": 640
 }

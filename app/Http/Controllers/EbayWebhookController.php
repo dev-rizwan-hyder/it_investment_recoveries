@@ -59,7 +59,7 @@ class EbayWebhookController extends Controller
             if ($existing) {
                 $existing->update([
                     'quantity' => max(0, $quantity),
-                    'status' => $quantity > 0 ? 'In Stock' : 'Sold',
+                    'status' => $quantity > 0 ? 'In Stock' : 'Out of Stock',
                 ]);
                 Log::info("Updated item #{$itemId} quantity to {$quantity} via eBay Webhook");
             }
