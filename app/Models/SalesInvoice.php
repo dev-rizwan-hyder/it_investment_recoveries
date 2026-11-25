@@ -106,6 +106,13 @@ class SalesInvoice extends Model
 
         static::saved(function (SalesInvoice $invoice) {
             $invoice->syncLinkedRepairEntry();
+            if ($invoice->relationLoaded('items') || $invoice->items()->exists()) {
+                $invoice->syncInventoryStockAndEbay();
+            }
+        });
+
+        static::deleting(function (SalesInvoice $invoice) {
+            $invoice->restoreDeductedInventoryStock();
         });
     }
 
@@ -388,6 +395,118 @@ class SalesInvoice extends Model
             'DRAFT' => 'bg-amber-100 text-amber-700',
             default => 'bg-slate-100 text-slate-600',
         };
+    }
+
+    /**
+     * Synchronize inventory stock and eBay quantity for items linked to this invoice.
+     * When invoice is Paid, deducts quantity from inventory and triggers eBay API sync.
+     * When invoice is Unpaid/Cancelled, restores any previously deducted quantity.
+     */
+    public function syncInventoryStockAndEbay(): void
+    {
+        $this->loadMissing('items.inventory');
+
+        $isPaid = $this->isPaid();
+
+        foreach ($this->items as $lineItem) {
+            $inventory = $lineItem->inventory ?: ($lineItem->inventory_id ? Inventory::find($lineItem->inventory_id) : null);
+            if (!$inventory) {
+                continue;
+            }
+
+            $alreadyDeducted = (int) ($lineItem->deducted_quantity ?? 0);
+
+            if ($isPaid) {
+                $targetDeduction = (int) $lineItem->quantity;
+                $delta = $targetDeduction - $alreadyDeducted;
+
+                if ($delta !== 0) {
+                    $currentQty = (int) $inventory->quantity;
+                    $newQty = max(0, $currentQty - $delta);
+
+                    $inventory->update([
+                        'quantity' => $newQty,
+                    ]);
+
+                    $lineItem->update([
+                        'deducted_quantity' => $targetDeduction,
+                    ]);
+
+                    // Trigger eBay inventory quantity synchronization
+                    $this->triggerEbayInventorySync($inventory->id);
+
+                    if ($inventory->sync_status == 1) {
+                        \Log::info("Synced item sold via invoice {$this->invoice_number}", [
+                            'item_id' => $inventory->id,
+                            'name' => $inventory->name,
+                            'barcode' => $inventory->barcode,
+                            'quantity_deducted' => $delta,
+                            'after_quantity' => $newQty,
+                            'invoice_id' => $this->id,
+                        ]);
+                    }
+                }
+            } else {
+                // If invoice is not paid but was previously deducted, restore stock
+                if ($alreadyDeducted > 0) {
+                    $currentQty = (int) $inventory->quantity;
+                    $newQty = $currentQty + $alreadyDeducted;
+
+                    $inventory->update([
+                        'quantity' => $newQty,
+                    ]);
+
+                    $lineItem->update([
+                        'deducted_quantity' => 0,
+                    ]);
+
+                    // Trigger eBay inventory quantity synchronization with restored quantity
+                    $this->triggerEbayInventorySync($inventory->id);
+
+                    \Log::info("Restored stock for invoice {$this->invoice_number} marked unpaid", [
+                        'item_id' => $inventory->id,
+                        'restored_quantity' => $alreadyDeducted,
+                        'after_quantity' => $newQty,
+                        'invoice_id' => $this->id,
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Restore any deducted inventory stock if invoice is deleted.
+     */
+    public function restoreDeductedInventoryStock(): void
+    {
+        $this->loadMissing('items.inventory');
+
+        foreach ($this->items as $lineItem) {
+            $alreadyDeducted = (int) ($lineItem->deducted_quantity ?? 0);
+            if ($alreadyDeducted > 0) {
+                $inventory = $lineItem->inventory ?: ($lineItem->inventory_id ? Inventory::find($lineItem->inventory_id) : null);
+                if ($inventory) {
+                    $currentQty = (int) $inventory->quantity;
+                    $inventory->update([
+                        'quantity' => $currentQty + $alreadyDeducted,
+                    ]);
+
+                    $this->triggerEbayInventorySync($inventory->id);
+                }
+            }
+        }
+    }
+
+    /**
+     * Trigger eBay inventory sync for a specific inventory item.
+     */
+    public function triggerEbayInventorySync(int $inventoryId): void
+    {
+        try {
+            app(\App\Services\Ebay\EbayInventorySyncService::class)->syncInventoryQuantityToEbay($inventoryId);
+        } catch (\Throwable $e) {
+            \Log::error("eBay inventory sync failed for inventory #{$inventoryId} (Invoice #{$this->id}): " . $e->getMessage());
+        }
     }
 
     public function client()

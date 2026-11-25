@@ -1636,6 +1636,10 @@ class InventoryManager {
         if (!item) return;
 
         const effectiveCreateUrl = createInvoiceUrl || `/admin/sales/invoices/create?inventory_id=${item.id}`;
+        const availableQuantity = item.available_quantity !== undefined && item.available_quantity !== null
+            ? Math.max(0, parseInt(item.available_quantity, 10) || 0)
+            : Math.max(0, (parseInt(item.quantity, 10) || 0) - (parseInt(item.reuse_quantity, 10) || 0));
+        const isOutOfStock = availableQuantity <= 0;
 
         // Header
         $("#detail-barcode").text(item.barcode || "N/A");
@@ -1709,10 +1713,16 @@ class InventoryManager {
                     </div>
                 </div>
                 <div class="flex justify-end pt-0.5">
-                    <a href="${effectiveCreateUrl}"
-                        class="text-[10px] font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
-                        <i class="fas fa-plus text-[9px]"></i> Create Another Invoice
-                    </a>
+                    ${isOutOfStock ? `
+                        <span class="text-[10px] font-bold text-slate-400 flex items-center gap-1 cursor-not-allowed" title="Out of stock - cannot create another invoice">
+                            <i class="fas fa-ban text-[9px]"></i> Out of Stock
+                        </span>
+                    ` : `
+                        <a href="${effectiveCreateUrl}"
+                            class="text-[10px] font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                            <i class="fas fa-plus text-[9px]"></i> Create Another Invoice
+                        </a>
+                    `}
                 </div>
             `);
 
@@ -1726,37 +1736,71 @@ class InventoryManager {
             `);
         } else {
             // Header actions: Create invoice button
-            $("#detail-header-invoice-actions").html(`
-                <a href="${effectiveCreateUrl}"
-                    class="h-8 px-2.5 sm:px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
-                    title="Create Invoice for this item">
-                    <i class="fas fa-file-invoice-dollar text-xs"></i>
-                    <span class="hidden sm:inline">Create Invoice</span>
-                </a>
-            `);
+            if (isOutOfStock) {
+                $("#detail-header-invoice-actions").html(`
+                    <button type="button" disabled
+                        class="h-8 px-2.5 sm:px-3 rounded-lg bg-slate-100 text-slate-400 font-bold text-xs flex items-center gap-1.5 cursor-not-allowed opacity-75"
+                        title="Item is out of stock (0 available)">
+                        <i class="fas fa-ban text-xs"></i>
+                        <span class="hidden sm:inline">Out of Stock</span>
+                    </button>
+                `);
+            } else {
+                $("#detail-header-invoice-actions").html(`
+                    <a href="${effectiveCreateUrl}"
+                        class="h-8 px-2.5 sm:px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
+                        title="Create Invoice for this item">
+                        <i class="fas fa-file-invoice-dollar text-xs"></i>
+                        <span class="hidden sm:inline">Create Invoice</span>
+                    </a>
+                `);
+            }
 
             // Column 2 invoice card badge: hidden
             $("#detail-invoice-status-badge").addClass("hidden");
 
             // Column 2 invoice card content
-            $("#detail-invoice-content").html(`
-                <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-center space-y-2">
-                    <p class="text-xs text-slate-500 font-medium">No invoice created for this product yet.</p>
-                    <a href="${effectiveCreateUrl}"
-                        class="inline-flex items-center justify-center gap-1.5 w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs active:scale-95">
-                        <i class="fas fa-plus text-[10px]"></i> Create Invoice Now
-                    </a>
-                </div>
-            `);
+            if (isOutOfStock) {
+                $("#detail-invoice-content").html(`
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-2.5 text-center space-y-2">
+                        <p class="text-xs text-amber-800 font-bold">This item is currently Out of Stock (0 available).</p>
+                        <button type="button" disabled
+                            class="inline-flex items-center justify-center gap-1.5 w-full py-1.5 px-3 rounded-lg bg-slate-200 text-slate-500 font-bold text-xs cursor-not-allowed">
+                            <i class="fas fa-ban text-[10px]"></i> Out of Stock
+                        </button>
+                    </div>
+                `);
+            } else {
+                $("#detail-invoice-content").html(`
+                    <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-center space-y-2">
+                        <p class="text-xs text-slate-500 font-medium">No invoice created for this product yet.</p>
+                        <a href="${effectiveCreateUrl}"
+                            class="inline-flex items-center justify-center gap-1.5 w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs active:scale-95">
+                            <i class="fas fa-plus text-[10px]"></i> Create Invoice Now
+                        </a>
+                    </div>
+                `);
+            }
 
             // Footer invoice actions
-            $("#detail-footer-invoice-actions").html(`
-                <a href="${effectiveCreateUrl}"
-                    class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-[11px] font-black hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fas fa-file-invoice-dollar text-xs"></i>
-                    <span>Create Invoice</span>
-                </a>
-            `);
+            if (isOutOfStock) {
+                $("#detail-footer-invoice-actions").html(`
+                    <button type="button" disabled
+                        class="px-5 py-2.5 bg-slate-200 text-slate-400 rounded-xl text-[11px] font-black cursor-not-allowed uppercase tracking-wider flex items-center gap-1.5"
+                        title="Out of stock - cannot create invoice">
+                        <i class="fas fa-ban text-xs"></i>
+                        <span>Out of Stock</span>
+                    </button>
+                `);
+            } else {
+                $("#detail-footer-invoice-actions").html(`
+                    <a href="${effectiveCreateUrl}"
+                        class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-[11px] font-black hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fas fa-file-invoice-dollar text-xs"></i>
+                        <span>Create Invoice</span>
+                    </a>
+                `);
+            }
         }
 
         // Column 1: Device & Customer

@@ -20,14 +20,22 @@
         if (!empty($prefilledItems)) {
             $formItems = $prefilledItems;
         } elseif ($invoice && $invoice->relationLoaded('items')) {
-            $formItems = $invoice->items->map(fn ($item) => [
-                'inventory_id' => $item->inventory_id,
-                'invoice_category' => $item->invoice_category ?: $item->product_name,
-                'description' => $item->description,
-                'quantity' => $item->quantity,
-                'unit_price' => $item->unit_price,
-                'taxable' => (bool) ($item->taxable ?? true),
-            ])->values()->all();
+            $formItems = $invoice->items->map(function ($item) use ($invoice) {
+                $inv = $item->inventory ?: ($item->inventory_id ? \App\Models\Inventory::find($item->inventory_id) : null);
+                $held = $invoice->isPaid() ? (int) ($item->deducted_quantity ?? $item->quantity) : 0;
+                $maxQty = $inv ? ($inv->available_quantity + $held) : null;
+                return [
+                    'inventory_id' => $item->inventory_id,
+                    'invoice_category' => $item->invoice_category ?: $item->product_name,
+                    'description' => $item->description,
+                    'quantity' => $item->quantity,
+                    'unit_price' => $item->unit_price,
+                    'taxable' => (bool) ($item->taxable ?? true),
+                    'available_quantity' => $inv?->available_quantity,
+                    'max_quantity' => $maxQty,
+                    'deducted_quantity' => (int) ($item->deducted_quantity ?? 0),
+                ];
+            })->values()->all();
         } else {
             $formItems = [];
         }
@@ -71,21 +79,37 @@
     @endif
 
     @if(isset($inventory) && $inventory)
-        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 shadow-sm">
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border {{ $inventory->available_quantity > 0 ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-amber-200 bg-amber-50 text-amber-900' }} p-4 text-sm shadow-sm">
             <div class="flex items-center gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-500/20">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $inventory->available_quantity > 0 ? 'bg-emerald-600 text-white shadow-emerald-500/20' : 'bg-amber-600 text-white shadow-amber-500/20' }} shadow-md">
                     <i class="fas fa-boxes-stacked"></i>
                 </span>
                 <div>
-                    <p class="font-extrabold text-emerald-950">Creating Invoice for Inventory Item #{{ $inventory->id }}: {{ $inventory->name }}</p>
-                    <p class="text-xs text-emerald-700">Barcode: <span class="font-mono font-bold">{{ $inventory->barcode ?: 'N/A' }}</span> | Pricing, specifications, and details have been automatically pre-filled.</p>
+                    <div class="flex items-center gap-2">
+                        <p class="font-extrabold {{ $inventory->available_quantity > 0 ? 'text-emerald-950' : 'text-amber-950' }}">Creating Invoice for Inventory Item #{{ $inventory->id }}: {{ $inventory->name }}</p>
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black {{ $inventory->available_quantity > 0 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-red-100 text-red-800 border border-red-300' }}">
+                            <i class="fas {{ $inventory->available_quantity > 0 ? 'fa-check-circle' : 'fa-times-circle' }} text-[10px]"></i>
+                            {{ $inventory->available_quantity > 0 ? 'In Stock: ' . $inventory->available_quantity : 'Out of Stock (0)' }}
+                        </span>
+                    </div>
+                    <p class="text-xs {{ $inventory->available_quantity > 0 ? 'text-emerald-700' : 'text-amber-700' }} mt-0.5">Barcode: <span class="font-mono font-bold">{{ $inventory->barcode ?: 'N/A' }}</span> | Pricing, specifications, and details have been automatically pre-filled.</p>
                 </div>
             </div>
             <a href="{{ route('admin.inventory.index') }}"
-                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 hover:text-emerald-900 self-start sm:self-auto">
+                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold {{ $inventory->available_quantity > 0 ? 'text-emerald-700 hover:bg-emerald-100 hover:text-emerald-900' : 'text-amber-700 hover:bg-amber-100 hover:text-amber-900' }} shadow-sm transition self-start sm:self-auto">
                 <i class="fas fa-arrow-left mr-1.5 text-[10px]"></i> Back to Inventory
             </a>
         </div>
+
+        @if($inventory->available_quantity <= 0 && !$isEdit)
+            <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 flex items-center gap-3 shadow-sm">
+                <i class="fas fa-exclamation-triangle text-xl text-red-500 shrink-0"></i>
+                <div>
+                    <p class="font-black text-red-900">This inventory item is currently Out of Stock (0 available).</p>
+                    <p class="text-xs text-red-700">You cannot create an invoice for an item that has 0 available inventory units.</p>
+                </div>
+            </div>
+        @endif
     @endif
 
     @if(isset($repairEntries) && $repairEntries->isNotEmpty() && !$isEdit)
@@ -730,6 +754,10 @@
                 ? Boolean(item.taxable && item.taxable !== '0' && item.taxable !== 0 && item.taxable !== 'false')
                 : true;
 
+            const maxQty = (item.max_quantity !== undefined && item.max_quantity !== null)
+                ? Number(item.max_quantity)
+                : ((item.available_quantity !== undefined && item.available_quantity !== null) ? Number(item.available_quantity) : null);
+
             const row = document.createElement('div');
             row.className = 'rounded-2xl border border-slate-100 bg-slate-50 p-4';
             row.dataset.lineItem = 'true';
@@ -763,9 +791,13 @@
                             placeholder="Service or item description">
                     </div>
                     <div class="lg:col-span-2">
-                        <label class="mb-2 block text-xs font-black uppercase tracking-wide text-slate-400">Qty</label>
-                        <input type="number" name="items[${index}][quantity]" data-line-quantity min="1" value="1" required
+                        <div class="mb-2 flex items-center justify-between">
+                            <label class="block text-xs font-black uppercase tracking-wide text-slate-400">Qty</label>
+                            ${maxQty !== null ? `<span class="text-[10px] font-black ${maxQty > 0 ? 'text-blue-600' : 'text-red-500'}">(Stock: ${maxQty})</span>` : ''}
+                        </div>
+                        <input type="number" name="items[${index}][quantity]" data-line-quantity min="1" ${maxQty !== null ? `max="${maxQty}" data-max-qty="${maxQty}"` : ''} value="${item.quantity || 1}" required
                             class="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-black text-slate-700 outline-none focus:border-blue-400">
+                        <div data-qty-error class="hidden text-[10px] font-bold text-red-500 mt-1">Cannot exceed stock (${maxQty})</div>
                     </div>
                     <div class="lg:col-span-3">
                         <label class="mb-2 block text-xs font-black uppercase tracking-wide text-slate-400">Price</label>
@@ -880,7 +912,35 @@
                 renderCategoryMenu(categoryMenu, categoryInput);
             });
 
-            [descriptionInput, quantityInput, priceInput].forEach((field) => {
+            const validateQty = () => {
+                if (maxQty !== null) {
+                    const val = Number(quantityInput.value || 0);
+                    const errDiv = row.querySelector('[data-qty-error]');
+                    if (val > maxQty) {
+                        quantityInput.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                        quantityInput.classList.remove('border-slate-200');
+                        if (errDiv) {
+                            errDiv.textContent = maxQty <= 0 ? 'Item is out of stock (0 available)' : `Cannot exceed stock (${maxQty})`;
+                            errDiv.classList.remove('hidden');
+                        }
+                    } else {
+                        quantityInput.classList.remove('border-red-500', 'bg-red-50', 'text-red-700');
+                        quantityInput.classList.add('border-slate-200');
+                        if (errDiv) errDiv.classList.add('hidden');
+                    }
+                }
+            };
+
+            quantityInput.addEventListener('input', () => {
+                validateQty();
+                updateTotals();
+            });
+            quantityInput.addEventListener('change', () => {
+                validateQty();
+                updateTotals();
+            });
+
+            [descriptionInput, priceInput].forEach((field) => {
                 field.addEventListener('input', updateTotals);
                 field.addEventListener('change', updateTotals);
             });
@@ -907,6 +967,7 @@
             if (item.unit_price) {
                 priceInput.value = Number(item.unit_price).toFixed(2);
             }
+            validateQty();
             renumberRows();
             updateTotals();
         };
@@ -1011,6 +1072,40 @@
             serviceDateInput.addEventListener('change', () => {
                 if (!dueDateTouched && !{{ $isEdit ? 'true' : 'false' }}) {
                     dueDateInput.value = serviceDateInput.value;
+                }
+            });
+        }
+
+        const invoiceForm = lineItemsContainer ? lineItemsContainer.closest('form') : document.querySelector('form[action*="invoices"]');
+        if (invoiceForm) {
+            invoiceForm.addEventListener('submit', (e) => {
+                let hasError = false;
+                let errorMessage = '';
+                lineItemsContainer.querySelectorAll('[data-line-item]').forEach((row, idx) => {
+                    const qtyInput = row.querySelector('[data-line-quantity]');
+                    const max = qtyInput ? qtyInput.getAttribute('data-max-qty') : null;
+                    if (max !== null && max !== '') {
+                        const maxNum = Number(max);
+                        const currentQty = Number(qtyInput.value || 0);
+                        if (currentQty > maxNum) {
+                            hasError = true;
+                            errorMessage = maxNum <= 0
+                                ? `Item #${idx + 1} is out of stock (0 available). Cannot create an invoice for this item.`
+                                : `Item #${idx + 1} quantity (${currentQty}) exceeds available stock (${maxNum}). Please adjust the quantity before submitting.`;
+                            qtyInput.focus();
+                        } else if (currentQty <= 0) {
+                            hasError = true;
+                            errorMessage = `Item #${idx + 1} quantity must be at least 1.`;
+                            qtyInput.focus();
+                        }
+                    }
+                });
+
+                if (hasError) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert(errorMessage);
+                    return false;
                 }
             });
         }

@@ -16,6 +16,7 @@ class SalesInvoiceItem extends Model
         'product_name',
         'description',
         'quantity',
+        'deducted_quantity',
         'unit_price',
         'subtotal',
         'taxable',
@@ -26,6 +27,7 @@ class SalesInvoiceItem extends Model
 
     protected $casts = [
         'quantity' => 'integer',
+        'deducted_quantity' => 'integer',
         'unit_price' => 'decimal:2',
         'subtotal' => 'decimal:2',
         'taxable' => 'boolean',

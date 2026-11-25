@@ -58,6 +58,10 @@ class Inventory extends Model
         'quantity' => 'integer',          
     ];
 
+    protected $appends = [
+        'available_quantity',
+    ];
+
     protected static function booted(): void
     {
         static::saving(function (Inventory $inventory) {

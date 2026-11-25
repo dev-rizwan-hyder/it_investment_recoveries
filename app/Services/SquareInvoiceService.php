@@ -216,7 +216,9 @@ class SquareInvoiceService
             }
 
             $invoice->update($updateData);
-            $invoice->fresh()?->syncLinkedRepairEntry();
+            $freshInvoice = $invoice->fresh(['items.inventory', 'repairEntry']);
+            $freshInvoice?->syncLinkedRepairEntry();
+            $freshInvoice?->syncInventoryStockAndEbay();
 
             return [
                 'success' => true,

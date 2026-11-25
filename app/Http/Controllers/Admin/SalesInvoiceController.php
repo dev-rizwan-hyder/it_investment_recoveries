@@ -346,13 +346,16 @@ class SalesInvoiceController extends Controller
                 $category = $inventory->category ?: ($inventory->device_type ?: 'Product Sale');
                 $unitPrice = (float) ($inventory->price > 0 ? $inventory->price : ($inventory->estimated_value > 0 ? $inventory->estimated_value : 0));
 
+                $availableQty = $inventory->available_quantity;
                 $prefilledItems[] = [
                     'inventory_id' => $inventory->id,
                     'invoice_category' => $category,
                     'description' => $desc,
-                    'quantity' => 1,
+                    'quantity' => min(1, max(0, $availableQty)),
                     'unit_price' => $unitPrice,
                     'taxable' => true,
+                    'available_quantity' => $availableQty,
+                    'max_quantity' => $availableQty,
                 ];
 
                 $message = "Inventory Item #{$inventory->id}";
@@ -457,6 +460,7 @@ class SalesInvoiceController extends Controller
 
         // Ensure linked repair entry is synchronized if invoice is paid
         $invoice->syncLinkedRepairEntry();
+        $invoice->syncInventoryStockAndEbay();
 
         $shouldSendSquare = $request->input('action') === 'save_and_send_square';
 
@@ -528,6 +532,7 @@ class SalesInvoiceController extends Controller
         $invoice->save();
 
         $invoice->syncLinkedRepairEntry();
+        $invoice->syncInventoryStockAndEbay();
 
         $statusText = ucfirst($newStatus);
         return redirect()
@@ -537,7 +542,7 @@ class SalesInvoiceController extends Controller
 
     public function edit(SalesInvoice $invoice)
     {
-        $invoice->load('items');
+        $invoice->load(['items.inventory', 'repairEntry']);
 
         return view('admin.sales.invoices-create', [
             'clients' => Client::orderBy('name')->get(),
@@ -577,7 +582,7 @@ class SalesInvoiceController extends Controller
         DB::transaction(function () use ($validated, $request, $invoice, $picturePaths) {
             $client = $this->resolveClient($validated, $request);
             $invId = !empty($validated['inventory_id']) ? (int) $validated['inventory_id'] : ($request->input('inventory_id') ? (int) $request->input('inventory_id') : null);
-            $totals = $this->buildInvoiceItems($validated['items'], $invId);
+            $totals = $this->buildInvoiceItems($validated['items'], $invId, $invoice);
             $repairId = $request->input('repair_id', $invoice->repair_entry_id);
             if (!$repairId && !empty($validated['message']) && preg_match('/Repair Entry #(\d+)/', $validated['message'], $m)) {
                 $repairId = (int) $m[1];
@@ -622,6 +627,7 @@ class SalesInvoiceController extends Controller
 
         // Ensure linked repair entry is synchronized if invoice is paid
         $invoice->syncLinkedRepairEntry();
+        $invoice->syncInventoryStockAndEbay();
 
         if ($removedPicturePaths->isNotEmpty()) {
             $this->deletePictureFiles($removedPicturePaths->all());
@@ -901,7 +907,33 @@ class SalesInvoiceController extends Controller
             $rules['remove_pictures.*'] = ['nullable', 'string'];
         }
 
-        return $request->validate($rules);
+        $validated = $request->validate($rules);
+
+        // Validate stock availability for inventory items
+        foreach ($validated['items'] as $index => $itemData) {
+            $invId = !empty($itemData['inventory_id']) ? (int) $itemData['inventory_id'] : ($request->input('inventory_id') ? (int) $request->input('inventory_id') : null);
+            if ($invId) {
+                $inventory = Inventory::find($invId);
+                if ($inventory) {
+                    $held = 0;
+                    if ($invoice && $invoice->isPaid()) {
+                        $existingLine = $invoice->items->firstWhere('inventory_id', $inventory->id);
+                        if ($existingLine) {
+                            $held = (int) ($existingLine->deducted_quantity ?? $existingLine->quantity);
+                        }
+                    }
+                    $available = $inventory->available_quantity + $held;
+                    $requestedQty = (int) $itemData['quantity'];
+                    if ($requestedQty > $available) {
+                        throw \Illuminate\Validation\ValidationException::withMessages([
+                            "items.{$index}.quantity" => "Cannot invoice {$requestedQty} units for '{$inventory->name}'. Only {$available} available in stock."
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return $validated;
     }
 
     private function resolveClient(array $validated, Request $request): ?Client
@@ -1017,11 +1049,20 @@ class SalesInvoiceController extends Controller
         }
     }
 
-    private function buildInvoiceItems(array $items, ?int $fallbackInventoryId = null): array
+    private function buildInvoiceItems(array $items, ?int $fallbackInventoryId = null, ?SalesInvoice $invoice = null): array
     {
         $invoiceItems = [];
         $subtotal = 0;
         $taxAmount = 0;
+
+        $existingDeductions = [];
+        if ($invoice && $invoice->relationLoaded('items')) {
+            foreach ($invoice->items as $ex) {
+                if ($ex->inventory_id) {
+                    $existingDeductions[$ex->inventory_id] = (int) ($ex->deducted_quantity ?? 0);
+                }
+            }
+        }
 
         foreach ($items as $itemData) {
             $invoiceCategory = trim((string) ($itemData['invoice_category'] ?? ''));
@@ -1039,6 +1080,7 @@ class SalesInvoiceController extends Controller
             $taxAmount += $lineTax;
 
             $invId = !empty($itemData['inventory_id']) ? (int) $itemData['inventory_id'] : $fallbackInventoryId;
+            $deductedQty = isset($itemData['deducted_quantity']) ? (int) $itemData['deducted_quantity'] : ($invId && isset($existingDeductions[$invId]) ? $existingDeductions[$invId] : 0);
 
             $invoiceItems[] = [
                 'inventory_id' => $invId,
@@ -1046,6 +1088,7 @@ class SalesInvoiceController extends Controller
                 'product_name' => $invoiceCategory ?: $description,
                 'description' => $description,
                 'quantity' => $quantity,
+                'deducted_quantity' => $deductedQty,
                 'unit_price' => $unitPrice,
                 'subtotal' => $lineSubtotal,
                 'taxable' => $isTaxable,
