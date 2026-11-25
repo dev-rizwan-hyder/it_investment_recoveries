@@ -28,7 +28,6 @@ class InventoryManager {
                 removeBg: 0,
             },
         };
-        this.isProcessingSell = false;
         this.isBulkDeleting = false;
         this.init();
     }
@@ -193,20 +192,6 @@ class InventoryManager {
         $(document).on("click", '[data-action="printLabel"]', (e) => {
             const itemId = $(e.currentTarget).data("item-id");
             this.printLabel(itemId);
-        });
-
-        $(document).on("click", '[data-action="sellItem"]', (e) => {
-            const itemId = $(e.currentTarget).data("item-id");
-            const itemName = $(e.currentTarget).data("item-name");
-            const itemPrice = $(e.currentTarget).data("item-price");
-            if ($(e.currentTarget).prop("disabled")) {
-                return;
-            }
-            this.openSellModal(itemId, itemName, itemPrice);
-        });
-
-        $(document).on("input", "#sell-quantity", () => {
-            this.updateSellQuantityRemaining();
         });
 
         $(document).on("change", '[data-action="updateStatus"]', (e) => {
@@ -417,7 +402,6 @@ class InventoryManager {
         const repairPhotoHtml = this.renderRepairPhotoThumbnail(allPhotos);
 
         const netQuantity = (item.quantity || 0) - (item.reuse_quantity || 0);
-        const sellButtonDisabled = netQuantity <= 0;
 
         // Build category hierarchy
         let categoryDisplay = item.category || "-";
@@ -504,13 +488,6 @@ class InventoryManager {
                 </td>
                 <td class="px-4 py-4 font-black text-slate-900 text-sm">$${parseFloat(item.price || 0).toFixed(2)}</td>
                 <td class="px-4 py-4 text-slate-400 font-medium text-[11px] text-center">${new Date(item.created_at).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "2-digit" })}</td>
-                <td class="px-4 py-4 text-center">
-                    <button data-action="sellItem" data-item-id="${item.id}" data-item-name="${item.name}" data-item-price="${item.price}"
-                        ${sellButtonDisabled ? "disabled" : ""}
-                        class="h-9 w-full rounded-lg font-bold text-[10px] uppercase transition-all active:scale-95 ${sellButtonDisabled ? "bg-slate-100 text-slate-400 cursor-not-allowed" : "bg-green-50 text-green-600 hover:bg-green-600 hover:text-white"}">
-                        <i class="fas fa-shopping-cart mr-1"></i> Sell
-                    </button>
-                </td>
                 <td class="px-3 py-3 text-right">
                     <div class="inline-flex items-center justify-end gap-1.5 shrink-0">
                         ${syncButtonHtml}
@@ -2235,200 +2212,6 @@ class InventoryManager {
         });
 
         window.location.href = `${baseUrl}/export-csv?${params.toString()}`;
-    }
-
-    openSellModal(itemId, itemName, itemPrice) {
-        // Load item details and populate the sell modal
-        $.ajax({
-            url: `${baseUrl}/${itemId}`,
-            type: "GET",
-            headers: { "X-CSRF-TOKEN": csrfToken },
-            success: (response) => {
-                if (response.success) {
-                    const item = response.item;
-                    const availableQuantity = Math.max(
-                        0,
-                        (parseInt(item.quantity, 10) || 0) - (parseInt(item.reuse_quantity, 10) || 0),
-                    );
-                    if (availableQuantity <= 0) {
-                        alert("This item is out of stock and cannot be sold.");
-                        return;
-                    }
-                    const displayCategory = [item.category, item.sub_category, item.sub_sub_category]
-                        .filter(Boolean)
-                        .join(' / ') || 'N/A';
-                    const displayBrandModel = item.brand_category || [item.brand, item.model].filter(Boolean).join(' ').trim() || 'N/A';
-
-                    $("#sell-item-id").val(item.id);
-                    $("#sell-item-name").text(item.name);
-                    $("#sell-barcode").text(item.barcode || 'N/A');
-                    $("#sell-status").text(item.status || 'N/A');
-                    $("#sell-category").text(displayCategory);
-                    $("#sell-brand-model").text(displayBrandModel);
-                    $("#sell-device-type").text(item.device_type || 'N/A');
-                    $("#sell-location").text(item.put_away_location || 'N/A');
-                    $("#sell-serial-number").text(item.serial_number || 'N/A');
-                    $("#sell-device-specs").text(item.device_specs || 'N/A');
-                    $("#sell-operating-system").text(item.operating_system || 'N/A');
-                    $("#sell-technician").text(item.technician || 'N/A');
-                    $("#sell-inventory-contact").text([item.customer_email, item.customer_phone].filter(Boolean).join(' / ') || 'N/A');
-                    $("#sell-lot-pallet").text([item.lot_info, item.pallet_number].filter(Boolean).join(' / ') || 'N/A');
-                    const parcel = [item.parcel_length, item.parcel_width, item.parcel_height, item.parcel_weight]
-                        .filter(Boolean)
-                        .join(' x ');
-                    $("#sell-parcel-dims").text(parcel ? parcel + ' (in / lb)' : 'N/A');
-                    $("#sell-notes").text(item.notes || 'No notes provided.');
-                    $("#sell-available-quantity").text(availableQuantity);
-                    $("#sell-item-price").data("unit-price", parseFloat(item.price || 0) || 0);
-                    $("#sell-unit-price").text(`Unit Price: $${(parseFloat(item.price || 0) || 0).toFixed(2)}`);
-                    $("#sell-quantity").val(1);
-                    $("#sell-quantity").attr("max", availableQuantity || 1);
-                    $("#sell-quantity-max").val(availableQuantity || 1);
-                    $("#sell-payment-method").val("cash");
-                    $("#sell-order-status").val(typeof defaultDirectSellOrderStatus !== "undefined" ? defaultDirectSellOrderStatus : "in_store_purchased");
-                    $("#sell-customer-name").val("");
-                    $("#sell-customer-email").val("");
-                    $("#sell-customer-phone").val("");
-                    $("#sell-customer-company").val("");
-                    this.updateSellQuantityRemaining();
-                    $("#directSellModal").removeClass("hidden");
-                }
-            },
-            error: (error) => {
-                console.error("Failed to load item", error);
-                alert("Failed to load item details");
-            }
-        });
-    }
-
-    updateSellQuantityRemaining() {
-        const maxQuantity = parseInt($("#sell-quantity-max").val(), 10) || 0;
-        const enteredQuantity = parseInt($("#sell-quantity").val(), 10) || 0;
-        const unitPrice = parseFloat($("#sell-item-price").data("unit-price")) || 0;
-        const remainingQuantity = Math.max(0, maxQuantity - enteredQuantity);
-        const subtotal = unitPrice * Math.max(enteredQuantity, 0);
-        const tax = Math.round(subtotal * 0.08 * 100) / 100;
-        const totalCharge = subtotal + tax;
-        const isOutOfStock = maxQuantity <= 0;
-        const isQuantityInvalid = enteredQuantity < 1 || enteredQuantity > maxQuantity;
-
-        $("#sell-item-price").val(subtotal.toFixed(2));
-        $("#sell-tax-amount").text(`$${tax.toFixed(2)}`);
-        $("#sell-total-charge").text(`$${totalCharge.toFixed(2)}`);
-        $("#sell-quantity-remaining").text(`Remaining Quantity: ${remainingQuantity}`);
-
-        const warning = $("#sell-stock-warning");
-        if (isOutOfStock) {
-            warning.removeClass("hidden").text("Not enough stock available.");
-        } else if (enteredQuantity < 1) {
-            warning.removeClass("hidden").text("Quantity must be at least 1.");
-        } else if (enteredQuantity > maxQuantity) {
-            warning.removeClass("hidden").text(`Not enough stock. Only ${maxQuantity} available.`);
-        } else {
-            warning.addClass("hidden").text("");
-        }
-
-        if (!this.isProcessingSell) {
-            $("#confirm-sell-btn").prop("disabled", isOutOfStock || isQuantityInvalid);
-        }
-    }
-
-    setSellButtonLoading(isLoading) {
-        const button = $("#confirm-sell-btn");
-        this.isProcessingSell = isLoading;
-
-        if (!button.length) {
-            return;
-        }
-
-        if (isLoading) {
-            button.prop("disabled", true)
-                .addClass("opacity-70 cursor-not-allowed")
-                .html('<i class="fas fa-spinner fa-spin mr-2"></i> Processing...');
-        } else {
-            button.prop("disabled", false)
-                .removeClass("opacity-70 cursor-not-allowed")
-                .html('<i class="fas fa-check mr-2"></i> Confirm Sale');
-            this.updateSellQuantityRemaining();
-        }
-    }
-
-    processSell() {
-        const itemId = $("#sell-item-id").val();
-        const quantity = parseInt($("#sell-quantity").val()) || 1;
-        const customerName = $("#sell-customer-name").val().trim();
-        const customerEmail = $("#sell-customer-email").val().trim();
-        const customerPhone = $("#sell-customer-phone").val().trim();
-        const paymentMethod = $("#sell-payment-method").val() || "cash";
-        const orderStatus = $("#sell-order-status").val() || (typeof defaultDirectSellOrderStatus !== "undefined" ? defaultDirectSellOrderStatus : "in_store_purchased");
-        const maxQuantity = parseInt($("#sell-quantity-max").val(), 10) || 0;
-
-        if (!customerName) {
-            alert("Please enter customer name");
-            return;
-        }
-
-        if (!customerEmail && !customerPhone) {
-            alert("Please enter either email or phone number");
-            return;
-        }
-
-        if (quantity < 1) {
-            alert("Invalid quantity");
-            return;
-        }
-
-        if (maxQuantity <= 0 || quantity > maxQuantity) {
-            alert("Not enough stock available.");
-            return;
-        }
-
-        this.setSellButtonLoading(true);
-
-        const ajaxUrl = `${baseUrl}/${itemId}/direct-sell`;
-        console.log("Sale Request URL:", ajaxUrl);
-        console.log("Sale Request Data:", {
-            quantity: quantity,
-            customer_name: customerName,
-            customer_email: customerEmail,
-            customer_phone: customerPhone,
-            order_status: orderStatus,
-            sale_type: "store_pickup"
-        });
-
-        $.ajax({
-            url: ajaxUrl,
-            type: "POST",
-            headers: { "X-CSRF-TOKEN": csrfToken },
-            data: {
-                quantity: quantity,
-                customer_name: customerName,
-                customer_email: customerEmail,
-                customer_phone: customerPhone,
-                payment_method: paymentMethod,
-                order_status: orderStatus,
-                sale_type: "store_pickup"
-            },
-            success: (response) => {
-                console.log("Sale Response:", response);
-                if (response.success) {
-                    alert("Item sold successfully!");
-                    this.setSellButtonLoading(false);
-                    $("#directSellModal").addClass("hidden");
-                    this.loadData();
-                } else {
-                    this.setSellButtonLoading(false);
-                    alert("Error: " + (response.message || "Failed to process sale"));
-                }
-            },
-            error: (error) => {
-                this.setSellButtonLoading(false);
-                console.error("Sale failed - Status:", error.status);
-                console.error("Sale failed - Response:", error.responseText);
-                console.error("Full error:", error);
-                alert("Failed to process sale. Check console for details.");
-            }
-        });
     }
 }
 

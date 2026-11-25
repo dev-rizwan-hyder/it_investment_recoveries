@@ -227,13 +227,12 @@
                             <th class="px-4 py-5 w-32 text-center">Status</th>
                             <th class="px-4 py-5 w-28">Price</th>
                             <th class="px-4 py-5 w-28 text-center">Date</th>
-                            <th class="px-4 py-5 w-32 text-center">Sell</th>
                             <th class="px-3 py-5 w-[215px] text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50" id="items-table-body">
                         <tr>
-                            <td colspan="12" class="p-16 text-center text-slate-300 font-bold uppercase text-xs">
+                            <td colspan="11" class="p-16 text-center text-slate-300 font-bold uppercase text-xs">
                                 Loading...</td>
                         </tr>
                     </tbody>
@@ -282,180 +281,6 @@
         </div>
     </div>
 
-    {{-- Direct Sell Modal --}}
-    <div id="directSellModal" class="hidden  fixed inset-0 z-[120] flex items-center justify-center p-4">
-        <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm"
-            onclick="document.getElementById('directSellModal').classList.add('hidden')"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
-            <div
-                class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-green-50 to-emerald-50">
-                <h3 class="text-lg font-black text-slate-800">
-                    <i class="fas fa-shopping-cart text-green-600 mr-2"></i> Direct Store Pickup Sale
-                </h3>
-                <button type="button" class="h-8 w-8 rounded-full hover:bg-white text-slate-500"
-                    onclick="document.getElementById('directSellModal').classList.add('hidden')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
-                <input type="hidden" id="sell-item-id">
-                <input type="hidden" id="sell-quantity-max">
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                    <div class="space-y-3 bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Barcode</p>
-                            <p id="sell-barcode" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Status</p>
-                            <p id="sell-status" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Category</p>
-                            <p id="sell-category" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Available Quantity</p>
-                            <p id="sell-available-quantity" class="text-sm font-semibold text-slate-800">0</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Location</p>
-                            <p id="sell-location" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                    </div>
-                    <div class="space-y-3 bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Brand & Model</p>
-                            <p id="sell-brand-model" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Device Type</p>
-                            <p id="sell-device-type" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div class="space-y-3">
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Device Specs</p>
-                            <p id="sell-device-specs" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div class="space-y-3">
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Operating System</p>
-                            <p id="sell-operating-system" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">Technician</p>
-                            <p id="sell-technician" class="text-sm font-semibold text-slate-800">N/A</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                    {{-- Quantity --}}
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Quantity</label>
-                        <input type="number" id="sell-quantity" min="1" value="1"
-                            class="w-full px-3 py-2 border border-slate-200 rounded-lg font-bold text-slate-800 focus:border-green-400 focus:outline-none">
-                        <p id="sell-quantity-remaining" class="mt-2 text-xs font-semibold text-emerald-600"></p>
-                        <p id="sell-stock-warning" class="mt-1 text-xs font-semibold text-red-600 hidden"></p>
-                        <div class="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-                            <div class="flex items-center justify-between text-slate-600">
-                                <span class="font-semibold">Tax (8%)</span>
-                                <span id="sell-tax-amount" class="font-bold">$0.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- Price --}}
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Subtotal</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold">$</span>
-                            <input id="sell-item-price" readonly
-                                class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800"
-                                step="0.01">
-                        </div>
-                        <p id="sell-unit-price" class="mt-2 text-xs font-semibold text-slate-500"></p>
-                        <div class="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-                            <div class="flex items-center justify-between">
-                                <span class="font-black text-slate-800">Total Price</span>
-                                <span id="sell-total-charge" class="font-black text-emerald-700">$0.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Notes</label>
-                    <p id="sell-notes"
-                        class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm leading-6 text-slate-700">
-                        No notes provided.</p>
-                </div>
-
-                {{-- Customer Name --}}
-                <div class="mb-4">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Customer Name *</label>
-                    <input type="text" id="sell-customer-name" placeholder="Enter customer name"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none">
-                </div>
-
-                {{-- Customer Email --}}
-                <div class="mb-4">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Email</label>
-                    <input type="email" id="sell-customer-email" placeholder="customer@example.com"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none">
-                </div>
-
-                {{-- Customer Phone --}}
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Phone</label>
-                    <input type="tel" id="sell-customer-phone" placeholder="(123) 456-7890"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none">
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Company (Optional)</label>
-                    <input type="text" id="sell-customer-company" placeholder="Enter company name"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none">
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Order Status</label>
-                    <select id="sell-order-status"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none bg-white">
-                        @foreach (\App\Models\Order::statusChoices() as $status => $label)
-                            <option value="{{ $status }}" {{ $status === \App\Models\Order::STATUS_IN_STORE_PURCHASED ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Purchase Type</label>
-                    <select id="sell-payment-method"
-                        class="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-700 focus:border-green-400 focus:outline-none bg-white">
-                        <option value="cash">Cash</option>
-                        <option value="cheque">Cheque</option>
-                        <option value="square_card">Square Card</option>
-                    </select>
-                </div>
-
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6 text-[12px] text-blue-700 font-semibold">
-                    <i class="fas fa-info-circle mr-2"></i> The selected payment type will be saved with this sale.
-                </div>
-            </div>
-
-            {{-- Footer --}}
-            <div class="px-6 py-4 border-t border-slate-200 flex gap-3 bg-slate-50">
-                <button type="button" onclick="document.getElementById('directSellModal').classList.add('hidden')"
-                    class="flex-1 px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg transition-all">
-                    Cancel
-                </button>
-                <button type="button" id="confirm-sell-btn" onclick="inventoryManager.processSell()"
-                    class="flex-1 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-all">
-                    <i class="fas fa-check mr-2"></i> Confirm Sale
-                </button>
-            </div>
-        </div>
-    </div>
 
     <div id="inventoryShippingRatesModal" class="hidden fixed inset-0 z-[120] flex items-center justify-center p-4">
         <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm"
@@ -1330,13 +1155,11 @@
                     setBtns(false, null);
                     if (btn) btn.innerHTML = '<i class="fas fa-sync-alt mr-1.5"></i> Match eBay Quantities';
                     if (modalBtn) modalBtn.innerHTML = '<i class="fas fa-sync-alt mr-1.5"></i> Match Quantities';
-                    alert('Error matching eBay quantities: ' + (err.message || 'Network error'));
-                }
+alert('Error matching eBay quantities: ' + (err.message || 'Network error'));
             }
+        }
 
-            const defaultDirectSellOrderStatus = "{{ \App\Models\Order::STATUS_IN_STORE_PURCHASED }}";
-
-            async function deleteZeroQuantityItems() {
+        async function deleteZeroQuantityItems() {
                 const countBadge = document.getElementById('zero-qty-count');
                 const countText = countBadge ? countBadge.textContent.trim() : '0';
                 const currentCount = parseInt(countText) || 0;
