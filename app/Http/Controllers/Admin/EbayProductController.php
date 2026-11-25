@@ -869,10 +869,26 @@ class EbayProductController extends Controller
             $metadata = json_decode(File::get($metadataPath), true) ?: [];
         }
 
-        $recipient = trim((string) $request->input('recipient', 'sal@it-investmentrecoveries.com'));
-        if (empty($recipient)) {
-            $recipient = 'sal@it-investmentrecoveries.com';
+        $rawRecipient = trim((string) $request->input('recipient', 'sal@it-investmentrecoveries.com'));
+        if ($rawRecipient === '') {
+            $rawRecipient = 'sal@it-investmentrecoveries.com';
         }
+
+        $recipients = collect(preg_split('/[,;]+/', $rawRecipient))
+            ->map(fn ($email) => trim((string) $email))
+            ->filter(fn ($email) => $email !== '')
+            ->values();
+
+        if ($recipients->isEmpty() || $recipients->contains(fn ($email) => !filter_var($email, FILTER_VALIDATE_EMAIL))) {
+            return response()->json([
+                'success' => false,
+                'mail_sent' => false,
+                'message' => 'Please enter a valid recipient email address.',
+            ], 422);
+        }
+
+        $recipientList = $recipients->all();
+        $recipientDisplay = implode(', ', $recipientList);
 
         $issueMessage = trim((string) $request->input('message', ''));
         $subject = trim((string) $request->input('subject', ''));
@@ -881,7 +897,7 @@ class EbayProductController extends Controller
             : true;
 
         $metadata['blinking'] = $setBlinking;
-        if (!empty($issueMessage)) {
+        if ($issueMessage !== '') {
             $metadata['last_issue_message'] = $issueMessage;
         }
         $metadata['last_alert_sent_at'] = $this->denverNow()->toIso8601String();
@@ -890,31 +906,66 @@ class EbayProductController extends Controller
         $this->writeMetadata($folderPath, $metadata);
 
         $product = $this->productFromDirectory($folderPath);
+        $emailProduct = $product;
+        $emailProduct['category'] = $this->resolveCategoryName($product['category'] ?? '');
+        $emailProduct['sub_category'] = $this->resolveCategoryName($product['sub_category'] ?? '');
 
         $reporterName = auth()->user()?->name ?? 'Admin Staff';
+        $reporterEmail = auth()->user()?->email;
         $mailSuccess = false;
         $mailError = null;
 
         try {
-            \Illuminate\Support\Facades\Mail::to($recipient)->send(
-                new \App\Mail\EbayProductIssueAlert($product, $issueMessage, $subject, $reporterName)
+            \Illuminate\Support\Facades\Mail::to($recipientList)->send(
+                new \App\Mail\EbayProductIssueAlert(
+                    $emailProduct,
+                    $issueMessage,
+                    $subject,
+                    $reporterName,
+                    $reporterEmail,
+                    $recipientDisplay,
+                    $setBlinking
+                )
             );
             $mailSuccess = true;
+            \Log::info("Issue alert email sent for eBay product {$folder}", [
+                'recipients' => $recipientList,
+                'mailer' => config('mail.default'),
+            ]);
         } catch (\Throwable $e) {
-            \Log::error("Failed to send issue alert email for eBay product {$folder}: " . $e->getMessage());
+            \Log::error("Failed to send issue alert email for eBay product {$folder}: " . $e->getMessage(), [
+                'recipients' => $recipientList,
+                'mailer' => config('mail.default'),
+                'host' => config('mail.mailers.smtp.host'),
+                'port' => config('mail.mailers.smtp.port'),
+                'exception' => $e,
+            ]);
             $mailError = $e->getMessage();
+        }
+
+        $cardHtml = view('admin.ebay.partials.product-card', ['product' => $product])->render();
+
+        if (!$mailSuccess) {
+            return response()->json([
+                'success' => false,
+                'mail_sent' => false,
+                'mail_error' => $mailError,
+                'message' => "Failed to send email to {$recipientDisplay}: {$mailError}",
+                'blinking' => $metadata['blinking'],
+                'product' => $product,
+                'html' => $cardHtml,
+                'stats' => $this->fastStats(),
+            ], 500);
         }
 
         return response()->json([
             'success' => true,
-            'mail_sent' => $mailSuccess,
-            'mail_error' => $mailError,
-            'message' => $mailSuccess
-                ? "Issue alert email sent to {$recipient} successfully!"
-                : "Alert style updated! (Note: email notification encountered: {$mailError})",
+            'mail_sent' => true,
+            'mail_error' => null,
+            'message' => "Issue alert email sent to {$recipientDisplay} successfully!",
             'blinking' => $metadata['blinking'],
             'product' => $product,
-            'html' => view('admin.ebay.partials.product-card', ['product' => $product])->render(),
+            'html' => $cardHtml,
             'stats' => $this->fastStats(),
         ]);
     }

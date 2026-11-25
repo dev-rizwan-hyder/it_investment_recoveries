@@ -83,6 +83,9 @@
                 </button>
             </div>
 
+            <!-- Inline Error Alert -->
+            <div id="alert-modal-error-banner" class="hidden rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-semibold text-red-700"></div>
+
             <!-- Action Buttons -->
             <div class="pt-2 flex items-center justify-end gap-2.5">
                 <button type="button" onclick="closeProductAlertModal()"

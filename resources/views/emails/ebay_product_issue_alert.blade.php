@@ -138,7 +138,7 @@
         <div class="header">
             <span class="header-badge">⚠️ Action Required</span>
             <h1>Product Issue Alert</h1>
-            <p>An issue was flagged for Product #{{ $product['product_no'] ?? 'N/A' }} with Blinking Red Alert status.</p>
+            <p>An issue was flagged for Product #{{ $product['product_no'] ?? 'N/A' }}{{ !empty($isBlinking) ? ' with Blinking Red Alert status' : '' }}.</p>
         </div>
 
         <!-- Body -->
@@ -163,7 +163,7 @@
                 <tr>
                     <td class="label">Category:</td>
                     <td class="val">
-                        {{ $product['category'] ?? '-' }}
+                        {{ ($product['category'] ?? '') ?: '-' }}
                         @if(!empty($product['sub_category']))
                             &rsaquo; {{ $product['sub_category'] }}
                         @endif
@@ -171,11 +171,11 @@
                 </tr>
                 <tr>
                     <td class="label">Condition:</td>
-                    <td class="val">{{ $product['condition'] ?? 'Used' }}</td>
+                    <td class="val">{{ ($product['condition'] ?? '') ?: 'Used' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Location:</td>
-                    <td class="val">{{ $product['location'] ?: 'Not Specified' }}</td>
+                    <td class="val">{{ ($product['location'] ?? '') ?: 'Not Specified' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Quantity:</td>
@@ -183,15 +183,15 @@
                 </tr>
                 <tr>
                     <td class="label">Serial Number:</td>
-                    <td class="val">{{ $product['serial_number'] ?: 'N/A' }}</td>
+                    <td class="val">{{ ($product['serial_number'] ?? '') ?: 'N/A' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Added / Intake User:</td>
-                    <td class="val">{{ $product['user'] ?: 'N/A' }}</td>
+                    <td class="val">{{ ($product['user'] ?? '') ?: 'N/A' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Folder Reference:</td>
-                    <td class="val"><code style="font-size: 11px; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">{{ $product['folder'] }}</code></td>
+                    <td class="val"><code style="font-size: 11px; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">{{ $product['folder'] ?? '' }}</code></td>
                 </tr>
                 @if(!empty($reporterName))
                 <tr>
@@ -203,7 +203,7 @@
 
             <!-- Button Link -->
             <div style="text-align: center; margin-top: 28px; margin-bottom: 8px;">
-                <a href="{{ url('/admin/ebay-products') }}?search={{ urlencode($product['product_no'] ?? $product['folder']) }}" class="btn-action">
+                <a href="{{ url('/admin/ebay-products') }}?search={{ urlencode((string) ($product['product_no'] ?? $product['folder'] ?? '')) }}" class="btn-action">
                     Open Product in Admin Dashboard &rarr;
                 </a>
             </div>
@@ -212,7 +212,7 @@
         <!-- Footer -->
         <div class="footer">
             <p style="margin: 0;">IT Investment Recoveries System &bull; Automated Issue Alert Notification</p>
-            <p style="margin: 4px 0 0 0;">This email was sent to sal@it-investmentrecoveries.com regarding flagged eBay inventory item #{{ $product['product_no'] ?? 'N/A' }}.</p>
+            <p style="margin: 4px 0 0 0;">This email was sent to {{ $recipientDisplay ?? 'sal@it-investmentrecoveries.com' }} regarding flagged eBay inventory item #{{ $product['product_no'] ?? 'N/A' }}.</p>
         </div>
     </div>
 </body>

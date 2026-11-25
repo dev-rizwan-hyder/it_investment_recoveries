@@ -1047,6 +1047,12 @@
 Issue Details:
 `;
 
+            const errorBanner = document.getElementById('alert-modal-error-banner');
+            if (errorBanner) {
+                errorBanner.textContent = '';
+                errorBanner.classList.add('hidden');
+            }
+
             const blinkCheck = document.getElementById('alert-modal-set-blinking');
             const clearBtn = document.getElementById('alert-modal-clear-blink-btn');
             blinkCheck.checked = true;
@@ -1089,13 +1095,30 @@ Issue Details:
             const subject = document.getElementById('alert-modal-subject').value.trim();
             const message = document.getElementById('alert-modal-message').value.trim();
             const blinking = document.getElementById('alert-modal-set-blinking').checked;
+            const errorBanner = document.getElementById('alert-modal-error-banner');
+
+            if (errorBanner) {
+                errorBanner.textContent = '';
+                errorBanner.classList.add('hidden');
+            }
 
             if (!folder) {
                 alert('Missing folder identifier.');
                 return;
             }
+            if (!recipient) {
+                if (errorBanner) {
+                    errorBanner.textContent = 'Please enter a recipient email address.';
+                    errorBanner.classList.remove('hidden');
+                }
+                document.getElementById('alert-modal-recipient').focus();
+                return;
+            }
             if (!message) {
-                alert('Please enter issue details.');
+                if (errorBanner) {
+                    errorBanner.textContent = 'Please enter issue details.';
+                    errorBanner.classList.remove('hidden');
+                }
                 document.getElementById('alert-modal-message').focus();
                 return;
             }
@@ -1109,7 +1132,7 @@ Issue Details:
             const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
 
             try {
-                const response = await fetch(`/admin/ebay-products/${encodeURIComponent(folder)}/send-issue-alert`, {
+                const response = await fetch(`{{ url('/admin/ebay-products') }}/${encodeURIComponent(folder)}/send-issue-alert`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': token,
@@ -1125,13 +1148,22 @@ Issue Details:
                     })
                 });
 
-                const data = await response.json();
+                const rawText = await response.text();
+                let data = {};
+                try {
+                    data = rawText ? JSON.parse(rawText) : {};
+                } catch (parseErr) {
+                    data = { success: false, message: `Server returned an unexpected response (${response.status}).` };
+                }
 
-                if (response.ok && data.success) {
+                if (data.html) {
                     const currentCard = document.getElementById(`product-card-${folder}`);
-                    if (currentCard && data.html) {
+                    if (currentCard) {
                         currentCard.outerHTML = data.html;
                     }
+                }
+
+                if (response.ok && data.success && data.mail_sent !== false) {
                     closeProductAlertModal();
                     if (window.showNotification) {
                         showNotification(data.message, 'success');
@@ -1139,11 +1171,29 @@ Issue Details:
                         alert(data.message);
                     }
                 } else {
-                    throw new Error(data.message || 'Failed to send alert email.');
+                    const errMsg = data.mail_error || data.message || `Failed to send alert email (${response.status}).`;
+                    if (errorBanner) {
+                        errorBanner.textContent = errMsg;
+                        errorBanner.classList.remove('hidden');
+                    }
+                    if (window.showNotification) {
+                        showNotification(errMsg, 'error');
+                    } else {
+                        alert('Error: ' + errMsg);
+                    }
                 }
             } catch (err) {
                 console.error('Error sending issue alert:', err);
-                alert('Error: ' + err.message);
+                const errMsg = err.message || 'Network error while sending email.';
+                if (errorBanner) {
+                    errorBanner.textContent = errMsg;
+                    errorBanner.classList.remove('hidden');
+                }
+                if (window.showNotification) {
+                    showNotification(errMsg, 'error');
+                } else {
+                    alert('Error: ' + errMsg);
+                }
             } finally {
                 submitBtn.disabled = false;
                 submitText.textContent = originalText;
