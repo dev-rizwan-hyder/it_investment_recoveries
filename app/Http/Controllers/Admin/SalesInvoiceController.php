@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Inventory;
+use App\Models\Order;
 use App\Models\RepairEntry;
 use App\Models\SalesInvoice;
 use App\Models\SalesInvoiceItem;
@@ -186,8 +187,10 @@ class SalesInvoiceController extends Controller
     {
         $repairId = $request->query('repair_id');
         $inventoryId = $request->query('inventory_id') ?: $request->query('item_id');
+        $orderId = $request->query('order_id');
         $repair = null;
         $inventory = null;
+        $order = null;
         $prefilledInvoice = null;
         $prefilledItems = [];
 
@@ -381,6 +384,113 @@ class SalesInvoiceController extends Controller
                     'picture_paths' => $photos,
                 ]);
             }
+        } elseif ($orderId) {
+            $order = Order::with(['user', 'items.inventory'])->find($orderId);
+            if ($order) {
+                $clientId = null;
+                if (!empty($order->customer_email)) {
+                    $clientId = Client::where('email', $order->customer_email)->value('id');
+                } elseif (!empty($order->customer_phone)) {
+                    $clientId = Client::where('phone', $order->customer_phone)->value('id');
+                }
+
+                $customerName = $order->customer_name ?: ($order->user?->name ?? '');
+                $customerEmail = $order->customer_email ?: ($order->user?->email ?? '');
+                $customerPhone = $order->customer_phone ?: ($order->user?->phone ?? '');
+                $customerCompany = '';
+                $customerAddress = $order->shipping_address ?: '';
+
+                if ($clientId) {
+                    $matchedClient = Client::find($clientId);
+                    if ($matchedClient) {
+                        $customerName = $customerName ?: $matchedClient->name;
+                        $customerEmail = $customerEmail ?: ($matchedClient->email ?? '');
+                        $customerPhone = $customerPhone ?: ($matchedClient->phone ?? '');
+                        $customerCompany = $matchedClient->company ?? '';
+                        $customerAddress = $customerAddress ?: ($matchedClient->address ?? '');
+                    }
+                }
+
+                $photos = [];
+                $cleanStr = fn ($val) => (!empty($val) && !in_array(strtolower(trim((string) $val)), ['undefined', 'null', 'n/a', '-'])) ? trim((string) $val) : null;
+
+                foreach ($order->items as $item) {
+                    $inv = $item->inventory;
+                    if ($inv && !empty($inv->photos_paths) && is_array($inv->photos_paths)) {
+                        $photos = array_merge($photos, array_values(array_filter($inv->photos_paths)));
+                    }
+
+                    $productName = $cleanStr($item->product_name) ?: ($cleanStr($inv?->name) ?: 'Order Item');
+                    $brand = $cleanStr($item->brand_category) ?: $cleanStr($inv?->brand);
+                    $specs = $cleanStr($item->device_specs) ?: $cleanStr($inv?->model);
+                    $sn = $cleanStr($inv?->serial_number);
+                    $barcode = $cleanStr($inv?->barcode);
+                    $os = $cleanStr($item->operating_system);
+                    $loc = $cleanStr($item->location);
+
+                    $descParts = array_filter([
+                        $productName,
+                        $brand ? "Brand: {$brand}" : null,
+                        $specs ? "Specs: {$specs}" : null,
+                        $os ? "OS: {$os}" : null,
+                        $sn ? "SN: {$sn}" : null,
+                        $barcode ? "Barcode: {$barcode}" : null,
+                        $loc ? "Location: {$loc}" : null,
+                    ]);
+                    $desc = !empty($descParts) ? implode(' | ', $descParts) : $productName;
+
+                    $category = $cleanStr($item->device_type) ?: ($inv?->category ?: ($inv?->device_type ?: 'Product Sale'));
+                    $qty = max(1, (int) ($item->quantity ?: 1));
+                    $unitPrice = (float) ($item->unit_price ?? 0);
+
+                    $prefilledItems[] = [
+                        'invoice_category' => $category,
+                        'description' => $desc,
+                        'quantity' => $qty,
+                        'unit_price' => $unitPrice,
+                        'taxable' => true,
+                    ];
+                }
+
+                $photos = array_values(array_unique($photos));
+
+                $message = "Order #{$order->order_number}";
+                if ($order->notes) {
+                    $message .= "\n" . $order->notes;
+                }
+
+                $paymentMethod = strtolower((string) ($order->payment_method ?? ''));
+                if (!in_array($paymentMethod, array_keys(SalesInvoice::PAYMENT_METHOD_CHOICES))) {
+                    $paymentMethod = SalesInvoice::PAYMENT_METHOD_CASH;
+                }
+
+                $paymentType = in_array($order->status, [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT])
+                    ? SalesInvoice::PAYMENT_TYPE_ONLINE
+                    : SalesInvoice::PAYMENT_TYPE_IN_STORE;
+
+                $invoiceData = [
+                    'client_id' => $clientId,
+                    'customer_name' => $customerName,
+                    'customer_email' => $customerEmail,
+                    'customer_phone' => $customerPhone,
+                    'customer_company' => $customerCompany,
+                    'customer_address' => $customerAddress,
+                    'service_date' => $order->created_at ? $order->created_at->format('Y-m-d') : now()->format('Y-m-d'),
+                    'due_date' => now()->format('Y-m-d'),
+                    'payment_method' => $paymentMethod,
+                    'message' => $message,
+                    'status' => strtolower((string) ($order->payment_status ?? '')) === Order::PAYMENT_STATUS_PAID
+                        ? SalesInvoice::STATUS_PAID
+                        : SalesInvoice::STATUS_UNPAID,
+                    'picture_paths' => $photos,
+                ];
+
+                if (Schema::hasColumn('sales_invoices', 'payment_type')) {
+                    $invoiceData['payment_type'] = $paymentType;
+                }
+
+                $prefilledInvoice = new SalesInvoice($invoiceData);
+            }
         }
 
         return view('admin.sales.invoices-create', [
@@ -396,6 +506,7 @@ class SalesInvoiceController extends Controller
             'isEdit' => false,
             'repair' => $repair,
             'inventory' => $inventory,
+            'order' => $order,
             'repairEntries' => RepairEntry::with(['client', 'user'])->latest('id')->get(),
         ]);
     }
@@ -419,7 +530,16 @@ class SalesInvoiceController extends Controller
                 $repairId = (int) $m[1];
             }
 
+            $orderId = $request->input('order_id');
+            if (!$orderId && !empty($validated['message']) && preg_match('/Order #([A-Za-z0-9\-]+)/', $validated['message'], $m)) {
+                $matchedOrder = Order::where('order_number', trim($m[1]))->first();
+                if ($matchedOrder) {
+                    $orderId = $matchedOrder->id;
+                }
+            }
+
             $invoiceData = [
+                'order_id' => $orderId ?: null,
                 'repair_entry_id' => $repairId ?: null,
                 'client_id' => $client?->id,
                 'created_by' => auth()->id(),
@@ -588,7 +708,16 @@ class SalesInvoiceController extends Controller
                 $repairId = (int) $m[1];
             }
 
+            $orderId = $request->input('order_id', $invoice->order_id);
+            if (!$orderId && !empty($validated['message']) && preg_match('/Order #([A-Za-z0-9\-]+)/', $validated['message'], $m)) {
+                $matchedOrder = Order::where('order_number', trim($m[1]))->first();
+                if ($matchedOrder) {
+                    $orderId = $matchedOrder->id;
+                }
+            }
+
             $invoiceUpdateData = [
+                'order_id' => $orderId ?: $invoice->order_id,
                 'repair_entry_id' => $repairId ?: $invoice->repair_entry_id,
                 'client_id' => $client?->id,
                 'invoice_number' => (!empty($validated['invoice_number'])) ? $validated['invoice_number'] : $invoice->invoice_number,
@@ -1064,6 +1193,8 @@ class SalesInvoiceController extends Controller
             }
         }
 
+        $hasDeductedQtyCol = Schema::hasColumn('sales_invoice_items', 'deducted_quantity');
+
         foreach ($items as $itemData) {
             $invoiceCategory = trim((string) ($itemData['invoice_category'] ?? ''));
             $description = trim((string) ($itemData['description'] ?? ''));
@@ -1082,13 +1213,12 @@ class SalesInvoiceController extends Controller
             $invId = !empty($itemData['inventory_id']) ? (int) $itemData['inventory_id'] : $fallbackInventoryId;
             $deductedQty = isset($itemData['deducted_quantity']) ? (int) $itemData['deducted_quantity'] : ($invId && isset($existingDeductions[$invId]) ? $existingDeductions[$invId] : 0);
 
-            $invoiceItems[] = [
+            $itemRecord = [
                 'inventory_id' => $invId,
                 'invoice_category' => $invoiceCategory,
                 'product_name' => $invoiceCategory ?: $description,
                 'description' => $description,
                 'quantity' => $quantity,
-                'deducted_quantity' => $deductedQty,
                 'unit_price' => $unitPrice,
                 'subtotal' => $lineSubtotal,
                 'taxable' => $isTaxable,
@@ -1096,6 +1226,12 @@ class SalesInvoiceController extends Controller
                 'tax_amount' => $lineTax,
                 'total' => $lineTotal,
             ];
+
+            if ($hasDeductedQtyCol) {
+                $itemRecord['deducted_quantity'] = $deductedQty;
+            }
+
+            $invoiceItems[] = $itemRecord;
         }
 
         $subtotal = round($subtotal, 2);

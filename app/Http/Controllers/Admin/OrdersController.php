@@ -22,18 +22,32 @@ class OrdersController extends Controller
 
         // Search functionality
         if ($request->filled('search')) {
-            $searchTerm = $request->search;
+            $searchTerm = trim((string) $request->search);
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('order_number', 'like', '%' . $searchTerm . '%')
                     ->orWhere('customer_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('customer_email', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('customer_phone', 'like', '%' . $searchTerm . '%');
+                    ->orWhere('customer_phone', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('status', 'like', '%' . str_replace(' ', '_', $searchTerm) . '%');
+
+                if (stripos('in store payment', $searchTerm) !== false || stripos('in store purchased', $searchTerm) !== false) {
+                    $q->orWhereIn('status', [Order::STATUS_IN_STORE_PURCHASED, Order::STATUS_IN_STORE_PAYMENT]);
+                }
+                if (stripos('online payment', $searchTerm) !== false || stripos('online purchased', $searchTerm) !== false) {
+                    $q->orWhereIn('status', [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT]);
+                }
             });
         }
 
         // Status filter
         if ($request->filled('status') && $request->status !== 'All Statuses') {
-            $query->where('status', $request->status);
+            if (in_array($request->status, [Order::STATUS_IN_STORE_PURCHASED, Order::STATUS_IN_STORE_PAYMENT])) {
+                $query->whereIn('status', [Order::STATUS_IN_STORE_PURCHASED, Order::STATUS_IN_STORE_PAYMENT]);
+            } elseif (in_array($request->status, [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT])) {
+                $query->whereIn('status', [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT]);
+            } else {
+                $query->where('status', $request->status);
+            }
         }
 
         $orders = $query->latest('created_at')->paginate(15)->appends($request->all());
@@ -52,7 +66,9 @@ class OrdersController extends Controller
     public function show($id)
     {
         $order = Order::with('user', 'items.inventory')->findOrFail($id);
-        return view('admin.orders.show', compact('order'));
+        $salesInvoice = $order->sales_invoice;
+
+        return view('admin.orders.show', compact('order', 'salesInvoice'));
     }
 
     /**

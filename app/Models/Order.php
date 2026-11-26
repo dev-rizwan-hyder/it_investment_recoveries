@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Schema;
 
 class Order extends Model
 {
@@ -16,6 +17,8 @@ class Order extends Model
     public const STATUS_IN_STORE_RESERVED = 'in_store_reserved';
     public const STATUS_IN_STORE_PURCHASED = 'in_store_purchased';
     public const STATUS_ONLINE_PURCHASED = 'online_purchased';
+    public const STATUS_IN_STORE_PAYMENT = 'in_store_payment';
+    public const STATUS_ONLINE_PAYMENT = 'online_payment';
     public const STATUS_READY_FOR_PICKUP = 'ready_for_pickup';
     public const STATUS_SHIPPED = 'shipped';
     public const STATUS_CANCELLED = 'cancelled';
@@ -30,8 +33,8 @@ class Order extends Model
 
     public const STATUS_CHOICES = [
         self::STATUS_IN_STORE_RESERVED => 'In store reserved',
-        self::STATUS_IN_STORE_PURCHASED => 'In store Purchased',
-        self::STATUS_ONLINE_PURCHASED => 'Online Purchased',
+        self::STATUS_IN_STORE_PURCHASED => 'In store payment',
+        self::STATUS_ONLINE_PURCHASED => 'Online payment',
         self::STATUS_READY_FOR_PICKUP => 'Ready for pickup',
         self::STATUS_SHIPPED => 'Shipped',
         self::STATUS_CANCELLED => 'Cancelled',
@@ -43,6 +46,8 @@ class Order extends Model
         self::STATUS_IN_STORE_RESERVED => 'bg-amber-100 text-amber-700',
         self::STATUS_IN_STORE_PURCHASED => 'bg-sky-100 text-sky-700',
         self::STATUS_ONLINE_PURCHASED => 'bg-emerald-100 text-emerald-700',
+        self::STATUS_IN_STORE_PAYMENT => 'bg-sky-100 text-sky-700',
+        self::STATUS_ONLINE_PAYMENT => 'bg-emerald-100 text-emerald-700',
         self::STATUS_READY_FOR_PICKUP => 'bg-blue-100 text-blue-700',
         self::STATUS_SHIPPED => 'bg-indigo-100 text-indigo-700',
         self::STATUS_CANCELLED => 'bg-red-100 text-red-700',
@@ -54,6 +59,8 @@ class Order extends Model
         self::STATUS_IN_STORE_RESERVED => 'bg-yellow-50 text-yellow-800 border-yellow-200 focus:ring-yellow-200',
         self::STATUS_IN_STORE_PURCHASED => 'bg-sky-50 text-sky-800 border-sky-200 focus:ring-sky-200',
         self::STATUS_ONLINE_PURCHASED => 'bg-emerald-50 text-emerald-800 border-emerald-200 focus:ring-emerald-200',
+        self::STATUS_IN_STORE_PAYMENT => 'bg-sky-50 text-sky-800 border-sky-200 focus:ring-sky-200',
+        self::STATUS_ONLINE_PAYMENT => 'bg-emerald-50 text-emerald-800 border-emerald-200 focus:ring-emerald-200',
         self::STATUS_READY_FOR_PICKUP => 'bg-amber-50 text-amber-800 border-amber-200 focus:ring-amber-200',
         self::STATUS_SHIPPED => 'bg-purple-50 text-purple-800 border-purple-200 focus:ring-purple-200',
         self::STATUS_CANCELLED => 'bg-red-50 text-red-800 border-red-200 focus:ring-red-200',
@@ -216,6 +223,34 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * Associated Sales Invoices
+     */
+    public function salesInvoices()
+    {
+        return $this->hasMany(SalesInvoice::class, 'order_id');
+    }
+
+    /**
+     * Get the latest sales invoice for this order
+     */
+    public function getSalesInvoiceAttribute(): ?SalesInvoice
+    {
+        if (Schema::hasColumn('sales_invoices', 'order_id')) {
+            $invoice = SalesInvoice::where('order_id', $this->id)->latest('id')->first();
+            if ($invoice) {
+                return $invoice;
+            }
+        }
+
+        return SalesInvoice::where(function ($q) {
+            $q->where('message', 'like', "%Order #{$this->order_number}%");
+            if (!empty($this->id)) {
+                $q->orWhere('message', 'like', "%Order ID #{$this->id}%");
+            }
+        })->latest('id')->first();
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Schema;
 
 class SalesInvoice extends Model
 {
@@ -49,6 +50,7 @@ class SalesInvoice extends Model
     ];
 
     protected $fillable = [
+        'order_id',
         'repair_entry_id',
         'client_id',
         'created_by',
@@ -408,13 +410,15 @@ class SalesInvoice extends Model
 
         $isPaid = $this->isPaid();
 
+        $hasDeductedCol = Schema::hasColumn('sales_invoice_items', 'deducted_quantity');
+
         foreach ($this->items as $lineItem) {
             $inventory = $lineItem->inventory ?: ($lineItem->inventory_id ? Inventory::find($lineItem->inventory_id) : null);
             if (!$inventory) {
                 continue;
             }
 
-            $alreadyDeducted = (int) ($lineItem->deducted_quantity ?? 0);
+            $alreadyDeducted = $hasDeductedCol ? (int) ($lineItem->deducted_quantity ?? 0) : 0;
 
             if ($isPaid) {
                 $targetDeduction = (int) $lineItem->quantity;
@@ -428,9 +432,11 @@ class SalesInvoice extends Model
                         'quantity' => $newQty,
                     ]);
 
-                    $lineItem->update([
-                        'deducted_quantity' => $targetDeduction,
-                    ]);
+                    if ($hasDeductedCol) {
+                        $lineItem->update([
+                            'deducted_quantity' => $targetDeduction,
+                        ]);
+                    }
 
                     // Trigger eBay inventory quantity synchronization
                     $this->triggerEbayInventorySync($inventory->id);
@@ -456,9 +462,11 @@ class SalesInvoice extends Model
                         'quantity' => $newQty,
                     ]);
 
-                    $lineItem->update([
-                        'deducted_quantity' => 0,
-                    ]);
+                    if ($hasDeductedCol) {
+                        $lineItem->update([
+                            'deducted_quantity' => 0,
+                        ]);
+                    }
 
                     // Trigger eBay inventory quantity synchronization with restored quantity
                     $this->triggerEbayInventorySync($inventory->id);
@@ -480,9 +488,10 @@ class SalesInvoice extends Model
     public function restoreDeductedInventoryStock(): void
     {
         $this->loadMissing('items.inventory');
+        $hasDeductedCol = Schema::hasColumn('sales_invoice_items', 'deducted_quantity');
 
         foreach ($this->items as $lineItem) {
-            $alreadyDeducted = (int) ($lineItem->deducted_quantity ?? 0);
+            $alreadyDeducted = $hasDeductedCol ? (int) ($lineItem->deducted_quantity ?? 0) : 0;
             if ($alreadyDeducted > 0) {
                 $inventory = $lineItem->inventory ?: ($lineItem->inventory_id ? Inventory::find($lineItem->inventory_id) : null);
                 if ($inventory) {
@@ -527,5 +536,10 @@ class SalesInvoice extends Model
     public function repairEntry()
     {
         return $this->belongsTo(RepairEntry::class, 'repair_entry_id');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }

@@ -84,8 +84,8 @@
                 <select id="invoice-payment-filter"
                     class="w-full h-12 appearance-none rounded-2xl border border-slate-100 bg-[#f8fafc] pl-4 pr-10 text-sm font-bold text-slate-600 outline-none transition focus:border-blue-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10">
                     <option value="">All Payment</option>
-                    <option value="in_store">In store purchased</option>
-                    <option value="online">Online Purchased</option>
+                    <option value="in_store">In store payment</option>
+                    <option value="online">Online payment</option>
                 </select>
                 <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-300 pointer-events-none"></i>
             </label>

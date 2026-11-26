@@ -112,6 +112,24 @@
         @endif
     @endif
 
+    @if(isset($order) && $order)
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900 shadow-sm">
+            <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
+                    <i class="fas fa-shopping-bag"></i>
+                </span>
+                <div>
+                    <p class="font-extrabold text-blue-950">Creating Invoice from Order #{{ $order->order_number }}</p>
+                    <p class="text-xs text-blue-700">Customer details, items, quantities, and pricing have been automatically pre-filled from this order.</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.orders.show', $order->id) }}"
+                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-bold text-blue-700 shadow-sm transition hover:bg-blue-100 hover:text-blue-900 self-start sm:self-auto">
+                <i class="fas fa-arrow-left mr-1.5 text-[10px]"></i> View Order
+            </a>
+        </div>
+    @endif
+
     @if(isset($repairEntries) && $repairEntries->isNotEmpty() && !$isEdit)
         <div class="mb-6 rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -159,9 +177,13 @@
         @endif
         @php
             $effectiveRepairId = $repair?->id ?? request('repair_id', $invoice?->repair_entry_id);
+            $effectiveOrderId = $order?->id ?? request('order_id', $invoice?->order_id);
         @endphp
         @if($effectiveRepairId)
             <input type="hidden" name="repair_id" value="{{ $effectiveRepairId }}">
+        @endif
+        @if($effectiveOrderId)
+            <input type="hidden" name="order_id" value="{{ $effectiveOrderId }}">
         @endif
         @php
             $effectiveInventoryId = $inventory?->id ?? request('inventory_id', request('item_id'));
