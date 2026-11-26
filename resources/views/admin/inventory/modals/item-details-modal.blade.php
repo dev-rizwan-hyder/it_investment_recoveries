@@ -25,7 +25,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <div id="detail-header-invoice-actions" class="flex items-center gap-1.5"></div>
-                <button type="button" onclick="inventoryManager.editItem(inventoryManager.selectedItem?.id)" class="h-8 px-3 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95">
+                <button type="button" onclick="inventoryManager.editItem(inventoryManager.selectedItem?.id, true)" class="h-8 px-3 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95">
                     <i class="fas fa-edit text-xs"></i>
                     <span class="hidden sm:inline">Edit</span>
                 </button>
@@ -218,7 +218,7 @@
                 <div class="flex items-center gap-2 sm:gap-3">
                     <div id="detail-footer-invoice-actions" class="flex items-center gap-2"></div>
                     <button type="button" onclick="closeItemDetailsModal()" class="text-[11px] font-black text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest px-3 sm:px-4 py-2">Close</button>
-                    <button type="button" onclick="inventoryManager.editItem(inventoryManager.selectedItem?.id)" class="px-6 sm:px-8 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-2">
+                    <button type="button" onclick="inventoryManager.editItem(inventoryManager.selectedItem?.id, true)" class="px-6 sm:px-8 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-2">
                         <i class="fas fa-edit text-xs"></i>
                         <span>Edit Item</span>
                     </button>

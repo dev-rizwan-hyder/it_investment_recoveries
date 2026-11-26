@@ -1872,7 +1872,12 @@ class InventoryManager {
         $("#detail-footer-date").text(item.created_at ? new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-");
     }
 
-    editItem(itemId) {
+    editItem(itemId, fromDetails = false) {
+        if (fromDetails || !$("#itemDetailsModal").hasClass("hidden")) {
+            this.editOpenedFromDetails = true;
+        } else {
+            this.editOpenedFromDetails = false;
+        }
         closeItemDetailsModal();
 
         $.ajax({
@@ -1890,6 +1895,15 @@ class InventoryManager {
                 }
             },
         });
+    }
+
+    backFromEditModal() {
+        const itemId = this.selectedItem?.id;
+        const fromDetails = this.editOpenedFromDetails;
+        closeEditItemModal();
+        if (fromDetails && itemId) {
+            this.showItemDetails(itemId);
+        }
     }
 
     populateEditModal(item, pallets) {
@@ -2288,6 +2302,15 @@ function closeEditItemModal() {
     $("#edit-submit-text").text("Update Record");
     if (inventoryManager) {
         inventoryManager.closeInventoryPhotoEditor();
+        inventoryManager.editOpenedFromDetails = false;
+    }
+}
+
+function backFromEditItemModal() {
+    if (inventoryManager && typeof inventoryManager.backFromEditModal === "function") {
+        inventoryManager.backFromEditModal();
+    } else {
+        closeEditItemModal();
     }
 }
 

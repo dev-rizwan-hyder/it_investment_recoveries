@@ -6,7 +6,7 @@
         <!-- Modal Header -->
         <div class="px-6 py-2.5 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
             <div class="flex items-center gap-3">
-                <div class="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-black text-xs">
+                <div class="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-black text-xs shrink-0">
                     <i class="fas fa-edit"></i>
                 </div>
                 <div>
@@ -17,9 +17,15 @@
                     <p id="edit-name-label" class="text-xs font-semibold text-slate-500 truncate max-w-2xl mt-0.5"></p>
                 </div>
             </div>
-            <button onclick="closeEditItemModal()" class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all">
-                <i class="fas fa-times text-xs"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="backFromEditItemModal()" class="h-8 px-3 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 border border-slate-200/80 shadow-sm" title="Back">
+                    <i class="fas fa-arrow-left text-xs"></i>
+                    <span>Back</span>
+                </button>
+                <button type="button" onclick="closeEditItemModal()" class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all" title="Close">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Modal Form (3-Column Full View Layout) -->
@@ -180,9 +186,13 @@
             </div>
 
             <!-- Modal Footer (Sticky Bottom) -->
-            <div class="px-6 py-2.5 bg-slate-50 border-t border-slate-100 flex justify-end items-center gap-3 shrink-0">
-                <button type="button" onclick="closeEditItemModal()" class="text-[11px] font-black text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest px-4 py-2">Discard</button>
-                <button type="submit" id="edit-submit-btn" class="px-8 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-2">
+            <div class="px-6 py-2.5 bg-slate-50 border-t border-slate-100 flex justify-end items-center gap-2.5 sm:gap-3 shrink-0">
+                <button type="button" onclick="backFromEditItemModal()" class="px-4 sm:px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all active:scale-95 shadow-sm">
+                    <i class="fas fa-arrow-left text-xs"></i>
+                    <span>Back</span>
+                </button>
+                <button type="button" onclick="closeEditItemModal()" class="text-[11px] font-black text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest px-3 sm:px-4 py-2">Discard</button>
+                <button type="submit" id="edit-submit-btn" class="px-6 sm:px-8 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-2">
                     <span id="edit-submit-text">Update Record</span>
                     <i id="edit-submit-spinner" class="fas fa-spinner fa-spin hidden"></i>
                 </button>
