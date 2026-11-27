@@ -10,6 +10,7 @@ class ItemIntakeManager {
         this.intakeType = "";
         this.barcode = "";
         this.selectedPalletId = null;
+        this.activePalletSource = "barcode";
         this.selectedPalletData = {};
         this.palletRemaining = { quantity: 0, weight: 0 };
         this.formData = {};
@@ -271,6 +272,24 @@ class ItemIntakeManager {
             });
         }
 
+        // Existing-pallet source toggle (Barcode / Data Destruction / IT Asset)
+        document.querySelectorAll(".pallet-source-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                this.setPalletSource(btn.dataset.palletSource);
+            });
+        });
+
+        const ddPalletSelect = document.getElementById("dd-pallet-select");
+        if (ddPalletSelect) {
+            ddPalletSelect.addEventListener("change", (e) => this.onEntryPalletSelected(e.target, "dd"));
+        }
+
+        const itPalletSelect = document.getElementById("it-pallet-select");
+        if (itPalletSelect) {
+            itPalletSelect.addEventListener("change", (e) => this.onEntryPalletSelected(e.target, "it"));
+        }
+
         const quantityInput = document.querySelector('input[name="quantity"]');
         if (quantityInput) {
             quantityInput.addEventListener("input", () => this.updateRemainingDisplay());
@@ -495,6 +514,15 @@ class ItemIntakeManager {
             this.intakeType === "Refurb/E-commerce Intake"
         );
 
+        // Data Destruction / IT Asset pallet sources only for Refurb/E-commerce intake
+        const ddSourceBtn = document.querySelector('.pallet-source-btn[data-pallet-source="dd"]');
+        const itSourceBtn = document.querySelector('.pallet-source-btn[data-pallet-source="it"]');
+        if (ddSourceBtn) ddSourceBtn.classList.toggle("hidden", !isRefurb);
+        if (itSourceBtn) itSourceBtn.classList.toggle("hidden", !isRefurb);
+        if (!isRefurb && (this.activePalletSource === "dd" || this.activePalletSource === "it")) {
+            this.setPalletSource("barcode");
+        }
+
         if (this.intakeType === "Data Destruction Intake") {
             if (typeof this.applyDataDestructionUI === "function") {
                 this.applyDataDestructionUI();
@@ -589,6 +617,103 @@ class ItemIntakeManager {
         } else {
             generateMode.classList.remove("hidden");
             palletMode.classList.add("hidden");
+        }
+    }
+
+    setPalletSource(source) {
+        const valid = ["barcode", "dd", "it"];
+        this.activePalletSource = valid.includes(source) ? source : "barcode";
+
+        document.querySelectorAll(".pallet-source-btn").forEach((btn) => {
+            const active = btn.dataset.palletSource === this.activePalletSource;
+            btn.classList.toggle("bg-white", active);
+            btn.classList.toggle("shadow-sm", active);
+            btn.classList.toggle("text-blue-600", active);
+            btn.classList.toggle("text-slate-500", !active);
+        });
+
+        document.querySelectorAll(".pallet-source-panel").forEach((panel) => {
+            panel.classList.add("hidden");
+        });
+        const activePanel = document.getElementById("pallet-source-" + this.activePalletSource);
+        if (activePanel) activePanel.classList.remove("hidden");
+
+        const scannerWrapper = document.getElementById("pallet-scanner-wrapper");
+        if (scannerWrapper) {
+            if (this.activePalletSource === "barcode") {
+                scannerWrapper.classList.remove("hidden");
+            } else {
+                scannerWrapper.classList.add("hidden");
+                if (typeof this.stopScanner === "function") this.stopScanner();
+            }
+        }
+    }
+
+    getActivePalletSelect() {
+        return document.getElementById(
+            this.activePalletSource === "dd" ? "dd-pallet-select"
+            : this.activePalletSource === "it" ? "it-pallet-select"
+            : "pallet-select"
+        );
+    }
+
+    onEntryPalletSelected(select, source) {
+        const opt = select.options[select.selectedIndex];
+        if (!opt || !opt.value) {
+            this.selectedPalletId = null;
+            this.barcode = "";
+            this.selectedPalletData = {};
+            this.palletRemaining = { quantity: 0, weight: 0 };
+            this.clearPalletLimits();
+            this.updateRemainingDisplay();
+            return;
+        }
+
+        this.selectedPalletId = opt.dataset.palletId || opt.value;
+        this.barcode = opt.dataset.barcode || "";
+        if (this.barcode) this.generateExistingBarcode();
+
+        this.populateEntryDetails(opt);
+
+        const entryQty = parseInt(opt.dataset.quantity, 10) || 0;
+        const entryWeight = parseFloat(opt.dataset.weight) || 0;
+        this.selectedPalletData = { weight: entryWeight, quantity: entryQty };
+        this.palletRemaining = { quantity: entryQty, weight: entryWeight };
+
+        const qtyInput = document.querySelector('input[name="quantity"]');
+        const weightInput = document.querySelector('input[name="weight"]');
+        if (qtyInput) qtyInput.value = "";
+        if (weightInput) weightInput.value = "";
+
+        this.applyPalletLimits();
+        this.updateRemainingDisplay();
+    }
+
+    populateEntryDetails(opt) {
+        const setVal = (selector, value) => {
+            const el = document.querySelector(selector);
+            if (el && value !== undefined && value !== null && value !== "") {
+                el.value = value;
+            }
+        };
+
+        setVal('input[name="item_name"]', opt.dataset.name);
+        setVal('input[name="brand"]', opt.dataset.brand);
+        setVal('input[name="model"]', opt.dataset.model);
+        setVal('input[name="serial_number"]', opt.dataset.serial);
+        setVal('input[name="estimated_value"]', opt.dataset.value);
+        setVal('input[name="put_away_location"]', opt.dataset.location);
+        setVal('textarea[name="notes"]', opt.dataset.notes);
+        setVal('select[name="condition"]', opt.dataset.condition);
+
+        const mainCat = document.getElementById("main-category-select");
+        if (mainCat && opt.dataset.categoryId) {
+            mainCat.value = opt.dataset.categoryId;
+            mainCat.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        const categoryFinal = document.getElementById("category-final");
+        if (categoryFinal && opt.dataset.category) {
+            categoryFinal.value = opt.dataset.category;
         }
     }
 
@@ -1167,7 +1292,8 @@ class ItemIntakeManager {
             case 2:
                 const useExistingBarcode = document.getElementById("existing-barcode-checkbox")?.checked;
                 if (useExistingBarcode) {
-                    const selectedPallet = (document.getElementById("pallet-select")?.value || "").trim();
+                    const activeSelect = this.getActivePalletSelect();
+                    const selectedPallet = (activeSelect?.value || "").trim();
                     if (!selectedPallet) {
                         alert("Please select or scan a pallet barcode.");
                         return false;

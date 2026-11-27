@@ -54,6 +54,7 @@ class EbayProductController extends Controller
                         '#' . ($product['product_no'] ?? ''),
                         'product #' . ($product['product_no'] ?? ''),
                         $product['folder'] ?? '',
+                        $product['barcode'] ?? '',
                         $product['serial_number'] ?? '',
                         $product['location'] ?? '',
                         $product['folder_type'] ?? 'Ebay',
@@ -1470,6 +1471,7 @@ class EbayProductController extends Controller
 
         return [
             'folder' => $folder,
+            'barcode' => $metadata['barcode'] ?? '',
             'product_no' => $productNo,
             'product_name' => $displayName,
             'folder_name' => $metadata['folder_name'] ?? $displayName,

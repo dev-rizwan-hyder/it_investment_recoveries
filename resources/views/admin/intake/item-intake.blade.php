@@ -131,48 +131,67 @@
 
                 {{-- Pallet Assignment Mode --}}
                 <div id="pallet-mode" class="hidden bg-white border border-[#e2e8f0] rounded-2xl p-6 space-y-4">
-                    {{-- Mode Selector (Camera/USB) --}}
-                    <div class="flex p-1 bg-slate-200/50 rounded-2xl mb-6 max-w-xs mx-auto">
-                        <button type="button" onclick="window.itemIntakeManager.scanMode='camera'; window.itemIntakeManager.stopScanner();" 
-                            class="mode-camera flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none bg-white shadow-sm text-blue-600">
-                            <i class="fas fa-camera mr-1"></i> Camera
+                    {{-- Source Selector (Existing Barcode / Data Destruction / IT Asset) --}}
+                    <div class="flex p-1 bg-slate-200/50 rounded-2xl mb-6 max-w-md mx-auto text-center">
+                        <button type="button" data-pallet-source="barcode"
+                            class="pallet-source-btn flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none bg-white shadow-sm text-blue-600">
+                            <i class="fas fa-barcode mr-1"></i> Existing Barcode
                         </button>
-                        <button type="button" onclick="window.itemIntakeManager.scanMode='usb'; window.itemIntakeManager.stopScanner();" 
-                            class="mode-usb flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none text-slate-500">
-                            <i class="fas fa-usb mr-1"></i> USB Scanner
+                        <button type="button" data-pallet-source="dd"
+                            class="pallet-source-btn flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none text-slate-500">
+                            <i class="fas fa-eraser mr-1"></i> Data Destruction
+                        </button>
+                        <button type="button" data-pallet-source="it"
+                            class="pallet-source-btn flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none text-slate-500">
+                            <i class="fas fa-desktop mr-1"></i> IT Asset
                         </button>
                     </div>
 
-                    {{-- Scanner UI --}}
-                    <div class="mb-6">
-                        {{-- Camera Mode --}}
-                        <div id="camera-mode" class="text-center space-y-4">
-                            <button onclick="window.itemIntakeManager.toggleScanner()" type="button"
-                                id="scanner-toggle-btn"
-                                class="w-full sm:w-auto px-8 py-3 rounded-full font-bold text-[11px] uppercase tracking-widest shadow-lg mx-auto bg-blue-600 text-white">
-                                <i class="fas fa-camera"></i>
-                                <span>Scan Barcode</span>
+                    {{-- Scanner (Existing Barcode source only) --}}
+                    <div id="pallet-scanner-wrapper">
+                        {{-- Mode Selector (Camera/USB) --}}
+                        <div class="flex p-1 bg-slate-200/50 rounded-2xl mb-6 max-w-xs mx-auto">
+                            <button type="button" onclick="window.itemIntakeManager.scanMode='camera'; window.itemIntakeManager.stopScanner();" 
+                                class="mode-camera flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none bg-white shadow-sm text-blue-600">
+                                <i class="fas fa-camera mr-1"></i> Camera
                             </button>
-                            <div id="interactive" class="hidden relative max-w-[280px] mx-auto overflow-hidden rounded-2xl border-4 border-white shadow-xl bg-black" style="aspect-ratio: 1;">
-                                <div class="viewport"></div>
-                                <div class="absolute inset-x-0 top-0 h-1 bg-blue-500 animate-scan"></div>
-                            </div>
+                            <button type="button" onclick="window.itemIntakeManager.scanMode='usb'; window.itemIntakeManager.stopScanner();" 
+                                class="mode-usb flex-1 py-2 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest border-none text-slate-500">
+                                <i class="fas fa-usb mr-1"></i> USB Scanner
+                            </button>
                         </div>
 
-                        {{-- USB Mode --}}
-                        <div id="usb-mode" class="hidden animate-in fade-in">
-                            <div class="bg-blue-50 border-2 border-dashed border-blue-200 rounded-2xl p-6 text-center">
-                                <i class="fas fa-keyboard text-2xl text-blue-500 mb-2"></i>
-                                <p class="text-[12px] font-bold text-blue-800 uppercase">USB Scanner Active</p>
-                                <input type="text" id="usb-input" 
-                                    @keydown.enter="if(this.value) { window.itemIntakeManager.processUsbScan(this.value); this.value=''; }"
-                                    class="absolute opacity-0 pointer-events-none" autofocus>
+                        {{-- Scanner UI --}}
+                        <div class="mb-6">
+                            {{-- Camera Mode --}}
+                            <div id="camera-mode" class="text-center space-y-4">
+                                <button onclick="window.itemIntakeManager.toggleScanner()" type="button"
+                                    id="scanner-toggle-btn"
+                                    class="w-full sm:w-auto px-8 py-3 rounded-full font-bold text-[11px] uppercase tracking-widest shadow-lg mx-auto bg-blue-600 text-white">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Scan Barcode</span>
+                                </button>
+                                <div id="interactive" class="hidden relative max-w-[280px] mx-auto overflow-hidden rounded-2xl border-4 border-white shadow-xl bg-black" style="aspect-ratio: 1;">
+                                    <div class="viewport"></div>
+                                    <div class="absolute inset-x-0 top-0 h-1 bg-blue-500 animate-scan"></div>
+                                </div>
+                            </div>
+
+                            {{-- USB Mode --}}
+                            <div id="usb-mode" class="hidden animate-in fade-in">
+                                <div class="bg-blue-50 border-2 border-dashed border-blue-200 rounded-2xl p-6 text-center">
+                                    <i class="fas fa-keyboard text-2xl text-blue-500 mb-2"></i>
+                                    <p class="text-[12px] font-bold text-blue-800 uppercase">USB Scanner Active</p>
+                                    <input type="text" id="usb-input" 
+                                        @keydown.enter="if(this.value) { window.itemIntakeManager.processUsbScan(this.value); this.value=''; }"
+                                        class="absolute opacity-0 pointer-events-none" autofocus>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Pallet Select --}}
-                    <div class="space-y-4">
+                    {{-- Source: Existing Barcode (Use Pallet) --}}
+                    <div id="pallet-source-barcode" class="pallet-source-panel space-y-4">
                         <label class="text-[13px] font-bold text-[#475569] block">Select Pallet as Barcode</label>
                         <select id="pallet-select" class="w-full p-4 border rounded-xl text-[14px] bg-white font-bold">
                             <option value="">-- Select or Scan Pallet --</option>
@@ -202,6 +221,78 @@
                                 <option value="{{ $pallet->id }}" data-barcode="{{ $barcode }}">{{ $displayText }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    {{-- Source: Existing Data Destruction Entry --}}
+                    <div id="pallet-source-dd" class="pallet-source-panel hidden space-y-4 min-w-0">
+                        <label class="text-[13px] font-bold text-[#475569] block">Select Data Destruction Entry <span class="text-red-500">(Barcode &amp; Client)</span></label>
+                        <div class="w-full min-w-0 relative">
+                        <select id="dd-pallet-select" class="w-full min-w-0 max-w-full p-3 sm:p-4 pr-8 border rounded-xl text-[13px] sm:text-[14px] bg-white font-bold text-ellipsis overflow-hidden appearance-none cursor-pointer">
+                            <option value="">-- Select Data Destruction Entry --</option>
+                            @foreach ($ddEntries as $entry)
+                                @php
+                                    $ddPallet = $entry->pallet;
+                                    $ddBarcode = $ddPallet?->barcode_number ?: $entry->pallet_number;
+                                    $ddClient = $ddPallet?->client?->company ?: ($ddPallet?->client?->name ?: '');
+                                @endphp
+                                <option value="{{ $entry->pallet_id ?: '' }}"
+                                    data-barcode="{{ $ddBarcode }}"
+                                    data-pallet-id="{{ $entry->pallet_id ?: '' }}"
+                                    data-client-name="{{ $ddPallet?->client?->name ?: '' }}"
+                                    data-name="{{ $entry->name }}"
+                                    data-brand="{{ $entry->brand }}"
+                                    data-model="{{ $entry->model }}"
+                                    data-serial="{{ $entry->serial_number }}"
+                                    data-category-id="{{ $entry->category_id }}"
+                                    data-category="{{ $entry->category }}"
+                                    data-condition="{{ $entry->condition }}"
+                                    data-value="{{ $entry->estimated_value }}"
+                                    data-weight="{{ $entry->weight }}"
+                                    data-quantity="{{ $entry->quantity }}"
+                                    data-location="{{ $ddPallet?->put_away_location }}"
+                                    data-notes="{{ $entry->notes }}">
+                                    {{ $ddBarcode }}{{ $ddClient ? ' — ' . $ddClient : '' }}{{ $entry->name ? ' | ' . $entry->name : '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-[10px] pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    {{-- Source: Existing IT Asset Entry --}}
+                    <div id="pallet-source-it" class="pallet-source-panel hidden space-y-4 min-w-0">
+                        <label class="text-[13px] font-bold text-[#475569] block">Select IT Asset Entry <span class="text-blue-500">(Barcode &amp; Client)</span></label>
+                        <div class="w-full min-w-0 relative">
+                        <select id="it-pallet-select" class="w-full min-w-0 max-w-full p-3 sm:p-4 pr-8 border rounded-xl text-[13px] sm:text-[14px] bg-white font-bold text-ellipsis overflow-hidden appearance-none cursor-pointer">
+                            <option value="">-- Select IT Asset Entry --</option>
+                            @foreach ($itEntries as $entry)
+                                @php
+                                    $itPallet = $entry->pallet;
+                                    $itBarcode = $itPallet?->barcode_number ?: $entry->pallet_number;
+                                    $itClient = $itPallet?->client?->company ?: ($itPallet?->client?->name ?: '');
+                                @endphp
+                                <option value="{{ $entry->pallet_id ?: '' }}"
+                                    data-barcode="{{ $itBarcode }}"
+                                    data-pallet-id="{{ $entry->pallet_id ?: '' }}"
+                                    data-client-name="{{ $itPallet?->client?->name ?: '' }}"
+                                    data-name="{{ $entry->name }}"
+                                    data-brand="{{ $entry->brand }}"
+                                    data-model="{{ $entry->model }}"
+                                    data-serial="{{ $entry->serial_number }}"
+                                    data-category-id="{{ $entry->category_id }}"
+                                    data-category="{{ $entry->category }}"
+                                    data-condition="{{ $entry->condition }}"
+                                    data-value="{{ $entry->estimated_value }}"
+                                    data-weight="{{ $entry->weight }}"
+                                    data-quantity="{{ $entry->quantity }}"
+                                    data-location="{{ $itPallet?->put_away_location }}"
+                                    data-notes="{{ $entry->notes }}">
+                                    {{ $itBarcode }}{{ $itClient ? ' — ' . $itClient : '' }}{{ $entry->name ? ' | ' . $entry->name : '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-[10px] pointer-events-none"></i>
+                        </div>
                     </div>
 
                     <div id="pallet-barcode-display" class="hidden max-w-xs mx-auto border border-slate-100 rounded-2xl py-4 px-4 flex flex-col items-center bg-slate-50/40">

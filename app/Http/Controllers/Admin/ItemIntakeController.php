@@ -32,6 +32,8 @@ class ItemIntakeController extends Controller
         $hasClients = DB::getSchemaBuilder()->hasTable('clients');
 
         $pallets_list = $hasPallets ? Pallet::latest()->get() : collect();
+        $ddEntries = $hasPallets ? DataDestructionItem::with('pallet.client')->latest()->get() : collect();
+        $itEntries = $hasPallets ? ItAssetsItem::with('pallet.client')->latest()->get() : collect();
         $categories = $hasCategories ? Category::whereNull('parent_id')->orderBy('name')->get() : collect();
         
         $employees = collect();
@@ -47,6 +49,8 @@ class ItemIntakeController extends Controller
 
         return view('admin.intake.item-intake', [
             'pallets_list' => $pallets_list,
+            'ddEntries' => $ddEntries,
+            'itEntries' => $itEntries,
             'categories' => $categories,
             'employees' => $employees,
             'clients' => $clients,
@@ -755,6 +759,7 @@ class ItemIntakeController extends Controller
 
                         $metadata = [
                             'folder' => $folder,
+                            'barcode' => $request->barcode,
                             'product_no' => $createdInventoryItem->id,
                             'inventory_id' => $createdInventoryItem->id,
                             'folder_name' => $folderName,

@@ -125,7 +125,7 @@
                                         data-client-name="{{ $entry->pallet?->client?->name }}"
                                         data-client-company="{{ $entry->pallet?->client?->company }}"
                                         data-client-email="{{ $entry->pallet?->client?->email }}">
-                                        {{ $entry->pallet_number }}{{ $entry->pallet?->client ? ' — ' . ($entry->pallet->client->company ?: $entry->pallet->client->name) : '' }}
+                                        {{ $entry->pallet_number }}{{ $entry->pallet?->client ? ' — ' . ($entry->pallet->client->company ?: $entry->pallet->client->name) : '' }}{{ $entry->name ? ' | ' . $entry->name : '' }}{{ $entry->model ? ' (' . $entry->model . ')' : '' }}
                                     </option>
                                 @endforeach
                             </select>

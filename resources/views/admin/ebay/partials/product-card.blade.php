@@ -199,7 +199,11 @@
     </div>
 
     {{-- ── Metadata Grid ── --}}
-    <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-500">
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-500">
+        <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Barcode</span>
+            <span class="mt-1 block font-bold text-slate-700 truncate font-mono" title="{{ $product['barcode'] ?? '-' }}">{{ !empty($product['barcode']) ? $product['barcode'] : '-' }}</span>
+        </div>
         <div>
             <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Category</span>
             <span class="mt-1 block font-bold text-slate-700 truncate" title="{{ !empty($product['category']) ? $product['category'] . (!empty($product['sub_category']) ? ' > ' . $product['sub_category'] : '') . (!empty($product['sub_sub_category']) ? ' > ' . $product['sub_sub_category'] : '') : '-' }}">{{ $product['category'] ?: '-' }}</span>
