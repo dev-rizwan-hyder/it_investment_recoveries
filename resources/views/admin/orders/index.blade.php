@@ -13,7 +13,7 @@
             </div>
         @endif
 
-        @if ($errors->any())
+        @if (isset($errors) && $errors->any())
             <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
                 {{ $errors->first() }}
             </div>
@@ -106,8 +106,9 @@
                             </th>
                             <th class="px-6 py-4 text-center w-16">Order #</th>
                             <th class="px-6 py-4">Customer</th>
-                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4">Order Items</th>
                             <th class="px-6 py-4 text-center">Quantity</th>
+                            <th class="px-6 py-4 text-center">Images</th>
                             <th class="px-6 py-4 text-right">Total</th>
                             <th class="px-6 py-4 text-center">Order Status</th>
                             <th class="px-6 py-4 text-center">Payment Status</th>
@@ -130,16 +131,92 @@
                                 <td class="px-6 py-4">
                                     <div class="font-semibold text-slate-900 text-sm">{{ $order->customer_name }}</div>
                                     <div class="text-xs text-slate-500">{{ $order->customer_phone ?? 'N/A' }}</div>
+                                    @if($order->customer_email)
+                                        <div class="text-[11px] text-slate-400 truncate max-w-[170px]" title="{{ $order->customer_email }}">
+                                            {{ $order->customer_email }}
+                                        </div>
+                                    @endif
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <div class="text-sm text-slate-700">{{ $order->customer_email }}</div>
+                                    <div class="flex flex-col gap-1.5 max-w-xs">
+                                        @forelse($order->items as $item)
+                                            @php
+                                                $itemName = $item->product_name ?: ($item->device_type ?: 'Product Item');
+                                            @endphp
+                                            <div class="text-sm font-semibold text-slate-800 leading-snug" title="{{ $itemName }}">
+                                                @if($order->items->count() > 1)
+                                                    <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold mr-1 shrink-0">
+                                                        {{ $loop->iteration }}
+                                                    </span>
+                                                @endif
+                                                <span class="line-clamp-2 inline">{{ $itemName }}</span>
+                                            </div>
+                                        @empty
+                                            <span class="text-xs text-slate-400 italic">No items</span>
+                                        @endforelse
+                                    </div>
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-bold text-xs">
                                         {{ $order->items->sum('quantity') }}
                                     </span>
+                                </td>
+
+                                @php
+                                    $productGroups = $order->getProductImagesGrouped();
+                                    $totalPhotos = $order->getAllProductPhotoUrls();
+                                    $totalPhotoCount = count($totalPhotos);
+                                @endphp
+                                <td class="px-6 py-4 text-center">
+                                    @if($totalPhotoCount > 0)
+                                        <button type="button"
+                                            class="inline-flex items-center justify-center cursor-pointer group/order-img p-1 rounded-xl hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                            onclick="openOrderProductGallery({{ json_encode([
+                                                'order_number' => $order->order_number,
+                                                'customer_name' => $order->customer_name,
+                                                'products' => $productGroups
+                                            ]) }})"
+                                            title="View {{ $totalPhotoCount }} product image{{ $totalPhotoCount > 1 ? 's' : '' }}">
+                                            
+                                            <div class="relative flex items-center justify-center">
+                                                @if(count($productGroups) > 1)
+                                                    {{-- Multiple Products: Stacked thumbnail avatars --}}
+                                                    <div class="flex items-center -space-x-3 hover:space-x-1 transition-all duration-200">
+                                                        @foreach(array_slice($productGroups, 0, 3) as $pIdx => $prod)
+                                                            <div class="relative rounded-xl overflow-hidden ring-2 ring-white shadow-sm transition-transform duration-200 group-hover/order-img:scale-105" style="z-index: {{ 10 - $pIdx }};">
+                                                                <img src="{{ $prod['first_photo'] }}" 
+                                                                    alt="{{ $prod['product_name'] }}"
+                                                                    class="h-9 w-9 object-cover bg-slate-100"
+                                                                    onerror="this.src='{{ asset('images/placeholder.png') }}'">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @else
+                                                    {{-- Single Product: clean thumbnail with hover zoom effect --}}
+                                                    @php $singleProduct = $productGroups[0] ?? null; @endphp
+                                                    <div class="relative rounded-xl overflow-hidden ring-1 ring-slate-200 group-hover/order-img:ring-2 group-hover/order-img:ring-blue-500 shadow-sm transition-all duration-200 group-hover/order-img:scale-105">
+                                                        <img src="{{ $singleProduct['first_photo'] ?? asset('images/placeholder.png') }}"
+                                                            alt="{{ $singleProduct['product_name'] ?? 'Product' }}"
+                                                            class="h-9 w-9 object-cover bg-slate-100"
+                                                            onerror="this.src='{{ asset('images/placeholder.png') }}'">
+                                                    </div>
+                                                @endif
+
+                                                @if($totalPhotoCount > 1)
+                                                    <span class="absolute -top-1.5 -right-2 bg-blue-600 text-white text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center shadow-md border border-white z-20">
+                                                        +{{ $totalPhotoCount - 1 }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </button>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-300">
+                                            <i class="far fa-image text-xs"></i>
+                                            <span>No img</span>
+                                        </span>
+                                    @endif
                                 </td>
 
                                 <td class="px-6 py-4 text-right">
@@ -154,7 +231,7 @@
                                             class="min-w-[140px] px-3 py-2 rounded-lg text-xs font-bold uppercase border outline-none transition-colors {{ \App\Models\Order::statusSelectClass($order->status) }}"
                                             onchange="this.form.submit()">
                                             @foreach ($orderStatuses as $status => $label)
-                                                <option value="{{ $status }}" {{ $order->status === $status ? 'selected' : '' }}>
+                                                <option value="{{ $status }}" {{ ($order->status === $status || ($order->status === 'completed' && $status === \App\Models\Order::STATUS_SHIPPED)) ? 'selected' : '' }}>
                                                     {{ $label }}
                                                 </option>
                                             @endforeach
@@ -196,7 +273,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="px-6 py-16 text-center text-slate-500">
+                                <td colspan="11" class="px-6 py-16 text-center text-slate-500">
                                     <i class="fas fa-inbox text-4xl mb-4 text-slate-300 block"></i>
                                     No orders found
                                 </td>
@@ -249,7 +326,410 @@
         </div>
     </div>
 
+    {{-- Order Product Images Gallery Modal --}}
+    <div id="orderProductImageModal" class="hidden fixed inset-0 z-[130] flex items-center justify-center p-2 sm:p-4 select-none animate-in fade-in duration-200">
+        <div class="fixed inset-0 bg-slate-950/85 backdrop-blur-md" onclick="closeOrderProductGallery()"></div>
+        <div class="relative bg-slate-900 rounded-2xl shadow-2xl w-full max-w-5xl h-[92vh] overflow-hidden flex flex-col border border-white/10 z-10" onclick="event.stopPropagation()">
+            
+            {{-- Modal Top Bar --}}
+            <div class="px-5 py-3.5 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/90 backdrop-blur-md">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-mono font-black text-xs border border-blue-500/30 shrink-0" id="orderGalleryOrderNumber">
+                        #ORD
+                    </span>
+                    <div class="min-w-0">
+                        <div class="text-white font-bold text-sm truncate flex items-center gap-2">
+                            <span id="orderGalleryCustomerName">Customer</span>
+                            <span class="text-slate-500 text-xs hidden sm:inline">&bull;</span>
+                            <span id="orderGalleryCounter" class="text-xs font-semibold text-slate-400">1 / 1</span>
+                        </div>
+                        <div id="orderGalleryProductName" class="text-xs text-blue-300 font-medium truncate max-w-md sm:max-w-lg">
+                            Product Name
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                    {{-- Zoom Toolbar --}}
+                    <div class="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+                        <button type="button" onclick="orderGalleryZoomOut()" title="Zoom Out (-)" class="h-8 w-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all active:scale-95">
+                            <i class="fas fa-search-minus text-xs"></i>
+                        </button>
+                        <span id="orderGalleryZoomBadge" class="px-2 text-xs font-mono font-bold text-white min-w-[46px] text-center">100%</span>
+                        <button type="button" onclick="orderGalleryZoomIn()" title="Zoom In (+)" class="h-8 w-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all active:scale-95">
+                            <i class="fas fa-search-plus text-xs"></i>
+                        </button>
+                        <button type="button" onclick="orderGalleryResetZoom()" title="Reset Zoom" class="h-8 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all active:scale-95">
+                            <i class="fas fa-compress text-xs"></i>
+                        </button>
+                        <button type="button" onclick="orderGalleryRotate()" title="Rotate 90°" class="h-8 px-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all active:scale-95">
+                            <i class="fas fa-redo text-xs"></i>
+                        </button>
+                    </div>
+
+                    <a id="orderGalleryDownloadBtn" href="#" target="_blank" download class="h-8 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Download Image">
+                        <i class="fas fa-download text-xs"></i>
+                        <span class="hidden md:inline">Save</span>
+                    </a>
+
+                    <button type="button" onclick="closeOrderProductGallery()" class="h-8 w-8 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all" title="Close (Esc)">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Product Selector Filter Tabs (Visible if multiple products) --}}
+            <div id="orderGalleryProductTabs" class="hidden px-5 py-2.5 border-b border-white/5 bg-slate-950/40 flex items-center gap-2 overflow-x-auto global-drag-scroll">
+                <!-- Dynamically rendered tabs -->
+            </div>
+
+            {{-- Main Image Area --}}
+            <div id="orderGalleryViewport" class="relative flex-1 bg-black/60 flex items-center justify-center overflow-hidden p-4">
+                <img id="orderGalleryMainImg" src="" alt="Product Photo"
+                    class="rounded-xl shadow-2xl transition-transform duration-150 ease-out select-none"
+                    style="max-width: 90%; max-height: 90%; object-fit: contain; cursor: grab;"
+                    onerror="this.src='{{ asset('images/placeholder.png') }}'">
+
+                {{-- Prev / Next Navigation Arrows --}}
+                <button id="orderGalleryPrevBtn" type="button" onclick="orderGalleryPrev(); event.stopPropagation();"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20 z-10 active:scale-95" title="Previous Image (Left Arrow)">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+                <button id="orderGalleryNextBtn" type="button" onclick="orderGalleryNext(); event.stopPropagation();"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20 z-10 active:scale-95" title="Next Image (Right Arrow)">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+
+            {{-- Bottom Thumbnail Strip --}}
+            <div class="px-5 py-3 border-t border-white/10 bg-slate-900/90 backdrop-blur-md">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        Product Photos (<span id="orderGalleryTotalThumbCount">0</span>)
+                    </div>
+                    <div id="orderGalleryActiveProductBadge" class="text-[11px] font-semibold text-blue-400 truncate max-w-sm"></div>
+                </div>
+                <div id="orderGalleryThumbnails" class="flex items-center gap-2.5 overflow-x-auto pb-1 global-drag-scroll">
+                    <!-- Dynamically rendered thumbnails -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Order Product Gallery State
+        let orderGalleryData = null;
+        let orderGalleryImages = []; // Array of { url, productName, productIndex, photoIndex, productQty, productPrice }
+        let orderGalleryCurrentIndex = 0;
+        let orderGalleryZoomScale = 1;
+        let orderGalleryTranslateX = 0;
+        let orderGalleryTranslateY = 0;
+        let orderGalleryRotation = 0;
+        let orderGalleryIsPanning = false;
+        let orderGalleryPanStartX = 0;
+        let orderGalleryPanStartY = 0;
+        let orderGalleryFilterProductIdx = -1; // -1 for all products
+
+        window.openOrderProductGallery = function(orderData, initialIndex = 0) {
+            orderGalleryData = orderData;
+            orderGalleryFilterProductIdx = -1;
+            buildOrderGalleryImagesList();
+
+            if (orderGalleryImages.length === 0) return;
+
+            orderGalleryCurrentIndex = Math.min(Math.max(0, initialIndex), orderGalleryImages.length - 1);
+            
+            const orderNumEl = document.getElementById('orderGalleryOrderNumber');
+            const custNameEl = document.getElementById('orderGalleryCustomerName');
+            if (orderNumEl) orderNumEl.textContent = '#' + (orderData.order_number || '');
+            if (custNameEl) custNameEl.textContent = orderData.customer_name || 'Customer';
+
+            renderProductTabs();
+            orderGalleryResetZoom();
+            renderOrderGalleryActiveImage();
+            renderOrderGalleryThumbnails();
+
+            const modal = document.getElementById('orderProductImageModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeOrderProductGallery = function() {
+            const modal = document.getElementById('orderProductImageModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            orderGalleryResetZoom();
+        };
+
+        function buildOrderGalleryImagesList() {
+            orderGalleryImages = [];
+            if (!orderGalleryData || !Array.isArray(orderGalleryData.products)) return;
+
+            orderGalleryData.products.forEach((prod, pIdx) => {
+                if (orderGalleryFilterProductIdx !== -1 && orderGalleryFilterProductIdx !== pIdx) {
+                    return;
+                }
+                const photos = Array.isArray(prod.photos) && prod.photos.length > 0 
+                    ? prod.photos 
+                    : (prod.first_photo ? [prod.first_photo] : []);
+                
+                photos.forEach((url, photoIdx) => {
+                    orderGalleryImages.push({
+                        url: url,
+                        productName: prod.product_name || 'Product',
+                        productIndex: pIdx,
+                        photoIndex: photoIdx,
+                        productQty: prod.quantity || 1,
+                        productPrice: prod.unit_price || 0
+                    });
+                });
+            });
+        }
+
+        function renderProductTabs() {
+            const tabsContainer = document.getElementById('orderGalleryProductTabs');
+            if (!tabsContainer || !orderGalleryData || !Array.isArray(orderGalleryData.products)) return;
+
+            if (orderGalleryData.products.length <= 1) {
+                tabsContainer.classList.add('hidden');
+                return;
+            }
+
+            tabsContainer.classList.remove('hidden');
+            tabsContainer.innerHTML = '';
+
+            // "All Items" tab
+            const totalPhotos = orderGalleryData.products.reduce((acc, p) => acc + (p.photos ? p.photos.length : 0), 0);
+            const allBtn = document.createElement('button');
+            allBtn.type = 'button';
+            allBtn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 ${orderGalleryFilterProductIdx === -1 ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-400/30' : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'}`;
+            allBtn.innerHTML = `<i class="fas fa-boxes text-[10px]"></i> <span>All Items</span> <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-black/30 font-mono">${totalPhotos}</span>`;
+            allBtn.onclick = () => {
+                orderGalleryFilterProductIdx = -1;
+                buildOrderGalleryImagesList();
+                orderGalleryCurrentIndex = 0;
+                renderProductTabs();
+                renderOrderGalleryActiveImage();
+                renderOrderGalleryThumbnails();
+            };
+            tabsContainer.appendChild(allBtn);
+
+            // Individual product tabs
+            orderGalleryData.products.forEach((prod, pIdx) => {
+                const prodPhotoCount = Array.isArray(prod.photos) ? prod.photos.length : 0;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 ${orderGalleryFilterProductIdx === pIdx ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-400/30' : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'}`;
+                btn.innerHTML = `<span class="truncate max-w-[140px] sm:max-w-[220px]" title="${prod.product_name}">${prod.product_name}</span> <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-black/30 font-mono">${prodPhotoCount}</span>`;
+                btn.onclick = () => {
+                    orderGalleryFilterProductIdx = pIdx;
+                    buildOrderGalleryImagesList();
+                    orderGalleryCurrentIndex = 0;
+                    renderProductTabs();
+                    renderOrderGalleryActiveImage();
+                    renderOrderGalleryThumbnails();
+                };
+                tabsContainer.appendChild(btn);
+            });
+        }
+
+        function renderOrderGalleryActiveImage() {
+            if (!orderGalleryImages || orderGalleryImages.length === 0) return;
+
+            const current = orderGalleryImages[orderGalleryCurrentIndex];
+            const mainImg = document.getElementById('orderGalleryMainImg');
+            const counterEl = document.getElementById('orderGalleryCounter');
+            const productNameEl = document.getElementById('orderGalleryProductName');
+            const downloadBtn = document.getElementById('orderGalleryDownloadBtn');
+            const activeProductBadge = document.getElementById('orderGalleryActiveProductBadge');
+
+            if (mainImg) {
+                mainImg.src = current.url;
+            }
+            if (counterEl) {
+                counterEl.textContent = `${orderGalleryCurrentIndex + 1} of ${orderGalleryImages.length}`;
+            }
+            if (productNameEl) {
+                productNameEl.textContent = current.productName;
+            }
+            if (activeProductBadge) {
+                activeProductBadge.textContent = current.productName;
+            }
+            if (downloadBtn) {
+                downloadBtn.href = current.url;
+                const cleanName = (current.productName || 'product').replace(/[^a-zA-Z0-9_-]/g, '_');
+                downloadBtn.setAttribute('download', `${cleanName}_photo_${orderGalleryCurrentIndex + 1}.jpg`);
+            }
+
+            const prevBtn = document.getElementById('orderGalleryPrevBtn');
+            const nextBtn = document.getElementById('orderGalleryNextBtn');
+            if (prevBtn) prevBtn.style.display = orderGalleryImages.length > 1 && orderGalleryCurrentIndex > 0 ? 'flex' : 'none';
+            if (nextBtn) nextBtn.style.display = orderGalleryImages.length > 1 && orderGalleryCurrentIndex < orderGalleryImages.length - 1 ? 'flex' : 'none';
+
+            updateThumbnailActiveState();
+        }
+
+        function renderOrderGalleryThumbnails() {
+            const thumbsContainer = document.getElementById('orderGalleryThumbnails');
+            const countBadge = document.getElementById('orderGalleryTotalThumbCount');
+            if (!thumbsContainer) return;
+
+            thumbsContainer.innerHTML = '';
+            if (countBadge) countBadge.textContent = orderGalleryImages.length;
+
+            orderGalleryImages.forEach((imgObj, idx) => {
+                const thumbDiv = document.createElement('div');
+                const isActive = idx === orderGalleryCurrentIndex;
+                thumbDiv.className = `order-gallery-thumb relative shrink-0 w-14 h-14 rounded-xl overflow-hidden cursor-pointer transition-all border-2 ${isActive ? 'border-blue-500 ring-2 ring-blue-500/50 scale-105 opacity-100' : 'border-white/10 hover:border-white/40 opacity-70 hover:opacity-100'}`;
+                thumbDiv.title = `${imgObj.productName} (#${idx + 1})`;
+                thumbDiv.onclick = () => {
+                    orderGalleryCurrentIndex = idx;
+                    orderGalleryResetZoom();
+                    renderOrderGalleryActiveImage();
+                };
+
+                const img = document.createElement('img');
+                img.src = imgObj.url;
+                img.className = 'w-full h-full object-cover bg-slate-800';
+                img.onerror = function() { this.src = '/images/placeholder.png'; };
+                thumbDiv.appendChild(img);
+
+                if (orderGalleryData && orderGalleryData.products && orderGalleryData.products.length > 1) {
+                    const badge = document.createElement('span');
+                    badge.className = 'absolute bottom-0.5 right-0.5 bg-slate-900/90 text-blue-400 font-mono text-[9px] font-bold px-1 rounded';
+                    badge.textContent = `P${imgObj.productIndex + 1}`;
+                    thumbDiv.appendChild(badge);
+                }
+
+                thumbsContainer.appendChild(thumbDiv);
+            });
+        }
+
+        function updateThumbnailActiveState() {
+            const thumbs = document.querySelectorAll('.order-gallery-thumb');
+            thumbs.forEach((th, idx) => {
+                if (idx === orderGalleryCurrentIndex) {
+                    th.className = 'order-gallery-thumb relative shrink-0 w-14 h-14 rounded-xl overflow-hidden cursor-pointer transition-all border-2 border-blue-500 ring-2 ring-blue-500/50 scale-105 opacity-100';
+                    th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    th.className = 'order-gallery-thumb relative shrink-0 w-14 h-14 rounded-xl overflow-hidden cursor-pointer transition-all border-2 border-white/10 hover:border-white/40 opacity-70 hover:opacity-100';
+                }
+            });
+        }
+
+        window.orderGalleryNext = function() {
+            if (orderGalleryCurrentIndex < orderGalleryImages.length - 1) {
+                orderGalleryCurrentIndex++;
+                orderGalleryResetZoom();
+                renderOrderGalleryActiveImage();
+            }
+        };
+
+        window.orderGalleryPrev = function() {
+            if (orderGalleryCurrentIndex > 0) {
+                orderGalleryCurrentIndex--;
+                orderGalleryResetZoom();
+                renderOrderGalleryActiveImage();
+            }
+        };
+
+        function applyOrderImgTransform() {
+            const mainImg = document.getElementById("orderGalleryMainImg");
+            const badge = document.getElementById("orderGalleryZoomBadge");
+            if (!mainImg) return;
+
+            mainImg.style.transform = `translate(${orderGalleryTranslateX}px, ${orderGalleryTranslateY}px) scale(${orderGalleryZoomScale}) rotate(${orderGalleryRotation}deg)`;
+            mainImg.style.transition = orderGalleryIsPanning ? 'none' : 'transform 0.15s ease-out';
+
+            if (badge) badge.textContent = Math.round(orderGalleryZoomScale * 100) + '%';
+            mainImg.style.cursor = orderGalleryZoomScale > 1 ? (orderGalleryIsPanning ? 'grabbing' : 'grab') : 'default';
+        }
+
+        window.orderGalleryZoomIn = function() {
+            orderGalleryZoomScale = Math.min(5.0, +(orderGalleryZoomScale + 0.25).toFixed(2));
+            applyOrderImgTransform();
+        };
+
+        window.orderGalleryZoomOut = function() {
+            orderGalleryZoomScale = Math.max(0.5, +(orderGalleryZoomScale - 0.25).toFixed(2));
+            if (orderGalleryZoomScale <= 1) {
+                orderGalleryTranslateX = 0;
+                orderGalleryTranslateY = 0;
+            }
+            applyOrderImgTransform();
+        };
+
+        window.orderGalleryResetZoom = function() {
+            orderGalleryZoomScale = 1;
+            orderGalleryTranslateX = 0;
+            orderGalleryTranslateY = 0;
+            orderGalleryRotation = 0;
+            applyOrderImgTransform();
+        };
+
+        window.orderGalleryRotate = function() {
+            orderGalleryRotation = (orderGalleryRotation + 90) % 360;
+            applyOrderImgTransform();
+        };
+
+        function setupOrderGalleryEvents() {
+            const viewport = document.getElementById('orderGalleryViewport');
+            if (!viewport) return;
+
+            viewport.addEventListener('wheel', (e) => {
+                const modal = document.getElementById('orderProductImageModal');
+                if (!modal || modal.classList.contains('hidden')) return;
+
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    window.orderGalleryZoomIn();
+                } else {
+                    window.orderGalleryZoomOut();
+                }
+            }, { passive: false });
+
+            viewport.addEventListener('dblclick', () => {
+                const modal = document.getElementById('orderProductImageModal');
+                if (!modal || modal.classList.contains('hidden')) return;
+
+                if (orderGalleryZoomScale > 1) {
+                    window.orderGalleryResetZoom();
+                } else {
+                    orderGalleryZoomScale = 2.5;
+                    applyOrderImgTransform();
+                }
+            });
+
+            viewport.addEventListener('mousedown', (e) => {
+                const modal = document.getElementById('orderProductImageModal');
+                if (!modal || modal.classList.contains('hidden')) return;
+                if (orderGalleryZoomScale <= 1) return;
+
+                orderGalleryIsPanning = true;
+                orderGalleryPanStartX = e.clientX - orderGalleryTranslateX;
+                orderGalleryPanStartY = e.clientY - orderGalleryTranslateY;
+                applyOrderImgTransform();
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!orderGalleryIsPanning) return;
+                orderGalleryTranslateX = e.clientX - orderGalleryPanStartX;
+                orderGalleryTranslateY = e.clientY - orderGalleryPanStartY;
+                applyOrderImgTransform();
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (orderGalleryIsPanning) {
+                    orderGalleryIsPanning = false;
+                    applyOrderImgTransform();
+                }
+            });
+        }
+
+        // Receipt Modal functions
         function openReceiptModal(previewUrl, pdfUrl) {
             const modal = document.getElementById('receiptModal');
             const iframe = document.getElementById('receiptIframe');
@@ -322,10 +802,30 @@
             });
 
             document.addEventListener('keydown', function(e) {
+                const orderImgModal = document.getElementById('orderProductImageModal');
+                if (orderImgModal && !orderImgModal.classList.contains('hidden')) {
+                    if (e.key === 'Escape') {
+                        closeOrderProductGallery();
+                    } else if (e.key === 'ArrowLeft') {
+                        orderGalleryPrev();
+                    } else if (e.key === 'ArrowRight') {
+                        orderGalleryNext();
+                    } else if (e.key === '+' || e.key === '=') {
+                        orderGalleryZoomIn();
+                    } else if (e.key === '-' || e.key === '_') {
+                        orderGalleryZoomOut();
+                    } else if (e.key === '0' || e.key === 'r' || e.key === 'R') {
+                        orderGalleryResetZoom();
+                    }
+                    return;
+                }
+
                 if (e.key === 'Escape') {
                     closeReceiptModal();
                 }
             });
+
+            setupOrderGalleryEvents();
 
             function applyFilters() {
                 const search = searchInput.value;

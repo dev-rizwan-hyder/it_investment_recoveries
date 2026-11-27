@@ -35,7 +35,65 @@ class OrderItem extends Model
      */
     public function inventory()
     {
-        return $this->belongsTo(Inventory::class, 'product_id');
+        return $this->belongsTo(Inventory::class, 'product_id')->withTrashed();
+    }
+
+    /**
+     * Get raw photo paths associated with this order item from inventory.
+     */
+    public function getPhotosAttribute(): array
+    {
+        $photos = [];
+        $inv = $this->inventory;
+        if ($inv) {
+            if (!empty($inv->photos_paths) && is_array($inv->photos_paths)) {
+                $photos = array_merge($photos, array_values(array_filter($inv->photos_paths)));
+            }
+            if (!empty($inv->repair_photos) && is_array($inv->repair_photos)) {
+                $photos = array_merge($photos, array_values(array_filter($inv->repair_photos)));
+            }
+        }
+
+        return array_values(array_unique($photos));
+    }
+
+    /**
+     * Get full browser-accessible URLs for this order item's images.
+     */
+    public function getPhotoUrlsAttribute(): array
+    {
+        return array_map([self::class, 'formatPhotoUrl'], $this->photos);
+    }
+
+    /**
+     * Format a photo path into a clean, accessible URL.
+     */
+    public static function formatPhotoUrl(?string $path): string
+    {
+        if (empty($path)) {
+            return asset('images/placeholder.png');
+        }
+
+        $path = trim((string) $path);
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, 'data:')) {
+            return $path;
+        }
+
+        $cleanPath = ltrim($path, '/');
+
+        if (str_starts_with($cleanPath, 'storage/')) {
+            return asset($cleanPath);
+        }
+
+        $rootFolders = ['pallets/', 'refurbishing/', 'repair/', 'repairentry/', 'images/', 'sales/'];
+        foreach ($rootFolders as $folder) {
+            if (str_starts_with($cleanPath, $folder)) {
+                return asset($cleanPath);
+            }
+        }
+
+        return asset('storage/' . $cleanPath);
     }
 
     /**

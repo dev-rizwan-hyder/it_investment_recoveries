@@ -555,6 +555,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/orders/bulk-delete', [OrdersController::class, 'bulkDestroy'])->name('orders.bulk-delete');
         Route::get('/orders/{id}/receipt-preview', [OrdersController::class, 'receiptPreview'])->name('orders.receipt.preview');
         Route::get('/orders/{id}/receipt', [OrdersController::class, 'receipt'])->name('orders.receipt');
+        Route::get('/orders/{id}/shipping-label', [OrdersController::class, 'shippingLabel'])->name('orders.shipping-label');
+        Route::post('/orders/{id}/sync-shippo-label', [OrdersController::class, 'syncShippoLabel'])->name('orders.sync-shippo-label');
         Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
         Route::put('/orders/{id}/payment-method', [OrdersController::class, 'updatePaymentMethod'])->name('orders.update-payment-method');
         Route::put('/orders/{id}/payment-status', [OrdersController::class, 'updatePaymentStatus'])->name('orders.update-payment-status');

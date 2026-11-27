@@ -26,6 +26,18 @@
 
     <div class="w-full max-w-full overflow-x-hidden animate-in fade-in duration-500 space-y-6">
 
+        @if (session('success'))
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 flex items-center justify-between">
+                <span><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 flex items-center justify-between">
+                <span><i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}</span>
+            </div>
+        @endif
+
         {{-- Top Header Card --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -53,6 +65,19 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2.5">
+                    @if($order->hasShippingLabel())
+                        <a href="{{ route('admin.orders.shipping-label', $order->id) }}" target="_blank" rel="noopener"
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center shadow-md shadow-indigo-500/20 transition-all">
+                            <i class="fas fa-print mr-2"></i> Print Shipping Label
+                        </a>
+                    @else
+                        <button type="button" onclick="printOrCheckShippingLabel('{{ route('admin.orders.shipping-label', $order->id) }}', '{{ $order->order_number }}')"
+                            class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-xs flex items-center shadow-sm transition-all"
+                            title="Check Shippo API for shipping label and print">
+                            <i class="fas fa-tag mr-2 text-indigo-500"></i> Print Shipping Label
+                        </button>
+                    @endif
+
                     @if($salesInvoice)
                         <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 px-3 py-1.5 rounded-xl shadow-sm">
                             <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white text-xs shadow-sm">
@@ -317,15 +342,62 @@
                                 </div>
                             @endif
 
-                            @if($order->tracking_number || $order->carrier)
-                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 sm:col-span-2">
-                                    <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Tracking Information</p>
-                                    <div class="flex flex-wrap items-center gap-4">
-                                        <span class="font-semibold text-slate-800">Carrier: {{ $order->carrier ?? 'N/A' }}</span>
-                                        <span class="font-mono font-bold text-blue-600">Tracking #: {{ $order->tracking_number ?? 'N/A' }}</span>
+                            {{-- Tracking & Shippo Shipping Label Card --}}
+                            <div class="p-5 rounded-2xl {{ $order->hasShippingLabel() ? 'border border-indigo-200 bg-gradient-to-r from-indigo-50/60 via-slate-50 to-white' : 'border border-slate-100 bg-slate-50' }} sm:col-span-2">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div class="flex items-start gap-3.5">
+                                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl {{ $order->hasShippingLabel() ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20' : 'bg-slate-200 text-slate-500' }} text-lg">
+                                            <i class="fas fa-shipping-fast"></i>
+                                        </span>
+                                        <div>
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <h4 class="text-xs font-black uppercase tracking-wider text-slate-800">Shippo Shipping Label & Tracking</h4>
+                                                @if($order->hasShippingLabel())
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                                                        <i class="fas fa-check-circle mr-1"></i> Label Ready
+                                                    </span>
+                                                @else
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-200 text-slate-700">
+                                                        No Label Yet
+                                                    </span>
+                                                @endif
+                                            </div>
+
+                                            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600 mt-1.5">
+                                                <span>Carrier: <strong class="text-slate-800">{{ $order->carrier ?: 'N/A' }}</strong></span>
+                                                <span>&bull;</span>
+                                                <span>Tracking #: <strong class="font-mono text-blue-600">{{ $order->tracking_number ?: 'N/A' }}</strong></span>
+                                                @if($order->shippo_transaction_id)
+                                                    <span>&bull;</span>
+                                                    <span class="text-slate-500">Shippo ID: <code class="text-slate-700 font-mono text-[11px]">{{ $order->shippo_transaction_id }}</code></span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto shrink-0">
+                                        @if($order->hasShippingLabel())
+                                            <a href="{{ route('admin.orders.shipping-label', $order->id) }}" target="_blank" rel="noopener"
+                                                class="inline-flex items-center px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all">
+                                                <i class="fas fa-print mr-2"></i> Print Label
+                                            </a>
+                                            <a href="{{ $order->shipping_label_url }}" target="_blank" download
+                                                class="inline-flex items-center px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs shadow-sm transition-all">
+                                                <i class="fas fa-download mr-1.5 text-slate-400"></i> Download
+                                            </a>
+                                        @else
+                                            <form action="{{ route('admin.orders.sync-shippo-label', $order->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="inline-flex items-center px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs shadow-sm transition-all"
+                                                    title="Fetch shipping label from Shippo API">
+                                                    <i class="fas fa-sync-alt mr-2 text-indigo-500"></i> Sync from Shippo API
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
 
                         @if($fulfillmentType === 'shipping' && is_array($order->shipping_selection_payload) && count($order->shipping_selection_payload))
@@ -565,4 +637,38 @@
         </div>
 
     </div>
+
+    <script>
+        function printOrCheckShippingLabel(url, orderNumber) {
+            const btn = event.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Checking Shippo...';
+
+            fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(({ status, body }) => {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+
+                if (body.success && body.label_url) {
+                    window.open(body.label_url, '_blank');
+                    // Reload page to display synced label details
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    alert(body.message || `No shipping label has been generated in Shippo for Order #${orderNumber}.`);
+                }
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+                window.location.href = url;
+            });
+        }
+    </script>
 @endsection

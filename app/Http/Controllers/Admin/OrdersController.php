@@ -18,7 +18,7 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Order::with('user', 'items');
+        $query = Order::with(['user', 'items.inventory']);
 
         // Search functionality
         if ($request->filled('search')) {
@@ -28,7 +28,11 @@ class OrdersController extends Controller
                     ->orWhere('customer_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('customer_email', 'like', '%' . $searchTerm . '%')
                     ->orWhere('customer_phone', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('status', 'like', '%' . str_replace(' ', '_', $searchTerm) . '%');
+                    ->orWhere('status', 'like', '%' . str_replace(' ', '_', $searchTerm) . '%')
+                    ->orWhereHas('items', function ($itemQ) use ($searchTerm) {
+                        $itemQ->where('product_name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('device_type', 'like', '%' . $searchTerm . '%');
+                    });
 
                 if (stripos('in store payment', $searchTerm) !== false || stripos('in store purchased', $searchTerm) !== false) {
                     $q->orWhereIn('status', [Order::STATUS_IN_STORE_PURCHASED, Order::STATUS_IN_STORE_PAYMENT]);
@@ -45,6 +49,8 @@ class OrdersController extends Controller
                 $query->whereIn('status', [Order::STATUS_IN_STORE_PURCHASED, Order::STATUS_IN_STORE_PAYMENT]);
             } elseif (in_array($request->status, [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT])) {
                 $query->whereIn('status', [Order::STATUS_ONLINE_PURCHASED, Order::STATUS_ONLINE_PAYMENT]);
+            } elseif (in_array($request->status, [Order::STATUS_SHIPPED, Order::STATUS_COMPLETED])) {
+                $query->whereIn('status', [Order::STATUS_SHIPPED, Order::STATUS_COMPLETED]);
             } else {
                 $query->where('status', $request->status);
             }
@@ -102,6 +108,78 @@ class OrdersController extends Controller
     }
 
     /**
+     * Retrieve and print or view the shipping label for an order.
+     */
+    public function shippingLabel(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $labelUrl = $order->shipping_label_url;
+
+        // If not in database, attempt to fetch/sync from Shippo
+        if (!$labelUrl) {
+            $labelUrl = $order->syncShippingLabelFromShippo() ?: $order->findShippingLabelInShippo();
+        }
+
+        if (!$labelUrl) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "No shipping label was found in Shippo for Order #{$order->order_number}.",
+                ], 404);
+            }
+
+            return redirect()->route('admin.orders.show', $order->id)
+                ->with('error', "No shipping label was found in Shippo for Order #{$order->order_number}. This order may be a store pickup or the shipping label has not been generated yet.");
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'label_url' => $labelUrl,
+                'tracking_number' => $order->tracking_number,
+                'carrier' => $order->carrier,
+            ]);
+        }
+
+        return redirect()->away($labelUrl);
+    }
+
+    /**
+     * Sync shipping label and tracking directly from Shippo API.
+     */
+    public function syncShippoLabel(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $labelUrl = $order->syncShippingLabelFromShippo() ?: $order->findShippingLabelInShippo();
+
+        if ($labelUrl) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Shipping label found and synced from Shippo!',
+                    'label_url' => $labelUrl,
+                    'tracking_number' => $order->tracking_number,
+                    'carrier' => $order->carrier,
+                ]);
+            }
+
+            return redirect()->route('admin.orders.show', $order->id)
+                ->with('success', 'Shipping label successfully fetched from Shippo!');
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => "No matching shipping label was found in Shippo for Order #{$order->order_number}.",
+            ], 404);
+        }
+
+        return redirect()->route('admin.orders.show', $order->id)
+            ->with('error', "No matching shipping label was found in Shippo for Order #{$order->order_number}.");
+    }
+
+    /**
      * Update order status.
      */
     public function updateStatus(Request $request, $id)
@@ -110,8 +188,10 @@ class OrdersController extends Controller
             'status' => ['required', Rule::in(Order::statusValues())],
         ]);
 
+        $status = $request->status === Order::STATUS_COMPLETED ? Order::STATUS_SHIPPED : $request->status;
+
         $order = Order::findOrFail($id);
-        $order->update(['status' => $request->status]);
+        $order->update(['status' => $status]);
 
         $this->sendStatusUpdateEmail($order);
 
@@ -130,11 +210,13 @@ class OrdersController extends Controller
             'status' => ['required', Rule::in(Order::statusValues())],
         ]);
 
-        $orders = DB::transaction(function () use ($validated) {
+        $status = $validated['status'] === Order::STATUS_COMPLETED ? Order::STATUS_SHIPPED : $validated['status'];
+
+        $orders = DB::transaction(function () use ($validated, $status) {
             $orders = Order::whereIn('id', $validated['ids'])->get();
 
             foreach ($orders as $order) {
-                $order->update(['status' => $validated['status']]);
+                $order->update(['status' => $status]);
             }
 
             return $orders;
@@ -218,7 +300,7 @@ class OrdersController extends Controller
      */
     public function exportCsv(Request $request)
     {
-        $query = Order::with('user', 'items');
+        $query = Order::with(['user', 'items.inventory']);
 
         if ($request->filled('status'))
             $query->where('status', $request->status);
@@ -227,6 +309,10 @@ class OrdersController extends Controller
             $query->where(fn($q) => 
                 $q->where('order_number', 'like', "%$searchTerm%")
                   ->orWhere('customer_name', 'like', "%$searchTerm%")
+                  ->orWhereHas('items', function ($itemQ) use ($searchTerm) {
+                      $itemQ->where('product_name', 'like', "%$searchTerm%")
+                          ->orWhere('device_type', 'like', "%$searchTerm%");
+                  })
             );
         }
 
@@ -241,17 +327,20 @@ class OrdersController extends Controller
             "Expires" => "0"
         ];
 
-        $columns = ['Order #', 'Customer', 'Email', 'Phone', 'Total', 'Order Status', 'Payment Status', 'Date'];
+        $columns = ['Order #', 'Customer', 'Items', 'Email', 'Phone', 'Quantity', 'Total', 'Order Status', 'Payment Status', 'Date'];
 
         $callback = function () use ($orders, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
             foreach ($orders as $order) {
+                $itemNames = $order->items->map(fn($item) => $item->product_name ?: ($item->device_type ?: 'Product'))->implode('; ');
                 fputcsv($file, [
                     $order->order_number,
                     $order->customer_name,
+                    $itemNames,
                     $order->customer_email,
                     $order->customer_phone,
+                    $order->items->sum('quantity'),
                     '$' . number_format($order->total, 2),
                     $order->status,
                     $order->payment_status_label,

@@ -36,10 +36,9 @@ class Order extends Model
         self::STATUS_IN_STORE_PURCHASED => 'In store payment',
         self::STATUS_ONLINE_PURCHASED => 'Online payment',
         self::STATUS_READY_FOR_PICKUP => 'Ready for pickup',
-        self::STATUS_SHIPPED => 'Shipped',
+        self::STATUS_SHIPPED => 'Shipped & Completed',
         self::STATUS_CANCELLED => 'Cancelled',
         self::STATUS_READY_FOR_SHIPMENT => 'Ready for shipment',
-        self::STATUS_COMPLETED => 'Completed',
     ];
 
     public const STATUS_BADGE_CLASSES = [
@@ -131,21 +130,33 @@ class Order extends Model
 
     public static function statusValues(): array
     {
-        return array_keys(self::STATUS_CHOICES);
+        return array_unique(array_merge(array_keys(self::STATUS_CHOICES), [self::STATUS_COMPLETED]));
     }
 
     public static function statusLabel(?string $status): string
     {
+        if ($status === self::STATUS_COMPLETED) {
+            return 'Shipped & Completed';
+        }
+
         return self::STATUS_CHOICES[$status] ?? ucwords(str_replace('_', ' ', (string) $status));
     }
 
     public static function statusBadgeClass(?string $status): string
     {
+        if ($status === self::STATUS_COMPLETED) {
+            return self::STATUS_BADGE_CLASSES[self::STATUS_SHIPPED] ?? 'bg-indigo-100 text-indigo-700';
+        }
+
         return self::STATUS_BADGE_CLASSES[$status] ?? 'bg-slate-100 text-slate-700';
     }
 
     public static function statusSelectClass(?string $status): string
     {
+        if ($status === self::STATUS_COMPLETED) {
+            return self::STATUS_SELECT_CLASSES[self::STATUS_SHIPPED] ?? 'bg-purple-50 text-purple-800 border-purple-200 focus:ring-purple-200';
+        }
+
         return self::STATUS_SELECT_CLASSES[$status] ?? 'bg-slate-50 text-slate-700 border-slate-200 focus:ring-slate-200';
     }
 
@@ -262,5 +273,170 @@ class Order extends Model
         $timestamp = now()->format('YmdHis');
         $random = str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
         return $prefix . $timestamp . $random;
+    }
+
+    /**
+     * Get all product images for this order, grouped with product information.
+     */
+    public function getProductImagesGrouped(): array
+    {
+        $groups = [];
+        foreach ($this->items as $item) {
+            $urls = $item->photo_urls;
+            $productName = $item->product_name ?: ($item->device_type ?: 'Product');
+            $groups[] = [
+                'item_id' => $item->id,
+                'product_name' => $productName,
+                'device_type' => $item->device_type,
+                'quantity' => (int) ($item->quantity ?? 1),
+                'unit_price' => (float) ($item->unit_price ?? 0),
+                'total_price' => (float) ($item->total_price ?? 0),
+                'photos' => $urls,
+                'first_photo' => $urls[0] ?? asset('images/placeholder.png'),
+                'has_real_photos' => !empty($urls),
+            ];
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Get a flat list of all product photo URLs across all items in this order.
+     */
+    public function getAllProductPhotoUrls(): array
+    {
+        $urls = [];
+        foreach ($this->items as $item) {
+            foreach ($item->photo_urls as $url) {
+                $urls[] = $url;
+            }
+        }
+
+        return array_values(array_unique($urls));
+    }
+
+    /**
+     * Check if this order has a shipping label available.
+     */
+    public function hasShippingLabel(): bool
+    {
+        return !empty($this->label_url) || !empty($this->label_image_url) || !empty($this->shippo_transaction_id);
+    }
+
+    /**
+     * Get the resolved, browser-accessible shipping label URL.
+     */
+    public function getShippingLabelUrlAttribute(): ?string
+    {
+        $raw = $this->label_url ?: $this->label_image_url;
+        if (empty($raw)) {
+            return null;
+        }
+
+        $raw = trim((string) $raw);
+        if (str_starts_with($raw, 'http://') || str_starts_with($raw, 'https://') || str_starts_with($raw, 'data:')) {
+            return $raw;
+        }
+
+        $clean = ltrim($raw, '/');
+        if (str_starts_with($clean, 'storage/')) {
+            return asset($clean);
+        }
+
+        return asset('storage/' . $clean);
+    }
+
+    /**
+     * Sync shipping label details directly from Shippo by transaction ID.
+     */
+    public function syncShippingLabelFromShippo(): ?string
+    {
+        if (empty($this->shippo_transaction_id)) {
+            return null;
+        }
+
+        $shippoKey = env('SHIPPO_API_KEY');
+        if (!$shippoKey || str_contains($shippoKey, 'xxxxxxxx')) {
+            return null;
+        }
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::withHeaders([
+                'Authorization' => 'ShippoToken ' . $shippoKey,
+            ])->acceptJson()->get("https://api.goshippo.com/transactions/{$this->shippo_transaction_id}/");
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $labelUrl = $data['label_url'] ?? null;
+                $trackingNumber = $data['tracking_number'] ?? null;
+                $carrier = is_array($data['rate'] ?? null) ? ($data['rate']['provider'] ?? null) : null;
+
+                $updateData = [];
+                if ($labelUrl) $updateData['label_url'] = $labelUrl;
+                if ($trackingNumber && empty($this->tracking_number)) $updateData['tracking_number'] = $trackingNumber;
+                if ($carrier && empty($this->carrier)) $updateData['carrier'] = $carrier;
+
+                if (!empty($updateData)) {
+                    $this->update($updateData);
+                }
+
+                return $labelUrl;
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Error syncing Shippo label for order #{$this->id}: " . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Search Shippo API for any transaction matching this order number or rate.
+     */
+    public function findShippingLabelInShippo(): ?string
+    {
+        $shippoKey = env('SHIPPO_API_KEY');
+        if (!$shippoKey || str_contains($shippoKey, 'xxxxxxxx')) {
+            return null;
+        }
+
+        $rateId = $this->shippo_rate_id;
+        if (!$rateId && is_array($this->shipping_selection_payload)) {
+            $rateId = $this->shipping_selection_payload['id'] ?? ($this->shipping_selection_payload['rate_id'] ?? null);
+        }
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::withHeaders([
+                'Authorization' => 'ShippoToken ' . $shippoKey,
+            ])->acceptJson()->get('https://api.goshippo.com/transactions/?results=50');
+
+            if ($response->successful()) {
+                $transactions = $response->json('results', []);
+                foreach ($transactions as $tx) {
+                    $metadata = (string) ($tx['metadata'] ?? '');
+                    $txRate = is_array($tx['rate'] ?? null) ? ($tx['rate']['object_id'] ?? '') : (string) ($tx['rate'] ?? '');
+
+                    if (
+                        (!empty($metadata) && (str_contains($metadata, $this->order_number) || str_contains($metadata, (string) $this->id))) ||
+                        (!empty($rateId) && $txRate === $rateId)
+                    ) {
+                        $labelUrl = $tx['label_url'] ?? null;
+                        if ($labelUrl) {
+                            $carrier = is_array($tx['rate'] ?? null) ? ($tx['rate']['provider'] ?? null) : null;
+                            $this->update([
+                                'shippo_transaction_id' => $tx['object_id'] ?? null,
+                                'label_url' => $labelUrl,
+                                'tracking_number' => $tx['tracking_number'] ?? $this->tracking_number,
+                                'carrier' => $carrier ?? $this->carrier,
+                            ]);
+                            return $labelUrl;
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Shippo lookup failed for order #{$this->id}: " . $e->getMessage());
+        }
+
+        return null;
     }
 }
