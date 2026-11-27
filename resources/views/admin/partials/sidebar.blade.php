@@ -28,6 +28,8 @@
                 ['icon' => 'fa-desktop', 'label' => 'IT Assets Intake', 'route' => 'admin.it-assets-entries.index'],
                 ['icon' => 'fa-wrench', 'label' => 'Repair Intake', 'route' => 'admin.repair-intake.index'],
                 ['icon' => 'fa-dumpster', 'label' => 'Universal Waste Intake', 'route' => 'admin.universal-waste-entries.index'],
+                ['icon' => 'fa-shipping-fast', 'label' => 'Shipment Intake', 'route' => 'admin.shipment-intake.index'],
+                ['icon' => 'fa-truck', 'label' => 'Downstream Vendor', 'route' => 'admin.downstream-vendor.index'],
                 ['icon' => 'fa-warehouse', 'label' => 'Inventory', 'route' => 'admin.inventory.index'],
                 [
                     'icon' => 'fa-sitemap',

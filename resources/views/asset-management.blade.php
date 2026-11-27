@@ -19,6 +19,7 @@
                 theme: {
                     extend: {
                         colors: {
+          
                             emerald: {
                                 950: '#035c43',
                                 900: '#035c43',

@@ -416,6 +416,28 @@ Route::middleware('auth')->group(function () {
         // Shippo rates (POST)
         Route::post('refurbishing/shippo/rates', [RefurbishingEntriesController::class, 'getShippoRates'])->name('refurbishing-entries.shippo-rates');
 
+        // Shipment Intake
+        Route::controller(App\Http\Controllers\Admin\ShipmentIntakeController::class)->prefix('shipment-intake')->name('shipment-intake.')->group(function () {
+            Route::get('/',                   'index')->name('index');
+            Route::get('/get-barcode',        'getBarcode')->name('barcode');
+            Route::get('/get-job-number',     'getJobNumber')->name('job-number');
+            Route::get('/get-clients',        'getClientsList')->name('clients');
+            Route::post('/create-client',     'createClient')->name('create-client');
+            Route::get('/get-uw-entry',       'getUwEntryDetails')->name('uw-entry');
+            Route::post('/save',              'save')->name('save');
+        });
+
+        // Downstream Vendor (listing of Shipment Intakes)
+        Route::controller(App\Http\Controllers\Admin\ShipmentIntakeController::class)->prefix('downstream-vendor')->name('downstream-vendor.')->group(function () {
+            Route::get('/',              'downstreamIndex')->name('index');
+            Route::get('/load-data',     'downstreamLoadData')->name('load-data');
+            Route::get('/stats',         'downstreamStats')->name('stats');
+            Route::get('/export-csv',    'downstreamExportCsv')->name('export-csv');
+            Route::post('/{id}/status',  'downstreamUpdateStatus')->name('update-status');
+            Route::delete('/{id}',       'downstreamDelete')->name('delete');
+            Route::delete('/',           'downstreamBulkDelete')->name('bulk-delete');
+        });
+
         // Universal Waste Entries (New MVC-based routes)
         Route::controller(UniversalWasteEntriesController::class)->prefix('universal-waste-entries')->name('universal-waste-entries.')->group(function () {
             Route::get('/', 'index')->name('index');
